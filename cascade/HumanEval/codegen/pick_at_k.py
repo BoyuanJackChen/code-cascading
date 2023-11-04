@@ -57,6 +57,7 @@ def main(args):
     model = AutoModelForCausalLM.from_pretrained(checkpoint, device_map="auto")
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(checkpoint, device_map="auto")
+    tokenizer.pad_token_id = tokenizer.eos_token_id
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     

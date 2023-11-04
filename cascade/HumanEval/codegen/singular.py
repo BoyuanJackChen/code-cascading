@@ -10,8 +10,8 @@ import torch
 from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
-parser.add_argument("--pass_at", type=int, default=10, help="pass @ how many")
+parser.add_argument("--model", type=int, default=0, help="Model name")
+parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=0, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
@@ -53,15 +53,14 @@ def main(args):
     answer_dict_list = []
     counter = 0
     if args.model == 0:
-        model_size = "1B"
+        model_size = "350M"
     elif args.model == 1:
-        model_size = "3B"
+        model_size = "2B"
     elif args.model == 2:
-        model_size = "15B"
-    checkpoint = f"WizardLM/WizardCoder-{model_size}-V1.0"
-    print(f"Model is {checkpoint}")
-    print(f"Pass @ {args.pass_at}")
-    print(f"Num loops {args.num_loops}")
+        model_size = "6B"
+    elif args.model == 3:
+        model_size = "16B"
+    checkpoint = f"Salesforce/codegen-{model_size}-mono"
 
     # Make directory if f"{model_size}" dir does not exist
     if not os.path.exists(f"{model_size}"):
@@ -75,6 +74,7 @@ def main(args):
         device_map="auto")
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    tokenizer.pad_token_id = tokenizer.eos_token_id
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     
@@ -129,7 +129,7 @@ def main(args):
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
             prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
-            logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=max(pass_at,1), encounters=1)])
+            logits_processor = LogitsProcessorList([StopSequences(stop_words, batch_size=max(pass_at,1), encounters=1)])
             
             # Generate answers
             max_new_tokens = 1024
