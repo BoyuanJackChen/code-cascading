@@ -1,0 +1,986 @@
+[
+    {
+        "number": 0,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n"
+    },
+    {
+        "number": 1,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    paren_string = paren_string.replace(' ', '')\n    paren_stack = []\n    paren_groups = []\n    for i in range(len(paren_string)):\n        if paren_string[i] == '(':\n            paren_stack.append(i)\n        elif paren_string[i] == ')':\n            if len(paren_stack) == 0:\n                raise ValueError('Unbalanced parentheses')\n            paren_groups.append(paren_string[paren_stack.pop() + 1:i])\n    if len(paren_stack)!= 0:\n        raise ValueError('Unbalanced parentheses')\n    return paren_groups\n"
+    },
+    {
+        "number": 2,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return number - int(number)\n"
+    },
+    {
+        "number": 3,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    balance = 0\n    for op in operations:\n        if op < 0:\n            balance -= op\n        else:\n            balance += op\n        if balance < 0:\n            return True\n    return False\n"
+    },
+    {
+        "number": 4,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # Calculate the mean of the list\n    mean = sum(numbers) / len(numbers)\n    # Calculate the absolute difference from each element to the mean\n    absolute_differences = [abs(x - mean) for x in numbers]\n    # Calculate the average absolute difference\n    mad = sum(absolute_differences) / len(absolute_differences)\n    return mad\n"
+    },
+    {
+        "number": 5,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [delimeter] + [numbers[i] for i in range(0, len(numbers), 2)] + [delimeter]\n"
+    },
+    {
+        "number": 6,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    paren_stack = []\n    max_depth = 0\n    for i, paren in enumerate(paren_string):\n        if paren == '(':\n            paren_stack.append(i)\n            max_depth = max(max_depth, len(paren_stack))\n        elif paren == ')':\n            if len(paren_stack) == 0:\n                return [0]\n            paren_stack.pop()\n    return [max_depth] * len(paren_stack)\n"
+    },
+    {
+        "number": 7,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [s for s in strings if substring in s]\n"
+    },
+    {
+        "number": 8,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not numbers:\n        return (0, 1)\n    return (sum(numbers), reduce(lambda x, y: x * y, numbers))\n"
+    },
+    {
+        "number": 9,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    result = []\n    for i in range(len(numbers)):\n        if i == 0:\n            result.append(numbers[i])\n        else:\n            result.append(max(numbers[i], result[i - 1]))\n    return result\n"
+    },
+    {
+        "number": 10,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not string:\n        return string\n    if is_palindrome(string):\n        return string\n    for i in range(len(string)):\n        if is_palindrome(string[i:]):\n            return string[:i] + string[i:][::-1]\n    return string[:1] + string[1:][::-1]\n"
+    },
+    {
+        "number": 11,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return ''.join(str(int(x) ^ int(y)) for x, y in zip(a, b))\n"
+    },
+    {
+        "number": 12,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not strings:\n        return None\n    return max(strings, key=len)\n"
+    },
+    {
+        "number": 13,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if a == 0:\n        return b\n    elif b == 0:\n        return a\n    elif a == b:\n        return a\n    elif a > b:\n        return greatest_common_divisor(a - b, b)\n    else:\n        return greatest_common_divisor(a, b - a)\n"
+    },
+    {
+        "number": 14,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [string[:i] for i in range(len(string) + 1)]\n"
+    },
+    {
+        "number": 15,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return''.join(str(i) for i in range(n+1))\n"
+    },
+    {
+        "number": 16,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return len(set(string.lower()))\n"
+    },
+    {
+        "number": 17,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [len(x) for x in music_string.split(' ')]\n"
+    },
+    {
+        "number": 18,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return string.count(substring)\n"
+    },
+    {
+        "number": 19,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    numbers = numbers.split()\n    numbers.sort()\n    return''.join(numbers)\n"
+    },
+    {
+        "number": 20,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    numbers.sort()\n    smallest = numbers[0]\n    largest = numbers[-1]\n    return smallest, largest\n"
+    },
+    {
+        "number": 21,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    min_num = min(numbers)\n    max_num = max(numbers)\n    return [((x - min_num) / (max_num - min_num)) for x in numbers]\n"
+    },
+    {
+        "number": 22,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [int(value) for value in values if isinstance(value, int)]\n"
+    },
+    {
+        "number": 23,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return len(string)\n"
+    },
+    {
+        "number": 24,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return n - 1 if n % 2 == 0 else n + 1\n"
+    },
+    {
+        "number": 25,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n < 2:\n        return []\n    if n == 2:\n        return [2]\n    if n % 2 == 0:\n        return [2] + factorize(n // 2)\n    i = 3\n    factors = []\n    while i * i <= n:\n        if n % i == 0:\n            factors.append(i)\n            n //= i\n            i = 2\n        else:\n            i += 2\n    if n > 1:\n        factors.append(n)\n    return factors\n"
+    },
+    {
+        "number": 26,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not numbers:\n        return []\n    if len(numbers) == 1:\n        return numbers\n    i = 0\n    while i < len(numbers) - 1:\n        if numbers[i] == numbers[i + 1]:\n            del numbers[i]\n        else:\n            i += 1\n    return numbers\n"
+    },
+    {
+        "number": 27,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return string.swapcase()\n"
+    },
+    {
+        "number": 28,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return ''.join(strings)\n"
+    },
+    {
+        "number": 29,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [s for s in strings if s.startswith(prefix)]\n"
+    },
+    {
+        "number": 30,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [x for x in l if x > 0]\n"
+    },
+    {
+        "number": 31,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 1:\n        return False\n    elif n == 2:\n        return True\n    elif n % 2 == 0:\n        return False\n    else:\n        for i in range(3, n, 2):\n            if n % i == 0:\n                return False\n    return True\n"
+    },
+    {
+        "number": 32,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(xs) % 2!= 0:\n        raise ValueError(\"Polynomial must have even number of coefficients.\")\n    if len(xs) == 0:\n        raise ValueError(\"Polynomial must have at least one coefficient.\")\n    if len(xs) == 1:\n        return -xs[0] / xs[1]\n    if len(xs) == 2:\n        return -xs[0] / (xs[1] * 2)\n    if len(xs) == 3:\n        return -xs[0] / (xs[1] * 3)\n    if len(xs) == 4:\n        return -xs[0] / (xs[1] * 4)\n    if len(xs) == 5:\n        return -xs[0] / (xs[1] * 5)\n    if len(xs) == 6:\n        return -xs[0] / (xs[1] * 6)\n    if len(xs) == 7:\n        return -xs[0] / (xs[1] * 7)\n    if len(xs) == 8:\n        return -xs[0] / (xs[1] * 8)\n    if len(xs) == 9:\n        return -xs[0] / (xs[1] * 9)\n    if len(xs) == 10:\n        return -xs[0] / (xs[1] * 10)\n    if len(xs) == 11:\n        return -xs[0] / (xs[1] * 11)\n    if len(xs) == 12:\n        return -xs[0] / (xs[1] * 12)\n    if len(xs) == 13:\n        return -xs[0] / (xs[1] * 13)\n    if len(xs) == 14:\n        return -xs[0] / (xs[1] * 14)\n    if len(xs) == 15:\n        return -xs[0] / (xs[1] * 15)\n    if len(xs) == 16:\n        return -xs[0] / (xs[1] * 16)\n    if len(xs) == 17:\n        return -xs[0] / (xs[1] * 17)\n    if len(xs) == 18:\n        return -xs[0] / (xs[1] * 18)\n    if len(xs) == 19:\n        return -xs[0] / (xs[1] * 19)\n    if len(xs) == 20:\n        return -xs[0] / (xs[1] * 20)\n    if len(xs) == 21:\n        return -xs[0] / (xs[1] * 21)\n    if len(xs) == 22:\n        return -xs[0] / (xs[1] * 22)\n    if len(xs) == 23:\n        return -xs[0] / (xs[1] * 23)\n    if len(xs) == 24:\n        return -xs[0] / (xs[1] * 24)\n    if len(xs) == 25:\n        return -xs[0] / (xs[1] * 25)\n    if len(xs) == 26:\n        return -xs[0] / (xs[1] * 26)\n    if len(xs) == 27:\n        return -xs[0] / (xs[1] * 27)\n    if len(xs) == 28:\n        return -xs[0] / (xs[1] * 28)\n    if len(xs) == 29:\n        return -xs[0] / (xs[1] * 29)\n    if len(xs) == 30:\n        return -xs[0] / (xs[1] * 30)\n    if len(xs) == 31:\n        return -xs[0] / (xs[1] * 31)\n    if len(xs) == 32:\n        return -xs[0] / (xs[1] * 32)\n    if len(xs) == 33:\n        return -xs[0] / (xs[1] * 33)\n    if len(xs) == 34:\n        return -xs[0] / (xs[1] * 34)\n    if len(xs) == 35:\n        return -xs[0] / (xs[1] * 35)\n    if len(xs) == 36:\n        return -xs[0] / (xs[1] * 36)\n"
+    },
+    {
+        "number": 33,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    l2 = []\n    for i in range(len(l)):\n        if i % 3 == 0:\n            l2.append(l[i])\n        else:\n            l2.append(l[i])\n    return l2\n"
+    },
+    {
+        "number": 34,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return list(set(l))\n"
+    },
+    {
+        "number": 35,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return max(l)\n"
+    },
+    {
+        "number": 36,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(1 for i in range(1, n) if i % 11 == 0 or i % 13 == 0)\n"
+    },
+    {
+        "number": 37,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    l2 = []\n    for i in range(len(l)):\n        if i % 2 == 0:\n            l2.append(l[i])\n        else:\n            l2.append(l[i])\n    l2.sort()\n    return l2\n"
+    },
+    {
+        "number": 38,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n"
+    },
+    {
+        "number": 39,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 1:\n        return 2\n    elif n == 2:\n        return 3\n    else:\n        return prime_fib(n - 1) + prime_fib(n - 2)\n"
+    },
+    {
+        "number": 40,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # Your code here\n    return any(a + b + c == 0 for a, b, c in combinations(l, 3))\n"
+    },
+    {
+        "number": 41,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(1 for i in range(n) for j in range(i+1, n) if (i*j) % 2 == 1)\n"
+    },
+    {
+        "number": 42,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [x + 1 for x in l]\n"
+    },
+    {
+        "number": 43,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # Your code here\n    # Hint: you can use a set to store the values that you've seen\n    # and then check if the complement of a value is in the set\n    # if it is, return True, otherwise return False\n    # if you have not seen the complement of a value, add it to the set\n    # and return True\n    # if you have seen the complement of a value, return False\n    # if you have not seen the value, add it to the set and return True\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return False\n    # if you have not seen the value, return False\n    # if you have seen the value, return Fals"
+    },
+    {
+        "number": 44,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if x < 0:\n        return '-' + change_base(-x, base)\n    if x < 10:\n        return str(x)\n    else:\n        return change_base(x // base, base) + str(x % base)\n"
+    },
+    {
+        "number": 45,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return (a * h) / 2\n"
+    },
+    {
+        "number": 46,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    else:\n        return fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4)\n"
+    },
+    {
+        "number": 47,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    l.sort()\n    n = len(l)\n    if n % 2 == 0:\n        return (l[n//2-1] + l[n//2]) / 2\n    else:\n        return l[n//2]\n"
+    },
+    {
+        "number": 48,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return text == text[::-1]\n"
+    },
+    {
+        "number": 49,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 0:\n        return 1\n    elif n % 2 == 0:\n        return (modp(n // 2, p) ** 2) % p\n    else:\n        return (modp(n - 1, p) ** 2) % p\n"
+    },
+    {
+        "number": 50,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])\n"
+    },
+    {
+        "number": 51,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    vowels = 'aeiouAEIOU'\n    return ''.join([c for c in text if c not in vowels])\n"
+    },
+    {
+        "number": 52,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    for i in l:\n        if i >= t:\n            return False\n    return True\n"
+    },
+    {
+        "number": 53,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return x + y\n"
+    },
+    {
+        "number": 54,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return all(s0[i] == s1[i] for i in range(len(s0)))\n"
+    },
+    {
+        "number": 55,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fib(n-1) + fib(n-2)\n"
+    },
+    {
+        "number": 56,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(brackets) % 2!= 0:\n        return False\n    stack = []\n    for bracket in brackets:\n        if bracket == \"<\":\n            stack.append(bracket)\n        elif bracket == \">\":\n            if len(stack) == 0:\n                return False\n            stack.pop()\n    return len(stack) == 0\n"
+    },
+    {
+        "number": 57,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return all(l[i] <= l[i+1] for i in range(len(l)-1)) or all(l[i] >= l[i+1] for i in range(len(l)-1))\n"
+    },
+    {
+        "number": 58,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sorted(list(set(l1) & set(l2)))\n"
+    },
+    {
+        "number": 59,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    assert n > 1\n    i = 2\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n    return n\n"
+    },
+    {
+        "number": 60,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    total = 0\n    for i in range(1, n+1):\n        total += i\n    return total\n"
+    },
+    {
+        "number": 61,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    stack = []\n    for bracket in brackets:\n        if bracket == \"(\":\n            stack.append(bracket)\n        elif bracket == \")\":\n            if len(stack) == 0:\n                return False\n            stack.pop()\n    return len(stack) == 0\n"
+    },
+    {
+        "number": 62,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(xs) == 1:\n        return [0]\n    else:\n        return [xs[i] * i for i in range(1, len(xs))]\n"
+    },
+    {
+        "number": 63,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        return fibfib(n-1) + fibfib(n-2) + fibfib(n-3)\n"
+    },
+    {
+        "number": 64,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    vowels = ['a', 'e', 'i', 'o', 'u', 'y']\n    count = 0\n    for i in s:\n        if i in vowels:\n            count += 1\n    return count\n"
+    },
+    {
+        "number": 65,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if shift > len(str(x)):\n        return str(x)[::-1]\n    return str(x)[shift:] + str(x)[:shift]\n"
+    },
+    {
+        "number": 66,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(ord(c) for c in s if c.isupper())\n"
+    },
+    {
+        "number": 67,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return s.count(\"mango\") - s.count(\"apple\") - s.count(\"orange\")\n"
+    },
+    {
+        "number": 68,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not arr:\n        return []\n    \n    evens = [x for x in arr if x % 2 == 0]\n    if not evens:\n        return []\n    \n    return [min(evens), arr.index(min(evens))]\n"
+    },
+    {
+        "number": 69,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    lst.sort()\n    for i in range(len(lst)):\n        if lst[i] > 0 and lst[i] > lst[i-1]:\n            return lst[i]\n    return -1\n"
+    },
+    {
+        "number": 70,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not lst:\n        return []\n    lst.sort()\n    return lst\n"
+    },
+    {
+        "number": 71,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if a + b > c and a + c > b and b + c > a:\n        return round((a * b * c) / (4 * (a + b + c)), 2)\n    else:\n        return -1\n"
+    },
+    {
+        "number": 72,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return q == q[::-1] and sum(q) <= w\n"
+    },
+    {
+        "number": 73,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(arr) == 1:\n        return 0\n    if len(arr) == 2:\n        return 1\n    if len(arr) == 3:\n        return 2\n    if len(arr) == 4:\n        return 2\n    if len(arr) == 5:\n        return 2\n    if len(arr) == 6:\n        return 2\n    if len(arr) == 7:\n        return 2\n    if len(arr) == 8:\n        return 2\n    if len(arr) == 9:\n        return 2\n    if len(arr) == 10:\n        return 2\n    if len(arr) == 11:\n        return 2\n    if len(arr) == 12:\n        return 2\n    if len(arr) == 13:\n        return 2\n    if len(arr) == 14:\n        return 2\n    if len(arr) == 15:\n        return 2\n    if len(arr) == 16:\n        return 2\n    if len(arr) == 17:\n        return 2\n    if len(arr) == 18:\n        return 2\n    if len(arr) == 19:\n        return 2\n    if len(arr) == 20:\n        return 2\n    if len(arr) == 21:\n        return 2\n    if len(arr) == 22:\n        return 2\n    if len(arr) == 23:\n        return 2\n    if len(arr) == 24:\n        return 2\n    if len(arr) == 25:\n        return 2\n    if len(arr) == 26:\n        return 2\n    if len(arr) == 27:\n        return 2\n    if len(arr) == 28:\n        return 2\n    if len(arr) == 29:\n        return 2\n    if len(arr) == 30:\n        return 2\n    if len(arr) == 31:\n        return 2\n    if len(arr) == 32:\n        return 2\n    if len(arr) == 33:\n        return 2\n    if len(arr) == 34:\n        return 2\n    if len(arr) == 35:\n        return 2\n    if len(arr) == 36:\n        return 2\n    if len(arr) == 37:\n        return 2\n    if len(arr) == 38:\n        return 2\n    if len(arr) == 39:\n        return 2\n    if len(arr) == 40:\n        return 2\n    if len(arr) == 41:\n        return 2\n    if len(arr) == 42:\n        return 2\n    if len(arr) == 43:\n        return 2\n    if len(arr) == 44:\n        return 2\n    if len(arr) == 45:\n        return 2\n    if len(arr) == 46:\n        return 2\n    if len(arr) == 47:\n        return 2\n    if len(arr) == 48:\n        return 2\n    if len(arr) == 49:\n        return 2\n    if len(arr) == 50:\n        return 2\n    if len(arr) == 51:\n        return 2\n    if len(arr) == 52:\n        return 2\n    if len(arr) == 53:\n        return 2\n    if len(arr) == 54:\n        return 2\n    if len(arr) == 55:\n        return 2\n    if len(arr) == 56:\n        return 2\n    if len(arr) == 57:\n        return 2\n    if len(arr) == 58:\n        return 2\n    if len(arr) == 59:\n        return 2\n    if len(arr) == 60:\n        return 2\n    if len(arr) == 61:\n        return 2\n    if len(arr) == 62:\n        return 2\n    if len(arr) == 63:\n        return 2\n    if len(arr) == 64:\n        return 2\n    if len(arr) == 65:\n        return 2\n    if len(arr) == 66:\n        return 2\n    if len(arr) == 67:\n        return 2\n    if len(arr) == 68:\n        return 2\n    if len(arr) == 69:\n        return 2\n    if len(arr) == 70:\n        return 2\n    if len(arr) == 71:\n        return 2\n    if len(arr) == 72:\n        return 2\n    if len(arr) == 73:\n        return 2\n    i"
+    },
+    {
+        "number": 74,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(lst1) > len(lst2):\n        return lst1\n    elif len(lst1) < len(lst2):\n        return lst2\n    else:\n        return lst1\n"
+    },
+    {
+        "number": 75,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if a < 100:\n        return False\n    for i in range(2, a):\n        if a % i == 0:\n            return False\n    return True\n"
+    },
+    {
+        "number": 76,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return n**int(x)==x\n"
+    },
+    {
+        "number": 77,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return a**3 == a\n"
+    },
+    {
+        "number": 78,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # your code here\n    return 0\n"
+    },
+    {
+        "number": 79,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    binary = \"\"\n    while decimal > 0:\n        binary = str(decimal % 2) + binary\n        decimal = decimal // 2\n    return \"db\" + binary + \"db\"\n"
+    },
+    {
+        "number": 80,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(s) < 3:\n        return False\n    if len(s) == 3:\n        return s[0]!= s[1] and s[1]!= s[2] and s[0]!= s[2]\n    if len(s) == 4:\n        return s[0]!= s[1] and s[1]!= s[2] and s[2]!= s[3] and s[0]!= s[3]\n    return is_happy(s[1:])\n"
+    },
+    {
+        "number": 81,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [grade_equation(gpa) for gpa in grades]\n"
+    },
+    {
+        "number": 82,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(string) == 1:\n        return False\n    for i in range(2, len(string)):\n        if len(string) % i == 0:\n            return False\n    return True\n"
+    },
+    {
+        "number": 83,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 1:\n        return 1\n    if n == 2:\n        return 1\n    if n == 3:\n        return 2\n    if n == 4:\n        return 1\n    if n == 5:\n        return 2\n    if n == 6:\n        return 1\n    if n == 7:\n        return 2\n    if n == 8:\n        return 1\n    if n == 9:\n        return 2\n    if n == 10:\n        return 1\n    if n == 11:\n        return 2\n    if n == 12:\n        return 1\n    if n == 13:\n        return 2\n    if n == 14:\n        return 1\n    if n == 15:\n        return 2\n    if n == 16:\n        return 1\n    if n == 17:\n        return 2\n    if n == 18:\n        return 1\n    if n == 19:\n        return 2\n    if n == 20:\n        return 1\n    if n == 21:\n        return 2\n    if n == 22:\n        return 1\n    if n == 23:\n        return 2\n    if n == 24:\n        return 1\n    if n == 25:\n        return 2\n    if n == 26:\n        return 1\n    if n == 27:\n        return 2\n    if n == 28:\n        return 1\n    if n == 29:\n        return 2\n    if n == 30:\n        return 1\n    if n == 31:\n        return 2\n    if n == 32:\n        return 1\n    if n == 33:\n        return 2\n    if n == 34:\n        return 1\n    if n == 35:\n        return 2\n    if n == 36:\n        return 1\n    if n == 37:\n        return 2\n    if n == 38:\n        return 1\n    if n == 39:\n        return 2\n    if n == 40:\n        return 1\n    if n == 41:\n        return 2\n    if n == 42:\n        return 1\n    if n == 43:\n        return 2\n    if n == 44:\n        return 1\n    if n == 45:\n        return 2\n    if n == 46:\n        return 1\n    if n == 47:\n        return 2\n    if n == 48:\n        return 1\n    if n == 49:\n        return 2\n    if n == 50:\n        return 1\n    if n == 51:\n        return 2\n    if n == 52:\n        return 1\n    if n == 53:\n        return 2\n    if n == 54:\n        return 1\n    if n == 55:\n        return 2\n    if n == 56:\n        return 1\n    if n == 57:\n        return 2\n    if n == 58:\n        return 1\n    if n == 59:\n        return 2\n    if n == 60:\n        return 1\n    if n == 61:\n        return 2\n    if n == 62:\n        return 1\n    if n == 63:\n        return 2\n    if n == 64:\n        return 1\n    if n == 65:\n        return 2\n    if n == 66:\n        return 1\n    if n == 67:\n        return 2\n    if n == 68:\n        return 1\n    if n == 69:\n        return 2\n    if n == 70:\n        return 1\n    if n == 71:\n        return 2\n    if n == 72:\n        return 1\n    if n == 73:\n        return 2\n    if n == 74:\n        return 1\n    if n == 75:\n        return 2\n    if n == 76:\n        return 1\n    if n == 77:\n        return 2\n    if n == 78:\n        return 1\n    if n == 79:\n        return 2\n    if n == 80:\n        return 1\n    if n == 81:\n        return 2\n    if n == 82:\n        return 1\n    if n == 83:\n        return 2\n    if n == 84:\n        return 1\n    if n == 85:\n        return 2\n    if n == 86:\n        return 1\n    if n == 87:\n        return 2\n    if n == 88:\n        return 1\n    if n == 89:\n        return 2\n    if n == 90:\n        return 1\n    if n == 91:\n        return 2\n    if n == 92:\n        return 1\n    if n == 93:\n        return 2\n"
+    },
+    {
+        "number": 84,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return str(bin(N).count('1'))\n"
+    },
+    {
+        "number": 85,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(lst[::2])\n"
+    },
+    {
+        "number": 86,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return''.join(sorted(s.split(), key=lambda x: x.lower()))\n"
+    },
+    {
+        "number": 87,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sorted(lst, key=lambda x: (x[0], -x[1]))\n"
+    },
+    {
+        "number": 88,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not array:\n        return array\n"
+    },
+    {
+        "number": 89,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    alphabet = 'abcdefghijklmnopqrstuvwxyz'\n    new_alphabet = alphabet[2:] + alphabet[:2]\n    new_alphabet_dict = dict(zip(alphabet, new_alphabet))\n    return ''.join([new_alphabet_dict[letter] for letter in s])\n"
+    },
+    {
+        "number": 90,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(lst) < 2:\n        return None\n    lst.sort()\n    return lst[1]\n"
+    },
+    {
+        "number": 91,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(1 for s in S.split('.') if s.startswith('I'))\n"
+    },
+    {
+        "number": 92,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return x == y + z or x == z + y or y == x + z or y == z + x or z == x + y or z == y + x\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    "
+    },
+    {
+        "number": 93,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    vowels = 'AEIOU'\n    new_message = ''\n    for letter in message:\n        if letter.upper() in vowels:\n            new_message += letter.upper()\n            new_message += letter.upper()\n        else:\n            new_message += letter\n    return new_message\n"
+    },
+    {
+        "number": 94,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    lst = [int(i) for i in lst]\n    lst.sort()\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in lst]\n    lst = [i for i in lst if i > 1]\n    lst = [i for i in lst if all(j for j in range(2,i) if i % j == 0)]\n    lst = [str(i) for i in lst]\n    lst = [int(i) for i in "
+    },
+    {
+        "number": 95,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(dict) == 0:\n        return False\n    for key in dict:\n        if type(key)!= str:\n            return False\n        if key.isupper():\n            return False\n    return True\n"
+    },
+    {
+        "number": 96,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n < 2:\n        return []\n    else:\n        return [2] + count_up_to(n-1)\n"
+    },
+    {
+        "number": 97,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum([int(i) * int(j) for i, j in zip(str(a), str(b))])\n"
+    },
+    {
+        "number": 98,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(1 for c in s[::2] if c.isupper())\n"
+    },
+    {
+        "number": 99,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return int(round(float(value)))\n"
+    },
+    {
+        "number": 100,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    result = [n]\n    while n > 1:\n        if n % 2 == 0:\n            n = n // 2\n        else:\n            n = n // 2 + 1\n        result.append(n)\n    return result\n"
+    },
+    {
+        "number": 101,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return s.split(',')\n"
+    },
+    {
+        "number": 102,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if x > y:\n        return -1\n    else:\n        for i in range(x, y+1):\n            if i % 2 == 0:\n                return i\n"
+    },
+    {
+        "number": 103,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n > m:\n        return -1\n    else:\n        return bin(int((n + m) / 2))[2:]\n"
+    },
+    {
+        "number": 104,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sorted(set(x))\n"
+    },
+    {
+        "number": 105,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(arr) == 0:\n        return []\n    \n    arr.sort()\n    arr.reverse()\n    \n    for i in range(len(arr)):\n        if arr[i] < 1 or arr[i] > 9:\n            arr[i] = \"X\"\n    \n    return arr\n"
+    },
+    {
+        "number": 106,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [1] + [i for i in range(2, n+1) if i % 2 == 0] + [sum(range(1, i+1)) for i in range(1, n+1) if i % 2!= 0]\n"
+    },
+    {
+        "number": 107,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 1:\n        return (1, 0)\n    if n == 2:\n        return (1, 1)\n    if n % 2 == 0:\n        return (1, 0)\n    if n % 2 == 1:\n        return (0, 1)\n    if n % 4 == 1:\n        return (1, 1)\n    if n % 4 == 3:\n        return (1, 0)\n    if n % 4 == 2:\n        return (0, 1)\n    if n % 4 == 0:\n        return (0, 0)\n"
+    },
+    {
+        "number": 108,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(1 for num in arr if sum(int(digit) for digit in str(num)) > 0)\n"
+    },
+    {
+        "number": 109,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(arr)==0:\n        return True\n    if len(arr)==1:\n        return True\n    if len(arr)==2:\n        if arr[0]<arr[1]:\n            return True\n        else:\n            return False\n    if len(arr)==3:\n        if arr[0]<arr[1] and arr[1]<arr[2]:\n            return True\n        else:\n            return False\n    if len(arr)==4:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3]:\n            return True\n        else:\n            return False\n    if len(arr)==5:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4]:\n            return True\n        else:\n            return False\n    if len(arr)==6:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5]:\n            return True\n        else:\n            return False\n    if len(arr)==7:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5] and arr[5]<arr[6]:\n            return True\n        else:\n            return False\n    if len(arr)==8:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5] and arr[5]<arr[6] and arr[6]<arr[7]:\n            return True\n        else:\n            return False\n    if len(arr)==9:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5] and arr[5]<arr[6] and arr[6]<arr[7] and arr[7]<arr[8]:\n            return True\n        else:\n            return False\n    if len(arr)==10:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5] and arr[5]<arr[6] and arr[6]<arr[7] and arr[7]<arr[8] and arr[8]<arr[9]:\n            return True\n        else:\n            return False\n    if len(arr)==11:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5] and arr[5]<arr[6] and arr[6]<arr[7] and arr[7]<arr[8] and arr[8]<arr[9] and arr[9]<arr[10]:\n            return True\n        else:\n            return False\n    if len(arr)==12:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5] and arr[5]<arr[6] and arr[6]<arr[7] and arr[7]<arr[8] and arr[8]<arr[9] and arr[9]<arr[10] and arr[10]<arr[11]:\n            return True\n        else:\n            return False\n    if len(arr)==13:\n        if arr[0]<arr[1] and arr[1]<arr[2] and arr[2]<arr[3] and arr[3]<arr[4] and arr[4]<arr[5] and arr[5]<arr[6] an"
+    },
+    {
+        "number": 110,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(lst1)!= len(lst2):\n        return \"NO\"\n    for i in range(len(lst1)):\n        if lst1[i] % 2!= 0:\n            return \"NO\"\n    for i in range(len(lst2)):\n        if lst2[i] % 2!= 0:\n            return \"NO\"\n    return \"YES\"\n"
+    },
+    {
+        "number": 111,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    hist = {}\n    for letter in test:\n        if letter in hist:\n            hist[letter] += 1\n        else:\n            hist[letter] = 1\n    return hist\n"
+    },
+    {
+        "number": 112,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    s = list(s)\n    for i in range(len(s)):\n        if s[i] == c:\n            s[i] = ''\n    s = ''.join(s)\n    return s,s == s[::-1]\n"
+    },
+    {
+        "number": 113,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [len([i for i in s if int(i)%2]) for s in lst]\n"
+    },
+    {
+        "number": 114,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not nums:\n        return 0\n    min_sum = nums[0]\n    curr_sum = 0\n    for num in nums:\n        curr_sum += num\n        if curr_sum < min_sum:\n            min_sum = curr_sum\n        if curr_sum < 0:\n            curr_sum = 0\n    return min_sum\n"
+    },
+    {
+        "number": 115,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # get the number of wells\n    wells = len(grid)\n    # get the number of buckets\n    buckets = len(grid[0])\n    # get the number of rows\n    rows = len(grid)\n    # get the number of columns\n    cols = len(grid[0])\n    # get the number of wells that can be filled\n    wells_to_fill = capacity\n    # get the number of wells that are filled\n    wells_filled = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the buckets are filled\n    buckets_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wells_filled_count = 0\n    # get the number of times that the wells are filled\n    wel"
+    },
+    {
+        "number": 116,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sorted(arr, key=lambda x: (bin(x).count('1'), x))\n"
+    },
+    {
+        "number": 117,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [word for word in s.split() if len(word) == n and word.count('a') == n]\n"
+    },
+    {
+        "number": 118,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    vowels = \"aeiou\"\n    for i in range(len(word) - 1, -1, -1):\n        if word[i] in vowels:\n            return word[i]\n    return \"\"\n"
+    },
+    {
+        "number": 119,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(lst) == 0:\n        return 'Yes'\n    if len(lst) == 1:\n        return 'Yes' if lst[0] == ')' else 'No'\n    if lst[0] == ')' or lst[-1] == '(':\n        return 'No'\n    if lst[0] == ')' and lst[-1] == '(':\n        return match_parens(lst[1:-1])\n    if lst[0] == ')' and lst[-1] == ')':\n        return match_parens(lst[1:])\n    if lst[0] == '(' and lst[-1] == ')':\n        return match_parens(lst[1:-1])\n    return 'No'\n"
+    },
+    {
+        "number": 120,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if k > len(arr):\n        return arr\n    arr.sort()\n    return arr[-k:]\n"
+    },
+    {
+        "number": 121,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum([lst[i] for i in range(len(lst)) if i % 2 == 0 and lst[i] % 2!= 0])\n"
+    },
+    {
+        "number": 122,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(arr[:k])\n"
+    },
+    {
+        "number": 123,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 1:\n        return [1]\n    if n % 2 == 0:\n        return get_odd_collatz(n / 2) + [n]\n    else:\n        return get_odd_collatz(3 * n + 1) + [n]\n"
+    },
+    {
+        "number": 124,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # your code here\n    return True\n"
+    },
+    {
+        "number": 125,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return txt.split()\n"
+    },
+    {
+        "number": 126,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(lst) < 2:\n        return True\n    if lst[0] < lst[1]:\n        for i in range(1, len(lst)):\n            if lst[i] < lst[i-1]:\n                return False\n        return True\n    else:\n        return False\n"
+    },
+    {
+        "number": 127,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if interval1[1] < interval2[0] or interval2[1] < interval1[0]:\n        return \"NO\"\n    return \"YES\"\n"
+    },
+    {
+        "number": 128,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not arr:\n        return None\n    return sum(abs(x) for x in arr) * prod(sign(x) for x in arr)\n"
+    },
+    {
+        "number": 129,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not grid or not grid[0]:\n        return []\n    m, n = len(grid), len(grid[0])\n    if k > m * n:\n        return []\n    if k == 0:\n        return [grid[0][0]]\n    if k == 1:\n        return [grid[0][0], grid[0][1]]\n    if k == 2:\n        return [grid[0][0], grid[0][1], grid[0][2]]\n    if k == 3:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3]]\n    if k == 4:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4]]\n    if k == 5:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5]]\n    if k == 6:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6]]\n    if k == 7:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7]]\n    if k == 8:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8]]\n    if k == 9:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8], grid[0][9]]\n    if k == 10:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8], grid[0][9], grid[0][10]]\n    if k == 11:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8], grid[0][9], grid[0][10], grid[0][11]]\n    if k == 12:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8], grid[0][9], grid[0][10], grid[0][11], grid[0][12]]\n    if k == 13:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8], grid[0][9], grid[0][10], grid[0][11], grid[0][12], grid[0][13]]\n    if k == 14:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8], grid[0][9], grid[0][10], grid[0][11], grid[0][12], grid[0][13], grid[0][14]]\n    if k == 15:\n        return [grid[0][0], grid[0][1], grid[0][2], grid[0][3], grid[0][4], grid[0][5], grid[0][6], grid[0][7], grid[0][8], grid[0][9], grid[0][10], grid[0][11], grid[0][12], grid[0][13], gri"
+    },
+    {
+        "number": 130,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 0:\n        return []\n    if n == 1:\n        return [1]\n    if n == 2:\n        return [1, 1]\n    if n == 3:\n        return [1, 1, 1]\n    if n == 4:\n        return [1, 1, 1, 1]\n    if n == 5:\n        return [1, 1, 1, 1, 1]\n    if n == 6:\n        return [1, 1, 1, 1, 1, 1]\n    if n == 7:\n        return [1, 1, 1, 1, 1, 1, 1]\n    if n == 8:\n        return [1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 9:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 10:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 11:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 12:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 13:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 14:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 15:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 16:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 17:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 18:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 19:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 20:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 21:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 22:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 23:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 24:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 25:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\n    if n == 26:\n        return [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1"
+    },
+    {
+        "number": 131,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n < 10:\n        return n\n    else:\n        return digits(n // 10) * (n % 10)\n"
+    },
+    {
+        "number": 132,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # Your code here\n    stack = []\n    for i in range(len(string)):\n        if string[i] == '[':\n            stack.append(i)\n        elif string[i] == ']':\n            if len(stack) == 0:\n                return False\n            else:\n                stack.pop()\n    if len(stack) == 0:\n        return True\n    else:\n        return False\n"
+    },
+    {
+        "number": 133,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(map(lambda x: int(math.ceil(x))**2, lst))\n"
+    },
+    {
+        "number": 134,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if txt == \"\":\n        return False\n    if txt[-1].isalpha() and txt[-1] not in \" \":\n        return True\n    else:\n        return False\n"
+    },
+    {
+        "number": 135,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(arr) == 0:\n        return -1\n    if len(arr) == 1:\n        return 0\n    if len(arr) == 2:\n        return -1 if arr[0] > arr[1] else 0\n    if len(arr) == 3:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] else 0\n    if len(arr) == 4:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] else 0\n    if len(arr) == 5:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] else 0\n    if len(arr) == 6:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] else 0\n    if len(arr) == 7:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] and arr[5] > arr[6] else 0\n    if len(arr) == 8:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] and arr[5] > arr[6] and arr[6] > arr[7] else 0\n    if len(arr) == 9:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] and arr[5] > arr[6] and arr[6] > arr[7] and arr[7] > arr[8] else 0\n    if len(arr) == 10:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] and arr[5] > arr[6] and arr[6] > arr[7] and arr[7] > arr[8] and arr[8] > arr[9] else 0\n    if len(arr) == 11:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] and arr[5] > arr[6] and arr[6] > arr[7] and arr[7] > arr[8] and arr[8] > arr[9] and arr[9] > arr[10] else 0\n    if len(arr) == 12:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] and arr[5] > arr[6] and arr[6] > arr[7] and arr[7] > arr[8] and arr[8] > arr[9] and arr[9] > arr[10] and arr[10] > arr[11] else 0\n    if len(arr) == 13:\n        return -1 if arr[0] > arr[1] and arr[1] > arr[2] and arr[2] > arr[3] and arr[3] > arr[4] and arr[4] > arr[5] and arr[5] > arr[6] and arr[6] > arr[7] and arr[7] > arr[8] and arr[8] > arr[9] and arr[9] > arr[10] and arr[10] > arr[11] and arr[11] > arr[12] else 0\n    if len(arr) == 14:\n    "
+    },
+    {
+        "number": 136,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not lst:\n        return (None, None)\n    else:\n        return (max(filter(lambda x: x < 0, lst)), min(filter(lambda x: x > 0, lst)))\n"
+    },
+    {
+        "number": 137,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if a == b:\n        return None\n    elif isinstance(a, str):\n        a = float(a.replace(',', '.'))\n    elif isinstance(a, float):\n        a = a\n    else:\n        a = float(a)\n    if isinstance(b, str):\n        b = float(b.replace(',', '.'))\n    elif isinstance(b, float):\n        b = b\n    else:\n        b = float(b)\n    if a > b:\n        return a\n    else:\n        return b\n"
+    },
+    {
+        "number": 138,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return n % 2 == 0 and sum(range(2, n, 2)) == n\n"
+    },
+    {
+        "number": 139,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n == 0:\n        return 1\n    else:\n        return n * special_factorial(n-1)\n"
+    },
+    {
+        "number": 140,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    \n    # replace spaces with underscores\n    text = text.replace(\" \", \"_\")\n    \n    # replace consecutive spaces with -\n    text = re.sub(r\"\\s+\", \"-\", text)\n    \n    return text\n"
+    },
+    {
+        "number": 141,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    def is_valid(file_name):\n        if len(file_name) > 3:\n            return 'No'\n        if file_name.count('.')!= 1:\n            return 'No'\n        if file_name[0] not in 'abcdefghijklmnopqrstuvwxyz':\n            return 'No'\n        if file_name[-3:] not in ['txt', 'exe', 'dll']:\n            return 'No'\n        return 'Yes'\n    return is_valid(file_name)\n"
+    },
+    {
+        "number": 142,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    \n    # Your code here\n    \n    return sum(x**2 if i%3==0 else x**3 for i,x in enumerate(lst))\n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n    \n"
+    },
+    {
+        "number": 143,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return''.join(filter(lambda x: len(x) > 1, sentence.split(' ')))\n"
+    },
+    {
+        "number": 144,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    numerator, denominator = x.split('/')\n    numerator, denominator = int(numerator), int(denominator)\n    if numerator % denominator == 0:\n        return True\n    else:\n        return False\n"
+    },
+    {
+        "number": 145,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sorted(nums, key=lambda x: sum(map(int, str(x))))\n"
+    },
+    {
+        "number": 146,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sum(1 for num in nums if num > 10 and (num % 10) % 2 == 1 and (num // 10) % 2 == 1)\n"
+    },
+    {
+        "number": 147,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    a = [i*i-i+1 for i in range(1, n+1)]\n    return sum(a[i] for i in range(n) if a[i] % 3 == 0)\n"
+    },
+    {
+        "number": 148,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # your code here\n    return ()\n"
+    },
+    {
+        "number": 149,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return sorted(lst, key=len)\n"
+    },
+    {
+        "number": 150,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if n % 2 == 0:\n        return y\n    else:\n        return x\n"
+    },
+    {
+        "number": 151,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(lst) == 0:\n        return 0\n    else:\n        return sum([x**2 for x in lst if x % 2!= 0])\n"
+    },
+    {
+        "number": 152,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [abs(guess[i] - game[i]) for i in range(len(guess))]\n"
+    },
+    {
+        "number": 153,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    # Your code here\n    extensions_strength = {}\n    for extension in extensions:\n        extension_strength = 0\n        for letter in extension:\n            if letter.isupper():\n                extension_strength += 1\n            elif letter.islower():\n                extension_strength -= 1\n        extensions_strength[extension] = extension_strength\n    return class_name + \".\" + max(extensions_strength, key=extensions_strength.get)\n"
+    },
+    {
+        "number": 154,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if len(a) < len(b):\n        return False\n    if len(a) == len(b):\n        return a == b\n    for i in range(len(a)):\n        if a[i:] == b[:len(a)-i]:\n            return True\n    return False\n"
+    },
+    {
+        "number": 155,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    even = 0\n    odd = 0\n    if num < 0:\n        num = -num\n    while num:\n        if num % 2:\n            odd += 1\n        else:\n            even += 1\n        num //= 10\n    return (even, odd)\n"
+    },
+    {
+        "number": 156,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if not isinstance(number, int) or number < 1 or number > 1000:\n        raise ValueError('int_to_mini_roman: argument must be a positive integer between 1 and 1000')\n    if number == 1:\n        return 'i'\n    if number == 2:\n        return 'ii'\n    if number == 3:\n        return 'iii'\n    if number == 4:\n        return 'iv'\n    if number == 5:\n        return 'v'\n    if number == 6:\n        return 'vi'\n    if number == 7:\n        return 'vii'\n    if number == 8:\n        return 'viii'\n    if number == 9:\n        return 'ix'\n    if number == 10:\n        return 'x'\n    if number == 11:\n        return 'xii'\n    if number == 12:\n        return 'xiii'\n    if number == 13:\n        return 'xiv'\n    if number == 14:\n        return 'xv'\n    if number == 15:\n        return 'xvi'\n    if number == 16:\n        return 'xvii'\n    if number == 17:\n        return 'xviii'\n    if number == 18:\n        return 'xix'\n    if number == 19:\n        return 'x'\n    if number == 20:\n        return 'x'\n    if number == 21:\n        return 'x'\n    if number == 22:\n        return 'x'\n    if number == 23:\n        return 'x'\n    if number == 24:\n        return 'x'\n    if number == 25:\n        return 'x'\n    if number == 26:\n        return 'x'\n    if number == 27:\n        return 'x'\n    if number == 28:\n        return 'x'\n    if number == 29:\n        return 'x'\n    if number == 30:\n        return 'x'\n    if number == 31:\n        return 'x'\n    if number == 32:\n        return 'x'\n    if number == 33:\n        return 'x'\n    if number == 34:\n        return 'x'\n    if number == 35:\n        return 'x'\n    if number == 36:\n        return 'x'\n    if number == 37:\n        return 'x'\n    if number == 38:\n        return 'x'\n    if number == 39:\n        return 'x'\n    if number == 40:\n        return 'x'\n    if number == 41:\n        return 'x'\n    if number == 42:\n        return 'x'\n    if number == 43:\n        return 'x'\n    if number == 44:\n        return 'x'\n    if number == 45:\n        return 'x'\n    if number == 46:\n        return 'x'\n    if number == 47:\n        return 'x'\n    if number == 48:\n        return 'x'\n    if number == 49:\n        return 'x'\n    if number == 50:\n        return 'x'\n    if number == 51:\n        return 'x'\n    if number == 52:\n        return 'x'\n    if number == 53:\n        return 'x'\n    if number == 54:\n        return 'x'\n    if number == 55:\n        return 'x'\n    if number == 56:\n        return 'x'\n    if number == 57:\n        return 'x'\n    if number == 58:\n        return 'x'\n    if number == 59:\n        return 'x'\n    if number == 60:\n        return 'x'\n    if number == 61:\n        return 'x'\n    if number == 62:\n        return 'x'\n    if number == 63:\n        return 'x'\n    if number == 64:\n        return 'x'\n    if number == 65:\n        return 'x'\n    if number == 66:\n        return 'x'\n    if number == 67:\n        return 'x'\n    if number == 68:\n        return 'x'\n    if number == 69:\n        return 'x'\n    if number == 70:\n        return 'x'\n    if number == 71:\n        return 'x'\n    if number == 72:\n        return 'x'\n    if number == 73:\n        return 'x'\n    if number == 74:\n        return 'x'\n    if number == 7"
+    },
+    {
+        "number": 157,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return (a**2 + b**2 == c**2 or b**2 + c**2 == a**2 or a**2 + c**2 == b**2)\n"
+    },
+    {
+        "number": 158,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    max_len = 0\n    max_word = \"\"\n    for word in words:\n        if len(word) > max_len:\n            max_len = len(word)\n            max_word = word\n    return max_word\n"
+    },
+    {
+        "number": 159,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if number < need:\n        return [need, 0]\n    elif number == need:\n        return [need, remaining]\n    else:\n        return [number, remaining - (need - number)]\n"
+    },
+    {
+        "number": 160,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    pass\n"
+    },
+    {
+        "number": 161,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return \"\".join(reversed(s.swapcase()) if s.isalpha() else s)\n"
+    },
+    {
+        "number": 162,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    if text == '':\n        return None\n    return hashlib.md5(text).hexdigest()\n"
+    },
+    {
+        "number": 163,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "    return [i for i in range(a, b+1) if i % 2 == 0]\n"
+    }
+]
