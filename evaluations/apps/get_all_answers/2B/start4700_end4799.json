@@ -1,0 +1,184 @@
+[
+   {
+      "task_id": 4700,
+      "prompt": "Complete the Python function given the prompt below:\nThere are N observatories in AtCoder Hill, called Obs. 1, Obs. 2,..., Obs. N. The elevation of Obs. i is H_i.\nThere are also M roads, each connecting two different observatories. Road j connects Obs. A_j and Obs. B_j.\nObs. i is said to be good when its elevation is higher than those of all observatories that can be reached from Obs. i using just one road.\nNote that Obs. i is also good when no observatory can be reached from Obs. i using just one road.\nHow many good observatories are there?\n-----Constraints-----\n - 2 \\leq N \\leq 10^5\n - 1 \\leq M \\leq 10^5\n - 1 \\leq H_i \\leq 10^9\n - 1 \\leq A_i,B_i \\leq N\n - A_i \\neq B_i\n - Multiple roads may connect the same pair of observatories.\n - All values in input are integers.\n-----Input-----\nInput is given from Standard Input in the following format:\nN M\nH_1 H_2... H_N\nA_1 B_1\nA_2 B_2\n:\nA_M B_M\n-----Output-----\nPrint the number of good observatories.\n-----Sample Input-----\n4 3\n1 2 3 4\n1 3\n2 3\n2 4\n-----Sample Output-----\n2\n - From Obs. 1, you can reach Obs. 3 using just one road. The elevation of Obs. 1 is not higher than that of Obs. 3, so Obs. 1 is not good.\n - From Obs. 2, you can reach Obs. 3 and 4 using just one road. The elevation of Obs. 2 is not higher than that of Obs. 3, so Obs. 2 is not good.\n - From Obs. 3, you can reach Obs. 1 and 2 using just one road. The elevation of Obs. 3 is higher than those of Obs. 1 and 2, so Obs. 3 is good.\n - From Obs. 4, you can reach Obs. 2 using just one road. The elevation of Obs. 4 is higher than that of Obs. 2, so Obs. 4 is good.\nThus, the good observatories are Obs. 3 and 4, so there are two good observatories.\n\ndef",
+      "answer": "def good_observatories(n, m, h, a, b):\n    good_observatories = 0\n    for i in range(1, n+1):\n        if h[i-1] > max(h[a[i-1]-1], h[b[i-1]-1]):\n            good_observatories += 1\n    return good_observatories\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4701,
+      "prompt": "Complete the Python function given the prompt below:\nSquare1001 has seen an electric bulletin board displaying the integer 1.\nHe can perform the following operations A and B to change this value:\n - Operation A: The displayed value is doubled.\n - Operation B: The displayed value increases by K.\nSquare1001 needs to perform these operations N times in total.\nFind the minimum possible value displayed in the board after N operations.\n-----Constraints-----\n - 1 \\leq N, K \\leq 10\n - All input values are integers.\n-----Input-----\nInput is given from Standard Input in the following format:\nN\nK\n-----Output-----\nPrint the minimum possible value displayed in the board after N operations.\n-----Sample Input-----\n4\n3\n-----Sample Output-----\n10\nThe value will be minimized when the operations are performed in the following order: A, A, B, B.\nIn this case, the value will change as follows: 1 \u2192 2 \u2192 4 \u2192 7 \u2192 10.\n\ndef",
+      "answer": "def square(n, k, arr):\n    for i in range(n):\n        if i == 0:\n            arr[i] = 1\n        else:\n            arr[i] = arr[i-1] * 2\n    for i in range(n):\n        if i == 0:\n            arr[i] += k\n        else:\n            arr[i] += arr[i-1]\n    return arr\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4702,
+      "prompt": "Complete the Python function given the prompt below:\nGiven is an integer x that is greater than or equal to 0, and less than or equal to 1.\nOutput 1 if x is equal to 0, or 0 if x is equal to 1.\n-----Constraints-----\n - 0 \\leq x \\leq 1\n - x is an integer\n-----Input-----\nInput is given from Standard Input in the following format:\nx\n-----Output-----\nPrint 1 if x is equal to 0, or 0 if x is equal to 1.\n-----Sample Input-----\n1\n-----Sample Output-----\n0\n\n\ndef",
+      "answer": "def check(x):\n    if x == 0:\n        return 1\n    elif x == 1:\n        return 0\n    else:\n        return -1\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4703,
+      "prompt": "Complete the Python function given the prompt below:\nYou are given a string S consisting of digits between 1 and 9, inclusive.\nYou can insert the letter + into some of the positions (possibly none) between two letters in this string.\nHere, + must not occur consecutively after insertion.\nAll strings that can be obtained in this way can be evaluated as formulas.\nEvaluate all possible formulas, and print the sum of the results.\n-----Constraints-----\n - 1 \\leq |S| \\leq 10\n - All letters in S are digits between 1 and 9, inclusive.\n-----Input-----\nThe input is given from Standard Input in the following format:\nS\n-----Output-----\nPrint the sum of the evaluated value over all possible formulas.\n-----Sample Input-----\n125\n-----Sample Output-----\n176\nThere are 4 formulas that can be obtained: 125, 1+25, 12+5 and 1+2+5. When each formula is evaluated,\n - 125\n - 1+25=26\n - 12+5=17\n - 1+2+5=8\nThus, the sum is 125+26+17+8=176.\n\ndef",
+      "answer": "def evaluate(string):\n    sum = 0\n    for i in range(len(string)):\n        if string[i] == '+':\n            sum += int(string[i-1]) + int(string[i+1])\n        else:\n            sum += int(string[i])\n    return sum\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4704,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke and Raccoon have a heap of N cards. The i-th card from the top has the integer a_i written on it.\nThey will share these cards.\nFirst, Snuke will take some number of cards from the top of the heap, then Raccoon will take all the remaining cards.\nHere, both Snuke and Raccoon have to take at least one card.\nLet the sum of the integers on Snuke's cards and Raccoon's cards be x and y, respectively.\nThey would like to minimize |x-y|.\nFind the minimum possible value of |x-y|.\n-----Constraints-----\n - 2 \\leq N \\leq 2 \\times 10^5\n - -10^{9} \\leq a_i \\leq 10^{9}\n - a_i is an integer.\n-----Input-----\nInput is given from Standard Input in the following format:\nN\na_1 a_2... a_{N}\n-----Output-----\nPrint the answer.\n-----Sample Input-----\n6\n1 2 3 4 5 6\n-----Sample Output-----\n1\nIf Snuke takes four cards from the top, and Raccoon takes the remaining two cards, x=10, y=11, and thus |x-y|=1. This is the minimum possible value.\n\ndef",
+      "answer": "def minimum_difference(n, a):\n    a.sort()\n    return abs(a[0] - a[-1])\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4705,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke has a favorite restaurant.\nThe price of any meal served at the restaurant is 800 yen (the currency of Japan), and each time a customer orders 15 meals, the restaurant pays 200 yen back to the customer.\nSo far, Snuke has ordered N meals at the restaurant.\nLet the amount of money Snuke has paid to the restaurant be x yen, and let the amount of money the restaurant has paid back to Snuke be y yen.\nFind x-y.\n-----Constraints-----\n - 1 \u2264 N \u2264 100\n-----Input-----\nThe input is given from Standard Input in the following format:\nN\n-----Output-----\nPrint the answer.\n-----Sample Input-----\n20\n-----Sample Output-----\n15800\nSo far, Snuke has paid 16000 yen, and the restaurant has paid back 200 yen. Thus, the answer is 15800.\n\ndef",
+      "answer": "def Snuke(n):\n    return n*800-200*n\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4706,
+      "prompt": "Complete the Python function given the prompt below:\nWe have a 3\u00d73 square grid, where each square contains a lowercase English letters.\nThe letter in the square at the i-th row from the top and j-th column from the left is c_{ij}.\nPrint the string of length 3 that can be obtained by concatenating the letters in the squares on the diagonal connecting the top-left and bottom-right corner of the grid, from the top-left to bottom-right.\n-----Constraints-----\n - Input consists of lowercase English letters.\n-----Input-----\nInput is given from Standard Input in the following format:\nc_{11}c_{12}c_{13}\nc_{21}c_{22}c_{23}\nc_{31}c_{32}c_{33}\n-----Output-----\nPrint the string of length 3 that can be obtained by concatenating the letters on the diagonal connecting the top-left and bottom-right corner of the grid, from the top-left to bottom-right.\n-----Sample Input-----\nant\nobe\nrec\n-----Sample Output-----\nabc\nThe letters in the squares on the diagonal connecting the top-left and bottom-right corner of the grid are a, b and c from top-right to bottom-left. Concatenate these letters and print abc.\n\ndef",
+      "answer": "def diagonal(s):\n    return s[0] + s[4] + s[8]\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4707,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke has a grid consisting of three squares numbered 1, 2 and 3.\nIn each square, either 0 or 1 is written. The number written in Square i is s_i.\nSnuke will place a marble on each square that says 1.\nFind the number of squares on which Snuke will place a marble.\n-----Constraints-----\n - Each of s_1, s_2 and s_3 is either 1 or 0.\n-----Input-----\nInput is given from Standard Input in the following format:\ns_{1}s_{2}s_{3}\n-----Output-----\nPrint the answer.\n-----Sample Input-----\n101\n-----Sample Output-----\n2\n - A marble will be placed on Square 1 and 3.\n\ndef",
+      "answer": "def marbles(s_1, s_2, s_3):\n    return (s_1 + s_2 + s_3)\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4708,
+      "prompt": "Complete the Python function given the prompt below:\nThere is a hotel with the following accommodation fee:\n - X yen (the currency of Japan) per night, for the first K nights\n - Y yen per night, for the (K+1)-th and subsequent nights\nTak is staying at this hotel for N consecutive nights.\nFind his total accommodation fee.\n-----Constraints-----\n - 1 \\leq N, K \\leq 10000\n - 1 \\leq Y < X \\leq 10000\n - N,\\,K,\\,X,\\,Y are integers.\n-----Input-----\nThe input is given from Standard Input in the following format:\nN\nK\nX\nY\n-----Output-----\nPrint Tak's total accommodation fee.\n-----Sample Input-----\n5\n3\n10000\n9000\n-----Sample Output-----\n48000\nThe accommodation fee is as follows:\n - 10000 yen for the 1-st night\n - 10000 yen for the 2-nd night\n - 10000 yen for the 3-rd night\n - 9000 yen for the 4-th night\n - 9000 yen for the 5-th night\nThus, the total is 48000 yen.\n\ndef",
+      "answer": "def hotel_fee(n,k,x,y):\n    return x*n+y*(n+1)\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4709,
+      "prompt": "Complete the Python function given the prompt below:\nJoisino wants to evaluate the formula \"A op B\".\nHere, A and B are integers, and the binary operator op is either + or -.\nYour task is to evaluate the formula instead of her.\n-----Constraints-----\n - 1\u2266A,B\u226610^9\n - op is either + or -.\n-----Input-----\nThe input is given from Standard Input in the following format:\nA op B\n-----Output-----\nEvaluate the formula and print the result.\n-----Sample Input-----\n1 + 2\n-----Sample Output-----\n3\nSince 1 + 2 = 3, the output should be 3.\n\ndef",
+      "answer": "def eval(a, b, op):\n    if op == '+':\n        return a + b\n    elif op == '-':\n        return a - b\n    else:\n        return \"Invalid operator\"\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4710,
+      "prompt": "Complete the Python function given the prompt below:\nSmeke has decided to participate in AtCoder Beginner Contest (ABC) if his current rating is less than 1200, and participate in AtCoder Regular Contest (ARC) otherwise.\nYou are given Smeke's current rating, x. Print ABC if Smeke will participate in ABC, and print ARC otherwise.\n-----Constraints-----\n - 1 \u2266 x \u2266 3{,}000\n - x is an integer.\n-----Input-----\nThe input is given from Standard Input in the following format:\nx\n-----Output-----\nPrint the answer.\n-----Sample Input-----\n1000\n-----Sample Output-----\nABC\nSmeke's current rating is less than 1200, thus the output should be ABC.\n\ndef",
+      "answer": "def rating(x):\n    if x<1200:\n        return \"ABC\"\n    else:\n        return \"ARC\"\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4711,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke is buying a bicycle.\nThe bicycle of his choice does not come with a bell, so he has to buy one separately.\nHe has very high awareness of safety, and decides to buy two bells, one for each hand.\nThe store sells three kinds of bells for the price of a, b and c yen (the currency of Japan), respectively.\nFind the minimum total price of two different bells.\n-----Constraints-----\n - 1 \\leq a,b,c \\leq 10000\n - a, b and c are integers.\n-----Input-----\nInput is given from Standard Input in the following format:\na b c\n-----Output-----\nPrint the minimum total price of two different bells.\n-----Sample Input-----\n700 600 780\n-----Sample Output-----\n1300\n - Buying a 700-yen bell and a 600-yen bell costs 1300 yen.\n - Buying a 700-yen bell and a 780-yen bell costs 1480 yen.\n - Buying a 600-yen bell and a 780-yen bell costs 1380 yen.\nThe minimum among these is 1300 yen.\n\ndef",
+      "answer": "def min_price(a,b,c):\n    return min(a,b,c)\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4712,
+      "prompt": "Complete the Python function given the prompt below:\nYou are given a image with a height of H pixels and a width of W pixels.\nEach pixel is represented by a lowercase English letter.\nThe pixel at the i-th row from the top and j-th column from the left is a_{ij}.\nPut a box around this image and output the result. The box should consist of # and have a thickness of 1.\n-----Constraints-----\n - 1 \u2264 H, W \u2264 100\n - a_{ij} is a lowercase English letter.\n-----Input-----\nInput is given from Standard Input in the following format:\nH W\na_{11}... a_{1W}\n:\na_{H1}... a_{HW}\n-----Output-----\nPrint the image surrounded by a box that consists of # and has a thickness of 1.\n-----Sample Input-----\n2 3\nabc\narc\n-----Sample Output-----\n#####\n#abc#\n#arc#\n#####\n\n\ndef",
+      "answer": "def box(H, W):\n    for i in range(H):\n        for j in range(W):\n            print('#', end='')\n        print()\n    for i in range(H):\n        for j in range(W):\n            print('#', end='')\n        print()\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4713,
+      "prompt": "Complete the Python function given the prompt below:\nYou have an integer variable x.\nInitially, x=0.\nSome person gave you a string S of length N, and using the string you performed the following operation N times.\nIn the i-th operation, you incremented the value of x by 1 if S_i=I, and decremented the value of x by 1 if S_i=D.\nFind the maximum value taken by x during the operations (including before the first operation, and after the last operation).\n-----Constraints-----\n - 1\u2264N\u2264100\n - |S|=N\n - No characters except I and D occur in S.\n-----Input-----\nThe input is given from Standard Input in the following format:\nN\nS\n-----Output-----\nPrint the maximum value taken by x during the operations.\n-----Sample Input-----\n5\nIIDID\n-----Sample Output-----\n2\nAfter each operation, the value of x becomes 1, 2, 1, 2 and 1, respectively. Thus, the output should be 2, the maximum value.\n\ndef",
+      "answer": "def max_value(n, s):\n    x = 0\n    for i in range(n):\n        if s[i] == 'I':\n            x += 1\n        else:\n            x -= 1\n    return x\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4714,
+      "prompt": "Complete the Python function given the prompt below:\nFind the number of palindromic numbers among the integers between A and B (inclusive).\nHere, a palindromic number is a positive integer whose string representation in base 10 (without leading zeros) reads the same forward and backward.\n-----Constraints-----\n - 10000 \\leq A \\leq B \\leq 99999\n - All input values are integers.\n-----Input-----\nInput is given from Standard Input in the following format:\nA B\n-----Output-----\nPrint the number of palindromic numbers among the integers between A and B (inclusive).\n-----Sample Input-----\n11009 11332\n-----Sample Output-----\n4\nThere are four integers that satisfy the conditions: 11011, 11111, 11211 and 11311.\n\ndef",
+      "answer": "def palindrome(a,b):\n    count = 0\n    for i in range(a,b+1):\n        if str(i) == str(i)[::-1]:\n            count += 1\n    return count\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4715,
+      "prompt": "Complete the Python function given the prompt below:\nAtCoDeer the deer recently bought three paint cans.\nThe color of the one he bought two days ago is a, the color of the one he bought yesterday is b, and the color of the one he bought today is c.\nHere, the color of each paint can is represented by an integer between 1 and 100, inclusive.\nSince he is forgetful, he might have bought more than one paint can in the same color.\nCount the number of different kinds of colors of these paint cans and tell him.\n-----Constraints-----\n - 1\u2266a,b,c\u2266100\n-----Input-----\nThe input is given from Standard Input in the following format:\na b c\n-----Output-----\nPrint the number of different kinds of colors of the paint cans.\n-----Sample Input-----\n3 1 4\n-----Sample Output-----\n3\nThree different colors: 1, 3, and 4.\n\ndef",
+      "answer": "def count_colors(a, b, c):\n    return 3\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4716,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke has N sticks.\nThe length of the i-th stick is l_i.\nSnuke is making a snake toy by joining K of the sticks together.\nThe length of the toy is represented by the sum of the individual sticks that compose it.\nFind the maximum possible length of the toy.\n-----Constraints-----\n - 1 \\leq K \\leq N \\leq 50\n - 1 \\leq l_i \\leq 50\n - l_i is an integer.\n-----Input-----\nInput is given from Standard Input in the following format:\nN K\nl_1 l_2 l_3... l_{N}\n-----Output-----\nPrint the answer.\n-----Sample Input-----\n5 3\n1 2 3 4 5\n-----Sample Output-----\n12\nYou can make a toy of length 12 by joining the sticks of lengths 3, 4 and 5, which is the maximum possible length.\n\ndef",
+      "answer": "def max_length(sticks, k):\n    # your code here\n    return max(sum(sticks[:k]), sum(sticks[k:]))\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4717,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke lives at position x on a number line.\nOn this line, there are two stores A and B, respectively at position a and b, that offer food for delivery.\nSnuke decided to get food delivery from the closer of stores A and B.\nFind out which store is closer to Snuke's residence.\nHere, the distance between two points s and t on a number line is represented by |s-t|.\n-----Constraints-----\n - 1 \\leq x \\leq 1000\n - 1 \\leq a \\leq 1000\n - 1 \\leq b \\leq 1000\n - x, a and b are pairwise distinct.\n - The distances between Snuke's residence and stores A and B are different.\n-----Input-----\nInput is given from Standard Input in the following format:\nx a b\n-----Output-----\nIf store A is closer, print A; if store B is closer, print B.\n-----Sample Input-----\n5 2 7\n-----Sample Output-----\nB\nThe distances between Snuke's residence and stores A and B are 3 and 2, respectively.\nSince store B is closer, print B.\n\ndef",
+      "answer": "def closest_store(x, a, b):\n    if abs(a-x) < abs(b-x):\n        print(a)\n    else:\n        print(b)\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4718,
+      "prompt": "Complete the Python function given the prompt below:\nOn some day in January 2018, Takaki is writing a document. The document has a column where the current date is written in yyyy/mm/dd format. For example, January 23, 2018 should be written as 2018/01/23.\nAfter finishing the document, she noticed that she had mistakenly wrote 2017 at the beginning of the date column. Write a program that, when the string that Takaki wrote in the date column, S, is given as input, modifies the first four characters in S to 2018 and prints it.\n-----Constraints-----\n - S is a string of length 10.\n - The first eight characters in S are 2017/01/.\n - The last two characters in S are digits and represent an integer between 1 and 31 (inclusive).\n-----Input-----\nInput is given from Standard Input in the following format:\nS\n-----Output-----\nReplace the first four characters in S with 2018 and print it.\n-----Sample Input-----\n2017/01/07\n-----Sample Output-----\n2018/01/07\n\n\ndef",
+      "answer": "def main():\n    s = input()\n    print(s[:4] + \"2018\" + s[4:])\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4719,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke loves \"paper cutting\": he cuts out characters from a newspaper headline and rearranges them to form another string.\nHe will receive a headline which contains one of the strings S_1,...,S_n tomorrow.\nHe is excited and already thinking of what string he will create.\nSince he does not know the string on the headline yet, he is interested in strings that can be created regardless of which string the headline contains.\nFind the longest string that can be created regardless of which string among S_1,...,S_n the headline contains.\nIf there are multiple such strings, find the lexicographically smallest one among them.\n-----Constraints-----\n - 1 \\leq n \\leq 50\n - 1 \\leq |S_i| \\leq 50 for every i = 1,..., n.\n - S_i consists of lowercase English letters (a - z) for every i = 1,..., n.\n-----Input-----\nInput is given from Standard Input in the following format:\nn\nS_1\n...\nS_n\n-----Output-----\nPrint the lexicographically smallest string among the longest strings that satisfy the condition.\nIf the answer is an empty string, print an empty line.\n-----Sample Input-----\n3\ncbaa\ndaacc\nacacac\n-----Sample Output-----\naac\nThe strings that can be created from each of cbaa, daacc and acacac, are aa, aac, aca, caa and so forth.\nAmong them, aac, aca and caa are the longest, and the lexicographically smallest of these three is aac.\n\ndef",
+      "answer": "def longest_string(n, s):\n    # your code here\n    return max(s, key=len)\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4720,
+      "prompt": "Complete the Python function given the prompt below:\nJoisino is working as a receptionist at a theater.\nThe theater has 100000 seats, numbered from 1 to 100000.\nAccording to her memo, N groups of audiences have come so far, and the i-th group occupies the consecutive seats from Seat l_i to Seat r_i (inclusive).\nHow many people are sitting at the theater now?\n-----Constraints-----\n - 1\u2264N\u22641000\n - 1\u2264l_i\u2264r_i\u2264100000\n - No seat is occupied by more than one person.\n - All input values are integers.\n-----Input-----\nInput is given from Standard Input in the following format:\nN\nl_1 r_1\n:\nl_N r_N\n-----Output-----\nPrint the number of people sitting at the theater.\n-----Sample Input-----\n1\n24 30\n-----Sample Output-----\n7\nThere are 7 people, sitting at Seat 24,25,26,27,28,29 and 30.\n\ndef",
+      "answer": "def seats(n,l,r):\n    return n*(n+1)/2 - (l+r)*(l-1)/2\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4721,
+      "prompt": "Complete the Python function given the prompt below:\nIn K-city, there are n streets running east-west, and m streets running north-south. Each street running east-west and each street running north-south cross each other. We will call the smallest area that is surrounded by four streets a block. How many blocks there are in K-city?\n-----Constraints-----\n - 2 \u2264 n, m \u2264 100\n-----Input-----\nInput is given from Standard Input in the following format:\nn m\n-----Output-----\nPrint the number of blocks in K-city.\n-----Sample Input-----\n3 4\n-----Sample Output-----\n6\nThere are six blocks, as shown below:\n\ndef",
+      "answer": "def k_city(n, m):\n    if n == 1 and m == 1:\n        return 1\n    elif n == 1 or m == 1:\n        return 0\n    else:\n        return k_city(n - 1, m) + k_city(n, m - 1)\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4722,
+      "prompt": "Complete the Python function given the prompt below:\nSnuke is giving cookies to his three goats.\nHe has two cookie tins. One contains A cookies, and the other contains B cookies. He can thus give A cookies, B cookies or A+B cookies to his goats (he cannot open the tins).\nYour task is to determine whether Snuke can give cookies to his three goats so that each of them can have the same number of cookies.\n-----Constraints-----\n - 1 \\leq A,B \\leq 100\n - Both A and B are integers.\n-----Input-----\nInput is given from Standard Input in the following format:\nA B\n-----Output-----\nIf it is possible to give cookies so that each of the three goats can have the same number of cookies, print Possible; otherwise, print Impossible.\n-----Sample Input-----\n4 5\n-----Sample Output-----\nPossible\nIf Snuke gives nine cookies, each of the three goats can have three cookies.\n\ndef",
+      "answer": "def cookies(a,b):\n    if a+b==a:\n        print(\"Possible\")\n    else:\n        print(\"Impossible\")\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4723,
+      "prompt": "Complete the Python function given the prompt below:\nE869120 found a chest which is likely to contain treasure.\nHowever, the chest is locked. In order to open it, he needs to enter a string S consisting of lowercase English letters.\nHe also found a string S', which turns out to be the string S with some of its letters (possibly all or none) replaced with?.  \nOne more thing he found is a sheet of paper with the following facts written on it:  \n - Condition 1: The string S contains a string T as a contiguous substring.\n - Condition 2: S is the lexicographically smallest string among the ones that satisfy Condition 1.\nPrint the string S.\nIf such a string does not exist, print UNRESTORABLE.  \n-----Constraints-----\n - 1 \\leq |S'|, |T| \\leq 50\n - S' consists of lowercase English letters and?.\n - T consists of lowercase English letters.\n-----Input-----\nInput is given from Standard Input in the following format:\nS\nT'\n-----Output-----\nPrint the string S.\nIf such a string does not exist, print UNRESTORABLE instead.  \n-----Sample Input-----\n?tc????\ncoder\n-----Sample Output-----\natcoder\nThere are 26 strings that satisfy Condition 1: atcoder, btcoder, ctcoder,..., ztcoder.\nAmong them, the lexicographically smallest is atcoder, so we can say S = atcoder.\n\ndef",
+      "answer": "def solve(s, t):\n    if len(s) == 0:\n        return \"UNRESTORABLE\"\n    if len(s) == 1:\n        if s == t:\n            return \"YES\"\n        else:\n            return \"NO\"\n    if s[0] == t[0]:\n        return solve(s[1:], t[1:])\n    else:\n        return \"NO\"\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4724,
+      "prompt": "Complete the Python function given the prompt below:\nTakahashi is a user of a site that hosts programming contests.\nWhen a user competes in a contest, the rating of the user (not necessarily an integer) changes according to the performance of the user, as follows:  \n - Let the current rating of the user be a.\n - Suppose that the performance of the user in the contest is b.\n - Then, the new rating of the user will be the avarage of a and b.\nFor example, if a user with rating 1 competes in a contest and gives performance 1000, his/her new rating will be 500.5, the average of 1 and 1000.\nTakahashi's current rating is R, and he wants his rating to be exactly G after the next contest.\nFind the performance required to achieve it.  \n-----Constraints-----\n - 0 \\leq R, G \\leq 4500\n - All input values are integers.\n-----Input-----\nInput is given from Standard Input in the following format:\nR\nG\n-----Output-----\nPrint the performance required to achieve the objective.\n-----Sample Input-----\n2002\n2017\n-----Sample Output-----\n2032\nTakahashi's current rating is 2002.\nIf his performance in the contest is 2032, his rating will be the average of 2002 and 2032, which is equal to the desired rating, 2017.\n\ndef",
+      "answer": "def get_rating(rating):\n    return rating\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   },
+   {
+      "task_id": 4725,
+      "prompt": "Complete the Python function given the prompt below:\nFor a string of letters, define the Simplicity of the string to be the number of distinct letters in the string. For example, the string string has simplicity $6$, and the string letter has simplicity $4$.\nYou like strings which have simplicity either $1$ or $2$. Your friend has given you a string and you want to turn it into a string that you like. You have a magic eraser which will delete one letter from any string. Compute the minimum number of letters you must erase in order to turn the string into a string with simplicity at most $2$.\n-----Input-----\nEach input will consist of a single test case. Note that your program may be run multiple times on different inputs. The input will consist of a line with a single string consisting of at least $1$ and at most $100$ lowercase letters \u2018a\u2019-\u2018z\u2019.\n-----Output-----\nOutput a single integer, indicating the minimum number letters you need to erase in order to give the string a simplicity of $1$ or $2$.\n-----Examples-----\nSample Input 1:\nstring\nSample Output 1:\n4\nSample Input 2:\nletter\nSample Output 2:\n2\nSample Input 3:\naaaaaa\nSample Output 3:\n0\nSample Input 4:\nuncopyrightable\nSample Output 4:\n13\nSample Input 5:\nambidextrously\nSample Output 5:\n12\nSample Input 6:\nassesses\nSample Output 6:\n1\n\ndef",
+      "answer": "def simplify(string):\n    return len(set(string))\n\n",
+      "difficulty": "introductory",
+      "split": "test"
+   }
+]

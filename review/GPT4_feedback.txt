@@ -1,0 +1,35 @@
+
+GPT-4 is able to fix the incorrect solutions, but only when the feedback is specific on input and outputs:
+
+HumanEval-10:
+def is_palindrome(string: str) -> bool:
+    """ Test if given string is a palindrome """
+    return string == string[::-1]
+
+def make_palindrome(string: str) -> str:
+    """ Find the shortest palindrome that begins with a supplied string.
+    Algorithm idea is simple:
+    - Find the longest postfix of supplied string that is a palindrome.
+    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.
+    >>> make_palindrome('')
+    ''
+    >>> make_palindrome('cat')
+    'catac'
+    >>> make_palindrome('cata')
+    'catac'
+
+If I only say, "Your solution was actually wrong. Can you fix it?", then the answer would remain incorrect; tried it for several times. 
+
+But if I say, "Unfortunately your solution was wrong. Your input 'cat' does not return 'catac', but returned 'catta' instead. Can you fix it?". It gave me a correct solution. Note that this time the generation was visibly slower than the previous generations. 
+
+
+Questions got right with no clue:
+32, 41, 83, 95, 120, 127, 129, 137
+
+Questions got right with specific clues:
+10, 132, 142
+
+Questions that never got right, even with special clues: 
+84, 130, 145
+
+Up to 156 (at here)

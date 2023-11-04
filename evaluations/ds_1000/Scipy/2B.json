@@ -1,0 +1,26 @@
+[
+    {
+        "library_id": 0,
+        "source_id": 0,
+        "prompt": "Complete the Python function given the prompt below:Problem:\nI have a set of data and I want to compare which line describes it best (polynomials of different orders, exponential or logarithmic).\nI use Python and Numpy and for polynomial fitting there is a function polyfit(). \nHow do I fit y = Alogx + B using polyfit()? The result should be an np.array of [A, B]\nA:\n<code>\nimport numpy as np\nimport scipy\nx = np.array([1, 7, 20, 50, 79])\ny = np.array([10, 19, 30, 35, 51])\n</code>\nBEGIN SOLUTION\n<code>\n[insert]\n</code>\nEND SOLUTION\n<code>\nprint(result)\n</code>\n\n\ndef",
+        "answer": "def polyfit(x, y, order):\n    # Your code here\n    return result"
+    },
+    {
+        "library_id": 1,
+        "source_id": 0,
+        "prompt": "Complete the Python function given the prompt below:Problem:\nI have a set of data and I want to compare which line describes it best (polynomials of different orders, exponential or logarithmic).\nI use Python and Numpy and for polynomial fitting there is a function polyfit(). \nHow do I fit y = A + Blogx using polyfit()? The result should be an np.array of [A, B]\nA:\n<code>\nimport numpy as np\nimport scipy\nx = np.array([1, 7, 20, 50, 79])\ny = np.array([10, 19, 30, 35, 51])\n</code>\nBEGIN SOLUTION\n<code>\n[insert]\n</code>\nEND SOLUTION\n<code>\nprint(result)\n</code>\n\n\ndef",
+        "answer": "def polyfit(x, y, order):\n    result = scipy.polyfit(x, y, order)\n    return result"
+    },
+    {
+        "library_id": 2,
+        "source_id": 0,
+        "prompt": "Complete the Python function given the prompt below:Problem:\nI have a set of data and I want to compare which line describes it best (polynomials of different orders, exponential or logarithmic).\nI use Python and Numpy and for polynomial fitting there is a function polyfit(). But I found no such functions for exponential and logarithmic fitting.\nHow do I fit y = A*exp(Bx) + C? The result should be an np.array of [A, B, C]. I know that polyfit performs bad for this function, so I would like to use curve_fit to solve the problem, and it should start from initial guess p0.\nA:\n<code>\nimport numpy as np\nimport scipy.optimize\ny = np.array([1, 7, 20, 50, 79])\nx = np.array([10, 19, 30, 35, 51])\np0 = (4, 0.1, 1)\n</code>\nBEGIN SOLUTION\n<code>\n[insert]\n</code>\nEND SOLUTION\n<code>\nprint(result)\n</code>\n\n\ndef",
+        "answer": "def polyfit(x, y, p0):\n    popt, pcov = scipy.optimize.curve_fit(lambda x, a, b, c: a*np.exp(b*x) + c, x, y, p0=p0)\n    return popt"
+    },
+    {
+        "library_id": 3,
+        "source_id": 3,
+        "prompt": "Complete the Python function given the prompt below:Problem:\nI can't figure out how to do a Two-sample KS test in Scipy.\nAfter reading the documentation scipy kstest\nI can see how to test where a distribution is identical to standard normal distribution\nfrom scipy.stats import kstest\nimport numpy as np\nx = np.random.normal(0,1,1000)\ntest_stat = kstest(x, 'norm')\n#>>> test_stat\n#(0.021080234718821145, 0.76584491300591395)\nWhich means that at p-value of 0.76 we can not reject the null hypothesis that the two distributions are identical.\nHowever, I want to compare two distributions and see if I can reject the null hypothesis that they are identical, something like:\nfrom scipy.stats import kstest\nimport numpy as np\nx = np.random.normal(0,1,1000)\nz = np.random.normal(1.1,0.9, 1000)\nand test whether x and z are identical\nI tried the naive:\ntest_stat = kstest(x, z)\nand got the following error:\nTypeError: 'numpy.ndarray' object is not callable\nIs there a way to do a two-sample KS test in Python? If so, how should I do it?\nThank You in Advance\nA:\n<code>\nfrom scipy import stats\nimport numpy as np\nnp.random.seed(42)\nx = np.random.normal(0, 1, 1000)\ny = np.random.normal(0, 1, 1000)\n</code>\nBEGIN SOLUTION\n<code>\n[insert]\n</code>\nEND SOLUTION\n<code>\nprint(statistic, p_value)\n</code>\n\n\ndef",
+        "answer": "def ks_2samp(data1, data2):\n    \"\"\"\n    Compute the Kolmogorov-Smirnov statistic on 2 samples."
+    }
+]
