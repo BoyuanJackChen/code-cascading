@@ -2,11 +2,11 @@
 
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
-#SBATCH --gres=gpu:a100:1
+#SBATCH --cpus-per-task=2
+#SBATCH --gres=gpu:a100:2
 #SBATCH --time=47:59:59
 #SBATCH --mem=50GB
-#SBATCH --job-name=6B_cg_mbpp
+#SBATCH --job-name=16B_cg_mbpp
 
 module purge
 
