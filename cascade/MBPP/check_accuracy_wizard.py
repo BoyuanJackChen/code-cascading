@@ -2,12 +2,12 @@ import json
 import pandas as pd
 import multiprocessing
 
-answer_file = "7B_mbpp_greedy.txt"
+answer_file = "7B_mbpp.txt"
 bad_questions = []
-import_lines = "import math\nfrom typing import List\n"
+# import_lines = "import math\nfrom typing import List\n"
 
 # Load the answer file into string
-with open(answer_file, 'r', encoding='utf-8') as file:
+with open(answer_file, 'r') as file:
     answers_str = file.read()
 answer_data = answers_str.split("\"], [\"")
 answer_data[0] = answer_data[0][3:]
@@ -17,11 +17,10 @@ answer_data[-1] = answer_data[-1][:-3]
 all_questions_dict = []
 with open("../../evaluations/mbpp/mbpp_test_wizard.jsonl", 'r') as file:
     for line in file:
-        json_line = json.loads(line.rstrip('\n|\r'))
+        json_line = json.loads(line)
         all_questions_dict.append(json_line)
 
-# print(f"answer_data {answer_data}")
-# input()
+# print(f"{answer_data}")
 # print(all_questions_dict)
 # input()
 
@@ -43,8 +42,6 @@ for question_dict, answer_ori in zip(all_questions_dict, answer_data):
     test_list = question_dict["test_list"]
     test = "\n".join(test_list)
     full_code = answer + "\n" + test
-    # print(full_code)
-    # input()
     def code_to_run(result_queue):
         try:
             exec(full_code, globals())
@@ -65,8 +62,11 @@ for question_dict, answer_ori in zip(all_questions_dict, answer_data):
         correct = result_queue.get()
     process.close()
     
-    print(f"Number {number} is correct: {correct}")
+    # print(full_code)
+    # print(f"Number {number} is correct: {correct}")
+    # input()
     df.loc[len(df)] = [number, int(correct)]
+    
 
 accuracy = round(df["accuracy"].mean()*100, 2)
 print(len(df))
