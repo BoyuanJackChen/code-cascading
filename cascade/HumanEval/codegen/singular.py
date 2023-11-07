@@ -63,8 +63,10 @@ def main(args):
     checkpoint = f"Salesforce/codegen-{model_size}-mono"
 
     # Make directory if f"{model_size}" dir does not exist
-    if not os.path.exists(f"{model_size}"):
-        os.mkdir(f"{model_size}")
+    if not os.path.exists(f"answer"):
+        os.mkdir(f"answer")
+    if not os.path.exists(f"answer/{model_size}"):
+        os.mkdir(f"answer/{model_size}")
     
     # Load the model
     model = AutoModelForCausalLM.from_pretrained(
@@ -108,7 +110,7 @@ def main(args):
 
     
     for loop in range(num_loops):
-        output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        output_file_name = f'answer/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
         if os.path.exists(output_file_name):
             if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
