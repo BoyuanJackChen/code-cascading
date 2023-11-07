@@ -10,79 +10,32 @@ import torch
 from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
-parser.add_argument("--pass_at", type=int, default=10, help="pass @ how many")
-parser.add_argument("--num_loops", type=int, default=0, help="Number of times that we do this experiment")
+parser.add_argument("--model", type=int, default=0, help="Model name")
+parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
+parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
+parser.add_argument("--assert_num", type=int, default=5, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
-# stop_words = ["\n\n", ("\n","\n"), "\r\n\r\n"]
-# stop_words_ids = [[13,13],[30004,13,30004,13]]
-stop_words = ["\n#", "\n```\n"]
-stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004]]
+stop_words = ["\n\n", ("\n","\n")]
 assert_stop_words = ["assert"] + stop_words
-assert_stop_words_ids = [[9294]] + stop_words_ids
-eos_id = 2
-eos_token = "</s>"
-imports = "\nimport math\nfrom typing import List\n"
+eos_id = 50256
+eos_token = "<|endoftext|>"
 
 def trim_substring_from_end(answer, b):
     while answer.endswith(b):
         answer = answer[:-len(b)]
     return answer
 
-def trim_answer_from_start(answer):
-    # Remove all beginning lines in answer, till it starts with "def ", "from" or "import"
-    lines = answer.split("\n")
-    for i, line in enumerate(lines):
-        if line.startswith("def ") or line.startswith("from") or line.startswith("import"):
-            break
-    answer = "\n".join(lines[i:])
-    return answer
-
 def process_answer(answer):
-    # answer = answer[:answer.find("\n#")]
-    # answer = answer[:answer.rfind("\n```")]
+    answer = answer[:answer.find("\n#")]
     answer = answer.replace("\r", "")
     answer = answer.replace("\t", "    ")
-    answer = trim_answer_from_start(answer)
-    answer = trim_substring_from_end(answer, "\n```\n")
     answer = trim_substring_from_end(answer, eos_token)
-    answer = trim_substring_from_end(answer, "#")
-    answer = trim_substring_from_end(answer, "```")
+    answer = trim_substring_from_end(answer, "assert")
+    answer = trim_substring_from_end(answer, "asser")
     answer = trim_substring_from_end(answer, "\n\n")
     return answer
-
-def alpaca_prompt(input):
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Create a Python script for this problem:
-{input}
-
-### Response:"""
-    return INSTRUCTION
-
-
-def alpaca_test(input):
-    lines = input.split("\n")
-    def_line = ""
-    for line in reversed(lines):
-        if line.startswith("def "):
-            def_line = line
-            break
-    def_name = def_line.split(" ")[1].split("(")[0]
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Create a set of tests for this function:
-{input}
-
-### Response:
-assert {def_name}("""
-    return INSTRUCTION
 
 
 def main(args):
@@ -92,41 +45,34 @@ def main(args):
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     pass_at = args.pass_at
     num_loops = args.num_loops if pass_at>1 else 1
+    folder = "testcase"
     
-    # Load HumanEval Dataset
-    all_questions_dict = read_problems()
-    all_keys = all_questions_dict.keys()
-    # task_ids = sorted(problems.keys())[args.start_index: args.end_index]
-    # prompts = [problems[task_id]['prompt'] for task_id in task_ids]
-
-    # Prepare the model checkpoint
+    # Load MBPP Dataset
+    mbpp_file = "../../../evaluations/mbpp/mbpp_sanitized_for_test_case_generation_codet.jsonl"
+    all_questions_dict = []
+    with open(mbpp_file, 'r') as file:
+        for line in file:
+            json_line = json.loads(line.rstrip('\n|\r'))
+            all_questions_dict.append(json_line)
+    
+    # Prepare the model checkpoint (just 1)
     answer_dict_list = []
     counter = 0
     if args.model == 0:
-        model_size = "1B"
-        checkpoint = "WizardLM/WizardCoder-1B-V1.0"
+        model_size = "350M"
     elif args.model == 1:
-        model_size = "3B"
-        checkpoint = "WizardLM/WizardCoder-3B-V1.0"
+        model_size = "2B"
     elif args.model == 2:
-        model_size = "7B"
-        checkpoint = f"WizardLM/WizardCoder-Python-7B-V1.0"
+        model_size = "6B"
     elif args.model == 3:
-        model_size = "13B"
-        checkpoint = f"WizardLM/WizardCoder-Python-13B-V1.0"
-    elif args.model == 4:
-        model_size = "15B"
-        checkpoint = "WizardLM/WizardCoder-15B-V1.0"
-    elif args.model == 5:
-        model_size = "34B"
-        checkpoint = f"WizardLM/WizardCoder-Python-34B-V1.0"
-    print(f"Model is {checkpoint}")
-    print(f"Pass @ {args.pass_at}")
-    print(f"Num loops {args.num_loops}")
+        model_size = "16B"
+    checkpoint = f"Salesforce/codegen-{model_size}-mono"
 
     # Make directory if f"{model_size}" dir does not exist
-    if not os.path.exists(f"{model_size}"):
-        os.mkdir(f"{model_size}")
+    if not os.path.exists(f"{folder}"):
+        os.mkdir(f"{folder}")
+    if not os.path.exists(f"{folder}/{model_size}"):
+        os.mkdir(f"{folder}/{model_size}")
     
     # Load the model
     model = AutoModelForCausalLM.from_pretrained(
@@ -136,20 +82,25 @@ def main(args):
         device_map="auto")
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    tokenizer.pad_token_id = tokenizer.eos_token_id
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     
     # Stopping criteria for generation using the LogitsProcessor class
     class StopSequences(LogitsProcessor):
-        def __init__(self, stop_ids, batch_size, encounters=1, eos_token_id=2):
+        def __init__(self, stop_sequences, batch_size, encounters=1, eos_token_id=50256):
             StoppingCriteria.__init__(self)
-            self.stop_sequences = stop_ids
+            self.stop_sequences = tokenizer.batch_encode_plus(stop_sequences)['input_ids']
             self.batch_size = batch_size
             self.encounters = [encounters] * batch_size
             self.NUM_ENCOUNTERS = encounters
             self.eos_token_id = eos_token_id
+            self.just_started = True
 
         def __call__(self, input_ids, scores):
+            if self.just_started:
+                self.just_started = False
+                return scores
             forced_eos = torch.full((scores.size(1),), -float("inf"))
             forced_eos[self.eos_token_id] = 0
             for stop in self.stop_sequences:
@@ -163,9 +114,9 @@ def main(args):
                             scores[i] = forced_eos
             return scores
 
-    # Since it is sampling with temperature, do it for multiple loops to find average
+    
     for loop in range(num_loops):
-        output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        output_file_name = f'{folder}/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
         if os.path.exists(output_file_name):
             if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
@@ -177,22 +128,18 @@ def main(args):
                         max_seen_number = answer_dict["number"]
         
         # Go through each question
-        for question_key in all_keys:
-            question = all_questions_dict[question_key]
-            number = int(question[number_key].split("/")[1])
+        for question in all_questions_dict:
+            number = int(question[number_key].split("/")[-1])
             if number <= max_seen_number:
                 continue
             print(f"On question {number}")
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
-            prompt = alpaca_prompt(prompt)
-            # print(f"Prompt is\n{prompt}")
-            # prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True).to(torch.cuda.current_device())
             prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
-            logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=max(pass_at,1), encounters=1)])
+            logits_processor = LogitsProcessorList([StopSequences(assert_stop_words, batch_size=max(pass_at,1), encounters=args.assert_num)])
             
             # Generate answers
-            max_new_tokens = 1024
+            # max_new_tokens = 1024
             max_length = 2048
             with torch.no_grad():
                 if pass_at in [0,1]:
@@ -201,10 +148,10 @@ def main(args):
                         use_cache = True,
                         pad_token_id = tokenizer.pad_token_id,
                         eos_token_id = tokenizer.eos_token_id,
-                        max_new_tokens = max_new_tokens,
+                        # max_new_tokens = max_new_tokens,
+                        max_length = max_length,
                         num_return_sequences=1,
                         do_sample = False,
-                        top_p=0.95,
                         logits_processor = logits_processor
                     )
                 else:
@@ -213,7 +160,8 @@ def main(args):
                         use_cache = True,
                         pad_token_id = tokenizer.eos_token_id,
                         eos_token_id = tokenizer.eos_token_id,
-                        max_new_tokens = max_new_tokens,
+                        # max_new_tokens = max_new_tokens,
+                        max_length = max_length,
                         do_sample = True,
                         top_k = 0,
                         top_p = 0.95,
@@ -223,7 +171,7 @@ def main(args):
                     )
             answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
             answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-            answer_trimmed = [process_answer(answer) for answer in answer_text]
+            answer_trimmed = ["assert "+process_answer(answer) for answer in answer_text]
             torch.cuda.empty_cache()
             
             for pass_idx, answer in enumerate(answer_trimmed):
@@ -250,6 +198,7 @@ def main(args):
                     with open(output_file_name, 'w') as f:
                         json.dump(output_data, f, indent=4)
                     answer_dict_list = []
+            
                 
 
 if __name__== "__main__":

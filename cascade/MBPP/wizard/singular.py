@@ -11,8 +11,8 @@ from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=2, help="Model name")
-parser.add_argument("--pass_at", type=int, default=10, help="pass @ how many")
-parser.add_argument("--num_loops", type=int, default=0, help="Number of times that we do this experiment")
+parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
+parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
@@ -41,8 +41,6 @@ def trim_answer_from_start(answer):
     return answer
 
 def process_answer(answer):
-    # answer = answer[:answer.find("\n#")]
-    # answer = answer[:answer.rfind("\n```")]
     answer = answer.replace("\r", "")
     answer = answer.replace("\t", "    ")
     answer = trim_answer_from_start(answer)
@@ -65,26 +63,6 @@ Create a Python script for this problem:
     return INSTRUCTION
 
 
-def alpaca_test(input):
-    lines = input.split("\n")
-    def_line = ""
-    for line in reversed(lines):
-        if line.startswith("def "):
-            def_line = line
-            break
-    def_name = def_line.split(" ")[1].split("(")[0]
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Create a set of tests for this function:
-{input}
-
-### Response:
-assert {def_name}("""
-    return INSTRUCTION
-
-
 def main(args):
     loading_start = time.time()
     number_key = "task_id"
@@ -93,11 +71,13 @@ def main(args):
     pass_at = args.pass_at
     num_loops = args.num_loops if pass_at>1 else 1
     
-    # Load HumanEval Dataset
-    all_questions_dict = read_problems()
-    all_keys = all_questions_dict.keys()
-    # task_ids = sorted(problems.keys())[args.start_index: args.end_index]
-    # prompts = [problems[task_id]['prompt'] for task_id in task_ids]
+    # Load MBPP Dataset
+    data_file = "../../../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
+    all_questions_dict = []
+    with open(data_file, 'r') as file:
+        for line in file:
+            json_line = json.loads(line)
+            all_questions_dict.append(json_line)
 
     # Prepare the model checkpoint
     answer_dict_list = []
@@ -125,8 +105,10 @@ def main(args):
     print(f"Num loops {args.num_loops}")
 
     # Make directory if f"{model_size}" dir does not exist
-    if not os.path.exists(f"{model_size}"):
-        os.mkdir(f"{model_size}")
+    if not os.path.exists(f"answer"):
+        os.mkdir(f"answer")
+    if not os.path.exists(f"answer/{model_size}"):
+        os.mkdir(f"answer/{model_size}")
     
     # Load the model
     model = AutoModelForCausalLM.from_pretrained(
@@ -165,7 +147,7 @@ def main(args):
 
     # Since it is sampling with temperature, do it for multiple loops to find average
     for loop in range(num_loops):
-        output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        output_file_name = f'answer/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
         if os.path.exists(output_file_name):
             if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
@@ -177,8 +159,7 @@ def main(args):
                         max_seen_number = answer_dict["number"]
         
         # Go through each question
-        for question_key in all_keys:
-            question = all_questions_dict[question_key]
+        for question in all_questions_dict:
             number = int(question[number_key].split("/")[1])
             if number <= max_seen_number:
                 continue

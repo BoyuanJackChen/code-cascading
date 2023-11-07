@@ -10,20 +10,19 @@ import torch
 from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
+parser.add_argument("--model", type=int, default=0, help="Model name")
 parser.add_argument("--pass_at", type=int, default=10, help="pass @ how many")
-parser.add_argument("--num_loops", type=int, default=0, help="Number of times that we do this experiment")
+parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
+parser.add_argument("--assert_num", type=int, default=5, help="Number of test lines")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
-# stop_words = ["\n\n", ("\n","\n"), "\r\n\r\n"]
-# stop_words_ids = [[13,13],[30004,13,30004,13]]
-stop_words = ["\n#", "\n```\n"]
-stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004]]
+stop_words = ["\n#"]
+stop_words_ids = [[203,21]]
 assert_stop_words = ["assert"] + stop_words
 assert_stop_words_ids = [[9294]] + stop_words_ids
-eos_id = 2
-eos_token = "</s>"
+eos_token_id = 0
+eos_token = "<|endoftext|>"
 imports = "\nimport math\nfrom typing import List\n"
 
 def trim_substring_from_end(answer, b):
@@ -41,47 +40,24 @@ def trim_answer_from_start(answer):
     return answer
 
 def process_answer(answer):
-    # answer = answer[:answer.find("\n#")]
-    # answer = answer[:answer.rfind("\n```")]
     answer = answer.replace("\r", "")
     answer = answer.replace("\t", "    ")
-    answer = trim_answer_from_start(answer)
-    answer = trim_substring_from_end(answer, "\n```\n")
+    answer = trim_substring_from_end(answer, "assert")
     answer = trim_substring_from_end(answer, eos_token)
     answer = trim_substring_from_end(answer, "#")
-    answer = trim_substring_from_end(answer, "```")
-    answer = trim_substring_from_end(answer, "\n\n")
     return answer
 
-def alpaca_prompt(input):
+
+def alpaca_test(input, def_name):
     INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
 
 
 ### Instruction:
-Create a Python script for this problem:
-{input}
-
-### Response:"""
-    return INSTRUCTION
-
-
-def alpaca_test(input):
-    lines = input.split("\n")
-    def_line = ""
-    for line in reversed(lines):
-        if line.startswith("def "):
-            def_line = line
-            break
-    def_name = def_line.split(" ")[1].split("(")[0]
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Create a set of tests for this function:
-{input}
+Write {FLAGS.assert_num} lines of code to test the correctness of {def_name}:
+{input}\tpass
 
 ### Response:
-assert {def_name}("""
+assert {def_name}"""
     return INSTRUCTION
 
 
@@ -96,30 +72,17 @@ def main(args):
     # Load HumanEval Dataset
     all_questions_dict = read_problems()
     all_keys = all_questions_dict.keys()
-    # task_ids = sorted(problems.keys())[args.start_index: args.end_index]
-    # prompts = [problems[task_id]['prompt'] for task_id in task_ids]
 
-    # Prepare the model checkpoint
+    # Prepare the model checkpoint (just 1)
     answer_dict_list = []
     counter = 0
     if args.model == 0:
         model_size = "1B"
-        checkpoint = "WizardLM/WizardCoder-1B-V1.0"
     elif args.model == 1:
         model_size = "3B"
-        checkpoint = "WizardLM/WizardCoder-3B-V1.0"
     elif args.model == 2:
-        model_size = "7B"
-        checkpoint = f"WizardLM/WizardCoder-Python-7B-V1.0"
-    elif args.model == 3:
-        model_size = "13B"
-        checkpoint = f"WizardLM/WizardCoder-Python-13B-V1.0"
-    elif args.model == 4:
         model_size = "15B"
-        checkpoint = "WizardLM/WizardCoder-15B-V1.0"
-    elif args.model == 5:
-        model_size = "34B"
-        checkpoint = f"WizardLM/WizardCoder-Python-34B-V1.0"
+    checkpoint = f"WizardLM/WizardCoder-{model_size}-V1.0"
     print(f"Model is {checkpoint}")
     print(f"Pass @ {args.pass_at}")
     print(f"Num loops {args.num_loops}")
@@ -141,7 +104,7 @@ def main(args):
     
     # Stopping criteria for generation using the LogitsProcessor class
     class StopSequences(LogitsProcessor):
-        def __init__(self, stop_ids, batch_size, encounters=1, eos_token_id=2):
+        def __init__(self, stop_ids, batch_size, encounters=1, eos_token_id=eos_token_id):
             StoppingCriteria.__init__(self)
             self.stop_sequences = stop_ids
             self.batch_size = batch_size
@@ -163,7 +126,7 @@ def main(args):
                             scores[i] = forced_eos
             return scores
 
-    # Since it is sampling with temperature, do it for multiple loops to find average
+    
     for loop in range(num_loops):
         output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
@@ -185,11 +148,16 @@ def main(args):
             print(f"On question {number}")
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
-            prompt = alpaca_prompt(prompt)
-            # print(f"Prompt is\n{prompt}")
-            # prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True).to(torch.cuda.current_device())
+            lines = prompt.split("\n")
+            def_line = ""
+            for line in reversed(lines):
+                if line.startswith("def "):
+                    def_line = line
+                    break
+            def_name = def_line.split(" ")[1].split("(")[0]
+            prompt = alpaca_test(prompt, def_name)
             prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
-            logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=max(pass_at,1), encounters=1)])
+            logits_processor = LogitsProcessorList([StopSequences(assert_stop_words_ids, batch_size=max(pass_at,1), encounters=args.assert_num)])
             
             # Generate answers
             max_new_tokens = 1024
@@ -204,7 +172,6 @@ def main(args):
                         max_new_tokens = max_new_tokens,
                         num_return_sequences=1,
                         do_sample = False,
-                        top_p=0.95,
                         logits_processor = logits_processor
                     )
                 else:
@@ -223,7 +190,8 @@ def main(args):
                     )
             answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
             answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-            answer_trimmed = [process_answer(answer) for answer in answer_text]
+            print(answer_text[0])
+            answer_trimmed = [f"assert {def_name}"+process_answer(answer) for answer in answer_text]
             torch.cuda.empty_cache()
             
             for pass_idx, answer in enumerate(answer_trimmed):
@@ -250,6 +218,7 @@ def main(args):
                     with open(output_file_name, 'w') as f:
                         json.dump(output_data, f, indent=4)
                     answer_dict_list = []
+            
                 
 
 if __name__== "__main__":
