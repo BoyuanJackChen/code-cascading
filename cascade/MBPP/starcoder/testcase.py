@@ -11,7 +11,7 @@ from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=0, help="Model name")
-parser.add_argument("--pass_at", type=int, default=10, help="pass @ how many")
+parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
 parser.add_argument("--assert_num", type=int, default=5, help="Number of test lines")
 FLAGS = parser.parse_args()
@@ -60,7 +60,6 @@ Write {FLAGS.assert_num} lines of code to test the correctness of {def_name}:
 assert {def_name}"""
     return INSTRUCTION
 
-
 def main(args):
     loading_start = time.time()
     number_key = "task_id"
@@ -69,9 +68,13 @@ def main(args):
     pass_at = args.pass_at
     num_loops = args.num_loops if pass_at>1 else 1
     
-    # Load HumanEval Dataset
-    all_questions_dict = read_problems()
-    all_keys = all_questions_dict.keys()
+    # Load MBPP Dataset
+    data_file = "../../../evaluations/mbpp/mbpp_sanitized_for_test_case_generation_codet.jsonl"
+    all_questions_dict = []
+    with open(data_file, 'r') as file:
+        for line in file:
+            json_line = json.loads(line)
+            all_questions_dict.append(json_line)
 
     # Prepare the model checkpoint (just 1)
     answer_dict_list = []
@@ -88,8 +91,10 @@ def main(args):
     print(f"Num loops {args.num_loops}")
 
     # Make directory if f"{model_size}" dir does not exist
-    if not os.path.exists(f"{model_size}"):
-        os.mkdir(f"{model_size}")
+    if not os.path.exists(f"testcase"):
+        os.mkdir(f"testcase")
+    if not os.path.exists(f"testcase/{model_size}"):
+        os.mkdir(f"testcase/{model_size}")
     
     # Load the model
     model = AutoModelForCausalLM.from_pretrained(
@@ -128,7 +133,7 @@ def main(args):
 
     
     for loop in range(num_loops):
-        output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        output_file_name = f'testcase/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
         if os.path.exists(output_file_name):
             if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
@@ -140,8 +145,7 @@ def main(args):
                         max_seen_number = answer_dict["number"]
         
         # Go through each question
-        for question_key in all_keys:
-            question = all_questions_dict[question_key]
+        for question in all_questions_dict:
             number = int(question[number_key].split("/")[1])
             if number <= max_seen_number:
                 continue
@@ -190,7 +194,6 @@ def main(args):
                     )
             answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
             answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-            print(answer_text[0])
             answer_trimmed = [f"assert {def_name}"+process_answer(answer) for answer in answer_text]
             torch.cuda.empty_cache()
             
@@ -220,6 +223,5 @@ def main(args):
                     answer_dict_list = []
             
                 
-
 if __name__== "__main__":
     main(FLAGS)

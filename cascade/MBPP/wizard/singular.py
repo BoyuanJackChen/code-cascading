@@ -18,7 +18,7 @@ FLAGS = parser.parse_args()
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
 # stop_words = ["\n\n", ("\n","\n"), "\r\n\r\n"]
 # stop_words_ids = [[13,13],[30004,13,30004,13]]
-stop_words = ["\n#", "\n```\n"]
+stop_words = ["\n#", "\n```\n", "\n```\r"]
 stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004]]
 assert_stop_words = ["assert"] + stop_words
 assert_stop_words_ids = [[9294]] + stop_words_ids

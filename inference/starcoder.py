@@ -110,8 +110,16 @@ def trim_with_stopwords(outputs, stopwords, original_prompt) -> str:
     return result
 
 if __name__== "__main__":
-    checkpoint = "bigcode/starcoder"
+    # checkpoint = "bigcode/starcoder"
+    checkpoint = "WizardLM/WizardCoder-1B-V1.0"
     tokenizer = AutoTokenizer.from_pretrained(checkpoint, device_map="auto")
+    print(tokenizer.encode("\n"))
+    print(tokenizer.encode("\r\n"))
+    print(tokenizer.encode("```"))
+    print(tokenizer.encode("assert"))
+    a = tokenizer.decode(553)
+    print(a.replace("\n", "\\n").replace("\r", "\\r"))
+    input()
     start_load_model = time.time()
     model = AutoModelForCausalLM.from_pretrained(checkpoint, torch_dtype=torch.float32, device_map="auto")
     print(f"Time to load model is {time.time() - start_load_model}")
