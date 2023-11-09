@@ -4,15 +4,15 @@ import pandas as pd
 import multiprocessing
 
 loop = 0
-pick_at = 10
+pick_at = 0
 model_name = "7B"
 
-answer_file = f"./selected/{model_name}/{model_name}_p{pick_at}.json"
+answer_file = f"./answer/{model_name}/{model_name}_p{pick_at}_l{loop}.json"
 bad_questions = []
 all_correct = []
 
-# Load HumanEval Dataset
-all_questions_dict = json.load(open("../../../evaluations/humaneval/data/HumanEval_py.json", "r"))
+# Load APPS Dataset
+data_file = "../../../evaluations/apps/APPS_zeroshot_for_code_generation.jsonl"
 
 # Load the answer file
 with open(answer_file, 'r') as f:
@@ -22,27 +22,29 @@ with open(answer_file, 'r') as f:
 df = pd.DataFrame(columns=["number", "accuracy"])
 
 # [number, prompt, checkpoint, passed, answer, generated_testcode, test]
-import_lines = "import math\nfrom typing import List, Tuple\n"
+import_lines = "import random\nimport math\nfrom typing import List, Tuple\n"
 for i in range(len(answer_data)):
     answer_dict = answer_data[i]
     correct = False
     number = answer_dict["number"]
     answer = answer_dict["answer"]
-    prompt = all_questions_dict[i]["prompt"]
-    test = all_questions_dict[i]["test"]
-    
-    # Find the last line that starts with "def "
-    def_line = ""
-    lines = prompt.split("\n")
-    for line in reversed(lines):
-        if line.startswith("def "):
-            def_line = line
-            break
-    def_name = def_line.split(" ")[1].split("(")[0]
-    test = test[test.find("def "):]
-    test = test + f"\ncheck({def_name})"
+    question_dict = {}
+    with open(data_file, "r") as f:
+        for j, line in enumerate(f):
+            if j == number:
+                question_dict = json.loads(line)
+                break
+    # print(question_dict.keys())
+    # print(question_dict["task_id"])
+    prompt = question_dict["prompt"]
+    test = question_dict["test"]
+    test += f"\ncheck(solution)"
+    print(test)
+    input()
     
     full_code = import_lines + answer + "\n" + test
+    # print(full_code)
+    # input()
     
     def code_to_run(result_queue):
         try:

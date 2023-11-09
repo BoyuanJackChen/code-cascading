@@ -11,6 +11,9 @@ FLAGS = parser.parse_args()
 checkpoint = "WizardLM/WizardCoder-Python-7B-V1.0"
 tokenizer = AutoTokenizer.from_pretrained(checkpoint, device_map="auto")
 print(tokenizer.encode("\n\n \n```"))
+print(tokenizer.encode("\nif"))
+print(tokenizer.encode("\ndef"))
+print(tokenizer.encode("\ndef "))
 input()
 
 # WizardCoder all checkpoints (ranked by performance):

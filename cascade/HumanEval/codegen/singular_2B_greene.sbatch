@@ -6,15 +6,15 @@
 #SBATCH --gres=gpu:a100:1
 #SBATCH --time=47:59:59
 #SBATCH --mem=50GB
-#SBATCH --job-name=6B_cg_the
+#SBATCH --job-name=2B_cg_the
 
 module purge
 
-MODEL=2
+MODEL=1
 NUM_LOOPS=100
 
 singularity exec --nv \
             --overlay /vast/bc3194/pytorch-example/my_pytorch.ext3:ro \
             /scratch/work/public/singularity/cuda11.7.99-cudnn8.5-devel-ubuntu22.04.2.sif\
-            /bin/bash -c "source /ext3/env.sh; export TRANSFORMERS_CACHE='/vast/bc3194/huggingface_cache'; python -u testcase.py --model=$MODEL --num_loops=$NUM_LOOPS --pass_at=$SLURM_ARRAY_TASK_ID"
+            /bin/bash -c "source /ext3/env.sh; export TRANSFORMERS_CACHE='/vast/bc3194/huggingface_cache'; python -u singular.py --model=$MODEL --num_loops=$NUM_LOOPS --pass_at=$SLURM_ARRAY_TASK_ID"
             

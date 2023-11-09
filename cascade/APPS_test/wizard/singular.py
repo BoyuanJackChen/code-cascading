@@ -7,19 +7,17 @@ import os
 import argparse
 import multiprocessing
 import torch
-from human_eval.data import write_jsonl, read_problems, stream_jsonl
+from datasets import load_dataset
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=2, help="Model name")
-parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
+parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
-# stop_words = ["\n\n", ("\n","\n"), "\r\n\r\n"]
-# stop_words_ids = [[13,13],[30004,13,30004,13]]
-stop_words = ["\n#", "\n```\n"]
-stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004]]
+stop_words = ["\n#", "\n```\n", "\n```\r", "\nif", "\ndef"]
+stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]
 assert_stop_words = ["assert"] + stop_words
 assert_stop_words_ids = [[9294]] + stop_words_ids
 eos_id = 2
@@ -41,27 +39,27 @@ def trim_answer_from_start(answer):
     return answer
 
 def process_answer(answer):
-    # answer = answer[:answer.find("\n#")]
-    # answer = answer[:answer.rfind("\n```")]
     answer = answer.replace("\r", "")
     answer = answer.replace("\t", "    ")
-    answer = trim_answer_from_start(answer)
-    answer = trim_substring_from_end(answer, "\n```\n")
+    answer = trim_substring_from_end(answer, "if")
     answer = trim_substring_from_end(answer, eos_token)
+    answer = trim_substring_from_end(answer, "\n```\n")
     answer = trim_substring_from_end(answer, "#")
     answer = trim_substring_from_end(answer, "```")
     answer = trim_substring_from_end(answer, "\n\n")
+    answer = f"def solution(stdin: str) -> str:{answer}"
     return answer
 
-def alpaca_prompt(input):
+def alpaca_prompt(prompt):
     INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
 
 
 ### Instruction:
 Create a Python script for this problem:
-{input}
+{prompt}
 
-### Response:"""
+### Response:
+def solution(stdin: str) -> str:"""
     return INSTRUCTION
 
 
@@ -73,9 +71,10 @@ def main(args):
     pass_at = args.pass_at
     num_loops = args.num_loops if pass_at>1 else 1
     
-    # Load HumanEval Dataset
-    all_questions_dict = read_problems()
-    all_keys = all_questions_dict.keys()
+    # Load APPS Dataset
+    all_questions_dict = load_dataset("codeparrot/apps", split="test")
+    number_key = "problem_id"
+    prompt_key = "question"
 
     # Prepare the model checkpoint
     answer_dict_list = []
@@ -145,10 +144,10 @@ def main(args):
 
     # Since it is sampling with temperature, do it for multiple loops to find average
     for loop in range(num_loops):
-        output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        output_file_name = f'answer/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
         if os.path.exists(output_file_name):
-            if os.path.exists(f'answer/{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
+            if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
                 continue
             else:
                 last_generated_data = json.load(open(output_file_name, "r"))
@@ -157,10 +156,9 @@ def main(args):
                         max_seen_number = answer_dict["number"]
         
         # Go through each question
-        for question_key in all_keys:
-            question = all_questions_dict[question_key]
-            number = int(question[number_key].split("/")[1])
-            if number <= max_seen_number:
+        for question in all_questions_dict:
+            number = question[number_key]
+            if number<4000 or number <= max_seen_number:
                 continue
             print(f"On question {number}")
             prompt = question[prompt_key]

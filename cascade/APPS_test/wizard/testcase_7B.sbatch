@@ -9,18 +9,19 @@
 #SBATCH --gres=gpu:a100:1
 #SBATCH --time=47:59:59
 #SBATCH --mem=50GB
-#SBATCH --job-name=350M_sc_he
+#SBATCH --job-name=7B_wz_tapps
 
 module purge
 
-MODEL=0
+MODEL=2
 NUM_LOOPS=10
 
 # Load the Conda module
 source ~/.bashrc
 
 # Activate your Conda environment
-conda activate wizard
+conda activate cascade
 
 export TRANSFORMERS_CACHE="/scratch/bc3194/huggingface_cache"
-python -u singular.py --model=$MODEL --num_loops=$NUM_LOOPS --pass_at=$SLURM_ARRAY_TASK_ID
+export HF_HOME="/scratch/bc3194/huggingface_cache"
+python -u testcase.py --model=$MODEL --num_loops=$NUM_LOOPS --pass_at=$SLURM_ARRAY_TASK_ID

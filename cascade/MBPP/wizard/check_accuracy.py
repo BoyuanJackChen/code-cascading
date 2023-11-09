@@ -4,15 +4,22 @@ import pandas as pd
 import multiprocessing
 
 loop = 0
-pick_at = 10
-model_name = "7B"
+pick_at = 4
+limit_lines = 3
+model_name = "13B"
 
-answer_file = f"./selected/{model_name}/{model_name}_p{pick_at}.json"
+answer_file = f"./selected/{model_name}/{model_name}_p{pick_at}_i{limit_lines}_l{loop}.json"
+# answer_file = f"./answer/{model_name}/{model_name}_p0_l{loop}.json"
 bad_questions = []
 all_correct = []
 
-# Load HumanEval Dataset
-all_questions_dict = json.load(open("../../../evaluations/humaneval/data/HumanEval_py.json", "r"))
+# Load MBPP Dataset
+mbpp_data_file = "../../../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
+all_questions_dict = []
+with open(mbpp_data_file, 'r') as file:
+    for line in file:
+        json_line = json.loads(line)
+        all_questions_dict.append(json_line)
 
 # Load the answer file
 with open(answer_file, 'r') as f:
@@ -21,7 +28,6 @@ with open(answer_file, 'r') as f:
 # Create a pandas dataframe with two columns: number and accuracy
 df = pd.DataFrame(columns=["number", "accuracy"])
 
-# [number, prompt, checkpoint, passed, answer, generated_testcode, test]
 import_lines = "import math\nfrom typing import List, Tuple\n"
 for i in range(len(answer_data)):
     answer_dict = answer_data[i]
