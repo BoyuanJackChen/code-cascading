@@ -90,7 +90,8 @@ def main(args):
     number_key = "task_id"
     prompt_key = "prompt"
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
-    num_loops = args.num_loops
+    pass_at = args.pass_at
+    num_loops = args.num_loops if pass_at>1 else 1
     
     # Load HumanEval Dataset
     all_questions_dict = read_problems()
@@ -162,95 +163,93 @@ def main(args):
                             scores[i] = forced_eos
             return scores
 
-    all_k_list = [args.pass_at] if args.pass_at >= 0 else [0,1,2,3,4,5,10]
-    for pass_at in all_k_list:
-        # Since it is sampling with temperature, do it for multiple loops to find average
-        for loop in range(num_loops):
-            output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
-            max_seen_number = -1
-            if os.path.exists(output_file_name):
-                if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
-                    continue
-                else:
-                    last_generated_data = json.load(open(output_file_name, "r"))
-                    for answer_dict in last_generated_data:
-                        if answer_dict["number"] > max_seen_number:
-                            max_seen_number = answer_dict["number"]
+    # Since it is sampling with temperature, do it for multiple loops to find average
+    for loop in range(num_loops):
+        output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        max_seen_number = -1
+        if os.path.exists(output_file_name):
+            if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
+                continue
+            else:
+                last_generated_data = json.load(open(output_file_name, "r"))
+                for answer_dict in last_generated_data:
+                    if answer_dict["number"] > max_seen_number:
+                        max_seen_number = answer_dict["number"]
+        
+        # Go through each question
+        for question_key in all_keys:
+            question = all_questions_dict[question_key]
+            number = int(question[number_key].split("/")[1])
+            if number <= max_seen_number:
+                continue
+            print(f"On question {number}")
+            prompt = question[prompt_key]
+            prompt = prompt.replace('    ', '\t')
+            prompt = alpaca_prompt(prompt)
+            # print(f"Prompt is\n{prompt}")
+            # prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True).to(torch.cuda.current_device())
+            prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
+            logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=max(pass_at,1), encounters=1)])
             
-            # Go through each question
-            for question_key in all_keys:
-                question = all_questions_dict[question_key]
-                number = int(question[number_key].split("/")[1])
-                if number <= max_seen_number:
-                    continue
-                print(f"On question {number}")
-                prompt = question[prompt_key]
-                prompt = prompt.replace('    ', '\t')
-                prompt = alpaca_prompt(prompt)
-                # print(f"Prompt is\n{prompt}")
-                # prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True).to(torch.cuda.current_device())
-                prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
-                logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=max(pass_at,1), encounters=1)])
-                
-                # Generate answers
-                max_new_tokens = 1024
-                max_length = 2048
-                with torch.no_grad():
-                    if pass_at in [0,1]:
-                        answer_ids = model.generate(
-                            **prompt_ids,
-                            use_cache = True,
-                            pad_token_id = tokenizer.pad_token_id,
-                            eos_token_id = tokenizer.eos_token_id,
-                            max_new_tokens = max_new_tokens,
-                            num_return_sequences=1,
-                            do_sample = False,
-                            top_p=0.95,
-                            logits_processor = logits_processor
-                        )
-                    else:
-                        answer_ids = model.generate(
-                            **prompt_ids,
-                            use_cache = True,
-                            pad_token_id = tokenizer.eos_token_id,
-                            eos_token_id = tokenizer.eos_token_id,
-                            max_new_tokens = max_new_tokens,
-                            do_sample = True,
-                            top_k = 0,
-                            top_p = 0.95,
-                            temperature = 0.8,
-                            num_beams = 1,
-                            logits_processor = logits_processor
-                        )
-                answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
-                answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-                answer_trimmed = [process_answer(answer) for answer in answer_text]
-                torch.cuda.empty_cache()
-                
-                for pass_idx, answer in enumerate(answer_trimmed):
-                    answer_dict = {
-                        "number": number,
-                        # "prompt": prompt,
-                        "checkpoint": model_size,
-                        "pass": pass_idx,
-                        "answer": answer
-                    }
-                    answer_dict_list.append(answer_dict)
-                    counter += 1
+            # Generate answers
+            max_new_tokens = 1024
+            max_length = 2048
+            with torch.no_grad():
+                if pass_at in [0,1]:
+                    answer_ids = model.generate(
+                        **prompt_ids,
+                        use_cache = True,
+                        pad_token_id = tokenizer.pad_token_id,
+                        eos_token_id = tokenizer.eos_token_id,
+                        max_new_tokens = max_new_tokens,
+                        num_return_sequences=1,
+                        do_sample = False,
+                        top_p=0.95,
+                        logits_processor = logits_processor
+                    )
+                else:
+                    answer_ids = model.generate(
+                        **prompt_ids,
+                        use_cache = True,
+                        pad_token_id = tokenizer.eos_token_id,
+                        eos_token_id = tokenizer.eos_token_id,
+                        max_new_tokens = max_new_tokens,
+                        do_sample = True,
+                        top_k = 0,
+                        top_p = 0.95,
+                        temperature = 0.8,
+                        num_beams = 1,
+                        logits_processor = logits_processor
+                    )
+            answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
+            answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
+            answer_trimmed = [process_answer(answer) for answer in answer_text]
+            torch.cuda.empty_cache()
+            
+            for pass_idx, answer in enumerate(answer_trimmed):
+                answer_dict = {
+                    "number": number,
+                    # "prompt": prompt,
+                    "checkpoint": model_size,
+                    "pass": pass_idx,
+                    "answer": answer
+                }
+                answer_dict_list.append(answer_dict)
+                counter += 1
 
-                    # Write to json file by loading and appending towards the end
-                    if not os.path.exists(output_file_name):
-                        output_data = [answer_dict]
-                        with open(output_file_name, 'w') as f:
-                            json.dump(output_data, f, indent=4)
-                        answer_dict_list = []
-                    elif counter >= 1:
-                        with open(output_file_name, 'r') as f:
-                            output_data = json.load(f)
-                        output_data += answer_dict_list
-                        with open(output_file_name, 'w') as f:
-                            json.dump(output_data, f, indent=4)
-                        answer_dict_list = []
+                # Write to json file by loading and appending towards the end
+                if not os.path.exists(output_file_name):
+                    output_data = [answer_dict]
+                    with open(output_file_name, 'w') as f:
+                        json.dump(output_data, f, indent=4)
+                    answer_dict_list = []
+                elif counter >= 1:
+                    with open(output_file_name, 'r') as f:
+                        output_data = json.load(f)
+                    output_data += answer_dict_list
+                    with open(output_file_name, 'w') as f:
+                        json.dump(output_data, f, indent=4)
+                    answer_dict_list = []
                 
 
 if __name__== "__main__":
