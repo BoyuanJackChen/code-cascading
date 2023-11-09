@@ -20,7 +20,7 @@ NUM_LOOPS=10
 source ~/.bashrc
 
 # Activate your Conda environment
-conda activate cascade
+conda activate wizard
 
 export TRANSFORMERS_CACHE="/scratch/bc3194/huggingface_cache"
 export HF_HOME="/scratch/bc3194/huggingface_cache"
