@@ -113,10 +113,8 @@ if __name__== "__main__":
     # checkpoint = "bigcode/starcoder"
     checkpoint = "WizardLM/WizardCoder-1B-V1.0"
     tokenizer = AutoTokenizer.from_pretrained(checkpoint, device_map="auto")
-    print(tokenizer.encode("\n"))
-    print(tokenizer.encode("\r\n"))
-    print(tokenizer.encode("```"))
-    print(tokenizer.encode("assert"))
+    print(tokenizer.encode("\nif"))
+    print(tokenizer.encode("\ndef"))
     a = tokenizer.decode(553)
     print(a.replace("\n", "\\n").replace("\r", "\\r"))
     input()

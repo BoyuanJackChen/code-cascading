@@ -10,19 +10,16 @@ import torch
 from datasets import load_dataset
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
+parser.add_argument("--model", type=int, default=1, help="Model name")
 parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
-parser.add_argument("--assert_num", type=int, default=5, help="NUmber of testlines")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
 stop_words = ["\n#", "\n```\n", "\n```\r", "\nif", "\ndef"]
-stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]
 assert_stop_words = ["assert"] + stop_words
-assert_stop_words_ids = [[9294]] + stop_words_ids
-eos_id = 2
-eos_token = "</s>"
+eos_id = 50256
+eos_token = "<|endoftext|>"
 imports = "\nimport math\nfrom typing import List\n"
 
 def trim_substring_from_end(answer, b):
@@ -42,30 +39,14 @@ def trim_answer_from_start(answer):
 def process_answer(answer):
     answer = answer.replace("\r", "")
     answer = answer.replace("\t", "    ")
-    answer = trim_substring_from_end(answer, "assert")
     answer = trim_substring_from_end(answer, "if")
-    answer = trim_substring_from_end(answer, "def")
     answer = trim_substring_from_end(answer, eos_token)
     answer = trim_substring_from_end(answer, "\n```\n")
     answer = trim_substring_from_end(answer, "#")
     answer = trim_substring_from_end(answer, "```")
     answer = trim_substring_from_end(answer, "\n\n")
-    answer = "assert solution" + answer
+    answer = f"def solution(stdin: str) -> str:{answer}"
     return answer
-
-def alpaca_test(prompt):
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Write {FLAGS.assert_num} lines of code to test the correctness of solution:
-{prompt}
-def solution(stdin: str) -> str:
-\tpass
-
-### Response:
-assert solution"""
-    return INSTRUCTION
 
 
 def main(args):
@@ -81,36 +62,27 @@ def main(args):
     number_key = "problem_id"
     prompt_key = "question"
 
-    # Prepare the model checkpoint
+    # Prepare the model checkpoint (just 1)
     answer_dict_list = []
     counter = 0
     if args.model == 0:
-        model_size = "1B"
-        checkpoint = "WizardLM/WizardCoder-1B-V1.0"
+        model_size = "350M"
     elif args.model == 1:
-        model_size = "3B"
-        checkpoint = "WizardLM/WizardCoder-3B-V1.0"
+        model_size = "2B"
     elif args.model == 2:
-        model_size = "7B"
-        checkpoint = f"WizardLM/WizardCoder-Python-7B-V1.0"
+        model_size = "6B"
     elif args.model == 3:
-        model_size = "13B"
-        checkpoint = f"WizardLM/WizardCoder-Python-13B-V1.0"
-    elif args.model == 4:
-        model_size = "15B"
-        checkpoint = "WizardLM/WizardCoder-15B-V1.0"
-    elif args.model == 5:
-        model_size = "34B"
-        checkpoint = f"WizardLM/WizardCoder-Python-34B-V1.0"
+        model_size = "16B"
+    checkpoint = f"Salesforce/codegen-{model_size}-mono"
     print(f"Model is {checkpoint}")
     print(f"Pass @ {args.pass_at}")
     print(f"Num loops {args.num_loops}")
 
     # Make directory if f"{model_size}" dir does not exist
-    if not os.path.exists(f"testcase"):
-        os.mkdir(f"testcase")
-    if not os.path.exists(f"testcase/{model_size}"):
-        os.mkdir(f"testcase/{model_size}")
+    if not os.path.exists(f"answer"):
+        os.mkdir(f"answer")
+    if not os.path.exists(f"answer/{model_size}"):
+        os.mkdir(f"answer/{model_size}")
     
     # Load the model
     model = AutoModelForCausalLM.from_pretrained(
@@ -120,21 +92,25 @@ def main(args):
         device_map="auto")
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    tokenizer.pad_token_id = tokenizer.eos_token_id
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     
     # Stopping criteria for generation using the LogitsProcessor class
     class StopSequences(LogitsProcessor):
-        def __init__(self, stop_ids, batch_size, encounters=5, eos_token_id=2):
+        def __init__(self, stop_sequences, batch_size, encounters=1, eos_token_id=50256):
             StoppingCriteria.__init__(self)
-            self.stop_sequences = stop_ids
+            self.stop_sequences = tokenizer.batch_encode_plus(stop_sequences)['input_ids']
             self.batch_size = batch_size
             self.encounters = [encounters] * batch_size
             self.NUM_ENCOUNTERS = encounters
             self.eos_token_id = eos_token_id
-            self.original_encounter = encounters
+            self.just_started = True
 
         def __call__(self, input_ids, scores):
+            if self.just_started:
+                self.just_started = False
+                return scores
             forced_eos = torch.full((scores.size(1),), -float("inf"))
             forced_eos[self.eos_token_id] = 0
             for stop in self.stop_sequences:
@@ -143,17 +119,14 @@ def main(args):
                     if self.encounters[i] <= 0:
                         continue
                     if input_ids[i][-len(stop):].tolist() == stop:
-                        if stop != self.stop_sequences[0] and self.original_encounter>1:
-                            self.encounters[i] = -1
-                        else:
-                            self.encounters[i] -= 1
+                        self.encounters[i] -= 1
                         if self.encounters[i] <= 0:
                             scores[i] = forced_eos
             return scores
 
     # Since it is sampling with temperature, do it for multiple loops to find average
     for loop in range(num_loops):
-        output_file_name = f'testcase/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        output_file_name = f'answer/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
         if os.path.exists(output_file_name):
             if os.path.exists(f'{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):
@@ -172,9 +145,9 @@ def main(args):
             print(f"On question {number}")
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
-            prompt = alpaca_test(prompt)
+            prompt = prompt + "\ndef solution(stdin: str) -> str:"
             prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
-            logits_processor = LogitsProcessorList([StopSequences(assert_stop_words_ids, batch_size=max(pass_at,1), encounters=args.assert_num)])
+            logits_processor = LogitsProcessorList([StopSequences(stop_words, batch_size=max(pass_at,1), encounters=1)])
             
             # Generate answers
             max_new_tokens = 1024
@@ -186,7 +159,7 @@ def main(args):
                         use_cache = True,
                         pad_token_id = tokenizer.pad_token_id,
                         eos_token_id = tokenizer.eos_token_id,
-                        max_new_tokens = max_new_tokens,
+                        max_length = max_length,
                         num_return_sequences=1,
                         do_sample = False,
                         top_p=0.95,
@@ -198,7 +171,7 @@ def main(args):
                         use_cache = True,
                         pad_token_id = tokenizer.eos_token_id,
                         eos_token_id = tokenizer.eos_token_id,
-                        max_new_tokens = max_new_tokens,
+                        max_length = max_length,
                         do_sample = True,
                         top_k = 0,
                         top_p = 0.95,

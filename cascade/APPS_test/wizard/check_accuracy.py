@@ -39,8 +39,8 @@ for i in range(len(answer_data)):
     prompt = question_dict["prompt"]
     test = question_dict["test"]
     test += f"\ncheck(solution)"
-    print(test)
-    input()
+    # print(test)
+    # input()
     
     full_code = import_lines + answer + "\n" + test
     # print(full_code)
@@ -75,3 +75,8 @@ accuracy = df["accuracy"].mean()
 mean_accuracy = accuracy
 mean_accuracy = f"{round(mean_accuracy*100, 1)}%"
 print(f"\n\nMean accuracy: {mean_accuracy}")
+
+# Write to a txt file
+output_file = f"accuracy_{model_name}.txt"
+with open(output_file, "w") as f:
+    f.write(f"Mean accuracy: {mean_accuracy}\n")

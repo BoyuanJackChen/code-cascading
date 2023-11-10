@@ -18,11 +18,11 @@ FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
 stop_words = ["\n#", "\n```\n", "\n```\r", "\nif", "\ndef"]
-stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]
+stop_words_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553], [203,325], [203,589]]
 assert_stop_words = ["assert"] + stop_words
 assert_stop_words_ids = [[9294]] + stop_words_ids
-eos_id = 2
-eos_token = "</s>"
+eos_token_id = 0
+eos_token = "<|endoftext|>"
 imports = "\nimport math\nfrom typing import List\n"
 
 def trim_substring_from_end(answer, b):
@@ -86,22 +86,11 @@ def main(args):
     counter = 0
     if args.model == 0:
         model_size = "1B"
-        checkpoint = "WizardLM/WizardCoder-1B-V1.0"
     elif args.model == 1:
         model_size = "3B"
-        checkpoint = "WizardLM/WizardCoder-3B-V1.0"
     elif args.model == 2:
-        model_size = "7B"
-        checkpoint = f"WizardLM/WizardCoder-Python-7B-V1.0"
-    elif args.model == 3:
-        model_size = "13B"
-        checkpoint = f"WizardLM/WizardCoder-Python-13B-V1.0"
-    elif args.model == 4:
         model_size = "15B"
-        checkpoint = "WizardLM/WizardCoder-15B-V1.0"
-    elif args.model == 5:
-        model_size = "34B"
-        checkpoint = f"WizardLM/WizardCoder-Python-34B-V1.0"
+    checkpoint = f"WizardLM/WizardCoder-{model_size}-V1.0"
     print(f"Model is {checkpoint}")
     print(f"Pass @ {args.pass_at}")
     print(f"Num loops {args.num_loops}")
@@ -123,9 +112,10 @@ def main(args):
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     
-    # Stopping criteria for generation using the LogitsProcessor class
+    
+    # Stopping criteria for generation using the LogitsProcessor class    
     class StopSequences(LogitsProcessor):
-        def __init__(self, stop_ids, batch_size, encounters=5, eos_token_id=2):
+        def __init__(self, stop_ids, batch_size, encounters=5, eos_token_id=eos_token_id):
             StoppingCriteria.__init__(self)
             self.stop_sequences = stop_ids
             self.batch_size = batch_size
