@@ -8,7 +8,7 @@ limit_lines = 4
 num_loops = 1
 pick_at = 10
 actual_pick_at = 4
-model_name = "13B"
+model_name = "7B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
 

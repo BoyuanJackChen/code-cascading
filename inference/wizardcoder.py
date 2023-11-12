@@ -14,6 +14,7 @@ print(tokenizer.encode("\n\n \n```"))
 print(tokenizer.encode("\nif"))
 print(tokenizer.encode("\ndef"))
 print(tokenizer.encode("\ndef "))
+print(tokenizer.encode("\nprint"))
 input()
 
 # WizardCoder all checkpoints (ranked by performance):
