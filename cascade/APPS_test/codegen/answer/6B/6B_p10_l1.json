@@ -1,0 +1,602 @@
+[
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    num_vertices = stdin[0]\n    num_edges = int(stdin[1])\n    edges = [None] * num_edges\n    for i in range(2, num_edges+2):\n        edges[i-2] = stdin[i].split()\n\n    vertices = [0] * num_vertices\n    for edge in edges:\n        vertices[int(edge[0]) - 1] += 1\n        vertices[int(edge[1]) - 1] += 1\n\n    max_edges = 0\n    max_edges_i = None\n    for i in range(num_vertices):\n        if vertices[i] > max_edges:\n            max_edges = vertices[i]\n            max_edges_i = i\n\n    max_edges_a = None\n    max_edges_b = None\n    max_edges_c = None\n    for i in range(num_vertices):\n        if i!= max_edges_i and vertices[i] == max_edges:\n            max_edges_a = i\n            break\n    for i in range(num_vertices):\n        if i!= max_edges_i and i!= max_edges_a and vertices[i] == max_edges:\n            max_edges_b = i\n            break\n    for i in range(num_vertices):\n        if i!= max_edges_i and i!= max_edges_a and i!= max_edges_b and vertices[i] == max_edges:\n            max_edges_c = i\n            break\n\n    return str(max_edges) + '\\n' + str(max_edges_a + 1) +'' + str(max_edges_b + 1) +'' + str(max_edges_c + 1)\n\n\ndef"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\n\nassert(solution('''8\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n3 8\n''') == '5')\nassert(solution('''10\n1 2\n1 3\n2 3\n2 4\n4 5\n5 6\n4 7\n4 8\n4 9\n9 10\n''') == '1 8 6')\nassert(solution('''100\n100 101\n50 50\n1 100\n100 50\n101 50\n100 101\n''') == '3 4 4')\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    edges = [tuple(map(int, line.strip().split())) for line in stdin.readlines()]\n    graph = {}\n    for edge in edges:\n        if edge[0] not in graph:\n            graph[edge[0]] = [edge[1]]\n        else:\n            graph[edge[0]].append(edge[1])\n        if edge[1] not in graph:\n            graph[edge[1]] = [edge[0]]\n        else:\n            graph[edge[1]].append(edge[0])\n    res = 0\n    for vertex in graph:\n        stack = [vertex]\n        visited = set()\n        while stack:\n            node = stack.pop()\n            if node not in visited:\n                visited.add(node)\n                if node in graph:\n                    stack += graph[node]\n        if len(visited) == n:\n            res += 1\n    return str(res)\n\ndef"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\nimport unittest\n\nclass TestConcatenation(unittest.TestCase):\n    def test_solution(self):\n        pass"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    def get_count_of_edges(i: int, j: int) -> int:\n        queue = deque([(i, 0)])\n        visited = set()\n        visited.add(i)\n        count = 0\n        while queue:\n            u, c = queue.popleft()\n            if u == j:\n                return c\n            for v in range(n):\n                if u < v < j or v < u < j:\n                    continue\n                if v not in visited:\n                    visited.add(v)\n                    queue.append((v, c + 1))\n        return count\n\n    n = int(stdin.readline())\n    edges = [tuple(map(int, line.split())) for line in stdin.readlines()[1:]]\n    edges.sort(key=lambda x: x[0])\n\n    res = 0\n    for i in range(n):\n        if edges[i][0]!= i:\n            continue\n        res = max(res, get_count_of_edges(edges[i][0], edges[i][1]))\n\n    for i in range(n):\n        if edges[i][1]!= i:\n            continue\n        res = max(res, get_count_of_edges(edges[i][0], edges[i][1]))\n\n    for i in range(n):\n        if edges[i][0]!= edges[i][1]:\n            continue\n        res = max(res, get_count_of_edges(edges[i][0], edges[i][1]))\n\n    for i in range(n):\n        if edges[i][0]!= edges[i][1] and edges[i][1]!= edges[i][0]:\n            res = max(res, get_count_of_edges(edges[i][0], edges[i][1]))\n\n    if res == 0:\n        return \"IMPOSSIBLE\"\n\n    return str(res)\n\n\nassert (solution('''8\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n3 8\n''') == '5')\nassert (solution('''8\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n3 8\n1 4\n5 6\n7 8\n''') == '5')\nassert (solution('''8\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n3 8\n1 6\n5 8\n7 8\n''') == '5')\nassert (solution('''8\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n3 8\n1 6\n5 8\n7 8\n4 4\n''') == '5')\nassert (solution('''8\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n3 8\n1 6\n5 8\n7 8\n4 4\n1 1\n2 2\n3 3\n4 4\n5 5\n6 6\n7 7\n8 8\n4 4\n''') == '5')\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    l = []\n    for i in range(n - 1):\n        l.append(list(map(int, stdin.readline().strip().split())))\n    graph = [list(range(n)) for i in range(n)]\n    for i in range(len(l)):\n        graph[l[i][0] - 1][l[i][1] - 1] = -1\n        graph[l[i][1] - 1][l[i][0] - 1] = -1\n    res = [0, 0, 0]\n    for i in range(n):\n        for j in range(n):\n            if i!= j:\n                if graph[i][j] == -1:\n                    continue\n                res[graph[i][j]] = max(res[graph[i][j]], graph[i][j])\n    return''.join(map(str, res))"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    def find_edge(a, b):\n        if a == b:\n            return [a]\n        for edge in edges:\n            if edge[0] == a and edge[1] == b:\n                return [a, b]\n            if edge[0] == b and edge[1] == a:\n                return [b, a]\n\n    n = int(stdin.readline())\n    edges = [list(map(int, stdin.readline().split())) for i in range(n - 1)]\n\n    max_edges = 0\n\n    for a in range(1, n):\n        for b in range(a + 1, n):\n            paths = find_edge(a, b)\n            if paths:\n                max_edges = max(max_edges, len(paths))\n                a, b = paths\n\n    print(max_edges)\n    return"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    tree = {i: set() for i in range(1, n + 1)}\n    for _ in range(n - 1):\n        a, b = tuple(map(int, stdin.readline().split()))\n        tree[a].add(b)\n        tree[b].add(a)\n    \n    visited = set()\n    result = 0\n    for i in range(1, n + 1):\n        if i in visited:\n            continue\n        stack = [i]\n        result = 0\n        visited.add(i)\n        while stack:\n            v = stack.pop()\n            result += 1\n            for next in tree[v]:\n                if next not in visited:\n                    visited.add(next)\n                    stack.append(next)\n        if result > result:\n            return result\n    return result\n\n\ndef"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    edges = [stdin.readline().strip().split() for _ in range(n - 1)]\n\n    def find_max(a: int, b: int, c: int) -> int:\n        count = 0\n        for x, y in edges:\n            if x == a or x == c or y == a or y == c:\n                count += 1\n        return count\n\n    v1, v2, v3 = 0, 0, 0\n    max_edges = 0\n    for a, b in edges:\n        if find_max(a, b, v1) >= max_edges:\n            v1, v2, v3 = a, b, v1\n            max_edges = find_max(a, b, v1)\n\n    for a, b in edges:\n        if find_max(a, b, v2) >= max_edges:\n            v1, v2, v3 = a, b, v2\n            max_edges = find_max(a, b, v2)\n\n    for a, b in edges:\n        if find_max(a, b, v3) >= max_edges:\n            v1, v2, v3 = a, b, v3\n            max_edges = find_max(a, b, v3)\n\n    return str(max_edges) +'' +''.join(map(str, [v1, v2, v3]))\n\n\nassert solution('''\\\n8\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n3 8\n''') == '5 1 8 6'\nassert solution('''\\\n10\n2 5\n3 8\n4 9\n5 10\n6 7\n7 11\n8 9\n9 10\n''') == '9 5 6'\nassert solution('''\\\n10\n2 5\n3 8\n4 9\n5 10\n6 7\n7 11\n8 9\n9 10\n1 5\n2 4\n3 3\n''') == '9 5 6'\nassert solution('''\\\n4\n1 2\n2 3\n3 4\n''') == '1 2 3'\nassert solution('''\\\n4\n2 1\n2 3\n3 4\n''') == '1 2 3'\nassert solution('''\\\n6\n1 2\n2 3\n3 4\n4 5\n5 6\n''') == '6 5 4'\nassert solution('''\\\n8\n1 2\n2 3\n3 4\n4 5\n4 6\n5 7\n5 8\n6 7\n7 8\n''') == '8 6 5'\nassert solution('''\\\n10\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n7 8\n7 9\n8 9\n9 10\n10 1\n''') == '9 10 1'\nassert solution('''\\\n5\n1 2\n2 3\n3 4\n4 5\n''') == '5 1 2'\nassert solution('''\\\n5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n4 5\n''') == '5 1 2'\nassert solution('''\\\n10\n1 2\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n7 8\n7 9\n8 9\n9 10\n10 1\n''') == '10 1'\nassert solution('''\\\n5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n4 5\n''') == '1 2'\nassert solution('''\\\n10\n1 2\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n7 8\n7 9\n8 9\n9 10\n10 1\n1 2\n''') == '1 2'\nassert solution('''\\\n7\n1 2\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n''') == '1 2'\nassert solution('''\\\n8\n1 2\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n7 8\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n''') == '1 2'\nassert solution('''\\\n5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n1 2\n''') == '1 2'\nassert solution('''\\\n5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n1 2\n2 3\n3 4\n1 2\n1 2\n2 3\n1 2\n2 3\n1 2\n2 3\n1 2\n2 3\n1 2\n''') == '1 2'\nassert solution('''\\\n5\n1 2\n2 3\n3 4\n4 5\n1 2\n2 3\n3 4\n1 2\n2 3\n3 4\n1 2\n1 2\n2 3\n1 2\n2 3\n1 2\n2 3\n1 2\n2 3\n1 2\n1 2\n1 2\n''') == '1 2'\nassert solution('''\\\n10\n1 2\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n7 8\n7 9\n8 9\n9 10\n10 1\n''') == '10 1'\nassert solution('''\\\n10\n1 2\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n7 8\n7 9\n8 9\n9 10\n10 1\n1 2\n2 3\n1 2\n2 3\n3 4\n1 2\n2 3\n3 4\n1 2\n2 3\n3 4\n1 2\n1 2\n1 2\n1 2\n1 2\n1 2\n''') == '1 2'\nassert solution('''\\\n10\n1 2\n2 3\n3 4\n4 5\n4 6\n5 6\n6 7\n7 8\n7 9\n8 9\n9 10\n10 1\n1 2\n2 3\n1 2\n1 2\n1 2\n2 3\n1 2\n"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    return \"\""
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    divisors = [int(d) for d in stdin.split()]\n    for x in range(1, n//2+1):\n        for y in range(x+1, n//2+1):\n            s = set(divisors)\n            if x*y in s and (x+y) in s:\n                return str(x) +'' + str(y)\nsolution(stdin.read())\n"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n   ..."
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    divisors = list(map(int, stdin.split()))\n    divisors = list(sorted(set(divisors)))\n    n = len(divisors)\n    if n <= 1:\n        return \"1 1\"\n    if n == 2:\n        return f\"{divisors[0]} {divisors[1]}\"\n    if n == 3:\n        return f\"{divisors[1]}{divisors[0]}{divisors[2]}\"\n    dp = [0] * n\n    dp[0] = 1\n    for i in range(1, n):\n        dp[i] += dp[i - 1]\n        if i!= n - 1:\n            dp[i] += divisors[i] * dp[i - divisors[i]]\n    for i in range(n - 2, -1, -1):\n        dp[i] -= dp[i + 1]\n        if i!= 0:\n            dp[i] -= divisors[i] * dp[i + divisors[i]]\n    for i in range(n):\n        dp[i] += divisors[i]\n    x = divisors[n - 1]\n    y = divisors[n - 2]\n    for i in range(n - 1, 0, -1):\n        if dp[i - 1] < x * y:\n            x = divisors[i - 1]\n            y = divisors[i - 2]\n    return f\"{x} {y}\""
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    d = [int(x) for x in stdin.split()]\n    if n == 2:\n        a, b = d[:2]\n        if a == b:\n            return \" \".join(str(x) for x in d)\n        if d.count(a) == 1 and d.count(b) == 1:\n            return \" \".join(str(x) for x in d[::2])\n        if d.count(a) == 1 and d.count(b) == 0:\n            return \" \".join(str(x) for x in d[::2] + [b])\n        if d.count(a) == 0 and d.count(b) == 1:\n            return \" \".join(str(x) for x in d[1::2] + [a])\n    else:\n        a, b = d[:2]\n        if a == b:\n            return \" \".join(str(x) for x in d)\n        if d.count(a) == 1 and d.count(b) == 1:\n            return \" \".join(str(x) for x in d[::2])\n        if d.count(a) == 1 and d.count(b) == 0:\n            return \" \".join(str(x) for x in d[::2] + [b])\n        if d.count(a) == 0 and d.count(b) == 1:\n            return \" \".join(str(x) for x in d[1::2] + [a])\n    return \"\""
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    divisors = [int(d) for d in stdin.split()]\n    n = len(divisors)\n    divisors_set = set(divisors)\n    for i in range(1, n):\n        for j in range(i, n):\n            if i * j in divisors_set:\n                divisors_set.remove(i * j)\n    return''.join(map(str, divisors_set))"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    assert 2 <= n <= 128\n\n    divisors = list(map(int, stdin.split()))\n    assert len(divisors) == n\n\n    for x in range(1, n):\n        for y in range(1, n):\n            if x > y:\n                continue\n            if x in divisors and y in divisors:\n                assert divisors.count(x) == divisors.count(y)\n                return str(x) +'' + str(y)\n\n    assert False"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    divisors = [int(x) for x in stdin.readline().split()]\n    target = set()\n    for d in divisors:\n        target.add(d)\n        for i in range(1, d + 1):\n            if d % i == 0:\n                target.add(i)\n    target = list(target)\n    target.sort()\n    for i in range(1, len(target)):\n        if target[i - 1] > target[i] and target[i - 1]!= target[i]:\n            target[i], target[i - 1] = target[i - 1], target[i]\n    target = [str(x) for x in target]\n    return''.join(target)"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    d = [int(d) for d in stdin.readline().split()]\n\n    #get permutation of divisors\n    perm = list(permutations(d))\n\n    #remove permutation that is not a divisor of both numbers\n    perm = [perm_ for perm_ in perm if is_divisor(perm_[0], perm_[1])]\n\n    #sort divisors of both numbers\n    perm.sort()\n\n    #get divisors of merged list\n    div = [divisor(perm_[0] + perm_[1]) for perm_ in perm]\n\n    #extract only unique divisors\n    div = list(set(div))\n\n    #get divisors of merged list and sort them\n    div.sort()\n\n    #get divisors of merged list and sort them\n    return''.join(str(divisor) for divisor in div)\n\ndef"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    stdin = stdin.split()\n    divisors = list(map(int, stdin[1].split(',')))\n    permutations = [list(permutations(divisors))]\n    for i in range(1, len(divisors)):\n        permutations.append([])\n        for p in permutations[-2]:\n            for j in range(1, len(divisors)):\n                if divisors[j] % divisors[0]!= 0 and divisors[0] % divisors[j]!= 0:\n                    permutations[-1].append(p[:j-1] + [divisors[0]] + p[j-1:])\n    permutations = list(reduce(lambda x, y: x + y, permutations))\n    permutations = list(set(permutations))\n    min_ = 987654321\n    for p in permutations:\n        total = 0\n        for d in p:\n            total += d\n        if min_ > total:\n            min_ = total\n            result = p\n    return''.join(map(str, result))\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution(\"\"\"3 4 3\n   ... 1 2 3 4\n   ... 5 2 2 2\n   ... 7 1 1 4\n   ... \"\"\")\n    '24'\n    >>> solution(\"\"\"5 5 4\n   ... 1 2 4 2 1\n   ... 3 5 1 2 4\n   ... 1 5 7 1 2\n   ... 3 8 7 1 6\n   ... 8 4 7 1 6\n   ... \"\"\")\n    '56'\n    \"\"\"\n    n, m, k = map(int, stdin.split())\n    a = [list(map(int, stdin.split())) for _ in range(n)]\n    result = -1\n    for i in range(n):\n        ans = 0\n        for j in range(m):\n            if ans + a[i][j] <= k:\n                ans += a[i][j]\n            else:\n                ans = 0\n                break\n        if ans > result:\n            result = ans\n    return str(result)\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    m, n, k = (int(x) for x in stdin.split())\n    matrix = [[int(x) for x in stdin.split()] for _ in range(m)]\n    # split matrix into rows\n    rows = [matrix[i][:n] for i in range(m)]\n    # split each row into chunks of length k\n    rows = [rows[i][i:i + k] for i in range(m)]\n    # find all sums of chunks of length k\n    sums = [sum(rows[i]) for i in range(m)]\n    # return max(sums)\n    return str(max(sums))"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n   ...\n    n, m, k = [int(x) for x in stdin.split()]\n    a = []\n    for i in range(n):\n        a.append([int(x) for x in stdin.split()])\n    a = [max(a[i]) for i in range(n)]\n    return sum([a[i] for i in range(n // 2)]) % k\n\n\n\nMore practice:\ndef"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    input()\n    n, m, k = map(int, stdin.split())\n    a = [list(map(int, stdin.split())) for _ in range(n)]\n    m = min(m, n // 2)\n    ans = 0\n    for i in range(n):\n        cur = 0\n        for j in range(m):\n            cur += a[i][j]\n            if cur % k:\n                break\n        else:\n            ans = max(ans, cur)\n    return str(ans)"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    You are given a matrix $a$ of size $n \\times m$ consisting of integers.\n\nYou can choose no more than $\\left\\lfloor\\frac{m}{2}\\right\\rfloor$ elements in each row. Your task is to choose these elements in such a way that their sum is divisible by $k$ and this sum is the maximum.\n\nIn other words, you can choose no more than a half (rounded down) of elements in each row, you have to find the maximum sum of these elements divisible by $k$.\n    '''\n\n    n, m, k = map(int, stdin.split())\n    a = [[int(x) for x in stdin.split()] for _ in range(n)]\n\n    sums = []\n    for row in a:\n        for i in range(0, len(row) - m // 2 + 1):\n            if sum(row[i:i + m // 2]) % k == 0:\n                sums.append(sum(row[i:i + m // 2]))\n\n    return max(sums)\n\n\ndef"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    # Write your code here\n    n, m, k = map(int, stdin.rstrip().split())\n    array = [map(int, stdin.rstrip().split()) for _ in range(n)]\n    # print(array)\n    sum = 0\n    for i in range(n):\n        for j in range(m // 2):\n            sum += array[i][j]\n    print(sum)"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    data = stdin.split()\n    n, m, k = int(data[0]), int(data[1]), int(data[2])\n    matrix = []\n    for _ in range(n):\n        row = list(map(int, stdin.split()))\n        matrix.append(row)\n    max_row_sum = 0\n    for i in range(n):\n        row_sum = 0\n        for j in range(m):\n            if j + 1 < m // 2:\n                row_sum += matrix[i][j]\n            else:\n                row_sum += matrix[i][j]\n                row_sum += matrix[i][-1 - j]\n        if row_sum % k == 0:\n            max_row_sum = max(max_row_sum, row_sum)\n    return max_row_sum"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n, m, k = map(int, stdin.split())\n    matrix = [[int(x) for x in stdin.split()] for _ in range(n)]\n    return str(max(sum(row) for row in matrix) - sum(sorted(row)[-k] for row in matrix))"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n, m, k = list(map(int, stdin.split(' ')))\n    a = []\n    for _ in range(n):\n        a.append(list(map(int, stdin.split(' '))))\n    d = 0\n    for i in range(n):\n        for j in range(m//2):\n            d += a[i][j]\n    return str(max(0, d - k*(d//k))\n\nassert solution('3 4 3') == '24'\nassert solution('5 5 4') == '56'\nassert solution('1 2 4 2 1') == '24'\nassert solution('3 5 7 1 2') == '56'\nassert solution('8 4 7 1 6') == '56'\n\n\n\n\"\"\"\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    arr = [int(i) for i in stdin.readline().split()]\n    max_len = 0\n    while len(arr) > 0:\n        arr.sort()\n        if len(arr) > 1:\n            if arr[0] < arr[1]:\n                left = arr.pop(0)\n                right = arr.pop(-1)\n                arr.insert(0, left)\n                arr.append(right)\n            else:\n                if len(arr) > max_len:\n                    max_len = len(arr)\n                break\n        else:\n            max_len = len(arr)\n            break\n    if max_len > 0:\n        return \"\".join([\"L\" if i == 0 else \"R\" for i in range(max_len)])\n    else:\n        return \"\".join([\"L\" for i in range(max_len)])\n\n\n\nInp:\n5\n1 2 4 3 2\n\nOut:\n4\nLRRR\n\nInp:\n7\n1 3 5 6 5 4 2\n\nOut:\n6\nLRLRRR\n\nInp:\n3\n2 2 2\n\nOut:\n1\nR\n\nInp:\n4\n1 2 4 3\n\nOut:\n4\nLLRR\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    a = stdin.strip()\n    a = [int(i) for i in a.split()]\n    a.sort()\n    r = [a[0]]\n    for i in range(1, n):\n        if a[i] > r[-1]:\n            r.append(a[i])\n    return''.join(r)\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    a = list(map(int, stdin.readline().split()))\n    dp = [1] * n\n    for i in range(n):\n        for j in range(i):\n            if a[j] < a[i]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)\n\ndef"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    nums = [int(x) for x in stdin.readline().split()]\n    result = 0\n    left = 1\n    for i in range(n - 1, -1, -1):\n        if nums[i] >= nums[i - 1]:\n            left += 1\n        else:\n            if left > result:\n                result = left\n            left = 1\n    if left > result:\n        result = left\n\n    r = ''.join(['R' if x == nums[-1] else 'L' for x in nums])\n    return result, r\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\ntry:\n    _ = int(input())\n    seq = [int(n) for n in input().split()]\n    k = len(seq)\n    i = 0\n    while i < k:\n        j = k - 1\n        while j >= i:\n            if seq[j] < seq[j - 1]:\n                seq[j], seq[j - 1] = seq[j - 1], seq[j]\n            j -= 1\n        i += 1\n    print(k)\n    print(''.join(['L' if n == seq[0] else 'R' for n in seq]))\nexcept:\n    print('Something went wrong...')\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\ntry:\n    input_data = input()\n    n = int(input_data)\nexcept EOFError:\n    print()\n    exit()\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    num = stdin.readline()\n    a = list(map(int, stdin.readline().split()))\n    a.sort()\n    n = len(a)\n    idx = 0\n    res = 1\n    while idx < n:\n        if a[idx] == a[-1]:\n            res += 1\n            a.pop()\n            n -= 1\n        elif a[idx] == a[0]:\n            a.pop(0)\n            n -= 1\n        else:\n            res = max(res, n)\n            idx += 1\n    return str(res)\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    a = list(map(int, stdin.readline().split()))\n    ans, prev, start = 1, a[0], 0\n    for i in range(1, n):\n        if a[i] > prev:\n            ans = max(ans, i - start + 1)\n            prev = a[i]\n        elif a[i] < prev:\n            prev = a[i]\n            start = i\n    return str(ans)"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    N = int(stdin)\n    A = [int(x) for x in stdin.split()]\n    moves = 0\n    res = 0\n    while A:\n        if A[0] > A[-1]:\n            moves += 1\n            A.pop(0)\n        else:\n            A.pop(-1)\n        res = max(res, moves)\n    return str(res)"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    a = [int(s) for s in stdin.split()]\n    left, right = 0, len(a) - 1\n    while left < right:\n        a[left], a[right] = a[right], a[left]\n        left += 1\n        right -= 1\n    return ''.join(['L' if s == a[0] else 'R' for s in a])"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    The minimum non-negative integer value $D$ such that if you add this value to some $a_i$, subtract this value from some $a_i$ and leave some $a_i$ without changes, all obtained values become equal.\n    \"\"\"\n    n = int(stdin.readline().strip())\n    a = list(map(int, stdin.readline().strip().split()))\n    a_min = min(a)\n    for d in range(1, n):\n        if (d + a_min) % d == 0:\n            return d\n    return -1\n\nprint(solution(stdin))"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    https://www.codewars.com/kata/59b9dfb91e9ae6ac4b000a45\n\n    You are given a sequence $a_1, a_2, \\dots, a_n$ consisting of $n$ integers.\n\n    You can choose any non-negative integer $D$ (i.e. $D \\ge 0$), and for each $a_i$ you can:\n\n      add $D$ (only once), i. e. perform $a_i := a_i + D$, or  subtract $D$ (only once), i. e. perform $a_i := a_i - D$, or  leave the value of $a_i$ unchanged. \n    \n    It is possible that after an operation the value $a_i$ becomes negative.\n    \n    Your goal is to choose such minimum non-negative integer $D$ and perform changes in such a way, that all $a_i$ are equal (i.e. $a_1=a_2=\\dots=a_n$).\n    \n    Print the required $D$ or, if it is impossible to choose such value $D$, print -1.\n    \n    For example, for array $[2, 8]$ the value $D=3$ is minimum possible because you can obtain the array $[5, 5]$ if you will add $D$ to $2$ and subtract $D$ from $8$. And for array $[1, 4, 7, 7]$ the value $D=3$ is also minimum possible. You can add it to $1$ and subtract it from $7$ and obtain the array $[4, 4, 4, 4]$.\n    \"\"\"\n\n    n = int(stdin.readline())\n    arr = list(map(int, stdin.readline().split()))\n    d = 0\n    for i in range(n):\n        while arr[i] < 0:\n            d += 1\n            arr[i] += 1\n    print(d if d!= 0 else -1)\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    a = [int(i) for i in stdin.readline().strip().split(' ')]\n    \n    # check for negative numbers\n    for ai in a:\n        if ai < 0:\n            return -1\n    \n    # create the dictionary\n    d = {a[0]: 1}\n    for i in range(1, n):\n        if a[i] in d:\n            d[a[i]] += 1\n        else:\n            d[a[i]] = 1\n    \n    # iterate through dictionary and see if values are equal\n    min_d = -1\n    for k, v in d.items():\n        if v == n:\n            min_d = k\n            break\n    \n    return str(min_d)\n\n\nprint(solution(None))\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    arr = list(map(int, stdin.readline().split()))\n\n    if n == 1:\n        return str(max(arr))\n\n    for i in range(1, n):\n        if arr[i] < 0:\n            continue\n        max_sum = max(arr[i], max(arr[:i]) + arr[i])\n        for j in range(i + 1, n):\n            if arr[j] < 0:\n                continue\n            max_sum = max(max_sum, max(arr[j], max_sum + arr[j]) - arr[j])\n\n        if max_sum < 0:\n            return str(-1)\n        arr[i] = max_sum\n\n    return str(max(arr))\n\nprint(solution(None))\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    arr = list(map(int, stdin.readline().split()))\n    arr.sort()\n    res = 0\n    for x in arr:\n        if x < 0:\n            break\n        if x > res:\n            res = x\n    return res if res < 0 else -1\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    a = list(map(int, stdin.readline().split()))\n    a.sort()\n    result = float('inf')\n    for d in range(1, len(a)):\n        count = 0\n        for i in range(d):\n            count += a[i]\n        for i in range(d, len(a)):\n            if a[i] < count:\n                count -= a[i]\n            else:\n                count = count - a[i]\n                if count < result:\n                    result = count\n    if result == float('inf'):\n        return -1\n    else:\n        return result"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    N = int(stdin.readline())\n    A = [int(x) for x in stdin.readline().split()]\n    D = 1\n    A_plus = [x + D for x in A]\n    A_minus = [x - D for x in A]\n    while len(set(A_plus))!= 1 or len(set(A_minus))!= 1:\n        if len(set(A_plus))!= 1:\n            D += 1\n            A_plus = [x + D for x in A]\n        if len(set(A_minus))!= 1:\n            D -= 1\n            A_minus = [x - D for x in A]\n    if len(set(A)) == 1:\n        return D\n    return -1"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    stdin = stdin.split()\n    n = int(stdin[0])\n    a = [int(x) for x in stdin[1:]]\n    d = 1\n    while True:\n        flag = True\n        d += 1\n        for i in range(1, n):\n            if a[i]!= a[i-1] + d or a[i]!= a[i-1] - d:\n                flag = False\n                break\n        if flag:\n            break\n    return str(d) if d <= 100 else '-1'\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    arr = list(map(int, stdin.readline().strip().split()))\n    max = max(arr)\n    min = min(arr)\n    if n == 0:\n        return \"0\"\n    elif max == 0 and min == 0:\n        return \"0\"\n    elif n == 1:\n        return \"0\"\n    elif min == 0:\n        return str(max)\n    elif max == 0:\n        return \"-1\"\n    for i in range(1, max + 1):\n        if i not in arr:\n            return str(i)\n    return \"-1\""
+    },
+    {
+        "number": 4004,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    # n = stdin.readline().strip()\n    n = int(stdin.readline().strip())\n    a = [int(x) for x in stdin.readline().strip().split()]\n    if n < 3:\n        print(\"-1\")\n        return\n\n    # a = [2, 8]\n    # n = 2\n\n    # a = [1, 4, 7, 7]\n    # n = 4\n\n    a = [x for x in a if x > 0]\n    a.sort()\n    if len(a) < 3:\n        print(\"-1\")\n        return\n\n    l = len(a)\n    l_n = l - 3\n    l_m = l - 1\n    sum = a[0] + a[1]\n    for i in range(2, l_n):\n        sum += a[i]\n    for i in range(0, l_m):\n        if sum + a[i] == sum + a[i+1]:\n            print(a[i+1] - a[i])\n            return\n    print(\"-1\")\n    return\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\n\"\"\"\n\nfrom sys import stdin,stdout\nnums = stdin.readline().strip().split(' ')\nx1, y1, x2, y2 = int(nums[0]), int(nums[1]), int(nums[2]), int(nums[3])\n\nnums = stdin.readline().strip().split(' ')\nx3, y3, x4, y4 = int(nums[0]), int(nums[1]), int(nums[2]), int(nums[3])\n\nnums = stdin.readline().strip().split(' ')\nx5, y5, x6, y6 = int(nums[0]), int(nums[1]), int(nums[2]), int(nums[3])"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\"\"\"\n\nimport sys\nfrom collections import deque\n\nxs = []\nys = []\n\nfor line in sys.stdin.readlines():\n    x, y = map(int, line.split())\n    xs.append(x)\n    ys.append(y)\n\nxs.sort()\nys.sort()\n\nx1, y1 = xs[0], ys[0]\nx2, y2 = xs[1], ys[1]\nx3, y3 = xs[2], ys[2]\nx4, y4 = xs[3], ys[3]"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    x1, y1, x2, y2 = [int(x) for x in stdin.split(\" \")]\n    x3, y3, x4, y4 = [int(x) for x in stdin.split(\" \")]\n    x5, y5, x6, y6 = [int(x) for x in stdin.split(\" \")]\n    a = [x1, y1, x2, y2]\n    b = [x3, y3, x4, y4]\n    c = [x5, y5, x6, y6]\n    return \"YES\" if min(a[0], a[2]) <= max(b[0], b[2]) and min(b[0], b[2]) <= max(a[0], a[2]) and min(a[1], a[3]) <= max(b[1], b[3]) and min(b[1], b[3]) <= max(a[1], a[3]) else \"NO\"\n\nassert(solution(\"0 2 4 4\") == \"NO\")\nassert(solution(\"1 1 3 5\") == \"YES\")\nassert(solution(\"3 1 5 5\") == \"NO\")\nassert(solution(\"5 2 10 5\") == \"YES\")\nassert(solution(\"0 0 4 6\") == \"NO\")\nassert(solution(\"0 0 7 4\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 499999 1000000\") == \"YES\")\nassert(solution(\"500000 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") == \"YES\")\nassert(solution(\"0 0 1000000 1000000\") =="
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    x1, y1, x2, y2 = map(int, stdin.split())\n    x3, y3, x4, y4 = map(int, stdin.split())\n    return \"YES\" if x1 <= x3 and x2 >= x4 and y1 <= y3 and y2 >= y4 else \"NO\""
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    x1, y1, x2, y2 = map(int, stdin.strip().split(\" \"))\n    x3, y3, x4, y4 = map(int, stdin.strip().split(\" \"))\n    x5, y5, x6, y6 = map(int, stdin.strip().split(\" \"))\n\n    white_sheet = ((x1, y1), (x2, y2), (x3, y3), (x4, y4))\n    black_sheet1 = ((x5, y5), (x6, y6))\n\n    if (x3, y3) in white_sheet and (x5, y5) in white_sheet and (x7, y7) in white_sheet:\n        return \"YES\"\n    else:\n        return \"NO\"\n\nimport sys"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    x1, y1, x2, y2 = map(int, stdin.split())\n    x3, y3, x4, y4 = map(int, stdin.split())\n    x5, y5, x6, y6 = map(int, stdin.split())\n\n    if not (y1 < y2 or y3 < y4 or y5 < y6):\n        return \"NO\"\n    elif not (y1 > y2 and y3 > y4 and y5 > y6):\n        return \"NO\"\n    elif not (x1 > x2 and x3 > x4 and x5 > x6):\n        return \"NO\"\n    else:\n        return \"YES\""
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    return 'YES'\n\nimport sys\nfrom math import *\n\nstdin = open('../../stdin.txt')\n\n\nx1, y1, x2, y2 = map(int, stdin.readline().split())\nx3, y3, x4, y4 = map(int, stdin.readline().split())\nx5, y5, x6, y6 = map(int, stdin.readline().split())"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    x_1, y_1, x_2, y_2 = [int(x) for x in stdin.split()]\n    x_3, y_3, x_4, y_4 = [int(x) for x in stdin.split()]\n    x_5, y_5, x_6, y_6 = [int(x) for x in stdin.split()]\n\n    if x_1 > x_2:\n        x_1, x_2 = x_2, x_1\n\n    if y_1 > y_2:\n        y_1, y_2 = y_2, y_1\n\n    if x_3 > x_4:\n        x_3, x_4 = x_4, x_3\n\n    if y_3 > y_4:\n        y_3, y_4 = y_4, y_3\n\n    if x_5 > x_6:\n        x_5, x_6 = x_6, x_5\n\n    if y_5 > y_6:\n        y_5, y_6 = y_6, y_5\n\n    if (x_5 - x_1) * (y_6 - y_1) == (x_6 - x_1) * (y_5 - y_1):\n        return \"YES\"\n\n    return \"NO\"\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    Return \"YES\" if the white sheet can be seen from the above after two black sheets are placed. Otherwise return \"NO\".\n\n    >>> solution('''2 2 4 4\n   ... 1 1 3 5\n   ... 3 1 5 5\n   ... ''')\n    'YES'\n    >>> solution('''5 2 10 5\n   ... 3 1 7 6\n   ... 8 1 11 7\n   ... ''')\n    'YES'\n    >>> solution('''0 0 1000000 1000000\n   ... 0 0 499999 1000000\n   ... 500000 0 1000000 1000000\n   ... ''')\n    'YES'\n    \"\"\"\n    white_sheet_bottom_left, white_sheet_top_right = [int(x) for x in stdin.split(' ')]\n    black_sheet_bottom_left, black_sheet_top_right = [int(x) for x in stdin.split(' ')]\n    return 'YES' if (white_sheet_bottom_left <= black_sheet_bottom_left <= white_sheet_top_right) or (white_sheet_bottom_left <= black_sheet_top_right <= white_sheet_top_right) else 'NO'\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    x = int(stdin)\n    count = 0\n    for i in range(1, 1000000):\n        number = i\n        while number % 10 == 0:\n            number = number / 10\n        if number == 1:\n            count += 1\n    return count"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    # Complete this function\n   ...\n\n\n\n\"\"\"\n\n\"\"\"\ndef"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    return str(sum(10**i for i in range(1, 10) if n%10**i!= 0) + (n%10**9 > 0))\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    memo = {n: 0}\n    return rec(n, 0, memo)\n\ndef"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    return len(set(str(i) for i in range(10 ** 9, n, 10)))\n\nassert(solution(input()) == 19)"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    count = 0\n    for i in range(1, n + 1):\n        # check if i is a power of 2\n        if n % i == 0:\n            # remove trailing 0\n            while n % i == 0:\n                n //= i\n            # print(f'i={i} n={n}')\n            count += 1\n    return str(count)\n\n\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.strip())\n    array = [n]\n    while n > 1:\n        n = n - 1 if n % 2 == 0 else n + 1\n        array.append(n)\n    return len(array)"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    ones = '1'\n    while n > len(ones):\n        ones = ones + '0' + ones\n    return len(ones)\n    \n    \n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099\n    # 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12,"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 1098, 1099]\n    count = 0\n    for i in range(len(nums)):\n        if i < len(nums) - 1:\n            if nums[i] + 1 == nums[i + 1]:\n                count += 1\n            else:\n                continue\n        else:\n            count += 1\n    return count\n\nassert solution('1098') == 20\nassert solution('10') == 19\nassert solution('10099') == 1010\nassert solution('100') == 101\nassert solution('9') == 8\nassert solution('8') == 7\nassert solution('7') == 6\nassert solution('6') == 5\nassert solution('5') == 4\nassert solution('4') == 3\nassert solution('3') == 2\nassert solution('2') == 1\nassert solution('1') == 0\nassert solution('0') == 0\nassert solution('-1') == 0\nassert solution('-2') == 0\nassert solution('-3') == 0\nassert solution('-4') == 0\nassert solution('-5') == 0\nassert solution('-6') == 0\nassert solution('-7') == 0\nassert solution('-8') == 0\nassert solution('-9') == 0\nassert solution('-10') == 0\nassert solution('-100') == 0\nassert solution('-1000') == 0\nassert solution('-10000') == 0\nassert solution('-100000') == 0\nassert solution('-1000000') == 0\nassert solution('-10000000') == 0\nassert solution('-100000000') == 0\nassert solution('-1000000000') == 0\nassert solution('-10000000000') == 0\nassert solution('-100000000000') == 0\nassert solution('-1000000000000') == 0\nassert solution('-10000000000000') == 0\nassert solution('-10000000000000000') == 0\nassert solution('-1000000000000000000') == 0\nassert solution('-10000000000000000000') == 0\nassert solution('-100000000000000000000') == 0\nassert solution('-1000000000000000000000') == 0\nassert solution('-10000000000000000000000') == 0\nassert solution('-100000000000000000000000') == 0\nassert solution('-1000000000000000000000000') == 0\nassert solution('-10000000000000000000000000') == 0\nassert solution('-100000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000') == 0\nassert solution('-"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    friends = list(map(int, stdin.readline().split()))\n    non_friends = set(range(n)) - set(friends)\n\n    # To increase the efficiency we could look for each friend's friend\n    # (if it's known) and mark all those friends as non_friends\n    # (if it's not known)\n    # But this solution is still linear, so let's not waste time\n    for friend in friends:\n        non_friends.discard(friend)\n\n    # Now I can iterate over the non_friends set and select one\n    # element at a time from friends to see if it's compatible\n    for friend in non_friends:\n        # Assume that the \"friend\" knows the value\n        value = 1\n\n        # If it's not known, let's go through all the friends of the\n        # friend and check if the value matches\n        for friend_of_friend in friends:\n            if friend_of_friend!= friend:\n                # If it doesn't match, we know that the friend doesn't know\n                # the value, so we can use the value for the friend and break\n                if friend_of_friend == value:\n                    break\n                # If it does match, then the friend wants to give the value\n                # to the friend, so we know that the value is not compatible\n                # with the value of the friend, so we can break\n                else:\n                    break\n\n        # If all the friends of the friend know the value, we can assign\n        # the value to the friend and break\n        else:\n            friends[friend] = value\n            break\n\n    # Sort the result and print it\n    return''.join(map(str, sorted(friends)))"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    pass"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    friends = [int(x) for x in stdin.split()]\n\n    result = [0] * n\n    for i in range(n):\n        if friends[i]!= i:\n            result[i] = friends[i]\n    return \" \".join(str(x) for x in result)\n\nassert(solution('''5''') == '5')\nassert(solution('''7''') == '7')\nassert(solution('''7''') == '7')\nassert(solution('''5''') == '5')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    friends = stdin.split(\"\\n\")[0].split(\" \")\n    friends = [int(x) for x in friends if x!= \"\"]\n    friends = sorted(friends)\n    gifts = [0] * len(friends)\n    for i in range(len(friends) - 1):\n        gifts[friends[i]] = friends[i + 1]\n    for i in range(len(friends)):\n        if gifts[i] == i:\n            gifts[i] = 0\n    return \" \".join([str(x) for x in gifts])\n\nassert(solution(\"7 0 0 0 1 4 0 6\") == \"7 3 1 2 4 5 6\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"5\") == \"5 3 1 2 4\")\nassert(solution(\"7\") == \"7 3 2 1 4\")\nassert(solution(\"5\") == \"5 3 1 2 4\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"3 1 0 0 0\") == \"3 1 4 2 5\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5 1\")\nassert(solution(\"7 4 0 3 0 5 1\") == \"7 4 2 3 6 5"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = stdin.readline().strip()\n    gifts = [int(x) for x in stdin.readline().strip().split()]\n    print(' '.join(str(gifts[i]) if gifts[i]!= 0 else str(i + 1) for i in range(n)))\n    return \"\"\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = stdin[0]\n    friends = list(map(int, stdin[1].split()))\n    initial = 0\n    if friends[0] == 0:\n        initial = friends.pop(0)\n    gift_list = []\n    gift_list.append(initial)\n    for i in range(len(friends)):\n        if friends[i] == 0:\n            pass\n        else:\n            gift_list.append(friends[i])\n    return''.join(str(gift) for gift in gift_list)\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    f = list(map(int, stdin.readline().split()))\n    b = []\n    for i in range(n):\n        if f[i]!= 0:\n            b.append(f[i])\n    b.sort()\n    r = []\n    for i in range(n):\n        if f[i]!= 0:\n            r.append(b.index(f[i]))\n    return''.join(map(str, r))\n\nassert(solution('''5''') == '5')\nassert(solution('''7''') == '7')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 2 1 4 5 6')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nprint(solution('''7 4 0 3 0 5 1'''))\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nassert(solution('''5''') == '5')\nassert(solution('''7''') == '7')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nprint(solution('''7 4 0 3 0 5 1'''))\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nassert(solution('''5''') == '5')\nassert(solution('''7''') == '7')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nprint(solution('''7 4 0 3 0 5 1'''))\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nassert(solution('''5''') == '5')\nassert(solution('''7''') == '7')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nprint(solution('''7 4 0 3 0 5 1'''))\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nassert(solution('''5''') == '5')\nassert(solution('''7''') == '7')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nprint(solution('''7 4 0 3 0 5 1'''))\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nassert(solution('''6''') == '6')\nassert(solution('''7''') == '7')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''2 1 0 0 0''') == '2 1 4 5 3')\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nprint(solution('''7 4 0 3 0 5 1'''))\nassert(solution('''7 4 0 3 0 5 1''') == '7 4 2 3 6 5 1')\nassert(solution('''6''') == '6')\nassert(solution('''7''') == '7')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution('''7 0 0 1 4 0 6''') == '7 3 1 2 4 5 6')\nassert(solution(''"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n   ..."
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    friends = [int(x) for x in stdin.readline().strip().split()]\n    answers = [0] * n\n    for i in range(n):\n        if friends[i]!= 0:\n            answers[friends[i]-1] += 1\n    for i in range(n):\n        if answers[i] == 0:\n            answers[i] = i + 1\n    return \" \".join(map(str, answers))\n\nimport sys\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    def gcd(a, b):\n        while b!= 0:\n            a, b = b, a % b\n        return a\n\n    n = int(stdin.readline())\n    friends = [list(map(int, stdin.readline().split())) for _ in range(n)]\n    ans = [0] * n\n    for i in range(n):\n        for j in range(n):\n            if friends[i][j] == 0:\n                continue\n            if i == j or friends[j][i] == 0:\n                continue\n            g = gcd(friends[i][j], friends[j][i])\n            ans[j] += g\n            ans[i] += g\n    ans.sort()\n    return''.join(map(str, ans))\n\nassert(solution('''5\n5 0 0 2 4\n''') == '5 3 1 2 4')\nassert(solution('''7\n7 0 0 1 4 0 6\n''') == '7 3 2 1 4 5 6')\nassert(solution('''5\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''1\n2\n2\n2\n1\n0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''2\n2\n2\n2\n1\n1\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n7 4 0 3 0 5 1\n''') == '7 4 2 3 6 5 1')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert(solution('''7\n2 1 0 0 0\n''') == '2 1 4 5 3')\nassert"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n   ...\n\"\"\"\n\n\ndef"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n    \n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = [int(n) for n in stdin.split()]\n    if k > n:\n        return \"NO\"\n    return \"YES\" if is_colorable(n, k, stdin) else \"NO\"\n\n\ndef"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = [int(x) for x in stdin.split()]\n    if n == 1:\n        return \"NO\"\n    if k == 1:\n        return \"NO\"\n    if k == n:\n        return \"YES\"\n    a = [int(x) for x in stdin.split()]\n    table = [0] * k\n    for x in a:\n        if table[x - 1]!= 0:\n            return \"NO\"\n        else:\n            table[x - 1] += 1\n    return \"YES\"\n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    return stdin"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    pass"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = [int(x) for x in stdin.split()]\n    array = [int(x) for x in stdin.split()]\n    colors = list(range(1, k + 1))\n    for i in range(n):\n        if array[i] in colors:\n            colors.remove(array[i])\n        else:\n            if len(colors) == 0:\n                return \"NO\"\n            return \"YES\"\n    return \"NO\""
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution(\"4 2\\n1 2 2 3\")\n    'YES\\n1 1 2 2'\n    >>> solution(\"5 2\\n3 2 1 2 3\")\n    'YES\\n2 1 1 2 1'\n    >>> solution(\"5 2\\n2 1 1 2 1\")\n    'NO'\n    >>> solution(\"5 2\\n2 1 1 2 1\")\n    'YES\\n2 1 1 2 1'\n    \"\"\"\n    n, k = [int(x) for x in stdin.split()]\n    arr = [int(x) for x in stdin.split()]\n    n1 = len(set(arr))\n    n2 = len(arr) // n\n    if n1 <= k and n2 * k == n:\n        return \"YES\\n\" +''.join(str(i) for i in range(1, k + 1))\n    return \"NO\"\n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = [int(n) for n in stdin.split(' ')]\n\n    array = [int(n) for n in stdin.split(' ')]\n\n    array.sort()\n    color = 1\n    for i in range(len(array) - 1):\n        if array[i] == array[i + 1]:\n            color += 1\n        else:\n            color = 1\n\n    if color > k:\n        return 'NO'\n    else:\n        return 'YES'\n\n\nprint(solution('4 2'))\nprint(solution('5 2'))\nprint(solution('1 2 2 3'))\nprint(solution('2 1 1 2 1'))\nprint(solution('5 2'))\nprint(solution('3 2 1 2 3'))\nprint(solution('2 1 1 2 1'))\nprint(solution('1 1 1 1 1'))\nprint(solution('5 2'))\nprint(solution('3 2 1 2 3'))\nprint(solution('2 1 1 2 1'))\nprint(solution('1 1 1 1 1'))\n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = map(int, stdin.split())\n    a = list(map(int, stdin.split()))\n    from collections import Counter\n    c = Counter(a)\n    for ci in range(1,k+1):\n        for kc in c:\n            if c[kc] < ci:\n                break\n        else:\n            return \"YES\"\n    else:\n        return \"NO\"\n\nassert(solution('''4 2''') == \"NO\")\nassert(solution('''5 2''') == \"YES\")\nassert(solution('''5 2''') == \"YES\")\nassert(solution('''5 2''') == \"YES\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\nassert(solution('''5 2''') == \"NO\")\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    pass"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    stdin = stdin.split('\\n')\n    n, x, y = [int(x) for x in stdin[0].split()]\n    n = int(stdin[1])\n    d = []\n    for i in range(n):\n        d.append(int(stdin[2 + i]))\n    count = 0\n    while True:\n        d, count = adder(d, x, y)\n        if d[x] == 0:\n            break\n    return str(count)\n\n\ndef"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = [int(x) for x in stdin.strip().split(' ')]\n    if n == 1: return 0\n\n    arr = [int(x) for x in stdin.strip()]\n    numbers = [1] * n\n    for i in range(n):\n        numbers[i] = int(str(arr[i]) + str(numbers[i - x]) + str(numbers[i - y]) + str(numbers[i - n])[1:], 2)\n        while len(str(numbers[i])) > 1:\n            numbers[i] = int(str(numbers[i])[1:] + str(numbers[i])[:1])\n    return len(str(numbers[-1])) - 1\n\nprint(solution(stdin))\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = [int(x) for x in stdin.split(\" \")]\n    s = stdin\n    i = 0\n    while True:\n        if s[i] == \"0\":\n            s = s[:i] + \"1\" + s[i + 1:]\n            i += 1\n        else:\n            s = s[:i] + \"0\" + s[i + 1:]\n            i += 1\n        if len(s) == n:\n            return s\n        if s[i] == \"0\":\n            i += 1\n        if s[i] == \"1\":\n            i += 1\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = [int(x) for x in stdin.strip().split()]\n    number = stdin.strip()\n    result = 0\n    while number[-1] == '1':\n        if result > x:\n            return str(result - x)\n        number = number[:-1]\n        result += 1\n    return str(result)\n\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    Calculate the minimum number of operations to obtain the number with remainder 10^y modulo 10^x.\n    \"\"\"\n    n, x, y = (int(x) for x in stdin.split())\n\n    curr_num = n - (n // 10 ** y) * 10 ** y\n    ops = 1\n    while curr_num % 10 ** x!= 10 ** y:\n        curr_num = curr_num // 10\n        ops += 1\n\n    return ops"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = map(int, stdin.split())\n    digits = list(map(int, stdin.split()))\n    remainder = 10 ** y\n    ones = 0\n    zeros = 0\n    for digit in digits:\n        if digit == 0:\n            zeros += 1\n        else:\n            ones += 1\n    if ones < remainder / 10:\n        return zeros\n    elif ones == remainder / 10:\n        return zeros + 1\n    else:\n        return zeros + 2"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = map(int, stdin.split())\n    nums = list(map(int, stdin.split()[1]))\n    print(f'n: {n}')\n    print(f'nums: {nums}')\n    print(f'x: {x}')\n    print(f'y: {y}')\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = map(int, stdin.split())\n    s = stdin[0]\n    remainder = int(s, 2) % (10 ** x)\n    ans = 0\n    if remainder == 0:\n        return ans\n    while remainder >= (10 ** y):\n        ans += 1\n        remainder = int(s, 2) % (10 ** x)\n    return ans"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = [int(x) for x in stdin.split(\" \")]\n    a = [int(x) for x in stdin]\n    c = 1\n    while a[0]!= 1:\n        a = a[1:]\n        c += 1\n    while y > 0:\n        a = a[1:]\n        y -= 1\n    a = a[::-1]\n    c += y\n    return str(c)\n\n\ndef"
+    }
+]
