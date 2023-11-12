@@ -1,0 +1,2282 @@
+[
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert similar_elements([1, 2, 3], [3, 2, 1]) == (2, 1)\nassert similar_elements([1, 2, 3], [4, 5, 6]) == ()\nassert similar_elements([], []) == ()\nassert similar_elements([1, 1, 2, 2, 3, 3], [1, 2, 2, 3, 3, 4]) == (1, 2, 2, 3, 3)\nassert similar_elements([1, 2, 3], [1, 2, 3, 4]) == (1, 2, 3) "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert similar_elements((1,2,3,4,5), (4,5,6,7,8)) == (4,5)\nassert similar_elements((1,2,3), (3,4,5)) == (3,)\nassert similar_elements((1,2,3,4,5), (5,4,3,2,1)) == (1,2,3,4,5)\nassert similar_elements((1,2,3,4,5), ()) == ()\nassert similar_elements((), (1,2,3,4,5)) == () "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert similar_elements((1, 2, 3, 4, 5), (2, 4, 6, 8, 10)) == (2, 4) \nassert similar_elements((1, 2, 3, 4, 5), (5, 4, 3, 2, 1)) == (1, 2, 3, 4, 5) \nassert similar_elements((1, 2, 3, 4, 5), (10, 9, 8, 7, 6)) == () \nassert similar_elements((1, 2, 3, 4, 5), (5, 4, 3, 2, 1, 6, 7, 8, 9, 10)) == (1, 2, 3, 4, 5) \nassert similar_elements((1, 2, 3, 4, 5), ()) == () "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert similar_elements([1, 2, 3], [3, 4, 5]) == (3,)\nassert similar_elements([1, 2, 3], [4, 5, 6]) == ()\nassert similar_elements([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]) == (1, 2, 3, 4, 5)\nassert similar_elements([1, 2, 3], []) == ()\nassert similar_elements([], [1, 2, 3]) == () "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert similar_elements((1,2,3), (2,3,4)) == (2,3) # check for tuple intersection\nassert similar_elements((1,2,3), (4,5,6)) == () # check for no intersection\nassert similar_elements((1,2,3), (1,2,3)) == (1,2,3) # check for complete intersection\nassert similar_elements((1,2,3), ()) == () # check for empty tuple\nassert similar_elements((), (1,2,3)) == () # check for empty tuple "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert similar_elements((1, 2, 3, 4, 5), (2, 4, 6, 8, 10)) == (2, 4) "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert similar_elements([1,2,3],[3,2,4]) == [2,3] \nassert similar_elements([4,5,6],[7,8,9]) == []\nassert similar_elements([], []) == []\nassert similar_elements([1,2,3], [1,2,3]) == [1,2,3]\nassert similar_elements([1,2,3],[]) == [] "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert similar_elements([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]) == [5, 4, 3, 2, 1]\nassert similar_elements([1, 2, 3, 4, 5], [6, 7, 8, 9, 10]) == []\nassert similar_elements([1, 2, 3, 4, 5], [1, 3, 5, 7, 9]) == [1, 3, 5]\nassert similar_elements([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]) == [5, 4, 3, 2, 1]\nassert similar_elements([1, 2, 3, 4, 5], [6, 7, 8, 9, 10]) == [] "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert similar_elements((1, 2, 3), (2, 4, 6)) == (2,) \nassert similar_elements((1, 2, 3), (4, 5, 6)) == () \nassert similar_elements((1, 2, 3), (1, 2, 3)) == (1, 2, 3) \nassert similar_elements((1, 2, 3), (3, 2, 1)) == (1, 2, 3) \nassert similar_elements((1, 2, 3), (2, 3, 4, 5)) == (2, 3) "
+    },
+    {
+        "number": 2,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert similar_elements((1,2,3,4,5), (2,4,6,8,10)) == (2, 4), \"Incorrect output for similar_elements((1,2,3,4,5), (2,4,6,8,10))\"\nassert similar_elements((1,2,3,4,5), (6,7,8,9,10)) == (), \"Incorrect output for similar_elements((1,2,3,4,5), (6,7,8,9,10))\"\nassert similar_elements((1,2,3,4,5), (5,4,3,2,1)) == (5, 4, 3, 2, 1), \"Incorrect output for similar_elements((1,2,3,4,5), (5,4,3,2,1))\"\nassert similar_elements((1,2,3,4,5), (2,2,2,4,4)) == (2, 4), \"Incorrect output for similar_elements((1,2,3,4,5), (2,2,2,4,4))\"\nassert similar_elements((1,2,3,4,5), (1,1,2,2,3,3,4,4,5,5)) == (1, 2, 3, 4, 5), \"Incorrect output for similar_elements((1,2,3,4,5), (1,1,2,2,3,3,4,4,5,5))\" "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_not_prime(1) == True\nassert is_not_prime(2) == True\nassert is_not_prime(3) == False\nassert is_not_prime(4) == True\nassert is_not_prime(5) == False\n\n"
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_not_prime(1) == False\nassert is_not_prime(2) == False\nassert is_not_prime(3) == False\nassert is_not_prime(4) == True\nassert is_not_prime(5) == False "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_not_prime(1) == True\nassert is_not_prime(2) == False\nassert is_not_prime(3) == False\nassert is_not_prime(4) == True\nassert is_not_prime(5) == False "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_not_prime(1) == False\nassert is_not_prime(2) == False\nassert is_not_prime(3) == False\nassert is_not_prime(4) == True\nassert is_not_prime(5) == False "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_not_prime(4) == True\nassert is_not_prime(7) == False\nassert is_not_prime(10) == True\nassert is_not_prime(13) == False\nassert is_not_prime(20) == True "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_not_prime(4) == False\nassert is_not_prime(6) == False\nassert is_not_prime(8) == False\nassert is_not_prime(9) == False\nassert is_not_prime(12) == False "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_not_prime(1) == True\nassert is_not_prime(2) == False\nassert is_not_prime(3) == False\nassert is_not_prime(4) == True\nassert is_not_prime(5) == False "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_not_prime(10) == False\nassert is_not_prime(11) == False\nassert is_not_prime(12) == True\nassert is_not_prime(13) == False\nassert is_not_prime(14) == True "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_not_prime(1) == False\nassert is_not_prime(2) == False\nassert is_not_prime(3) == False\nassert is_not_prime(4) == True\nassert is_not_prime(5) == False "
+    },
+    {
+        "number": 3,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_not_prime(0) == False\nassert is_not_prime(1) == False\nassert is_not_prime(2) == False\nassert is_not_prime(3) == False\nassert is_not_prime(4) == True\n\nThese assert statements are testing the correctness of the is_not_prime function. The first four assert statements are testing if the function correctly identifies prime numbers (0, 1, 2, and 3). The last assert statement is testing if the function correctly identifies non-prime numbers (4). "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert heap_queue_largest([3, 2, 1, 5, 6, 4], 3) == [6, 5, 4], \"Incorrect result for largest 3 numbers\" "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert heap_queue_largest([1, 2, 3, 4, 5], 3) == [5, 4, 3], \"Function should return [5, 4, 3]\"\nassert heap_queue_largest([5, 4, 3, 2, 1], 3) == [5, 4, 3], \"Function should return [5, 4, 3]\"\nassert heap_queue_largest([10, 20, 30, 40, 50], 3) == [50, 40, 30], \"Function should return [50, 40, 30]\"\nassert heap_queue_largest([1, 2, 3, 4, 5], 1) == [5], \"Function should return [5]\"\nassert heap_queue_largest([1], 1) == [1], \"Function should return [1]\" "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert heap_queue_largest([1,2,3,4,5], 2) == [5, 4]\nassert heap_queue_largest([5,4,3,2,1], 2) == [5, 4]\nassert heap_queue_largest([1,1,1,1,1], 3) == [1, 1, 1]\nassert heap_queue_largest([1,2,3,4,5], 1) == [5]\nassert heap_queue_largest([5,4,3,2,1], 5) == [5, 4, 3, 2, 1] "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert heap_queue_largest([3, 2, 1, 5, 6, 4], 3) == [6, 5, 4]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 4) == [6, 5, 4, 3]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 2) == [6, 5]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 1) == [6]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 6) == [6, 5, 4, 3, 2, 1] "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert heap_queue_largest([1, 2, 3, 4, 5], 3) == [5, 4, 3] # expected output [5, 4, 3]\nassert heap_queue_largest([1, 2, 3, 4, 5], 2) == [5, 4] # expected output [5, 4]\nassert heap_queue_largest([1, 2, 3, 4, 5], 1) == [5] # expected output [5]\nassert heap_queue_largest([1, 2, 3, 4, 5], 5) == [5, 4, 3, 2, 1] # expected output [5, 4, 3, 2, 1]\nassert heap_queue_largest([1, 2, 3, 4, 5], 0) == [] # expected output [] "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert heap_queue_largest([3, 2, 1, 5, 6, 4], 3) == [6, 5, 3] \nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 1) == [6] \nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 6) == [6, 5, 4, 3, 2, 1] \nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 0) == [] \nassert heap_queue_largest([], 0) == [] "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert heap_queue_largest([1,2,3,4,5],3) == [5,4,3]\nassert heap_queue_largest([1,2,3,4,5],5) == [5,4,3,2,1]\nassert heap_queue_largest([1,2,3,4,5],1) == [5]\nassert heap_queue_largest([1,2,3,4,5],0) == []\nassert heap_queue_largest([],0) == [] "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert heap_queue_largest([3, 2, 1, 5, 6, 4], 3) == [6, 5, 4]\nassert heap_queue_largest([5, 2, 8, 3, 1, 7], 3) == [8, 7, 5]\nassert heap_queue_largest([1, 2, 3, 4, 5], 3) == [5, 4, 3]\nassert heap_queue_largest([1], 1) == [1]\nassert heap_queue_largest([], 1) == [] "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert heap_queue_largest([1, 2, 3, 4, 5], 2) == [5, 4]\nassert heap_queue_largest([1, 2, 3, 4, 5], 3) == [5, 4, 3]\nassert heap_queue_largest([1, 2, 3, 4, 5], 4) == [5, 4, 3, 2]\nassert heap_queue_largest([1, 2, 3, 4, 5], 5) == [5, 4, 3, 2, 1] \nassert heap_queue_largest([1, 2, 3, 4, 5], 1) == [5] "
+    },
+    {
+        "number": 4,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert heap_queue_largest([3, 2, 1, 5, 6, 4], 3) == [6, 5, 4]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 2) == [6, 5]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 1) == [6]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 4) == [6, 5, 4, 3]\nassert heap_queue_largest([3, 2, 1, 5, 6, 4], 6) == [6, 5, 4, 3, 2, 1] "
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_Power_Of_Two(2**10) == True \nassert is_Power_Of_Two(2**10+1) == False \nassert is_Power_Of_Two(2**20) == True \nassert is_Power_Of_Two(2**20+1) == False \nassert is_Power_Of_Two(2**30) == True \n"
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_Power_Of_Two(1) == True\nassert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(4) == True\nassert is_Power_Of_Two(8) == True\nassert is_Power_Of_Two(16) == True\n"
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_Power_Of_Two(1) == True\nassert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(3) == False\nassert is_Power_Of_Two(4) == True\nassert is_Power_Of_Two(5) == False "
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(1024) == True\nassert is_Power_Of_Two(7) == False\nassert is_Power_Of_Two(128) == True\nassert is_Power_Of_Two(0) == False "
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_Power_Of_Two(1) == True \nassert is_Power_Of_Two(2) == True \nassert is_Power_Of_Two(3) == False \nassert is_Power_Of_Two(4) == True \nassert is_Power_Of_Two(5) == False \n\n"
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_Power_Of_Two(1) == True\nassert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(4) == True\nassert is_Power_Of_Two(8) == True\nassert is_Power_Of_Two(16) == True\n"
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_Power_Of_Two(1) == True\nassert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(3) == False\nassert is_Power_Of_Two(4) == True\nassert is_Power_Of_Two(5) == False "
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_Power_Of_Two(1) == True\nassert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(3) == False\nassert is_Power_Of_Two(4) == True\nassert is_Power_Of_Two(5) == False "
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_Power_Of_Two(1) == False\nassert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(3) == False\nassert is_Power_Of_Two(4) == True\nassert is_Power_Of_Two(5) == False "
+    },
+    {
+        "number": 6,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_Power_Of_Two(1) == False\nassert is_Power_Of_Two(2) == True\nassert is_Power_Of_Two(3) == False\nassert is_Power_Of_Two(4) == True\nassert is_Power_Of_Two(5) == False "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert find_char_long(\"Hello world\") == \"Hello world\"\nassert find_char_long(\"Hello, world!\") == \"Hello, world!\"\nassert find_char_long(\"The quick brown fox jumps over the lazy dog.\") == \"quick brown fox jumps over lazy dog\"\nassert find_char_long(\"This is a test sentence. This sentence has two words with four characters each.\") == \"test sentence\"\nassert find_char_long(\"12345 is a long word\") == \"12345 is a long word\" "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert find_char_long(\"Python is a high-level programming language\") == ['Python', 'programming', 'language']\nassert find_char_long(\"This is a test\") == []\nassert find_char_long(\"a b c d e\") == ['a', 'b', 'c', 'd', 'e']\nassert find_char_long(\"hello world\") == ['hello', 'world']\nassert find_char_long(\"test1234\") == ['test1234'] "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert find_char_long(\"The quick brown fox jumps over the lazy dog\") == [\"quick\", \"brown\", \"jumps\", \"lazy\", \"dog\"]\nassert find_char_long(\"Python is a widely used high-level programming language.\") == [\"Python\", \"widely\", \"used\", \"high-level\", \"programming\", \"language\"]\nassert find_char_long(\"I love to code in Python.\") == [\"love\", \"code\", \"Python\"]\nassert find_char_long(\"Hello\") == []\nassert find_char_long(\"\") == [] "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert find_char_long(\"Hello world!\") == \"Hello world!\"\nassert find_char_long(\"Python is awesome\") == \"Python is\"\nassert find_char_long(\"This is a short sentence\") == \"\"\nassert find_char_long(\"A very long sentence that exceeds the length requirement\") == \"A very long sentence that exceeds the length requirement\"\nassert find_char_long(\"There are no words longer than 3 characters in this sentence\") == \"\" "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert find_char_long(\"hello world\") == [\"hello\", \"world\"] # should return a list of words that are at least 4 characters long\nassert find_char_long(\"The quick brown fox jumps over the lazy dog\") == [\"quick\", \"brown\", \"jumps\", \"lazy\", \"dog\"] # should return a list of words that are at least 4 characters long\nassert find_char_long(\"This is a short sentence.\") == [] # should return an empty list\nassert find_char_long(\"Python is fun\") == [\"Python\"] # should return a list with one word\nassert find_char_long(\"\") == [] # should return an empty list for an empty string "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert find_char_long(\"The quick brown fox jumps over the lazy dog\") == ['quick', 'brown', 'jumps', 'lazy']\nassert find_char_long(\"Python is awesome\") == []\nassert find_char_long(\"A very long word is a long word\") == ['very', 'long', 'word']\nassert find_char_long(\"Python is awesome, and I love Python!\") == ['Python', 'Python']\nassert find_char_long(\"Python is awesome\") == [] "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert find_char_long(\"Hello world, this is a test.\") == ['Hello', 'world', 'this', 'test']\nassert find_char_long(\"This is a test.\") == []\nassert find_char_long(\"This is a very long test.\") == ['long']\nassert find_char_long(\"This is a very long test. A short sentence.\") == ['long', 'short']\nassert find_char_long(\"\") == [] "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert find_char_long(\"This is a test string\") == []\nassert find_char_long(\"These are some longer words in this string\") == ['These', 'longer', 'words', 'string']\nassert find_char_long(\"aaaa\") == ['aaaa']\nassert find_char_long(\"aa\") == []\nassert find_char_long(\"\") == [] "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert find_char_long(\"The quick brown fox jumps over the lazy dog\") == \"quick brown jumps lazy\" "
+    },
+    {
+        "number": 7,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert find_char_long(\"I am a string.\") == [\"string\"]\nassert find_char_long(\"This is a short sentence.\") == []\nassert find_char_long(\"This is a longer sentence with words longer than 4 characters.\") == [\"longer\", \"sentence\", \"characters\"]\nassert find_char_long(\"This is a sentence with 4 characters long words.\") == [\"4\", \"characters\"]\nassert find_char_long(\"I am an only child.\") == [] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert square_nums([1, 2, 3, 4, 5]) == [1, 4, 9, 16, 25]\nassert square_nums([0, -1, -2, -3, -4]) == [0, 1, 4, 9, 16]\nassert square_nums([]) == []\nassert square_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) == [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]\nassert square_nums([-10, -5, 0, 5, 10]) == [100, 25, 0, 25, 100] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert square_nums([1,2,3]) == [1,4,9]  # expected output [1,4,9]\nassert square_nums([0,1,-2]) == [0,1,4]  # expected output [0,1,4]\nassert square_nums([-1,-2,-3]) == [1,4,9]  # expected output [1,4,9]\nassert square_nums([]) == []  # expected output []\nassert square_nums([1,2,3,4,5]) == [1,4,9,16,25]  # expected output [1,4,9,16,25] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert square_nums([1,2,3]) == [1,4,9]\nassert square_nums([-1,0,1]) == [1,0,1]\nassert square_nums([10,20,30]) == [100,400,900]\nassert square_nums([0,0,0]) == [0,0,0]\nassert square_nums([]) == [] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert square_nums([1, 2, 3]) == [1, 4, 9] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert square_nums([1,2,3]) == [1,4,9] # check if square_nums([1,2,3]) returns [1,4,9] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert square_nums([1,2,3,4,5]) == [1,4,9,16,25] # check if the function returns the correct output for the given input list\nassert square_nums([0,1,-2,3,-4]) == [0,1,4,9,16] # check if the function returns the correct output for a list containing both positive and negative numbers\nassert square_nums([]) == [] # check if the function returns an empty list when the input list is empty\nassert square_nums([1000,2000,3000]) == [1000000,4000000,9000000] # check if the function can handle large numbers in the input list\nassert square_nums([-5,-4,-3,-2,-1,0,1,2,3,4,5]) == [25,16,9,4,1,0,1,4,9,16,25] # check if the function can handle negative numbers in the input list and return the correct output. "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert square_nums([1,2,3,4,5]) == [1,4,9,16,25]\nassert square_nums([-1,-2,-3,-4,-5]) == [1,4,9,16,25]\nassert square_nums([0,0,0,0,0]) == [0,0,0,0,0]\nassert square_nums([1,2,3,4,5]) == [1,4,9,16,25]\nassert square_nums([-1,-2,-3,-4,-5]) == [1,4,9,16,25] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert square_nums([1,2,3]) == [1,4,9] # expected output\nassert square_nums([-2,-1,0,1,2]) == [4,1,0,1,4]\nassert square_nums([]) == []\nassert square_nums([0]) == [0]\nassert square_nums([-2, 0, 2]) == [4, 0, 4] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert square_nums([1, 2, 3]) == [1, 4, 9]\nassert square_nums([-1, 0, 5]) == [1, 0, 25]\nassert square_nums([]) == []\nassert square_nums([1]) == [1]\nassert square_nums([-1, -2, -3]) == [1, 4, 9] "
+    },
+    {
+        "number": 8,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert square_nums([1, 2, 3, 4, 5]) == [1, 4, 9, 16, 25] # expected output\nassert square_nums([-1, 0, 1, 2, 3]) == [1, 0, 1, 4, 9] # expected output\nassert square_nums([0, 1, 2, 3, 4]) == [0, 1, 4, 9, 16] # expected output\nassert square_nums([-5, -4, -3, -2, -1]) == [25, 16, 9, 4, 1] # expected output\nassert square_nums([]) == [] # expected output "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert find_Rotations('abcd') == 0 # when no rotations are required\nassert find_Rotations('abcdeabcd') == 1 # when one rotation is required\nassert find_Rotations('abcdeabc') == 2 # when two rotations are required\nassert find_Rotations('edcba') == 4 # when all characters are reversed\nassert find_Rotations('abcabcabc') == 0 # when the string is a rotation of itself "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert find_Rotations('abcd') == 4\nassert find_Rotations('abcabcabcabc') == 0\nassert find_Rotations('hello') == 1\nassert find_Rotations('world') == 2\nassert find_Rotations('python') == 3 "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert find_Rotations(\"hello\") == 1\nassert find_Rotations(\"helloworld\") == 1\nassert find_Rotations(\"\") == 0\nassert find_Rotations(\"abcde\") == 0\nassert find_Rotations(\"abcabcabc\") == 3 "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert find_Rotations(\"\") == 0\nassert find_Rotations(\"a\") == 0\nassert find_Rotations(\"abcd\") == 0\nassert find_Rotations(\"abcda\") == 1\nassert find_Rotations(\"bcdea\") == 1 "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert find_Rotations(\"hello\") == 1, \"Error in find_Rotations for 'hello'\"\nassert find_Rotations(\"helloo\") == 0, \"Error in find_Rotations for 'helloo'\"\nassert find_Rotations(\"lohello\") == 2, \"Error in find_Rotations for 'lohello'\"\nassert find_Rotations(\"lloheloo\") == 3, \"Error in find_Rotations for 'lloheloo'\"\nassert find_Rotations(\"oellloh\") == 4, \"Error in find_Rotations for 'oellloh'\" "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert find_Rotations('waterbottle') == 3, \"Minimum number of rotations for 'waterbottle' is 3\"\nassert find_Rotations('level') == 2, \"Minimum number of rotations for 'level' is 2\"\nassert find_Rotations('rotations') == 1, \"Minimum number of rotations for 'rotations' is 1\"\nassert find_Rotations('') == 0, \"Minimum number of rotations for '' is 0\"\nassert find_Rotations('hello') == 4, \"Minimum number of rotations for 'hello' is 4\" "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert find_Rotations(\"hello\") == 1, \"Rotation should be 1 for 'hello'\"\nassert find_Rotations(\"hello world\") == 0, \"Rotation should be 0 for 'hello world'\"\nassert find_Rotations(\"world hello\") == 1, \"Rotation should be 1 for 'world hello'\"\nassert find_Rotations(\"abcabcabcabc\") == 0, \"Rotation should be 0 for 'abcabcabcabc'\"\nassert find_Rotations(\"\") == 0, \"Rotation should be 0 for ''\" "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert find_Rotations(\"abcdefg\") == 0, \"Test case 1 failed\"\nassert find_Rotations(\"abcdcba\") == 1, \"Test case 2 failed\"\nassert find_Rotations(\"ababab\") == 0, \"Test case 3 failed\"\nassert find_Rotations(\"abcabcabcabc\") == 3, \"Test case 4 failed\"\nassert find_Rotations(\"abab\") == 2, \"Test case 5 failed\" "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert find_Rotations(\"hello\") == 1\nassert find_Rotations(\"llhe\") == 1\nassert find_Rotations(\"lehlo\") == 2\nassert find_Rotations(\"lohel\") == 2\nassert find_Rotations(\"l\") == 0 "
+    },
+    {
+        "number": 9,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert find_Rotations(\"abcde\") == 0\nassert find_Rotations(\"abcabcabc\") == 0\nassert find_Rotations(\"abcbc\") == 1\nassert find_Rotations(\"ababab\") == 0\nassert find_Rotations(\"abcabcab\") == 3 "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert remove_Occ(\"hello world\", \"l\") == \"heo word\"\nassert remove_Occ(\"hello world\", \"o\") == \"hell wrd\"\nassert remove_Occ(\"hello world\", \"w\") == \"hello worl\"\nassert remove_Occ(\"hello world\", \"h\") == \"ello world\"\nassert remove_Occ(\"hello world\", \"d\") == \"hello worl\" "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert remove_Occ('hello world', 'l') == 'heo word' \nassert remove_Occ('hello world', 'o') == 'hell worl' \nassert remove_Occ('hello world', ' ') == 'helloworld' \nassert remove_Occ('hello world', 'e') == 'hllo world' \nassert remove_Occ('hello world', 'h') == 'ello world' "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert remove_Occ(\"hello world\", \"l\") == \"helo world\"\nassert remove_Occ(\"hello world\", \"o\") == \"hell wrd\"\nassert remove_Occ(\"hello world\", \"e\") == \"hllo world\"\nassert remove_Occ(\"hello world\", \" \") == \"helloworld\"\nassert remove_Occ(\"hello world\", \"h\") == \"ello world\" "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert remove_Occ('hello', 'l') == 'helo'\nassert remove_Occ('hello', 'o') == 'hell'\nassert remove_Occ('hello', 'e') == 'hllo'\nassert remove_Occ('hello', 'h') == 'ello'\nassert remove_Occ('hello', 'x') == 'hello' "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert remove_Occ(\"hello world\", \"l\") == \"helo world\"\nassert remove_Occ(\"hello world\", \"o\") == \"hell wrd\"\nassert remove_Occ(\"hello world\", \" \") == \"helloworld\"\nassert remove_Occ(\"hello world\", \"h\") == \"ello world\"\nassert remove_Occ(\"hello world\", \"d\") == \"hello worl\" "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert remove_Occ('hello', 'l') == 'helo' \nassert remove_Occ('hello', 'o') == 'hell'\nassert remove_Occ('hello', 'h') == 'ello'\nassert remove_Occ('hello', 'e') == 'hllo'\nassert remove_Occ('hello', 'x') == 'hello' "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert remove_Occ('hello world', 'l') == 'he world'\nassert remove_Occ('hello world', 'o') == 'hell world'\nassert remove_Occ('hello world', ' ') == 'hello world'\nassert remove_Occ('hello world', 'd') == 'hello world'\nassert remove_Occ('hello world', 'h') == 'ello world' "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert remove_Occ(\"hello world\", \"l\") == \"helo word\"\nassert remove_Occ(\"hello world\", \"o\") == \"hell wrld\"\nassert remove_Occ(\"hello world\", \"h\") == \"ello world\"\nassert remove_Occ(\"hello world\", \" \") == \"helloworld\"\nassert remove_Occ(\"hello world\", \"w\") == \"hello orld\" "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert remove_Occ(\"hello world\", \"o\") == \"hell world\" # test with first and last 'o' removed\nassert remove_Occ(\"hello world\", \"w\") == \"hello world\" # test with no 'w' in the string\nassert remove_Occ(\"hello world\", \"h\") == \"ello world\" # test with first 'h' removed\nassert remove_Occ(\"hello world\", \"d\") == \"hello worl\" # test with last 'd' removed\nassert remove_Occ(\"hello world\", \"x\") == \"hello world\" # test with non-existent character 'x' "
+    },
+    {
+        "number": 11,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert remove_Occ(\"hello world\", \"l\") == \"helo world\"\nassert remove_Occ(\"hello world\", \"o\") == \"hello w\"\nassert remove_Occ(\"hello world\", \"h\") == \"ello world\"\nassert remove_Occ(\"hello world\", \" \") == \"hello world\"\nassert remove_Occ(\"hello world\", \"d\") == \"hello world\" "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert sort_matrix([[3, 2, 1], [1, 2, 3], [2, 1, 3]]) == [[1, 2, 3], [2, 1, 3], [3, 2, 1]]\nassert sort_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[7, 8, 9], [4, 5, 6], [1, 2, 3]]\nassert sort_matrix([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]) == [[9, 10, 11, 12], [5, 6, 7, 8], [1, 2, 3, 4]]\nassert sort_matrix([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]]) == [[11, 12, 13, 14, 15], [6, 7, 8, 9, 10], [1, 2, 3, 4, 5]]\nassert sort_matrix([[1], [2], [3]]) == [[1], [2], [3]] "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert sort_matrix([[3, 2, 1], [1, 2, 3]]) == [[1, 2, 3], [1, 2, 3]]\nassert sort_matrix([[2, 1], [3, 4], [1, 2]]) == [[1, 2], [1, 2], [2, 1]]\nassert sort_matrix([[1, 2], [3, 4]]) == [[1, 2], [3, 4]]\nassert sort_matrix([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]) == [[5, 6, 7, 8], [9, 10, 11, 12], [1, 2, 3, 4]]\nassert sort_matrix([[10, 7, 4], [3, 2, 8]]) == [[3, 2, 8], [10, 7, 4]] "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert sort_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[1, 2, 3], [4, 5, 6], [7, 8, 9]]  # check that the function returns the same matrix if the matrix is already sorted\nassert sort_matrix([[9, 8, 7], [6, 5, 4], [3, 2, 1]]) == [[3, 2, 1], [6, 5, 4], [9, 8, 7]]  # check that the function sorts the matrix if it is not sorted\nassert sort_matrix([[2, 3, 1], [4, 5, 6], [7, 8, 9]]) == [[7, 8, 9], [2, 3, 1], [4, 5, 6]]  # check that the function sorts the matrix even if it is not fully sorted\nassert sort_matrix([[1, 2, 3], [4, 5, 6], [1, 2, 3]]) == [[1, 2, 3], [1, 2, 3], [4, 5, 6]]  # check that the function keeps duplicate rows in the same order\nassert sort_matrix([[1, 2, 3], [4, 5, 6], [1, 2, 3]]) == [[1, 2, 3], [1, 2, 3], [4, 5, 6]]  # check that the function sorts rows with the same sum in ascending order "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert sort_matrix([[3, 2, 1], [1, 2, 3], [2, 3, 1]]) == [[1, 2, 3], [2, 3, 1], [3, 2, 1]]\nassert sort_matrix([[1], [3], [2]]) == [[1], [2], [3]]\nassert sort_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nassert sort_matrix([[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]) == [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]]\nassert sort_matrix([[3, 2, 1], [1, 2, 3], [2, 3, 1]]) == [[1, 2, 3], [2, 3, 1], [3, 2, 1]] "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert sort_matrix([[3, 2, 1], [1, 2, 3], [4, 5, 6]]) == [[4, 5, 6], [3, 2, 1], [1, 2, 3]]\nassert sort_matrix([[2, 4, 5], [3, 1, 8], [6, 7, 9]]) == [[6, 7, 9], [2, 4, 5], [3, 1, 8]]\nassert sort_matrix([[1, 2], [3, 4]]) == [[1, 2], [3, 4]]\nassert sort_matrix([[5, 1], [3, 4], [7, 8]]) == [[5, 1], [3, 4], [7, 8]]\nassert sort_matrix([[1]]) == [[1]] "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert sort_matrix([[3, 2, 1], [1, 2, 3], [2, 3, 1]]) == [[1, 2, 3], [2, 3, 1], [3, 2, 1]]\nassert sort_matrix([[5, 2, 7], [1, 3, 4], [2, 4, 6]]) == [[1, 3, 4], [2, 4, 6], [5, 2, 7]]\nassert sort_matrix([[7, 4, 2], [3, 6, 5], [1, 8, 9]]) == [[1, 8, 9], [3, 6, 5], [7, 4, 2]]\nassert sort_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nassert sort_matrix([[9, 8, 7], [6, 5, 4], [3, 2, 1]]) == [[1, 2, 3], [2, 3, 4], [3, 4, 5]] "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert sort_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nassert sort_matrix([[9, 8, 7], [6, 5, 4], [3, 2, 1]]) == [[3, 2, 1], [6, 5, 4], [9, 8, 7]]\nassert sort_matrix([[1, 2, 3], [1, 2, 3], [1, 2, 3]]) == [[1, 2, 3], [1, 2, 3], [1, 2, 3]]\nassert sort_matrix([[5, 3, 1], [6, 4, 2]]) == [[1, 3, 5], [2, 4, 6]]\nassert sort_matrix([[7, 5, 1], [9, 4, 3], [6, 8, 2]]) == [[1, 5, 7], [2, 8, 6], [3, 4, 9]] "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert sort_matrix([[4, 5, 3], [2, 1, 8], [7, 6, 9]]) == [[2, 1, 8], [4, 5, 3], [7, 6, 9]]\nassert sort_matrix([[5, 1], [2, 8], [7, 3]]) == [[5, 1], [7, 3], [2, 8]]\nassert sort_matrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]]) == [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nassert sort_matrix([[9, 8, 7], [6, 5, 4], [3, 2, 1]]) == [[3, 2, 1], [6, 5, 4], [9, 8, 7]]\nassert sort_matrix([[3, 5], [1, 2]]) == [[1, 2], [3, 5]] "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert sort_matrix([[1,2],[3,4]]) == [[2,1],[4,3]] # example matrix and expected output\nassert sort_matrix([[5,4,3],[2,1,6],[8,7,9]]) == [[7,8,9],[1,5,6],[2,4,3]] # different matrix\nassert sort_matrix([[1,2,3],[4,5,6],[7,8,9]]) == [[7,8,9],[4,5,6],[1,2,3]] # matrix with equal rows\nassert sort_matrix([[10,9,8,7,6,5,4,3,2,1]]) == [[10,9,8,7,6,5,4,3,2,1]] # matrix with single row\nassert sort_matrix([[1,2],[3,4],[5,6]]) == [[5,6],[1,2],[3,4]] # example matrix with more than 2 rows "
+    },
+    {
+        "number": 12,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert sort_matrix([[2,4],[3,1]]) == [[3,1],[2,4]] # expected output\nassert sort_matrix([[2,4],[3,1],[1,5]]) == [[1,5],[2,4],[3,1]]\nassert sort_matrix([[2,4,1],[3,1,5]]) == [[3,1,5],[2,4,1]]\nassert sort_matrix([[2,4],[3,1],[1,5],[5,2]]) == [[1,5],[2,4],[3,1],[5,2]]\nassert sort_matrix([[2,4,1],[3,1,5],[1,5,2]]) == [[1,5,2],[2,4,1],[3,1,5]] "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert find_Volume(10,10,10) == 500\nassert find_Volume(1,2,3) == 1\nassert find_Volume(5,10,20) == 100\nassert find_Volume(1,2,3) == 1\nassert find_Volume(5,10,20) == 100 "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert find_Volume(3,4,5) == 60\nassert find_Volume(5,6,7) == 120\nassert find_Volume(2,3,4) == 24\nassert find_Volume(1,2,3) == 6\nassert find_Volume(10,20,30) == 1800 "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert find_Volume(3,4,5) == 60\nassert find_Volume(6,3,2) == 36\nassert find_Volume(1,2,3) == 6\nassert find_Volume(4,4,4) == 64\nassert find_Volume(5,5,5) == 150 "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert find_Volume(3,4,5) == 60, \"Incorrect volume for given dimensions\"\nassert find_Volume(5,6,7) == 120, \"Incorrect volume for given dimensions\"\nassert find_Volume(7,8,9) == 240, \"Incorrect volume for given dimensions\"\nassert find_Volume(10,11,12) == 360, \"Incorrect volume for given dimensions\"\nassert find_Volume(13,14,15) == 500, \"Incorrect volume for given dimensions\" "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert find_Volume(3,4,5) == 60 # correct input\nassert find_Volume(0,4,5) == 0 # zero length\nassert find_Volume(3,0,5) == 0 # zero width\nassert find_Volume(3,4,-5) == 0 # negative height\nassert find_Volume(3,4,0) == 0 # zero height "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert find_Volume(3,4,5) == 60, \"The volume should be 60\"\nassert find_Volume(6,7,8) == 288, \"The volume should be 288\"\nassert find_Volume(10,11,12) == 660, \"The volume should be 660\"\nassert find_Volume(13,14,15) == 910, \"The volume should be 910\"\nassert find_Volume(16,17,18) == 1260, \"The volume should be 1260\" "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert find_Volume(3, 4, 5) == 60\nassert find_Volume(6, 8, 10) == 300\nassert find_Volume(1, 1, 1) == 1\nassert find_Volume(2, 2, 2) == 8\nassert find_Volume(5, 5, 5) == 150 "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert find_Volume(3,4,5) == 60 \nassert find_Volume(6,8,10) == 240\nassert find_Volume(10,12,15) == 450\nassert find_Volume(8,12,18) == 600\nassert find_Volume(12,16,20) == 1200 "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert find_Volume(3, 4, 5) == 60 \nassert find_Volume(2, 3, 4) == 24 \nassert find_Volume(1, 2, 3) == 6 \nassert find_Volume(10, 12, 15) == 900 \nassert find_Volume(0, 0, 0) == 0 "
+    },
+    {
+        "number": 14,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert find_Volume(3, 4, 5) == 60\nassert find_Volume(5, 6, 7) == 120\nassert find_Volume(10, 12, 8) == 480\nassert find_Volume(1, 1, 1) == 1\nassert find_Volume(1, 2, 3) == 6 "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert text_lowercase_underscore(\"a_b_c_d_e\") == True\nassert text_lowercase_underscore(\"a_B_c\") == False\nassert text_lowercase_underscore(\"a_b_c_1_e\") == False\nassert text_lowercase_underscore(\"A_b_c\") == False\nassert text_lowercase_underscore(\"a_b_c\") == True "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert text_lowercase_underscore(\"hello_world\") == True \nassert text_lowercase_underscore(\"helloWorld\") == False \nassert text_lowercase_underscore(\"hello_world_and_python\") == True \nassert text_lowercase_underscore(\"HelloWorld\") == False \nassert text_lowercase_underscore(\"hello_world1\") == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert text_lowercase_underscore(\"hello_world\") == True\nassert text_lowercase_underscore(\"HelloWorld\") == False\nassert text_lowercase_underscore(\"Hello_world\") == False\nassert text_lowercase_underscore(\"hello_world1\") == False\nassert text_lowercase_underscore(\"hello_World\") == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert text_lowercase_underscore(\"lowercase_underscore\") == True\nassert text_lowercase_underscore(\"lowercase_underscore123\") == False\nassert text_lowercase_underscore(\"Lowercase_Underscore\") == False\nassert text_lowercase_underscore(\"lowercase_underscore_\") == True\nassert text_lowercase_underscore(\"lowercase_underscore__\") == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert text_lowercase_underscore(\"hello_world\") == True\nassert text_lowercase_underscore(\"Hello_World\") == False\nassert text_lowercase_underscore(\"HELLO_WORLD\") == False\nassert text_lowercase_underscore(\"hello_world_test\") == True\nassert text_lowercase_underscore(\"HELLO_WORLD_TEST\") == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert text_lowercase_underscore(\"hello_world\") == True\nassert text_lowercase_underscore(\"Hello_World\") == False\nassert text_lowercase_underscore(\"hello_world_python\") == True\nassert text_lowercase_underscore(\"HELLO_WORLD\") == False\nassert text_lowercase_underscore(\"hello world\") == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert text_lowercase_underscore('hello_world') == True\nassert text_lowercase_underscore('hello world') == False\nassert text_lowercase_underscore('HelloWorld') == False\nassert text_lowercase_underscore('Hello_world') == True\nassert text_lowercase_underscore('hello_world123') == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert text_lowercase_underscore(\"_a_b_c_\") == True\nassert text_lowercase_underscore(\"abc_\") == False\nassert text_lowercase_underscore(\"_a_b_c_d\") == False\nassert text_lowercase_underscore(\"aBc_\") == False\nassert text_lowercase_underscore(\"_aB_c_\") == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert text_lowercase_underscore(\"hello_world\") == True\nassert text_lowercase_underscore(\"HELLO_WORLD\") == False\nassert text_lowercase_underscore(\"hello_world1\") == False\nassert text_lowercase_underscore(\"hello\") == False\nassert text_lowercase_underscore(\"HELLO\") == False "
+    },
+    {
+        "number": 16,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert text_lowercase_underscore('hello_world') == True \nassert text_lowercase_underscore('Hello_World') == False \nassert text_lowercase_underscore('HELLO_WORLD') == False \nassert text_lowercase_underscore('hello_world_python') == True \nassert text_lowercase_underscore('hello_world_123') == False "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert square_perimeter(4) == 16\nassert square_perimeter(5) == 20\nassert square_perimeter(7) == 28\nassert square_perimeter(10) == 40\nassert square_perimeter(12) == 48 "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert square_perimeter(4) == 16\nassert square_perimeter(10) == 40\nassert square_perimeter(12) == 48\nassert square_perimeter(0) == 0\nassert square_perimeter(-3) == 0 # assuming a negative input is not possible for a square "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert square_perimeter(3) == 12\nassert square_perimeter(4) == 16\nassert square_perimeter(5) == 20\nassert square_perimeter(6) == 24\nassert square_perimeter(7) == 28 "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert square_perimeter(4) == 16 # should return 16\nassert square_perimeter(10) == 40 # should return 40\nassert square_perimeter(0) == 0 # should return 0\nassert square_perimeter(1) == 4 # should return 4\nassert square_perimeter(5) == 20 # should return 20 "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert square_perimeter(4) == 16, \"Should return 16\"\nassert square_perimeter(5) == 20, \"Should return 20\"\nassert square_perimeter(6) == 24, \"Should return 24\"\nassert square_perimeter(7) == 28, \"Should return 28\"\nassert square_perimeter(8) == 32, \"Should return 32\" "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert square_perimeter(4) == 16\nassert square_perimeter(5) == 20\nassert square_perimeter(10) == 40\nassert square_perimeter(0) == 0\nassert square_perimeter(1) == 4 "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert square_perimeter(4) == 16, \"Square perimeter is incorrect.\"\nassert square_perimeter(12) == 48, \"Square perimeter is incorrect.\"\nassert square_perimeter(2) == 8, \"Square perimeter is incorrect.\"\nassert square_perimeter(9) == 36, \"Square perimeter is incorrect.\"\nassert square_perimeter(5) == 20, \"Square perimeter is incorrect.\" "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert square_perimeter(4) == 16\nassert square_perimeter(5) == 20\nassert square_perimeter(10) == 40\nassert square_perimeter(12) == 48\nassert square_perimeter(0) == 0\n\n"
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert square_perimeter(4) == 16\nassert square_perimeter(5) == 20\nassert square_perimeter(10) == 40\nassert square_perimeter(12) == 48\nassert square_perimeter(20) == 80 "
+    },
+    {
+        "number": 17,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert square_perimeter(4) == 16\nassert square_perimeter(10) == 40\nassert square_perimeter(20) == 80\nassert square_perimeter(0) == 0\nassert square_perimeter(-5) == 0 "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert str_to_list('hello world') == ['h', 'e', 'l', 'o', ' ', 'w', 'r', 'd']\nassert str_to_list('') == []\nassert str_to_list('hello') == ['h', 'e', 'l', 'o']\nassert str_to_list('1234567890') == ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']\nassert str_to_list('a'*256) == ['a']*256 "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert str_to_list(\"hello world\", \"lo\") == \"he wrd\"\nassert str_to_list(\"python programming\", \"py\") == \"thon programming\"\nassert str_to_list(\"programming is fun\", \"programming\") == \" is fun\"\nassert str_to_list(\"hello world\", \"lo\") == \"he wrd\"\nassert str_to_list(\"hello world\", \"lo\") == \"he wrd\" "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert str_to_list(\"abcdef\", \"bcd\") == \"ae\" \nassert str_to_list(\"hello world\", \"ol\") == \"he wrd\" \nassert str_to_list(\"\", \"\") == \"\" \nassert str_to_list(\"123\", \"123\") == \"\" \nassert str_to_list(\"123456789\", \"123\") == \"456789\" "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert str_to_list('hello', 'e') == ['h', 'l', 'l', 'o']\nassert str_to_list('hello', 'l') == ['he', 'o']\nassert str_to_list('hello', 'z') == ['h', 'e', 'l', 'l', 'o']\nassert str_to_list('hello', 'el') == ['h', 'o']\nassert str_to_list('hello', '') == ['h', 'e', 'l', 'l', 'o'] "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert str_to_list(\"abcde\", \"ace\") == \"bd\"  # check for all characters in second string\nassert str_to_list(\"abcde\", \"xyz\") == \"abcde\"  # check for no matching characters in second string\nassert str_to_list(\"\", \"\") == \"\"  # check for empty strings\nassert str_to_list(\"abcde\", \"aeiou\") == \"bc\"  # check for all vowels in second string\nassert str_to_list(\"abcde\", \"abcde\") == \"\"  # check for all characters in both strings "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert str_to_list(\"hello\", \"he\") == \"llo\"\nassert str_to_list(\"hello\", \"e\") == \"hllo\"\nassert str_to_list(\"hello\", \"l\") == \"heo\"\nassert str_to_list(\"hello\", \"h\") == \"ello\"\nassert str_to_list(\"hello\", \"o\") == \"hell\" "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert str_to_list(\"hello\") == [\"h\", \"e\", \"l\", \"o\"]\nassert str_to_list(\"python\") == [\"p\", \"y\", \"t\", \"h\", \"o\", \"n\"]\nassert str_to_list(\"\") == []\nassert str_to_list(\"12345\") == [\"1\", \"2\", \"3\", \"4\", \"5\"]\nassert str_to_list(\"abcdefghijklmnopqrstuvwxyz\") == [chr(i) for i in range(ord(\"a\"), NO_OF_CHARS)] "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert str_to_list(\"hello world\") == [\"h\", \"e\", \"l\", \"o\", \" \", \"w\", \"r\", \"l\", \"d\"]\nassert str_to_list(\"\") == []\nassert str_to_list(\"a\") == [\"a\"]\nassert str_to_list(\"abcdefghijklmnopqrstuvwxyz\") == [\"a\", \"b\", \"c\", \"d\", \"e\", \"f\", \"g\", \"h\", \"i\", \"j\", \"k\", \"l\", \"m\", \"n\", \"o\", \"p\", \"q\", \"r\", \"s\", \"t\", \"u\", \"v\", \"w\", \"x\", \"y\", \"z\"]\nassert str_to_list(\"Hello world\") == [\"H\", \"e\", \"l\", \"o\", \" \", \"w\", \"r\", \"l\", \"d\"] "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert str_to_list('hello world', 'llo w') == ['he', ' ', 'or', 'd'] "
+    },
+    {
+        "number": 18,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert str_to_list(\"hello\", \"lo\") == [\"he\", \"\"] \nassert str_to_list(\"world\", \"wo\") == [\"rld\", \"\"] \nassert str_to_list(\"python\", \"on\") == [\"py\", \"th\"] \nassert str_to_list(\"abcdefg\", \"ghijkl\") == [\"abcdef\", \"\"] \nassert str_to_list(\"\", \"\") == [\"\", \"\"] \n"
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert test_duplicate([1, 2, 3]) == False \nassert test_duplicate([1, 2, 2]) == True \nassert test_duplicate([1, 2, 2, 3]) == True \nassert test_duplicate([1, 2, 3, 4]) == False \nassert test_duplicate([1, 1, 2, 3, 3]) == True "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert test_duplicate([1, 2, 3, 4, 5]) == False\nassert test_duplicate([1, 2, 3, 4, 1]) == True\nassert test_duplicate([1]) == False\nassert test_duplicate([]) == False\nassert test_duplicate([1, 1, 2, 2, 3, 3]) == True "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert test_duplicate([1, 2, 3, 4, 5]) == False\nassert test_duplicate([1, 2, 3, 4, 5, 5]) == True\nassert test_duplicate([1, 1, 1, 1, 1]) == True\nassert test_duplicate([]) == False\nassert test_duplicate([1]) == False "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert test_duplicate([1, 2, 3, 4, 5]) == False\nassert test_duplicate([1, 2, 3, 4, 4]) == True\nassert test_duplicate([1, 1, 1, 1, 1]) == True\nassert test_duplicate([]) == False\nassert test_duplicate([0]) == False "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert test_duplicate([1,2,3,4,5]) == False\nassert test_duplicate([1,2,3,4,2]) == True\nassert test_duplicate([1,2,3,4,1]) == True\nassert test_duplicate([1]) == False\nassert test_duplicate([1,1,1,1,1]) == True "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert test_duplicate([1, 2, 3, 4, 5]) == False, \"Test failed for [1, 2, 3, 4, 5]\"\nassert test_duplicate([1, 2, 3, 4, 5, 5]) == True, \"Test failed for [1, 2, 3, 4, 5, 5]\"\nassert test_duplicate([1, 2, 3, 4, 4]) == True, \"Test failed for [1, 2, 3, 4, 4]\"\nassert test_duplicate([1, 2, 3, 4, 4, 5, 5]) == True, \"Test failed for [1, 2, 3, 4, 4, 5, 5]\"\nassert test_duplicate([1, 2, 3, 4, 5, 6]) == False, \"Test failed for [1, 2, 3, 4, 5, 6]\" "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert test_duplicate([1,2,3,4,5]) == False\nassert test_duplicate([1,2,3,4,5,1]) == True\nassert test_duplicate([1,2,3,4,5,1,2]) == True\nassert test_duplicate([1,2,3,4,5,1,2,3]) == True\nassert test_duplicate([1,1,1,1,1]) == True "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert test_duplicate([1,2,3,4,5]) == False\nassert test_duplicate([1,2,3,4,5,5]) == True\nassert test_duplicate([1]) == False\nassert test_duplicate([]) == False\nassert test_duplicate([1,2,3,4,5,5,5]) == True "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert test_duplicate([1, 2, 3, 4, 5]) == False # No duplicates\nassert test_duplicate([1, 2, 3, 4, 5, 5]) == True # Duplicate of 5\nassert test_duplicate([1, 1, 2, 3, 4, 5]) == True # Duplicate of 1\nassert test_duplicate([1, 2, 3, 4, 5, 6, 7]) == False # No duplicates\nassert test_duplicate([1, 1, 1, 2, 3, 4, 5]) == True # Duplicate of 1 "
+    },
+    {
+        "number": 19,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert test_duplicate([1, 2, 3, 4, 5]) == False, \"Incorrect result for [1, 2, 3, 4, 5]\"\nassert test_duplicate([1, 2, 3, 4, 4]) == True, \"Incorrect result for [1, 2, 3, 4, 4]\"\nassert test_duplicate([1, 2, 3, 4, 5, 5]) == True, \"Incorrect result for [1, 2, 3, 4, 5, 5]\"\nassert test_duplicate([1, 1, 2, 3, 4]) == True, \"Incorrect result for [1, 1, 2, 3, 4]\"\nassert test_duplicate([1, 2, 3, 4, 5]) == False, \"Incorrect result for [1, 2, 3, 4, 5]\" "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_woodall(10) == False\nassert is_woodall(16) == True\nassert is_woodall(3) == False\nassert is_woodall(4) == False\nassert is_woodall(1) == False\n\n"
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_woodall(4) == True\nassert is_woodall(6) == True\nassert is_woodall(8) == False\nassert is_woodall(10) == False\nassert is_woodall(12) == True "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_woodall(1) == False\nassert is_woodall(10) == False\nassert is_woodall(27) == False\nassert is_woodall(45) == True\nassert is_woodall(75) == False "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_woodall(1) == False\nassert is_woodall(2) == False\nassert is_woodall(3) == False\nassert is_woodall(4) == False\nassert is_woodall(5) == False "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_woodall(1) == False\nassert is_woodall(2) == False\nassert is_woodall(3) == True\nassert is_woodall(4) == False\nassert is_woodall(5) == True "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_woodall(42) == False, \"42 is not a woodball.\"\nassert is_woodall(16) == True, \"16 is a woodball.\"\nassert is_woodall(1234567890) == False, \"1234567890 is not a woodball.\"\nassert is_woodall(21) == True, \"21 is a woodball.\"\nassert is_woodall(9) == False, \"9 is not a woodball.\" "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_woodall(25) == False\nassert is_woodall(30) == True\nassert is_woodall(40) == True\nassert is_woodall(60) == False\nassert is_woodall(75) == True "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_woodall(2) == False\nassert is_woodall(4) == False\nassert is_woodall(6) == False\nassert is_woodall(8) == True\nassert is_woodall(10) == False "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_woodall(123) == False, \"Woodball expected\"\nassert is_woodall(9) == False, \"Woodball expected\"\nassert is_woodall(27) == False, \"Woodball expected\"\nassert is_woodall(81) == True, \"Woodball not found\"\nassert is_woodall(45) == True, \"Woodball not found\" "
+    },
+    {
+        "number": 20,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_woodall(10) == False # 10 is not woodball\nassert is_woodall(42) == True # 42 is woodball\nassert is_woodall(17) == False # 17 is not woodball\nassert is_woodall(28) == True # 28 is woodball\nassert is_woodall(35) == False # 35 is not woodball "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert rev(12321) == True\nassert rev(12345) == False\nassert rev(2112) == True\nassert rev(12121) == False\nassert rev(12320) == True "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert rev(12) == True\nassert rev(123) == False\nassert rev(121) == True\nassert rev(10) == False\nassert rev(123456) == True "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert rev(123456789) == 123456788 # This is the expected output for rev(123456789). \nassert rev(12321) == 12320 # This is the expected output for rev(12321). \nassert rev(12) == 11 # This is the expected output for rev(12). \nassert rev(1000) == 1 # This is the expected output for rev(1000). \nassert rev(22) == 19 # This is the expected output for rev(22). "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert rev(121) == True\nassert rev(123) == False\nassert rev(456) == True\nassert rev(1000) == True\nassert rev(5000) == False "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert rev(121) == True\nassert rev(123) == False\nassert rev(10) == True\nassert rev(500) == False\nassert rev(1221) == True "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert rev(12321) == True\nassert rev(12345) == False\nassert rev(10) == True\nassert rev(121) == True\nassert rev(123) == False "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert rev(1234) == 1210, \"rev(1234) should be 1210\"\nassert rev(54321) == 1230, \"rev(54321) should be 1230\"\nassert rev(10) == 2, \"rev(10) should be 2\"\nassert rev(12) == 10, \"rev(12) should be 10\"\nassert rev(123) == 36, \"rev(123) should be 36\" "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert rev(1234) == 2342 \nassert rev(12345) == 53421 \nassert rev(123456) == 654321 \nassert rev(1234567) == 7654321 \nassert rev(12345678) == 87654321 "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert rev(12) == True\nassert rev(42) == False\nassert rev(100) == True\nassert rev(90) == False\nassert rev(99) == True "
+    },
+    {
+        "number": 56,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert rev(121) == True\nassert rev(123) == False\nassert rev(10) == True\nassert rev(5) == False\nassert rev(42) == False "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert find_Max_Num([1,2,3,4,5]) == 54321\nassert find_Max_Num([12, 34, 56, 78, 90]) == 953468721\nassert find_Max_Num([3, 5, 1, 2, 9]) == 95231\nassert find_Max_Num([7, 6, 5, 4, 3, 2, 1]) == 7654321\nassert find_Max_Num([]) == 0 "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert find_Max_Num([5, 2, 3, 4]) == 5432, \"find_Max_Num([5, 2, 3, 4]) should return 5432\"\nassert find_Max_Num([1, 2, 3, 4]) == 4321, \"find_Max_Num([1, 2, 3, 4]) should return 4321\"\nassert find_Max_Num([9, 9, 9]) == 999, \"find_Max_Num([9, 9, 9]) should return 999\"\nassert find_Max_Num([]) == 0, \"find_Max_Num([]) should return 0\"\nassert find_Max_Num([-1, 2, 3, 4]) == 4321, \"find_Max_Num([-1, 2, 3, 4]) should return 4321\" "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert find_Max_Num([1,2,3,4,5]) == 54321 \nassert find_Max_Num([1,2,3,4,5,6]) == 654321 \nassert find_Max_Num([1,2,3]) == 321 \nassert find_Max_Num([-1,-2,-3]) == -1 \nassert find_Max_Num([]) == None "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert find_Max_Num([1, 2, 3, 4, 5]) == 54321\nassert find_Max_Num([1, 2, 3, 4, 5, 6]) == 654321\nassert find_Max_Num([1, 2, 3, 4, 5, 6, 7]) == 7654321\nassert find_Max_Num([1, 2, 3, 4, 5, 6, 7, 8]) == 87654321\nassert find_Max_Num([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 987654321\n\n"
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert find_Max_Num([3, 5, 2, 7]) == 753, \"Incorrect result for [3, 5, 2, 7]\"\nassert find_Max_Num([1, 2, 3, 4, 5]) == 54321, \"Incorrect result for [1, 2, 3, 4, 5]\"\nassert find_Max_Num([9, 9, 9, 9]) == 9999, \"Incorrect result for [9, 9, 9, 9]\"\nassert find_Max_Num([2, 3, 5, 6, 8, 9, 10]) == 96532, \"Incorrect result for [2, 3, 5, 6, 8, 9, 10]\"\nassert find_Max_Num([7, 7, 7]) == 777, \"Incorrect result for [7, 7, 7]\" "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert find_Max_Num([1, 2, 3, 4, 5, 6, 7, 8, 9]) == 987654321\nassert find_Max_Num([9, 8, 7, 6, 5, 4, 3, 2, 1]) == 987654321\nassert find_Max_Num([1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) == 987654321\nassert find_Max_Num([5, 5, 5, 5, 5]) == 55555\nassert find_Max_Num([]) == 0 "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert find_Max_Num([1, 2, 3, 4, 5]) == 534\nassert find_Max_Num([1, 3, 2, 2, 6]) == 632\nassert find_Max_Num([4, 2, 5, 3]) == 543\nassert find_Max_Num([1, 7, 9]) == 971\nassert find_Max_Num([5, 5, 5, 5]) == 5555 "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert find_Max_Num([1, 2, 3, 4, 5]) == 54321\nassert find_Max_Num([1, 2, 3, 4]) == 4321\nassert find_Max_Num([1, 2, 3]) == 321\nassert find_Max_Num([1, 2]) == 21\nassert find_Max_Num([1]) == 1 "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert find_Max_Num([1,2,3,4,5]) == 54321\nassert find_Max_Num([5,4,3,2,1]) == 54321\nassert find_Max_Num([1,2,3,4,5,5]) == 554321\nassert find_Max_Num([1,2,3,4,5,6]) == 654321\nassert find_Max_Num([1,2,3,4,5,6,7]) == 7654321 "
+    },
+    {
+        "number": 57,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert find_Max_Num([5, 2, 3, 4]) == 5432, \"Test case 1 failed\"\nassert find_Max_Num([5, 5, 5, 5]) == 5555, \"Test case 2 failed\"\nassert find_Max_Num([9, 9, 9]) == 999, \"Test case 3 failed\"\nassert find_Max_Num([1, 2, 3, 4, 5]) == 54321, \"Test case 4 failed\"\nassert find_Max_Num([1, 0, 0, 0]) == 1000, \"Test case 5 failed\" "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert opposite_Signs(1, -1) == True, \"opposite_Signs(1, -1) should return True\"\nassert opposite_Signs(0, 0) == True, \"opposite_Signs(0, 0) should return True\"\nassert opposite_Signs(-1, 1) == True, \"opposite_Signs(-1, 1) should return True\"\nassert opposite_Signs(5, -5) == True, \"opposite_Signs(5, -5) should return True\"\nassert opposite_Signs(10, 20) == False, \"opposite_Signs(10, 20) should return False\" "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert opposite_Signs(5,-3) == True\nassert opposite_Signs(-5,3) == True\nassert opposite_Signs(0,0) == False\nassert opposite_Signs(3,0) == False\nassert opposite_Signs(-2,-5) == True "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert opposite_Signs(-2,3) == True\nassert opposite_Signs(-2,-3) == True\nassert opposite_Signs(2,-3) == True\nassert opposite_Signs(2,0) == True\nassert opposite_Signs(2,3) == False "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert opposite_Signs(-2,3)==True\nassert opposite_Signs(2,-3)==True\nassert opposite_Signs(-2,-3)==True\nassert opposite_Signs(2,3)==False\nassert opposite_Signs(0,-3)==True "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert opposite_Signs(1, -1) == True\nassert opposite_Signs(-1, 1) == True\nassert opposite_Signs(-1, -1) == False\nassert opposite_Signs(0, 0) == False\nassert opposite_Signs(1, 1) == False "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert opposite_Signs(5, -2) == True\nassert opposite_Signs(-5, 2) == True\nassert opposite_Signs(0, 0) == False\nassert opposite_Signs(5, 0) == False\nassert opposite_Signs(0, -5) == False "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert opposite_Signs(-1, 2) == True\nassert opposite_Signs(0, -1) == True\nassert opposite_Signs(1, 0) == False\nassert opposite_Signs(1, 1) == False\nassert opposite_Signs(-1, -2) == False "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert opposite_Signs(5, -5) == True\nassert opposite_Signs(-5, 5) == True\nassert opposite_Signs(5, 5) == False\nassert opposite_Signs(-5, -5) == False\nassert opposite_Signs(0, 0) == False "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert opposite_Signs(-2, 3) == True\nassert opposite_Signs(0, 5) == False\nassert opposite_Signs(-7, -3) == True\nassert opposite_Signs(8, -4) == True\nassert opposite_Signs(10, 0) == True "
+    },
+    {
+        "number": 58,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert opposite_Signs(1, -1) == True, \"Error: opposite_Signs(1, -1) != True\"\nassert opposite_Signs(-2, 3) == True, \"Error: opposite_Signs(-2, 3) != True\"\nassert opposite_Signs(0, 0) == True, \"Error: opposite_Signs(0, 0) != True\"\nassert opposite_Signs(10, 5) == False, \"Error: opposite_Signs(10, 5) != False\"\nassert opposite_Signs(-3, 2) == False, \"Error: opposite_Signs(-3, 2) != False\" "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 64\nassert is_octagonal(5) == 128 "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 80\nassert is_octagonal(5) == 196 "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_octagonal(1) == 1, \"Error: is_octagonal(1) should return 1\"\nassert is_octagonal(2) == 8, \"Error: is_octagonal(2) should return 8\"\nassert is_octagonal(3) == 28, \"Error: is_octagonal(3) should return 28\"\nassert is_octagonal(4) == 80, \"Error: is_octagonal(4) should return 80\"\nassert is_octagonal(5) == 162, \"Error: is_octagonal(5) should return 162\" "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 94\nassert is_octagonal(5) == 246\n\n"
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 80\nassert is_octagonal(5) == 228 "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 64\nassert is_octagonal(5) == 128 "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 80\nassert is_octagonal(5) == 192 "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 64\nassert is_octagonal(5) == 120 "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_octagonal(1) == 1\nassert is_octagonal(2) == 8\nassert is_octagonal(3) == 28\nassert is_octagonal(4) == 64\nassert is_octagonal(5) == 128 "
+    },
+    {
+        "number": 59,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_octagonal(1) == 1, \"Expected 1, got {}\".format(is_octagonal(1))\nassert is_octagonal(2) == 8, \"Expected 8, got {}\".format(is_octagonal(2))\nassert is_octagonal(3) == 28, \"Expected 28, got {}\".format(is_octagonal(3))\nassert is_octagonal(4) == 80, \"Expected 80, got {}\".format(is_octagonal(4))\nassert is_octagonal(5) == 160, \"Expected 160, got {}\".format(is_octagonal(5)) "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert count_Substrings(\"123\") == 1, \"Expected 1, Actual: {}\".format(count_Substrings(\"123\"))\nassert count_Substrings(\"1122\") == 2, \"Expected 2, Actual: {}\".format(count_Substrings(\"1122\"))\nassert count_Substrings(\"1234\") == 0, \"Expected 0, Actual: {}\".format(count_Substrings(\"1234\"))\nassert count_Substrings(\"0123456789\") == 16, \"Expected 16, Actual: {}\".format(count_Substrings(\"0123456789\"))\nassert count_Substrings(\"123123\") == 2, \"Expected 2, Actual: {}\".format(count_Substrings(\"123123\")) "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert count_Substrings('123') == 1\nassert count_Substrings('123456') == 3\nassert count_Substrings('1234567') == 3\nassert count_Substrings('123456789') == 4\nassert count_Substrings('1234567890') == 5 "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert count_Substrings(\"123\") == 4 \nassert count_Substrings(\"1234\") == 7 \nassert count_Substrings(\"12345\") == 13 \nassert count_Substrings(\"123456\") == 22 \nassert count_Substrings(\"1234567\") == 35 "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert count_Substrings(\"1234\") == 0 \nassert count_Substrings(\"12345\") == 1\nassert count_Substrings(\"123456\") == 2\nassert count_Substrings(\"1234567\") == 3\nassert count_Substrings(\"12345678\") == 4 "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert count_Substrings('1234') == 1\nassert count_Substrings('12345') == 0\nassert count_Substrings('12321') == 2\nassert count_Substrings('23456789') == 0\nassert count_Substrings('0123456789') == 10 "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert count_Substrings(\"1234\") == 1 \nassert count_Substrings(\"12345\") == 2 \nassert count_Substrings(\"123456\") == 3 \nassert count_Substrings(\"1234567\") == 4 \nassert count_Substrings(\"12345678\") == 5 "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert count_Substrings(\"1234\") == 5, \"Expected 5 but got {}\".format(count_Substrings(\"1234\"))\nassert count_Substrings(\"11\") == 1, \"Expected 1 but got {}\".format(count_Substrings(\"11\"))\nassert count_Substrings(\"123\") == 2, \"Expected 2 but got {}\".format(count_Substrings(\"123\"))\nassert count_Substrings(\"2345\") == 0, \"Expected 0 but got {}\".format(count_Substrings(\"2345\"))\nassert count_Substrings(\"123456\") == 3, \"Expected 3 but got {}\".format(count_Substrings(\"123456\")) "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert count_Substrings(\"12345\") == 15\nassert count_Substrings(\"01234\") == 6\nassert count_Substrings(\"11111\") == 1\nassert count_Substrings(\"123123\") == 0\nassert count_Substrings(\"123\") == 1 "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert count_Substrings('123') == 3 # 1, 2, 3\nassert count_Substrings('1234') == 4 # 1, 2, 3, 4\nassert count_Substrings('12345') == 5 # 1, 2, 3, 4, 5\nassert count_Substrings('123456') == 6 # 1, 2, 3, 4, 5, 6\nassert count_Substrings('1234567') == 7 # 1, 2, 3, 4, 5, 6, 7 "
+    },
+    {
+        "number": 61,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert count_Substrings(\"1234\") == 3\nassert count_Substrings(\"12345\") == 5\nassert count_Substrings(\"123456\") == 11\nassert count_Substrings(\"1234567\") == 29\nassert count_Substrings(\"12345678\") == 83 "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert smallest_num([1, 2, 3, 4, 5]) == 1, \"smallest_num([1, 2, 3, 4, 5]) should return 1\"\nassert smallest_num([5, 4, 3, 2, 1]) == 1, \"smallest_num([5, 4, 3, 2, 1]) should return 1\"\nassert smallest_num([1, 2, 2, 3, 3, 4, 4]) == 1, \"smallest_num([1, 2, 2, 3, 3, 4, 4]) should return 1\"\nassert smallest_num([]) == None, \"smallest_num([]) should return None\"\nassert smallest_num([-5, -4, -3, -2, -1]) == -5, \"smallest_num([-5, -4, -3, -2, -1]) should return -5\" "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert smallest_num([1, 2, 3, 4, 5]) == 1\nassert smallest_num([5, 4, 3, 2, 1]) == 1\nassert smallest_num([1, 2, 3, 4, 5, 1]) == 1\nassert smallest_num([1]) == 1\nassert smallest_num([]) == None "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert smallest_num([1,2,3,4,5]) == 1\nassert smallest_num([5,4,3,2,1]) == 1\nassert smallest_num([1,-2,3,-4,5]) == -4\nassert smallest_num([1,1,1,1,1]) == 1\nassert smallest_num([]) == None "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert smallest_num([1, 2, 3, 4, 5]) == 1\nassert smallest_num([5, 4, 3, 2, 1]) == 1\nassert smallest_num([1, 1, 2, 3, 4]) == 1\nassert smallest_num([]) == None\nassert smallest_num([-1, -2, -3, -4, -5]) == -5 "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert smallest_num([1, 2, 3, 4, 5]) == 1\nassert smallest_num([5, 4, 3, 2, 1]) == 1\nassert smallest_num([1, 2, 3, 4, 5, 5]) == 1\nassert smallest_num([]) == None\nassert smallest_num([-5, -6, -7, -8, -9]) == -9 "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert smallest_num([5, 3, 8, 1, 2]) == 1\nassert smallest_num([-3, -1, 0, 1, 2]) == -3\nassert smallest_num([5, 5, 5]) == 5\nassert smallest_num([]) == None\nassert smallest_num([2, 2, 2, 2]) == 2 "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert smallest_num([1,2,3,4,5]) == 1\nassert smallest_num([5,4,3,2,1]) == 1\nassert smallest_num([10, 0, 100, -50, 60]) == -50\nassert smallest_num([100, 100, 100]) == 100\nassert smallest_num([]) == None "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert smallest_num([3, 5, 1, 6, 2]) == 1\nassert smallest_num([4, 2, 7, 9, 1]) == 1\nassert smallest_num([10, 5, 8, 3, 2]) == 2\nassert smallest_num([10, 1, 10, 1, 10]) == 1\nassert smallest_num([]) == None "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert smallest_num([5, 3, 8, 1, 2]) == 1\nassert smallest_num([-5, 3, 8, 1, -2]) == -5\nassert smallest_num([5, 5, 5, 5, 5]) == 5\nassert smallest_num([]) == None\nassert smallest_num([1]) == 1 "
+    },
+    {
+        "number": 62,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert smallest_num([4, 2, 1, 5, 3]) == 1  # test case 1\nassert smallest_num([-4, -2, -1, -5, -3]) == -5  # test case 2\nassert smallest_num([5]) == 5  # test case 3\nassert smallest_num([]) == None  # test case 4\nassert smallest_num([0, 0, 0, 0]) == 0  # test case 5 "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert max_difference([1, 2, 3, 4, 5]) == 4, \"Error: Maximum Difference Not Correct\"\nassert max_difference([10, 22, 35, 40, 55]) == 23, \"Error: Maximum Difference Not Correct\"\nassert max_difference([2, 3, 10, 6, 4, 8, 1]) == 8, \"Error: Maximum Difference Not Correct\"\nassert max_difference([10, 20, 30, 40, 50]) == 0, \"Error: Maximum Difference Not Correct\"\nassert max_difference([50, 40, 30, 20, 10]) == 10, \"Error: Maximum Difference Not Correct\" "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert max_difference([(1,2),(3,4),(5,6),(7,8),(9,10)]) == 8 \nassert max_difference([(-5,3),(0,9),(12,7)]) == 27 \nassert max_difference([(-1,-2),(-3,-4),(-5,-6)]) == -1 \nassert max_difference([(-10,0),(0,10),(10,20)]) == 30 \nassert max_difference([(1,2),(2,4),(6,8),(10,12)]) == 6 "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert max_difference([3, 7, 1, 9, 2, 4]) == 8\nassert max_difference([2, 3, 10, 6, 4, 8, 1]) == 8\nassert max_difference([1, 2, 3, 4, 5]) == 4\nassert max_difference([9, 4, 12, 7, 11]) == 7\nassert max_difference([1, 1, 1, 1, 1]) == 0 "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert max_difference([1,2,3,4,5]) == 4, \"Error: max_difference([1,2,3,4,5]) should be 4.\"\nassert max_difference([5,4,3,2,1]) == -1, \"Error: max_difference([5,4,3,2,1]) should be -1.\"\nassert max_difference([1,2,3,4,6,5]) == 5, \"Error: max_difference([1,2,3,4,6,5]) should be 5.\"\nassert max_difference([1]) == 0, \"Error: max_difference([1]) should be 0.\"\nassert max_difference([1,1]) == 0, \"Error: max_difference([1,1]) should be 0.\" "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert max_difference([1, 2, 3, 4, 5]) == 4, \"max_difference([1, 2, 3, 4, 5]) should return 4\"\nassert max_difference([1, 1, 1, 1, 1]) == 0, \"max_difference([1, 1, 1, 1, 1]) should return 0\"\nassert max_difference([-1, 0, 1]) == 2, \"max_difference([-1, 0, 1]) should return 2\"\nassert max_difference([1, 2, 3, 4]) == 3, \"max_difference([1, 2, 3, 4]) should return 3\"\nassert max_difference([100, 10, 1, 99, 98]) == 91, \"max_difference([100, 10, 1, 99, 98]) should return 91\" "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert max_difference([(2, 5), (7, 1), (9, 4)]) == 4, \"Incorrect max_difference\"\nassert max_difference([(1, 2), (3, 4), (5, 6), (7, 8), (9, 10)]) == 8, \"Incorrect max_difference\"\nassert max_difference([(10, 100), (20, 150), (30, 200), (40, 250), (50, 300)]) == 200, \"Incorrect max_difference\"\nassert max_difference([(1, 5), (3, 7), (4, 9), (8, 10), (12, 15)]) == 9, \"Incorrect max_difference\"\nassert max_difference([(1, 5), (3, 7), (4, 9), (8, 10), (12, 15), (18, 21)]) == 18, \"Incorrect max_difference\" "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert max_difference([1, 2, 3, 4, 5]) == 4, \"Test case 1 failed\"\nassert max_difference([7, 1, 5, 3, 6]) == 5, \"Test case 2 failed\"\nassert max_difference([-10, 20, 0, -5, -7]) == 30, \"Test case 3 failed\"\nassert max_difference([1]) == None, \"Test case 4 failed\"\nassert max_difference([]) == None, \"Test case 5 failed\" "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert max_difference([1, 2, 3, 4, 5]) == 4 # Test with an increasing list of integers\nassert max_difference([5, 4, 3, 2, 1]) == 4 # Test with a decreasing list of integers\nassert max_difference([-5, 0, 5, 10, 15]) == 20 # Test with a list with positive and negative integers\nassert max_difference([-5, 10, 20, 30, 40]) == 60 # Test with a list with only positive integers\nassert max_difference([-5, -10, -20, -30, -40]) == -5 # Test with a list with only negative integers "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert max_difference([1,2,3,4,5]) == 4\nassert max_difference([10,22,35,40,55]) == 23\nassert max_difference([50,30,20,60,10]) == 50\nassert max_difference([1,3,5,7,9]) == 8\nassert max_difference([9,7,5,3,1]) == 8 "
+    },
+    {
+        "number": 63,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert max_difference([1, 5, 3, 10]) == 7\nassert max_difference([2, 3, 10, 6]) == 8\nassert max_difference([1, 2, 3, 4, 5]) == 4\nassert max_difference([1, 5, 3, 10, 8, 12, 16]) == 14\nassert max_difference([1, 2, 3]) == None "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert subject_marks([(1, 20), (2, 10), (3, 30)]) == [(2, 10), (1, 20), (3, 30)]\nassert subject_marks([(1, 20), (2, 10), (3, 30)])[0][1] == 10\nassert subject_marks([(1, 20), (2, 10), (3, 30)])[-1][1] == 30\nassert len(subject_marks([(1, 20), (2, 10), (3, 30)])) == 3\nassert isinstance(subject_marks([(1, 20), (2, 10), (3, 30)]), list) "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert subject_marks([(10, 20), (30, 10), (20, 30)]) == [(20, 30), (10, 20), (30, 10)]\nassert subject_marks([(10, 20), (30, 10), (20, 30), (20, 20)]) == [(20, 30), (20, 20), (10, 20), (30, 10)]\nassert subject_marks([(10, 20), (30, 10), (20, 30), (20, 20), (10, 10)]) == [(20, 30), (20, 20), (30, 10), (10, 20), (10, 10)]\nassert subject_marks([(10, 20), (30, 10), (20, 30), (20, 20), (10, 10), (30, 20)]) == [(20, 30), (20, 20), (10, 20), (30, 10), (10, 10), (30, 20)]\nassert subject_marks([(10, 20), (30, 10), (20, 30), (20, 20), (10, 10), (30, 20), (20, 10)]) == [(20, 30), (20, 20), (10, 20), (30, 10), (10, 10), (30, 20), (20, 10)] "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert subject_marks([(1, 34), (3, 76), (5, 23), (7, 98), (9, 56)]) == [(3, 76), (5, 23), (9, 56), (1, 34), (7, 98)] \n\nassert subject_marks([(\"Maths\", 80), (\"Science\", 90), (\"English\", 70)]) == [(\"Maths\", 80), (\"Science\", 90), (\"English\", 70)]\n\nassert subject_marks([(\"Geography\", 67), (\"History\", 89), (\"Biology\", 90)]) == [(\"History\", 89), (\"Geography\", 67), (\"Biology\", 90)]\n\nassert subject_marks([(\"English\", 65), (\"Maths\", 70), (\"Science\", 75)]) == [(\"Maths\", 70), (\"English\", 65), (\"Science\", 75)]\n\nassert subject_marks([]) == [] "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert subject_marks([(\"English\", 80), (\"Maths\", 90), (\"Science\", 70), (\"Social\", 85)]) == [(\"Maths\", 90), (\"English\", 80), (\"Social\", 85), (\"Science\", 70)] "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert subject_marks([(1, 2), (3, 4), (5, 6), (7, 8)]) == [(5, 6), (3, 4), (7, 8), (1, 2)] "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert subject_marks([('A', 80), ('B', 75), ('C', 90)]) == [('C', 90), ('A', 80), ('B', 75)]\nassert subject_marks([('D', 60), ('E', 85), ('F', 70)]) == [('E', 85), ('D', 60), ('F', 70)]\nassert subject_marks([('G', 95), ('H', 80), ('I', 75)]) == [('G', 95), ('I', 75), ('H', 80)]\nassert subject_marks([('J', 65), ('K', 70), ('L', 85)]) == [('L', 85), ('K', 70), ('J', 65)]\nassert subject_marks([('M', 70), ('N', 80), ('O', 65)]) == [('N', 80), ('M', 70), ('O', 65)] "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert subject_marks([(85, 'Math'), (90, 'Physics'), (70, 'Chemistry'), (92, 'Biology'), (80, 'History')]) == [(92, 'Biology'), (90, 'Physics'), (85, 'Math'), (80, 'History'), (70, 'Chemistry')]\n\nThis line of code uses the `assert` keyword to check whether the `subject_marks` function returns the correct sorted list of tuples based on the second value of each tuple. The function is called with a sample input list of tuples, and the expected output is provided as the right-hand side of the `==` operator. If the function returns the same output, the assertion will pass and the code will continue to execute. If it returns a different output, the assertion will fail and an error message will be printed. This is a simple way to test the correctness of a function. "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert subject_marks([(100, 80), (80, 60), (90, 70)]) == [(80, 60), (100, 80), (90, 70)]  # Test case 1\nassert subject_marks([(100, 80), (80, 60), (90, 70), (70, 60)]) == [(80, 60), (70, 60), (100, 80), (90, 70)]  # Test case 2\nassert subject_marks([(100, 80), (80, 60), (90, 70), (70, 60), (80, 50)]) == [(80, 50), (80, 60), (100, 80), (90, 70), (70, 60)]  # Test case 3\nassert subject_marks([(100, 80), (80, 60), (90, 70), (70, 60), (80, 50), (100, 90)]) == [(80, 50), (80, 60), (100, 80), (90, 70), (70, 60), (100, 90)]  # Test case 4\nassert subject_marks([(100, 80), (80, 60), (90, 70), (70, 60), (80, 50), (100, 90), (90, 75)]) == [(80, 50), (80, 60), (100, 80), (90, 70), (70, 60), (100, 90), (90, 75)]  # Test case 5 "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert subject_marks([(10, 90), (20, 80), (30, 70), (40, 60), (50, 50)]) == [(50, 50), (40, 60), (30, 70), (20, 80), (10, 90)]\n\nassert subject_marks([(50, 90), (40, 80), (30, 70), (20, 60), (10, 50)]) == [(50, 90), (40, 80), (30, 70), (20, 60), (10, 50)]\n\nassert subject_marks([(100, 100), (90, 90), (80, 80), (70, 70), (60, 60)]) == [(100, 100), (90, 90), (80, 80), (70, 70), (60, 60)]\n\nassert subject_marks([(90, 90), (80, 80), (70, 70), (60, 60), (50, 50)]) == [(90, 90), (80, 80), (70, 70), (60, 60), (50, 50)]\n\nassert subject_marks([(100, 100), (90, 90), (80, 80), (70, 70), (60, 60)]) == [(100, 100), (90, 90), (80, 80), (70, 70), (60, 60)] "
+    },
+    {
+        "number": 64,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert subject_marks([(10, 70), (20, 80), (30, 50)]) == [(30, 50), (10, 70), (20, 80)]\n\nassert subject_marks([(10, 70), (20, 80), (30, 50)])[0][1] == 50\n\nassert subject_marks([(10, 70), (20, 80), (30, 50)])[-1][1] == 80\n\nassert len(subject_marks([(10, 70), (20, 80), (30, 50)])) == 3\n\nassert subject_marks([]) == [] "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([1, [2, 3]]) == 6\nassert recursive_list_sum([1, [2, [3, 4]]) == 10\nassert recursive_list_sum([[1, 2], [3, 4]]) == 10\nassert recursive_list_sum([[1, 2], [3, 4], 5]) == 15 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert recursive_list_sum([1, 2, 3, [4, 5], [6, [7, 8], 9]]) == 45 \nassert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([]) == 0\nassert recursive_list_sum([1]) == 1\nassert recursive_list_sum([-1, 2, -3, [4, -5], [-6, [7, -8], 9]]) == -10 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([1, [2, 3], 4]) == 10\nassert recursive_list_sum([1, [2, [3, 4], 5]]) == 15\nassert recursive_list_sum([]) == 0\nassert recursive_list_sum([1]) == 1 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([1, [2, 3], 4]) == 10\nassert recursive_list_sum([1, [2, [3]], 4]) == 10\nassert recursive_list_sum([]) == 0\nassert recursive_list_sum([1, [2, [3, [4, 5]]]]) == 15 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([1, [2, 3], 4]) == 10\nassert recursive_list_sum([1, [2, [3, 4]], 5]) == 15\nassert recursive_list_sum([1, [2, [3, [4, 5]]]]) == 15\nassert recursive_list_sum([1, 2, [3, [4, 5], 6], 7]) == 28 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([1, [2, 3], 4]) == 10\nassert recursive_list_sum([]) == 0\nassert recursive_list_sum([1, [], 3]) == 4\nassert recursive_list_sum([1, [2, [3, 4], 5], 6]) == 20 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([[1, 2], 3]) == 6\nassert recursive_list_sum([1, [2], 3]) == 6\nassert recursive_list_sum([[1, [2, 3], 4, [5, 6]]) == 21\nassert recursive_list_sum([1, [[[2]], 3]]) == 6 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert recursive_list_sum([1, 2, 3, [4, 5], [6, [7, 8]]]) == 42 # expected output: 42\nassert recursive_list_sum([1, 2, [3, [4, 5], [6, [7, 8]]]]) == 36 # expected output: 36\nassert recursive_list_sum([1]) == 1 # expected output: 1\nassert recursive_list_sum([]) == 0 # expected output: 0\nassert recursive_list_sum([1, 2, 3, [], [4, 5]]) == 15 # expected output: 15 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert recursive_list_sum([1, 2, 3]) == 6\nassert recursive_list_sum([1, [2, 3], 4]) == 10\nassert recursive_list_sum([1, [2, 3, [4, 5]], 6]) == 21\nassert recursive_list_sum([]) == 0\nassert recursive_list_sum([1]) == 1 "
+    },
+    {
+        "number": 65,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert recursive_list_sum([1, 2, [3, 4], [5, [6, 7]]]) == 28 \nassert recursive_list_sum([1, 2, [3, 4], [5, [6, 7]]]) == 28 \nassert recursive_list_sum([1, 2, [3, 4], [5, [6, 7]]]) == 28 \nassert recursive_list_sum([1, 2, [3, 4], [5, [6, 7]]]) == 28 \nassert recursive_list_sum([1, 2, [3, 4], [5, [6, 7]]]) == 28 "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert pos_count([1, -2, 3, -4, 5]) == 3, \"Incorrect positive count\"\nassert pos_count([-1, -2, -3, -4, -5]) == 0, \"Incorrect positive count\"\nassert pos_count([0, 0, 0, 0, 0]) == 0, \"Incorrect positive count\"\nassert pos_count([1, 2, 3, 4, 5]) == 5, \"Incorrect positive count\"\nassert pos_count([-1, 2, -3, 4, -5]) == 3, \"Incorrect positive count\" "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert pos_count([-1, 0, 1, 2, 3]) == 3 # should return 3 "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert pos_count([1, -2, 3, -4, 5]) == 3\nassert pos_count([0, 0, 0]) == 0\nassert pos_count([]) == 0\nassert pos_count([-1, -2, -3, -4, -5]) == 0\nassert pos_count([1, 2, 3, 4, 5]) == 5 "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert pos_count([1, 2, 3, -4, 5]) == 3 # Positive numbers in the list are 1, 2, and 5. "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert pos_count([1, -2, 3, -4, 5]) == 3, \"Incorrect count\"\nassert pos_count([-1, -2, -3, -4, -5]) == 0, \"Incorrect count\"\nassert pos_count([0, 0, 0, 0, 0]) == 0, \"Incorrect count\"\nassert pos_count([1, 2, 3, 4, 5]) == 5, \"Incorrect count\"\nassert pos_count([]) == 0, \"Incorrect count\" "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert pos_count([-2, -1, 0, 1, 2]) == 3 # should return 3 as there are 3 positive numbers in the list\nassert pos_count([-2, -1, 0, 1, 2, 2, 2]) == 3 # should return 3 as there are 3 unique positive numbers in the list\nassert pos_count([0, 0, 0, 0, 0]) == 0 # should return 0 as there are no positive numbers in the list\nassert pos_count([-2, -1, -1, -1, -1]) == 0 # should return 0 as there are no positive numbers in the list\nassert pos_count([-2, -1, 0, 1, 2, \"a\"]) == 3 # should raise an error as the list contains a non-numeric value "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert pos_count([1, -2, 0, 3, 4]) == 3 "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert pos_count([1, 2, 3, 4, 5]) == 5\nassert pos_count([-1, -2, 0, 1, 2]) == 4\nassert pos_count([]) == 0\nassert pos_count([-1, -2, -3, -4, -5]) == 0\nassert pos_count([0, 0, 0, 0, 0]) == 0 "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert pos_count([1, 2, -3, 4, -5]) == 3 # The expected count is 3 (1, 2, and 4) "
+    },
+    {
+        "number": 66,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert pos_count([1, 2, 3, 4, 5]) == 5\nassert pos_count([-1, -2, -3, -4, -5]) == 0\nassert pos_count([0, 0, 0, 0, 0]) == 0\nassert pos_count([1, 2, 3, 4, 5, -1, -2, -3, -4, -5]) == 5\nassert pos_count([]) == 0 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 2\nassert bell_number(2) == 5\nassert bell_number(3) == 20\nassert bell_number(4) == 85 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15\n\n"
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15\n\n"
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15 "
+    },
+    {
+        "number": 67,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert bell_number(0) == 1\nassert bell_number(1) == 1\nassert bell_number(2) == 2\nassert bell_number(3) == 5\nassert bell_number(4) == 15 "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_Monotonic([1, 1, 2, 3, 5]) == True\nassert is_Monotonic([5, 4, 3, 2, 1]) == False\nassert is_Monotonic([1, 1, 2, 2, 3]) == True\nassert is_Monotonic([1, 2, 3, 4, 5]) == True\nassert is_Monotonic([1, 2, 3, 4, 4]) == False "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_Monotonic([1, 2, 3]) == True # Increasing sequence\nassert is_Monotonic([3, 2, 1]) == False # Decreasing sequence\nassert is_Monotonic([1, 1, 1]) == True # Constant sequence\nassert is_Monotonic([1, 2, 2, 3]) == False # Non-monotonic sequence\nassert is_Monotonic([]) == True # Empty sequence is monotonic "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_Monotonic([1, 2, 3, 4, 5]) == True\nassert is_Monotonic([5, 4, 3, 2, 1]) == False\nassert is_Monotonic([1, 1, 2, 2, 3]) == True\nassert is_Monotonic([1, 2, 3, 4, 5]) == True\nassert is_Monotonic([1, 1, 1, 1, 1]) == True "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_Monotonic([1,2,3,4,5]) == True\nassert is_Monotonic([5,4,3,2,1]) == False\nassert is_Monotonic([1,1,1,1,1]) == True\nassert is_Monotonic([1,2,3,3,3]) == True\nassert is_Monotonic([1,1,2,3,3,3]) == False "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_Monotonic([1, 2, 3, 4, 5]) == True \nassert is_Monotonic([5, 4, 3, 2, 1]) == True \nassert is_Monotonic([1, 2, 3, 2, 1]) == False \nassert is_Monotonic([1, 1, 1, 1, 1]) == True \nassert is_Monotonic([]) == True "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_Monotonic([1, 1, 1, 1]) == True\nassert is_Monotonic([1, 2, 3, 4, 5]) == True\nassert is_Monotonic([1, 2, 1, 3, 4, 5]) == False\nassert is_Monotonic([5, 4, 3, 2, 1]) == True\nassert is_Monotonic([1, 1, 2, 2, 3, 3]) == True "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_Monotonic([1, 2, 3, 4, 5]) == True, \"Test Case 1: Monotonic Array\"\nassert is_Monotonic([1, 1, 1, 1, 1]) == True, \"Test Case 2: Constant Array\"\nassert is_Monotonic([1, 2, 1, 4, 3]) == False, \"Test Case 3: Non-monotonic Array\"\nassert is_Monotonic([1, 2, 3, 4, 4, 4, 4]) == False, \"Test Case 4: Non-monotonic Array\"\nassert is_Monotonic([5, 4, 3, 2, 1]) == True, \"Test Case 5: Decreasing Array\" "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_Monotonic([1, 2, 3, 4, 5]) == True\nassert is_Monotonic([1, 2, 2, 3, 4]) == True\nassert is_Monotonic([5, 4, 3, 2, 1]) == False\nassert is_Monotonic([1, 1, 1, 1, 1]) == True\nassert is_Monotonic([1, 2, 3, 2, 1]) == False "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_Monotonic([1,2,3,4,5]) == True\nassert is_Monotonic([1,2,3,2,1]) == False\nassert is_Monotonic([1,1,1,1,1]) == True\nassert is_Monotonic([1,2,3,2,3]) == False\nassert is_Monotonic([1,1,2,3,5]) == False "
+    },
+    {
+        "number": 68,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_Monotonic([1, 2, 3, 4, 5]) == True, \"Monotonic array not recognized\"\nassert is_Monotonic([5, 4, 3, 2, 1]) == False, \"Non-monotonic array not recognized\"\nassert is_Monotonic([1, 1, 2, 3, 4]) == True, \"Monotonic array not recognized\"\nassert is_Monotonic([1, 2, 2, 3, 4]) == False, \"Non-monotonic array not recognized\"\nassert is_Monotonic([1, 1, 1, 1, 1]) == True, \"Monotonic array not recognized\" "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_sublist([1,2,3,4,5], [2,3]) == True\nassert is_sublist([1,2,3,4,5], [6,7]) == False\nassert is_sublist([1,2,3,4,5], [1,2,3,4,5]) == True\nassert is_sublist([1,2,3,4,5], [2,3,4]) == True\nassert is_sublist([1,2,3,4,5], [2,3,4,5,6]) == False "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_sublist([1, 2, 3], [2, 3]) == True\nassert is_sublist([1, 2, 3], [2, 4]) == False\nassert is_sublist([1, 2, 3], [1, 2, 3, 4]) == False\nassert is_sublist([1, 2, 3], []) == True\nassert is_sublist([], [1]) == False "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_sublist([1, 2, 3], [2, 3]) == True\nassert is_sublist([1, 2, 3, 4], [2, 3, 5]) == False\nassert is_sublist([1, 2, 3], [1, 2, 3, 4]) == False\nassert is_sublist([], []) == True\nassert is_sublist([1], [1, 2]) == False "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_sublist([1, 2, 3], [1, 2]) == True\nassert is_sublist([1, 2, 3], [2, 3]) == True\nassert is_sublist([1, 2, 3], [1, 2, 3]) == True\nassert is_sublist([1, 2, 3], [4, 5]) == False\nassert is_sublist([1, 2, 3], [1, 2, 3, 4]) == False "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_sublist([1, 2, 3], [2, 3]) == True\nassert is_sublist([1, 2, 3, 4], [2, 3, 4, 5]) == False\nassert is_sublist([1, 2, 3, 4], [1, 2, 3, 4]) == True\nassert is_sublist([1, 2, 3, 4], []) == True\nassert is_sublist([], [1, 2, 3]) == False "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_sublist([1, 2, 3], [2, 3]) == True\nassert is_sublist([1, 2, 3], [3, 4]) == False\nassert is_sublist([1, 2, 3, 4, 5], [2, 3, 4]) == True\nassert is_sublist([1, 2, 3, 4, 5], [5, 6]) == False\nassert is_sublist([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]) == True "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_sublist([1, 2, 3, 4, 5], [2, 3]) == True\nassert is_sublist([1, 2, 3, 4, 5], [6, 7]) == False\nassert is_sublist([1, 2, 3, 4, 5], [2]) == True\nassert is_sublist([1, 2, 3, 4, 5], []) == True\nassert is_sublist([1, 2, 3, 4, 5], [5, 6]) == False "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_sublist([1, 2, 3], [1, 2]) == True\nassert is_sublist([1, 2, 3], [1, 4]) == False\nassert is_sublist([1, 2, 3], [2, 3]) == True\nassert is_sublist([1, 2, 3], [1, 2, 3, 4]) == False\nassert is_sublist([1, 2, 3], []) == True "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_sublist([1, 2, 3], [1, 2]) == True \nassert is_sublist([1, 2, 3], [2, 3]) == True \nassert is_sublist([1, 2, 3], [3]) == True \nassert is_sublist([1, 2, 3], [4]) == False \nassert is_sublist([1, 2, 3], [1, 2, 3, 4]) == False "
+    },
+    {
+        "number": 69,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_sublist([1, 2, 3, 4], [1, 2, 3]) == True, \"Error: is_sublist([1, 2, 3, 4], [1, 2, 3]) != True\"\nassert is_sublist([1, 2, 3, 4], [1, 2]) == True, \"Error: is_sublist([1, 2, 3, 4], [1, 2]) != True\"\nassert is_sublist([1, 2, 3, 4], [3, 4]) == True, \"Error: is_sublist([1, 2, 3, 4], [3, 4]) != True\"\nassert is_sublist([1, 2, 3, 4], [1, 2, 3, 4]) == True, \"Error: is_sublist([1, 2, 3, 4], [1, 2, 3, 4]) != True\"\nassert is_sublist([1, 2, 3, 4], [5, 6]) == False, \"Error: is_sublist([1, 2, 3, 4], [5, 6]) != False\" "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert find_equal_tuple([(1,2,3), (4,5,6)]) == True\nassert find_equal_tuple([(1,2), (3,4,5)]) == False\nassert find_equal_tuple([(1,2), (3,4), (5,6,7,8)]) == False\nassert find_equal_tuple([(1,2), (3,4), (5,6,7,8)]) == False\nassert find_equal_tuple([]) == True "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert find_equal_tuple([(1,2,3), (4,5,6), (7,8,9)]) == True\nassert find_equal_tuple([(1,2,3), (4,5), (7,8,9)]) == False\nassert find_equal_tuple([(1,2,3), (4,5,6), (7,8,9), (10,11,12,13)]) == False\nassert find_equal_tuple([]) == True\nassert find_equal_tuple([(1)]) == True "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert find_equal_tuple([(1,2,3), (4,5,6), (7,8,9)]) == True\nassert find_equal_tuple([(1,2), (3,4,5), (6,7,8)]) == False\nassert find_equal_tuple([(1,2,3), (4,5,6), (7,8)]) == False\nassert find_equal_tuple([(1,2,3), (4,5,6)]) == True\nassert find_equal_tuple([]) == True "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert find_equal_tuple([(1,2),(2,3),(3,4)]) == True\nassert find_equal_tuple([(1,2,3),(2,3,4,5)]) == False\nassert find_equal_tuple([]) == True\nassert find_equal_tuple([(1,2,3)]) == True\nassert find_equal_tuple([(1,2),(2,3,4)]) == False "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert find_equal_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)]) == True\nassert find_equal_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9, 10)]) == False\nassert find_equal_tuple([(1, 2, 3), (4, 5)]) == False\nassert find_equal_tuple([(1, 2), (4, 5, 6)]) == False\nassert find_equal_tuple([]) == True "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert find_equal_tuple((1,2)) == True\nassert find_equal_tuple((1,2,3)) == False\nassert find_equal_tuple((1,2), (3,4), (5,6)) == True\nassert find_equal_tuple((1,2), (3,4), (5,6,7)) == False\nassert find_equal_tuple() == True "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert find_equal_tuple([(1,2,3), (4,5,6)]) == True, \"Test 1\"\nassert find_equal_tuple([(1,2), (3,4,5), (6,7,8,9)]) == False, \"Test 2\"\nassert find_equal_tuple([(1,2,3), (4,5,6), (7,8,9)]) == True, \"Test 3\"\nassert find_equal_tuple([(1,2,3), (4,5), (6,7,8)]) == False, \"Test 4\"\nassert find_equal_tuple([]) == True, \"Test 5\" "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert find_equal_tuple([(1,2,3),(4,5,6),(7,8,9)]) == True\nassert find_equal_tuple([(1,2,3),(4,5,6,7),(7,8,9)]) == False\nassert find_equal_tuple([(1,2,3,4),(4,5,6)]) == False\nassert find_equal_tuple([(1,2,3)]) == True\nassert find_equal_tuple([(1,2)]) == True "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert find_equal_tuple([(1,2), (3,4,5), (6,7,8)]) == False\nassert find_equal_tuple([(1,2), (3,4), (5,6)]) == True\nassert find_equal_tuple([(1,2,3), (3,4), (5,6)]) == False\nassert find_equal_tuple([(1,2,3), (3,4,5), (5,6,7)]) == True\nassert find_equal_tuple([(1,2), (3,4,5), (6,7,8)]) == False "
+    },
+    {
+        "number": 70,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert find_equal_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9)]) == True\nassert find_equal_tuple([(1, 2, 3), (4, 5, 6), (7, 8, 9, 10)]) == False\nassert find_equal_tuple([(1, 2), (3, 4)]) == True\nassert find_equal_tuple([(1, 2, 3), (4, 5, 6)]) == True\nassert find_equal_tuple([(1, 2), (3, 4, 5)]) == False "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert comb_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert comb_sort([5, 3, 1, 6, 2, 8, 4, 7]) == [1, 2, 3, 4, 5, 6, 7, 8] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert comb_sort([5,2,9,1,5]) == [1,2,5,5,9]\nassert comb_sort([]) == []\nassert comb_sort([1]) == [1]\nassert comb_sort([5,4,3,2,1]) == [1,2,3,4,5]\nassert comb_sort([9,8,7,6,5,4,3,2,1]) == [1,2,3,4,5,6,7,8,9] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert comb_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) == sorted([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]) \nassert comb_sort([]) == [] \nassert comb_sort([0]) == [0] \nassert comb_sort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]\nassert comb_sort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert comb_sort([5, 2, 8, 3, 1]) == [1, 2, 3, 5, 8] # test with a random list of integers\nassert comb_sort([-5, 0, 2, 3, 5]) == [-5, 0, 2, 3, 5] # test with a random list of integers containing negative values\nassert comb_sort([]) == [] # test with an empty list\nassert comb_sort([1]) == [1] # test with a list containing only one element\nassert comb_sort([-5, 0, 2, 3, 5, -3, 10, -2, 7]) == [-5, -3, -2, 0, 2, 3, 5, 7, 10] # test with a random list of integers containing negative values and repeated values. "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert comb_sort([4, 2, 9, 1, 5, 3]) == [1, 2, 3, 4, 5, 9]\nassert comb_sort([1, 5, 3, 9, 2, 4]) == [1, 2, 3, 4, 5, 9]\nassert comb_sort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]\nassert comb_sort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]\nassert comb_sort([]) == [] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert comb_sort([5,2,9,1,5,6]) == [1, 2, 5, 5, 6, 9]\nassert comb_sort([-5,3,0,1,5,-2]) == [-5, -2, 0, 1, 3, 5]\nassert comb_sort([]) == []\nassert comb_sort([1]) == [1]\nassert comb_sort([1,2]) == [1, 2] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert comb_sort([5, 1, 9, 3, 7]) == [1, 3, 5, 7, 9] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert comb_sort([5, 2, 8, 3, 1]) == [1, 2, 3, 5, 8]\nassert comb_sort([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]\nassert comb_sort([5, 4, 3, 2, 1]) == [1, 2, 3, 4, 5]\nassert comb_sort([1]) == [1]\nassert comb_sort([]) == [] "
+    },
+    {
+        "number": 71,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert comb_sort([1,3,2]) == [1,2,3] # test with an example input list\nassert comb_sort([]) == [] # test with an empty list\nassert comb_sort([5]) == [5] # test with a list of length 1\nassert comb_sort([1,2,3,4,5]) == [1,2,3,4,5] # test with an already sorted list\nassert comb_sort([3,1,4,1,5]) == [1,1,3,4,5] # test with a list with duplicate elements "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert dif_Square(25) == True, \"dif_Square(25) should be True\"\nassert dif_Square(4) == False, \"dif_Square(4) should be False\"\nassert dif_Square(1) == True, \"dif_Square(1) should be True\"\nassert dif_Square(3) == True, \"dif_Square(3) should be True\"\nassert dif_Square(0) == False, \"dif_Square(0) should be False\" "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert dif_Square(25) == True\nassert dif_Square(24) == False\nassert dif_Square(2) == False\nassert dif_Square(3) == True\nassert dif_Square(7) == True "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert dif_Square(25) == True, \"Test case for 25 failed\"\nassert dif_Square(16) == False, \"Test case for 16 failed\"\nassert dif_Square(15) == True, \"Test case for 15 failed\"\nassert dif_Square(3) == True, \"Test case for 3 failed\"\nassert dif_Square(1) == False, \"Test case for 1 failed\" "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert dif_Square(25) == True\nassert dif_Square(28) == False\nassert dif_Square(49) == True\nassert dif_Square(50) == False\nassert dif_Square(97) == False "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert dif_Square(25) == True # 5^2 - 3^2 = 25\nassert dif_Square(1) == True # 1^2 - 0^2 = 1\nassert dif_Square(0) == True # 0^2 - 0^2 = 0\nassert dif_Square(2) == False # There is no pair of squares whose difference is 2\nassert dif_Square(100) == False # There is no pair of squares whose difference is 100 "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert dif_Square(25) == True # 5^2 - 3^2 = 25\nassert dif_Square(17) == False # 4^2 - 3^2 = 16\nassert dif_Square(4) == True # 2^2 - 2^2 = 4\nassert dif_Square(1) == True # 1^2 - 0^2 = 1\nassert dif_Square(0) == False "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert dif_Square(1) == True\nassert dif_Square(2) == False\nassert dif_Square(5) == False\nassert dif_Square(10) == True\nassert dif_Square(12) == True "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert dif_Square(1) == True \nassert dif_Square(2) == True \nassert dif_Square(3) == False \nassert dif_Square(15) == True \nassert dif_Square(16) == True "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert dif_Square(1) == True\nassert dif_Square(4) == True\nassert dif_Square(9) == True\nassert dif_Square(16) == True\nassert dif_Square(25) == True "
+    },
+    {
+        "number": 72,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert dif_Square(1) == True\nassert dif_Square(2) == True\nassert dif_Square(3) == False\nassert dif_Square(12) == True\nassert dif_Square(13) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_samepatterns(['red', 'yellow', 'blue'], ['1', '2', '3']) == True\nassert is_samepatterns(['red', 'yellow', 'blue'], ['1', '2', '1']) == False\nassert is_samepatterns(['red', 'yellow', 'blue'], ['2', '3', '1']) == False\nassert is_samepatterns(['red', 'yellow', 'blue'], ['1', '1', '1']) == False\nassert is_samepatterns(['red', 'yellow', 'blue'], ['3', '2', '1']) == True "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_samepatterns(['red', 'green', 'blue'], ['*', '*', '*']) == True\nassert is_samepatterns(['red', 'green', 'blue'], ['*', '*', '*', '*']) == False\nassert is_samepatterns(['red', 'green', 'blue'], ['*', '*', '*']) == True\nassert is_samepatterns(['red', 'green', 'blue'], ['*', '*', '*', '*']) == False\nassert is_samepatterns(['red', 'green', 'blue'], ['*', '*']) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['R', 'G', 'B']) == True\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['B', 'G', 'R']) == False\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['R', 'G', 'B', 'R', 'G', 'B']) == True\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['R', 'G', 'B', 'R', 'B', 'G']) == False\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['R', 'G', 'B', 'B', 'G', 'R']) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_samepatterns([\"red\", \"green\", \"blue\"], [\"R\", \"G\", \"B\"]) == True\nassert is_samepatterns([\"red\", \"green\", \"blue\"], [\"G\", \"B\", \"R\"]) == False\nassert is_samepatterns([\"red\", \"green\", \"blue\"], [\"R\", \"B\", \"G\"]) == False\nassert is_samepatterns([\"red\", \"green\", \"blue\"], [\"R\", \"G\", \"B\", \"R\"]) == False\nassert is_samepatterns([\"red\", \"green\", \"blue\"], [\"R\", \"G\", \"B\", \"G\"]) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['R', 'G', 'B']) == True\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['G', 'B', 'R']) == False\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['G', 'R', 'B']) == False\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['B', 'R', 'G']) == True\nassert is_samepatterns(['R', 'G', 'B', 'R', 'G', 'B'], ['G', 'R', 'B', 'G']) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'green', 'blue', 'yellow']) == True, \"Should return True for matching patterns\"\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['yellow', 'blue', 'green', 'red']) == True, \"Should return True for matching patterns in different order\"\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'blue', 'green', 'yellow']) == False, \"Should return False for mismatching patterns\"\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'green', 'blue']) == False, \"Should return False for different length patterns\"\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'green', 'blue', 'yellow', 'black']) == False, \"Should return False for different length patterns\" "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_samepatterns(['red', 'blue', 'green', 'yellow', 'purple'], ['red', 'green', 'blue', 'purple']) == True\nassert is_samepatterns(['red', 'blue', 'green', 'yellow', 'purple'], ['red', 'purple', 'blue', 'green']) == False\nassert is_samepatterns(['red', 'blue', 'green', 'yellow', 'purple'], ['blue', 'purple', 'green', 'red']) == True\nassert is_samepatterns(['red', 'blue', 'green', 'yellow', 'purple'], ['blue', 'red', 'green', 'yellow', 'purple']) == True\nassert is_samepatterns(['red', 'blue', 'green', 'yellow', 'purple'], ['red', 'blue', 'purple', 'yellow', 'green']) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_samepatterns(['red', 'green', 'green', 'red'], ['red', 'green']) == True\nassert is_samepatterns(['red', 'green', 'green', 'red'], ['red', 'green', 'green']) == False\nassert is_samepatterns(['red', 'green', 'green', 'red'], ['green', 'green', 'red']) == False\nassert is_samepatterns(['red', 'green', 'green', 'red'], ['green', 'red', 'green']) == True\nassert is_samepatterns(['red', 'green', 'green', 'red'], ['green', 'red', 'red']) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'green', 'blue', 'yellow']) == True\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'green', 'yellow', 'blue']) == False\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'green', 'blue']) == False\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], ['red', 'green', 'blue', 'yellow', 'red']) == False\nassert is_samepatterns(['red', 'green', 'blue', 'yellow'], []) == False "
+    },
+    {
+        "number": 74,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_samepatterns(['Red', 'Green', 'Red', 'Green'], ['Red', 'Green']) == True\nassert is_samepatterns(['Red', 'Green', 'Blue', 'Green'], ['Red', 'Green']) == False\nassert is_samepatterns(['Red', 'Green', 'Red', 'Green'], ['Green', 'Red']) == True\nassert is_samepatterns(['Red', 'Green', 'Blue', 'Green'], ['Green', 'Red']) == False\nassert is_samepatterns(['Red', 'Green', 'Blue', 'Green', 'Red'], ['Green', 'Red', 'Blue']) == True "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 3) == [(1, 2, 3), (4, 5, 6), (7, 8, 9)]\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 2) == [(1, 2, 3), (4, 5, 6)]\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 1) == [(1, 2, 3), (4, 5, 6)]\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 4) == []\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 0) == [] "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 2) == [(4, 5, 6), (8, 9)]\nassert find_tuples([(1, 3, 5), (7, 9, 11)], 3) == []\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 1) == [(1, 2, 3), (4, 5, 6), (7, 8, 9)]\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 0) == []\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 10) == [(1, 2, 3), (4, 5, 6), (7, 8, 9)] "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 3) == [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)] \nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 4) == [(4, 5, 6), (8, 10, 12)] \nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 5) == [(5, 10)] \nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 6) == [(6, 12)] \nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 7) == [(7, 14)] \n\n"
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert find_tuples([(1,2,3), (4,6,8), (7,14,21)], 3) == [(1,2,3), (7,14,21)] \nassert find_tuples([(1,2,3), (4,6,8), (7,14,21)], 4) == []\nassert find_tuples([(1,2,3), (4,6,8), (7,14,21)], 0) == [(1,2,3), (4,6,8), (7,14,21)]\nassert find_tuples([(1,2,3), (4,6,8), (7,14,21)], 5) == [(1,2,3), (4,6,8)]\nassert find_tuples([(1,2,3), (4,6,8), (7,14,21)], 6) == [(1,2,3), (4,6,8), (7,14,21)] "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert find_tuples([(1,2,3,4),(5,6,7,8),(9,10,11,12),(13,14,15,16)], 4) == [(1, 2, 3, 4), (5, 6, 7, 8), (9, 10, 11, 12), (13, 14, 15, 16)] "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 2) == [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], \"Test failed for all elements divisible by k\"\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 3) == [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], \"Test failed for all elements divisible by k\"\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 4) == [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], \"Test failed for all elements divisible by k\"\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 5) == [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], \"Test failed for all elements divisible by k\"\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], 6) == [(1, 2, 3), (4, 5, 6), (7, 8, 9), (10, 11, 12)], \"Test failed for all elements divisible by k\" "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 3) == [(1, 2, 3), (4, 5, 6), (7, 8, 9)]\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 2) == [(1, 2, 3), (4, 5, 6), (7, 8, 9)]\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 1) == []\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], 0) == [(1, 2, 3), (4, 5, 6), (7, 8, 9)]\nassert find_tuples([(1, 2, 3), (4, 5, 6), (7, 8, 9)], -1) == [(1, 2, 3), (4, 5, 6), (7, 8, 9)] "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert find_tuples([(1,2,3), (3,6,9), (4,8,12)], 3) == [(1, 2, 3), (3, 6, 9)]\nassert find_tuples([(1,2,3), (3,6,9), (4,8,12)], 4) == [(4, 8, 12)]\nassert find_tuples([(1,2,3), (3,6,9), (4,8,12)], 2) == []\nassert find_tuples([(1,2,3), (3,6,9), (4,8,12)], 1) == []\nassert find_tuples([(1,2,3), (3,6,9), (4,8,12)], 0) == [] "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert find_tuples([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 3) == [(3, 6, 9, 12)]\nassert find_tuples([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 6) == [(2, 4, 6, 8), (3, 6, 9, 12)]\nassert find_tuples([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 2) == []\nassert find_tuples([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 5) == [(2, 4, 6, 8), (3, 6, 9, 12)]\nassert find_tuples([(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)], 1) == [(1, 2, 3, 4), (2, 4, 6, 8), (3, 6, 9, 12)] "
+    },
+    {
+        "number": 75,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert find_tuples([(2, 4, 6), (1, 2, 3), (7, 9, 11)], 2) == [(2, 4, 6), (7, 9, 11)], \"Incorrect output for find_tuples\" "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert is_Diff(11) == True \nassert is_Diff(22) == True \nassert is_Diff(121) == True \nassert is_Diff(13) == False \nassert is_Diff(20) == False "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert is_Diff(11) == True # check with 11\nassert is_Diff(22) == True # check with 22\nassert is_Diff(111) == True # check with 111\nassert is_Diff(123) == False # check with 123\nassert is_Diff(37) == False # check with 37 "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert is_Diff(11) == True\nassert is_Diff(22) == True\nassert is_Diff(33) == True\nassert is_Diff(44) == True\nassert is_Diff(55) == True "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert is_Diff(22) == True\nassert is_Diff(33) == True\nassert is_Diff(44) == True\nassert is_Diff(55) == True\nassert is_Diff(66) == True "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert is_Diff(11) == True\nassert is_Diff(22) == True\nassert is_Diff(121) == True\nassert is_Diff(33) == False\nassert is_Diff(12) == False\n\n"
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert is_Diff(11) == True \nassert is_Diff(22) == True\nassert is_Diff(111) == True\nassert is_Diff(121) == False\nassert is_Diff(132) == False "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert is_Diff(22) == True\nassert is_Diff(121) == True\nassert is_Diff(10) == False\nassert is_Diff(0) == True\nassert is_Diff(-11) == True "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert is_Diff(22) == True, \"Error: is_Diff(22) should return True\"\nassert is_Diff(23) == False, \"Error: is_Diff(23) should return False\"\nassert is_Diff(121) == True, \"Error: is_Diff(121) should return True\"\nassert is_Diff(123) == False, \"Error: is_Diff(123) should return False\"\nassert is_Diff(11) == True, \"Error: is_Diff(11) should return True\" "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert is_Diff(22) == True\nassert is_Diff(11) == False\nassert is_Diff(23) == False\nassert is_Diff(121) == True\nassert is_Diff(123) == False "
+    },
+    {
+        "number": 77,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert is_Diff(11) == True\nassert is_Diff(22) == True\nassert is_Diff(33) == True\nassert is_Diff(44) == True\nassert is_Diff(55) == True\n\n"
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert word_len('hello') == True, \"Error: word_len('hello') should return True\" # check odd length\nassert word_len('python') == False, \"Error: word_len('python') should return False\" # check even length\nassert word_len('') == False, \"Error: word_len('') should return False\" # check empty string\nassert word_len(' ') == False, \"Error: word_len(' ') should return False\" # check whitespace\nassert word_len(12345) == False, \"Error: word_len(12345) should return False\" # check integer input "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert word_len(\"hello\") == True\nassert word_len(\"world\") == False\nassert word_len(\"python\") == True\nassert word_len(\"programming\") == True\nassert word_len(\"\") == False "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert word_len(\"apple\") == False # odd length\nassert word_len(\"elephant\") == True # even length\nassert word_len(\"\") == True # empty string\nassert word_len(\"abcdefg\") == False # odd length\nassert word_len(\"123456789\") == True # even length "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert word_len(\"hello\") == True\nassert word_len(\"world\") == False\nassert word_len(\"\") == False\nassert word_len(\"python\") == True\nassert word_len(\"programming\") == False "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert word_len(\"apple\") == True # Test with a string that has odd length \nassert word_len(\"python\") == False # Test with a string that has even length \nassert word_len(\"\") == False # Test with an empty string \nassert word_len(\"word\") == True # Test with a string that has odd length \nassert word_len(123) == False # Test with a non-string input "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert word_len('hello') == True # length of 'hello' is 5, which is odd\nassert word_len('world') == False # length of 'world' is 5, which is odd\nassert word_len('python') == True # length of 'python' is 6, which is odd\nassert word_len('programming') == True # length of 'programming' is 11, which is odd\nassert word_len('language') == False # length of 'language' is 8, which is even "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert word_len('Hello') == True\nassert word_len('Python') == False\nassert word_len('') == False\nassert word_len(' ') == False\nassert word_len('   ') == False\n\n"
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert word_len(\"hello\") == False\nassert word_len(\"python\") == True\nassert word_len(\"\") == False\nassert word_len(\"a\") == True\nassert word_len(\"abcd\") == False "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert word_len(\"hello\") == False\nassert word_len(\"hi\") == True\nassert word_len(\"python\") == False\nassert word_len(\"programming\") == True\nassert word_len(\"language\") == False "
+    },
+    {
+        "number": 79,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert word_len(\"hello\") == True\nassert word_len(\"hi\") == False\nassert word_len(\"python\") == True\nassert word_len(\"apple\") == False\nassert word_len(\"\") == False "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 15\nassert tetrahedral_number(4) == 34\nassert tetrahedral_number(5) == 65 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 4\nassert tetrahedral_number(3) == 10\nassert tetrahedral_number(4) == 20\nassert tetrahedral_number(5) == 35 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 15\nassert tetrahedral_number(4) == 34\nassert tetrahedral_number(5) == 65 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 20\nassert tetrahedral_number(4) == 70\nassert tetrahedral_number(5) == 252 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 15\nassert tetrahedral_number(4) == 34\nassert tetrahedral_number(5) == 65 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 15\nassert tetrahedral_number(4) == 34\nassert tetrahedral_number(5) == 65 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 15\nassert tetrahedral_number(4) == 34\nassert tetrahedral_number(5) == 65 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 20\nassert tetrahedral_number(4) == 70\nassert tetrahedral_number(5) == 252 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 15\nassert tetrahedral_number(4) == 34\nassert tetrahedral_number(5) == 65 "
+    },
+    {
+        "number": 80,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert tetrahedral_number(1) == 1\nassert tetrahedral_number(2) == 6\nassert tetrahedral_number(3) == 20\nassert tetrahedral_number(4) == 70\nassert tetrahedral_number(5) == 252 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert volume_sphere(1) == 4/3 * math.pi * (1 ** 3) \nassert volume_sphere(2) == 4/3 * math.pi * (2 ** 3) \nassert volume_sphere(3) == 4/3 * math.pi * (3 ** 3) \nassert volume_sphere(4) == 4/3 * math.pi * (4 ** 3) \nassert volume_sphere(5) == 4/3 * math.pi * (5 ** 3) "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert volume_sphere(3) == 113.097\nassert volume_sphere(5) == 523.601\nassert volume_sphere(10) == 3141592.654\nassert volume_sphere(20) == 4681940.604\nassert volume_sphere(0) == 0 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert volume_sphere(3) == 113.097 \nassert volume_sphere(5) == 523.659\nassert volume_sphere(7) == 1410.250\nassert volume_sphere(10) == 31415.930 \nassert volume_sphere(0) == 0.000 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert volume_sphere(1) == 4/3*math.pi\nassert volume_sphere(3) == 4/3*math.pi*9\nassert volume_sphere(0) == 0\nassert volume_sphere(-5) == 0\nassert volume_sphere(2.5) == 4/3*math.pi*2.5**3 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert volume_sphere(3) == 113.09733552923254 \nassert volume_sphere(5) == 523.6544692321507 \nassert volume_sphere(7) == 1704.504302673986 \nassert volume_sphere(2) == 33.51032163829112 \nassert volume_sphere(1) == 4.1887902047863905 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert volume_sphere(1) == 4/3*math.pi \nassert volume_sphere(2) == 32/3*math.pi \nassert volume_sphere(3) == 3*math.pi**2 \nassert volume_sphere(4) == 128/3*math.pi \nassert volume_sphere(5) == 15*math.pi**2 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert volume_sphere(1) == 4/3 * math.pi * 1**3\nassert volume_sphere(2) == 4/3 * math.pi * 2**3\nassert volume_sphere(3) == 4/3 * math.pi * 3**3\nassert volume_sphere(4) == 4/3 * math.pi * 4**3\nassert volume_sphere(5) == 4/3 * math.pi * 5**3 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert volume_sphere(1) == math.pi * 1**3\nassert volume_sphere(2) == math.pi * 2**3\nassert volume_sphere(3) == math.pi * 3**3\nassert volume_sphere(4) == math.pi * 4**3\nassert volume_sphere(5) == math.pi * 5**3 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert volume_sphere(1) == 4/3 * math.pi\nassert volume_sphere(2) == 33.510321638291124\nassert volume_sphere(3) == 34.6575385226364401\nassert volume_sphere(4) == 125.663706143591724\nassert volume_sphere(5) == 385.898088491596635 "
+    },
+    {
+        "number": 82,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert volume_sphere(3) == 27 * math.pi / 6, \"volume_sphere(3) should be equal to 27 * pi / 6\"\nassert volume_sphere(2) == 8 * math.pi / 3, \"volume_sphere(2) should be equal to 8 * pi / 3\"\nassert volume_sphere(1) == 4 * math.pi / 3, \"volume_sphere(1) should be equal to 4 * pi / 3\"\nassert volume_sphere(0) == 0, \"volume_sphere(0) should be equal to 0\"\nassert volume_sphere(-1) == \"Error: r should be greater than or equal to 0\", \"volume_sphere(-1) should return an error message\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "assert get_Char(\"abc\") == \"d\"\nassert get_Char(\"hello\") == \"o\"\nassert get_Char(\"edabit\") == \"l\"\nassert get_Char(\"python\") == \"s\"\nassert get_Char(\"the quick brown fox jumps over the lazy dog\") == \"z\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 1,
+        "answer": "assert get_Char(\"code\") == \"q\"\nassert get_Char(\"hello\") == \"o\"\nassert get_Char(\"python\") == \"m\"\nassert get_Char(\"programming\") == \"z\"\nassert get_Char(\"test\") == \"t\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 2,
+        "answer": "assert get_Char(\"a\") == \"z\"\nassert get_Char(\"b\") == \"a\"\nassert get_Char(\"abc\") == \"z\"\nassert get_Char(\"hello\") == \"s\"\nassert get_Char(\"python\") == \"k\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 3,
+        "answer": "assert get_Char(\"abc\") == \"m\"\nassert get_Char(\"xyz\") == \"t\"\nassert get_Char(\"a\") == \"a\"\nassert get_Char(\"\") == \"z\"\nassert get_Char(\"Hello World!\") == \"x\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 4,
+        "answer": "assert get_Char('hello') == 'w'  # should return 'w' as 'h' and 'e' have ASCII values 104 and 101, adding them modulo 26 gives 12 \nassert get_Char('python') == 'k'  # should return 'k' as 'p' and 'y' have ASCII values 112 and 121, adding them modulo 26 gives 27, 27 modulo 26 is 1 \nassert get_Char('z') == 'a'  # should return 'a' as 'z' has ASCII value 122, adding it modulo 26 gives 1 \nassert get_Char('') == ''  # should return '' as empty string has no characters \nassert get_Char('abcdefghijklmnopqrstuvwxyz') == 'a'  # should return 'a' as the sum of ASCII values of all characters modulo 26 is 0 "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 5,
+        "answer": "assert get_Char('a') == 'm'\nassert get_Char('abc') == 'm'\nassert get_Char('hello') == 'f'\nassert get_Char('world') == 'a'\nassert get_Char('python') == 'q' "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 6,
+        "answer": "assert get_Char(\"hello\") == \"w\"\nassert get_Char(\"world\") == \"x\"\nassert get_Char(\"python\") == \"h\"\nassert get_Char(\"programming\") == \"k\"\nassert get_Char(\"algorithm\") == \"z\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 7,
+        "answer": "assert get_Char(\"hello\") == \"d\"\nassert get_Char(\"world\") == \"l\"\nassert get_Char(\"python\") == \"l\"\nassert get_Char(\"programming\") == \"q\"\nassert get_Char(\"test\") == \"t\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 8,
+        "answer": "assert get_Char(\"ABCD\") == \"D\"\nassert get_Char(\"abc\") == \"X\"\nassert get_Char(\"\") == \"\"\nassert get_Char(\"Hello World!\") == \"V\"\nassert get_Char(\"a\") == \"a\" "
+    },
+    {
+        "number": 83,
+        "checkpoint": "13B",
+        "pass": 9,
+        "answer": "assert get_Char(\"hello\") == \"f\"\nassert get_Char(\"world\") == \"d\"\nassert get_Char(\"python\") == \"t\"\nassert get_Char(\"\") == \"\"\nassert get_Char(\"a\") == \"a\" "
+    }
+]
