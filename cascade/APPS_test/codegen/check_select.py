@@ -9,10 +9,10 @@ num_loops = 1
 pick_at = 10
 all_limit_lines = [2,4]
 all_actual_pick_at = [1,3,5,10]
-model_name = "34B"
+model_name = "350M"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
-all_questions_num = list(range(0,164))
+all_questions_num = list(range(4000,5000))
 
 # Mkdir
 if not os.path.exists(f"./selected"):
@@ -43,9 +43,9 @@ for limit_lines in all_limit_lines:
     for actual_pick_at in all_actual_pick_at:
         for loop in range(num_loops):
             if actual_pick_at == 1:
-                answer_file = f"./answer/{model_name}/{model_name}_p0_l0.json"
-                testcase_file = f"./testcase/{model_name}/{model_name}_p0_l0.json"
-                selected_file = f"./selected/{model_name}/{model_name}_p1_t{limit_lines}_l0.json"
+                answer_file = f"./answer/{model_name}/{model_name}_p0_l{loop}.json"
+                testcase_file = f"./testcase/{model_name}/{model_name}_p0_l{loop}.json"
+                selected_file = f"./selected/{model_name}/{model_name}_p1_t{limit_lines}_l{loop}.json"
             else:
                 answer_file = f"./answer/{model_name}/{model_name}_p{pick_at}_l{loop}.json"
                 testcase_file = f"./testcase/{model_name}/{model_name}_p{pick_at}_l{loop}.json"
