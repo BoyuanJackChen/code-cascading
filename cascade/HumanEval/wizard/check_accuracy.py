@@ -4,9 +4,9 @@ import pandas as pd
 import multiprocessing
 
 loop = 1
-pick_at = 4
-limit = 4
-model_name = "7B"
+pick_at = 3
+limit = 2
+model_name = "34B"
 
 answer_file = f"./selected/{model_name}/{model_name}_p{pick_at}_t{limit}_l{loop}.json"
 bad_questions = []

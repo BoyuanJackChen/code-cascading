@@ -7,7 +7,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=2
 #SBATCH --gres=gpu:a100:2
-#SBATCH --time=47:59:59
+#SBATCH --time=71:59:59
 #SBATCH --mem=50GB
 #SBATCH --job-name=16B_cg_tapps
 

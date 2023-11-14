@@ -3,24 +3,16 @@ import numpy as np
 import pandas as pd
 import multiprocessing
 import os
-from human_eval.data import read_problems
+from datasets import load_dataset
 
-num_loops = 2
+num_loops = 10
 pick_at = 10
-limit_lines = 2
-actual_pick_at = 4
-# all_limit_lines = [1,2,3,4,5]
-# all_actual_pick_at=[2,3,4,5,10]
-all_limit_lines = [4]
-all_actual_pick_at=[4]
-model_name = "7B"
+all_limit_lines = [2,4]
+all_actual_pick_at = [1,3,5,10]
+model_name = "34B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
 all_questions_num = list(range(0,164))
-
-# Load HumanEval Dataset
-all_questions_dict = read_problems()
-all_keys = all_questions_dict.keys()
 
 # Mkdir
 if not os.path.exists(f"./selected"):
@@ -31,8 +23,8 @@ if not os.path.exists(f"./selected/{model_name}"):
 def find_max_product(matrix):
     max_product = -1
     max_indices = (-1, -1)
-    max_answer_num = -1
-    max_test_num = -1
+    max_answer_num = 0
+    max_test_num = 0
     row_sums = np.sum(matrix, axis=1)
     col_sums = np.sum(matrix, axis=0)
     for a in range(matrix.shape[0]):
@@ -50,13 +42,18 @@ def find_max_product(matrix):
 for limit_lines in all_limit_lines:
     for actual_pick_at in all_actual_pick_at:
         for loop in range(num_loops):
-            answer_file = f"./answer/{model_name}/{model_name}_p{pick_at}_l{loop}.json"
-            testcase_file = f"./testcase/{model_name}/{model_name}_p{pick_at}_l{loop}.json"
-            selected_file = f"./selected/{model_name}/{model_name}_p{actual_pick_at}_t{limit_lines}_l{loop}.json"
-            all_selected = []
-            all_correct = []
+            if actual_pick_at == 1:
+                answer_file = f"./answer/{model_name}/{model_name}_p0_l0.json"
+                testcase_file = f"./testcase/{model_name}/{model_name}_p0_l0.json"
+                selected_file = f"./selected/{model_name}/{model_name}_p1_t{limit_lines}_l0.json"
+            else:
+                answer_file = f"./answer/{model_name}/{model_name}_p{pick_at}_l{loop}.json"
+                testcase_file = f"./testcase/{model_name}/{model_name}_p{pick_at}_l{loop}.json"
+                selected_file = f"./selected/{model_name}/{model_name}_p{actual_pick_at}_t{limit_lines}_l{loop}.json"
             if os.path.exists(selected_file):
                 continue
+            all_selected = []
+            all_correct = []
             
             # Load the answer and testcase files
             with open(answer_file, 'r') as f:
@@ -65,15 +62,11 @@ for limit_lines in all_limit_lines:
                 testcase_data = json.load(f)
 
             for number in all_questions_num:
-                # Collect original information for this question
-                question_dict = all_questions_dict[f"HumanEval/{number}"]
-                prompt = question_dict["prompt"]
-                
                 # Collect all answers for this question
                 all_answers = []
                 answers_pick_at = actual_pick_at + 0
                 for answer_dict in answer_data:
-                    if answer_dict["number"] == number and answers_pick_at>0:
+                    if answer_dict["number"]==number and answers_pick_at>0:
                         answer = answer_dict["answer"]
                         all_answers.append(answer)
                         answers_pick_at -= 1
@@ -117,8 +110,8 @@ for limit_lines in all_limit_lines:
                 for process in processes:
                     process.join(1)  # Kill infinite loops in 1 second
                     if process.is_alive():
-                        process.terminate()  # Terminate the process if it's still running after 1 second
-                        process.join()  # Wait for the process to clean up resources
+                        process.terminate()
+                        process.join()
 
                 # After all processes are done or terminated, retrieve results from the queue
                 while not result_queue.empty():
@@ -135,14 +128,14 @@ for limit_lines in all_limit_lines:
                 selected_test = all_generated_tests[indices[1]]
                 selected_dict = {
                     "number": number,
-                    "max_aswer_num": int(max_answer_num),
+                    "max_answer_num": int(max_answer_num),
                     "max_test_num": int(max_test_num),
                     "total_product": int(len(all_answers)*len(all_generated_tests)),
                     "answer": selected_answer,
                     "test": selected_test
                 }
                 all_selected.append(selected_dict)
-                print(f"Question {number}: Max product: {max_product}; indices: {indices}")
+                print(f"Question {number}: Max product: {max_product}; indices: {indices}, ({max_answer_num}, {max_test_num})")
                 # print(correct_stats)
 
             # Write to file
