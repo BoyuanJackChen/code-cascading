@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import multiprocessing
 
-loop = 0
-pick_at = 5
+loop = 1
+pick_at = 3
 limit = 2
 model_name = "34B"
 

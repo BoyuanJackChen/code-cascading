@@ -5,11 +5,11 @@ import multiprocessing
 import os
 from datasets import load_dataset
 
-num_loops = 1
+num_loops = 10
 pick_at = 10
 all_limit_lines = [2,4]
 all_actual_pick_at = [1,3,5,10]
-model_name = "1B"
+model_name = "15B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
 all_questions_num = list(range(0,164))

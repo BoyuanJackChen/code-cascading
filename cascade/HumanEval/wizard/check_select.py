@@ -5,7 +5,7 @@ import multiprocessing
 import os
 from datasets import load_dataset
 
-num_loops = 1
+num_loops = 10
 pick_at = 10
 all_limit_lines = [2,4]
 all_actual_pick_at = [1,3,5,10]

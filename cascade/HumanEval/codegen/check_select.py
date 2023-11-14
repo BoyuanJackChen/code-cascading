@@ -4,8 +4,9 @@ import pandas as pd
 import multiprocessing
 import os
 from datasets import load_dataset
+from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
-num_loops = 1
+num_loops = 10
 pick_at = 10
 all_limit_lines = [2,4]
 all_actual_pick_at = [1,3,5,10]
@@ -38,6 +39,10 @@ def find_max_product(matrix):
                     max_test_num = col_sums[t]
     return max_product, max_indices, max_answer_num, max_test_num
 
+# Load HumanEval Dataset
+all_questions_dict = read_problems()
+all_keys = all_questions_dict.keys()
+
 # Start going through each question
 for limit_lines in all_limit_lines:
     for actual_pick_at in all_actual_pick_at:
@@ -62,6 +67,10 @@ for limit_lines in all_limit_lines:
                 testcase_data = json.load(f)
 
             for number in all_questions_num:
+                # Load original prompt
+                question_dict = all_questions_dict[f"HumanEval/{number}"]
+                prompt = question_dict["prompt"]
+
                 # Collect all answers for this question
                 all_answers = []
                 answers_pick_at = actual_pick_at + 0
@@ -88,7 +97,7 @@ for limit_lines in all_limit_lines:
                 
                 # Check the correctness for each combination
                 def code_to_run(a, t, import_lines, answer, generated_test, result_queue):
-                    full_code = import_lines + answer + "\n" + generated_test
+                    full_code = import_lines + prompt + "\n" + answer + "\n" + generated_test
                     try:
                         exec(full_code, globals())
                         result_queue.put((a, t, True))
