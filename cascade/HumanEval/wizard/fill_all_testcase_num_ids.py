@@ -11,7 +11,7 @@ from transformers import LogitsProcessor, LogitsProcessorList
 all_num_loops = 10
 all_pick_at = [0,10]
 all_testlines = [2,4]
-model_name = "34B"
+model_name = "13B"
 folder = "testcase"
 
 def trim_assert_lines(answer, testlines):
