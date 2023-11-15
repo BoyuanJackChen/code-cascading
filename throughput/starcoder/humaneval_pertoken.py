@@ -103,6 +103,19 @@ Create a Python script for this problem:
     return INSTRUCTION
 
 
+def custom_sample(range_size, batch_size):
+    if batch_size <= range_size:
+        # If batch_size is within the range, sample normally
+        return random.sample(range(range_size), batch_size)
+    else:
+        # First, take all numbers in the range
+        sample = list(range(range_size))
+        # Then, randomly sample the remaining numbers needed to reach batch_size
+        additional_samples = random.choices(range(range_size), k=batch_size - range_size)
+        sample.extend(additional_samples)
+        return sample
+
+
 def main(args):
     loading_start = time.time()
     number_key = "task_id"
@@ -171,7 +184,7 @@ def main(args):
         all_answer_prompts = []
         all_testcase_prompts = []
         all_def_name = []
-        selected_numbers = random.sample(range(0, 164), batch_size)
+        selected_numbers = custom_sample(164, batch_size)
         print(selected_numbers)
         for number in selected_numbers:
             question_key = f"HumanEval/{number}"
