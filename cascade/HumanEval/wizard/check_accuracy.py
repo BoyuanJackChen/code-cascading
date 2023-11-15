@@ -3,12 +3,13 @@ import numpy as np
 import pandas as pd
 import multiprocessing
 
-loop = 1
-pick_at = 3
-limit = 2
+loop = 0
+pick_at = 1
+limit = 4
 model_name = "34B"
 
 answer_file = f"./selected/{model_name}/{model_name}_p{pick_at}_t{limit}_l{loop}.json"
+answer_file = f"./answer/{model_name}/{model_name}_p0_l0.json"
 bad_questions = []
 all_correct = []
 
@@ -73,4 +74,5 @@ for i in range(len(answer_data)):
 accuracy = df["accuracy"].mean()
 mean_accuracy = accuracy
 mean_accuracy = f"{round(mean_accuracy*100, 1)}%"
-print(f"\n\nMean accuracy: {mean_accuracy}")
+print(f"\n\nMean accuracy: {mean_accuracy}, length {len(df)}")
+print(all_correct)

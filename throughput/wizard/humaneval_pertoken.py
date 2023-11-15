@@ -14,7 +14,7 @@ import numpy as np
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=2, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
-parser.add_argument("--batch_size", type=int, default=22, help="Batch size for number of questions")
+parser.add_argument("--batch_size", type=int, default=20, help="Batch size for number of questions")
 parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
@@ -187,7 +187,7 @@ def main(args):
         all_testcase_prompts = []
         all_def_name = []
         selected_numbers = random.sample(range(0, 164), batch_size)
-        print(selected_numbers)
+        # print(selected_numbers)
         for number in selected_numbers:
             question_key = f"HumanEval/{number}"
             question = all_questions_dict[question_key]
@@ -233,7 +233,7 @@ def main(args):
         end = time.time()
         time_spent = round(end-start, 2)
         all_time[loop] = time_spent
-        total_count = sum(tensor.ne(2).sum().item() for tensor in answer_ids)
+        total_count = sum(tensor.ne(eos_id).sum().item() for tensor in answer_ids)
         print(f"Loop {loop} time spent: {time_spent} seconds; num tokens: {total_count}")
         time_per_1k_tokens = round(time_spent / (total_count / 1000), 2)
         all_avg_cost[loop] = time_per_1k_tokens

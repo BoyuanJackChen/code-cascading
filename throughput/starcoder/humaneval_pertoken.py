@@ -78,19 +78,6 @@ def process_test(answer, def_name):
     answer = f"assert {def_name}" + answer
     return answer
 
-
-def alpaca_test(input, def_name):
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Write code to test the correctness of {def_name}:
-{input}\tpass
-
-### Response:
-assert {def_name}"""
-    return INSTRUCTION
-
 def alpaca_prompt(input):
     INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
 
@@ -101,6 +88,30 @@ Create a Python script for this problem:
 
 ### Response:"""
     return INSTRUCTION
+
+def custom_sample(range_size, batch_size):
+    if batch_size <= range_size:
+        # If batch_size is within the range, sample normally
+        return random.sample(range(range_size), batch_size)
+    else:
+        # First, take all numbers in the range
+        sample = list(range(range_size))
+        # Then, randomly sample the remaining numbers needed to reach batch_size
+        additional_samples = random.choices(range(range_size), k=batch_size - range_size)
+        sample.extend(additional_samples)
+        return sample
+
+def custom_sample(range_size, batch_size):
+    if batch_size <= range_size:
+        # If batch_size is within the range, sample normally
+        return random.sample(range(range_size), batch_size)
+    else:
+        # First, take all numbers in the range
+        sample = list(range(range_size))
+        # Then, randomly sample the remaining numbers needed to reach batch_size
+        additional_samples = random.choices(range(range_size), k=batch_size - range_size)
+        sample.extend(additional_samples)
+        return sample
 
 
 def main(args):
@@ -171,7 +182,7 @@ def main(args):
         all_answer_prompts = []
         all_testcase_prompts = []
         all_def_name = []
-        selected_numbers = random.sample(range(0, 164), batch_size)
+        selected_numbers = custom_sample(164, batch_size)
         print(selected_numbers)
         for number in selected_numbers:
             question_key = f"HumanEval/{number}"
