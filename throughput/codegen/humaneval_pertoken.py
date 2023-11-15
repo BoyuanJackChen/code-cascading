@@ -77,7 +77,6 @@ def process_test(answer, def_name):
     return answer
 
 
-
 def main(args):
     loading_start = time.time()
     number_key = "task_id"
