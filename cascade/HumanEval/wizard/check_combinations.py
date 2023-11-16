@@ -31,6 +31,11 @@ def is_valid_combination(comb):
 all_k_combos = [perm for comb in combs for perm in set(permutations(comb)) if is_valid_combination(perm)]
 all_k_combos = list(set(all_k_combos))
 all_k_combos = sorted(all_k_combos, key=lambda x: (x[0], x[1], x[2]))
+print(all_k_combos)
+input()
+
+# Load cost per token
+cpt_1 = 0
 
 for seed in [3,7,9,13,15]:
     random.seed(seed)

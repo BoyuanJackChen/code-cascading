@@ -8,8 +8,8 @@ import os
 num_loops = 10
 pick_at = 10
 all_limit_lines = [2,4]
-all_actual_pick_at = [1,3,5,10]
-model_name = "34B"
+all_actual_pick_at = [0,1,3,5,10]
+model_name = "7B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
 all_questions_num = list(range(0,164))
@@ -42,7 +42,11 @@ def find_max_product(matrix):
 for limit_lines in all_limit_lines:
     for actual_pick_at in all_actual_pick_at:
         for loop in range(num_loops):
-            if actual_pick_at == 1:
+            if actual_pick_at == 0:
+                answer_file = f"./answer/{model_name}/{model_name}_p0_l0.json"
+                testcase_file = f"./testcase/{model_name}/{model_name}_p0_l0.json"
+                selected_file = f"./selected/{model_name}/{model_name}_p0_t0_l0.json"
+            elif actual_pick_at == 1:
                 answer_file = f"./answer/{model_name}/{model_name}_p0_l0.json"
                 testcase_file = f"./testcase/{model_name}/{model_name}_p0_l0.json"
                 selected_file = f"./selected/{model_name}/{model_name}_p1_t{limit_lines}_l0.json"
@@ -67,7 +71,7 @@ for limit_lines in all_limit_lines:
                 
                 # Collect all answers for this question
                 all_answers = []
-                answers_pick_at = actual_pick_at + 0
+                answers_pick_at = max(actual_pick_at + 0, 1)   # We still want 1 answer when k=0
                 for answer_dict in answer_data:
                     if answer_dict["number"]==number and answers_pick_at>0:
                         answer = answer_dict["answer"]
@@ -88,6 +92,21 @@ for limit_lines in all_limit_lines:
                         num_ids += testcase_dict[f"num_ids_{limit_lines}"]
                         tests_pick_at -= 1
                 
+                # No need to check if k=0, since there is no testcase
+                if actual_pick_at == 0:
+                    selected_dict = {
+                        "number": number,
+                        "max_answer_num": 0,
+                        "max_test_num": 0,
+                        "total_product": 0,
+                        "answer": all_answers[0],
+                        "test": "",
+                        "num_ids": int(num_ids),
+                    }
+                    all_selected.append(selected_dict)
+                    print(f"Question {number}: Max product: 0")
+                    continue
+
                 # Check the correctness for each answer-testline
                 correct_stats = np.zeros([len(all_answers),len(all_generated_tests)], np.int32)
                 def code_to_run(a, t, import_lines, answer, generated_test, result_queue):
