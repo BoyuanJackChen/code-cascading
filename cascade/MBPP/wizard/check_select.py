@@ -12,7 +12,6 @@ all_actual_pick_at = [0,1,3,5,10]
 model_name = "7B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
-all_questions_num = list(range(0,164))
 
 # Mkdir
 if not os.path.exists(f"./selected"):
