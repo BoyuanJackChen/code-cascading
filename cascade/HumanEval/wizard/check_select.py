@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 import multiprocessing
 import os
-from datasets import load_dataset
 
+# Create files in selected
 num_loops = 10
 pick_at = 10
 all_limit_lines = [2,4]
@@ -62,6 +62,9 @@ for limit_lines in all_limit_lines:
                 testcase_data = json.load(f)
 
             for number in all_questions_num:
+                # Collect the number of ids, so we can calculate time
+                num_ids = 0
+                
                 # Collect all answers for this question
                 all_answers = []
                 answers_pick_at = actual_pick_at + 0
@@ -69,6 +72,7 @@ for limit_lines in all_limit_lines:
                     if answer_dict["number"]==number and answers_pick_at>0:
                         answer = answer_dict["answer"]
                         all_answers.append(answer)
+                        num_ids += answer_dict["num_ids"]
                         answers_pick_at -= 1
                 
                 # Collect all tests for this question
@@ -81,12 +85,11 @@ for limit_lines in all_limit_lines:
                         for j in range(min(limit_lines, len(testlines))):
                             if testlines[j].startswith("assert"):
                                 all_generated_tests.append(testlines[j])
+                        num_ids += testcase_dict[f"num_ids_{limit_lines}"]
                         tests_pick_at -= 1
                 
-                # Initiate the correctness stats
+                # Check the correctness for each answer-testline
                 correct_stats = np.zeros([len(all_answers),len(all_generated_tests)], np.int32)
-                
-                # Check the correctness for each combination
                 def code_to_run(a, t, import_lines, answer, generated_test, result_queue):
                     full_code = import_lines + answer + "\n" + generated_test
                     try:
@@ -96,8 +99,6 @@ for limit_lines in all_limit_lines:
                         result_queue.put((a, t, False))
                 processes = []
                 result_queue = multiprocessing.Queue()
-                
-                # Start all processes without waiting for them to complete
                 for a in range(len(all_answers)):
                     for t in range(len(all_generated_tests)):
                         answer = all_answers[a]
@@ -105,21 +106,15 @@ for limit_lines in all_limit_lines:
                         process = multiprocessing.Process(target=code_to_run, args=(a, t, import_lines, answer, generated_test, result_queue))
                         process.start()
                         processes.append(process)
-
-                # Impose a 1-second time limit on each process
                 for process in processes:
                     process.join(1)  # Kill infinite loops in 1 second
                     if process.is_alive():
                         process.terminate()
                         process.join()
-
-                # After all processes are done or terminated, retrieve results from the queue
                 while not result_queue.empty():
                     a, t, correct = result_queue.get()
                     if correct:
                         correct_stats[a][t] += 1
-
-                # Close all processes
                 for process in processes:
                     process.close()
                 
@@ -132,11 +127,11 @@ for limit_lines in all_limit_lines:
                     "max_test_num": int(max_test_num),
                     "total_product": int(len(all_answers)*len(all_generated_tests)),
                     "answer": selected_answer,
-                    "test": selected_test
+                    "test": selected_test,
+                    "num_ids": int(num_ids),
                 }
                 all_selected.append(selected_dict)
                 print(f"Question {number}: Max product: {max_product}; indices: {indices}, ({max_answer_num}, {max_test_num})")
-                # print(correct_stats)
 
             # Write to file
             with open(selected_file, 'w') as f:

@@ -19,7 +19,6 @@ def main(args):
     total_num = len(all_selected_dict)
     
     for threshold in all_thresholds:
-    
         true_positive = 0
         true_negative = 0
         false_positive = 0
