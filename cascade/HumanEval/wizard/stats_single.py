@@ -35,15 +35,15 @@ def main(args):
     all_pass_at = [0,1,3,5,10]
     all_testlines = [2,4]
     df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
-    per_token_cost = df_all_costs.loc[df_all_costs['Size'] == model, 'Cost per 1k tokens ($)'].iloc[0]
     gpu_price = df_all_costs['GPU Price ($/h)'].dropna().unique()[0]
-    gpu_num = df_all_costs.loc[df_all_costs['Size'] == model, 'Num GPUs'].iloc[0]
     
     # Process output parameters
     output_file = f"stats_wizard_he.csv"
     df = pd.DataFrame(columns=["model", "pass_at", "testlines", "loop", "cost", "accuracy"])
     
     for model in all_models:
+        per_token_cost = df_all_costs.loc[df_all_costs['Size'] == model, 'Cost per 1k tokens ($)'].iloc[0]
+        gpu_num = df_all_costs.loc[df_all_costs['Size'] == model, 'Num GPUs'].iloc[0]
         for pass_at in all_pass_at:
             num_loops = all_num_loops if pass_at>1 else 1
             all_accuracy = np.zeros(num_loops)
