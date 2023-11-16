@@ -5,7 +5,8 @@
         "max_test_num": 10,
         "total_product": 250,
         "answer": "from typing import List\n\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    \"\"\" Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    \"\"\"\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n\n\nif __name__ == '__main__':\n    import doctest\n\n    doctest.testmod()",
-        "test": "assert has_close_elements([1.0, 2.0, 3.0], 0.5) == False"
+        "test": "assert has_close_elements([1.0, 2.0, 3.0], 0.5) == False",
+        "num_ids": 2590
     },
     {
         "number": 1,
@@ -13,7 +14,8 @@
         "max_test_num": 10,
         "total_product": 310,
         "answer": "def separate_paren_groups(paren_string: str) -> List[str]:\n    \"\"\" Input to this function is a string containing multiple groups of nested parentheses. Your goal is to\n    separate those group into separate strings and return the list of those.\n    Separate groups are balanced (each open brace is properly closed) and not nested within each other\n    Ignore any spaces in the input string.\n    >>> separate_paren_groups('( ) (( )) (( )( ))')\n    ['()', '(())', '(()())']\n    \"\"\"\n    result = []\n    current = ''\n    level = 0\n    for c in paren_string.replace(' ', ''):\n        if c == '(':\n            level += 1\n            current += c\n        elif c == ')':\n            level -= 1\n            current += c\n            if level == 0:\n                result.append(current)\n                current = ''\n        else:\n            raise ValueError(f'Invalid character {c}')\n    if level!= 0:\n        raise ValueError('Unbalanced parentheses')\n    return result",
-        "test": "assert separate_paren_groups('') == []"
+        "test": "assert separate_paren_groups('') == []",
+        "num_ids": 3604
     },
     {
         "number": 2,
@@ -21,7 +23,8 @@
         "max_test_num": 10,
         "total_product": 370,
         "answer": "def truncate_number(number: float) -> float:\n    \"\"\" Given a positive floating point number, it can be decomposed into\n    and integer part (largest integer smaller than given number) and decimals\n    (leftover part always smaller than 1).\n\n    Return the decimal part of the number.\n    >>> truncate_number(3.5)\n    0.5\n    \"\"\"\n    integer_part = int(number)\n    decimal_part = number - integer_part\n    return decimal_part",
-        "test": "assert truncate_number(3.5) == 0.5"
+        "test": "assert truncate_number(3.5) == 0.5",
+        "num_ids": 1680
     },
     {
         "number": 3,
@@ -29,7 +32,8 @@
         "max_test_num": 10,
         "total_product": 240,
         "answer": "from typing import List\n\ndef below_zero(operations: List[int]) -> bool:\n    balance = 0\n    for operation in operations:\n        balance += operation\n        if balance < 0:\n            return True\n    return False\n\nprint(below_zero([1, 2, 3])) # False\nprint(below_zero([1, 2, -4, 5])) # True",
-        "test": "assert below_zero([1, 2, 3]) == False"
+        "test": "assert below_zero([1, 2, 3]) == False",
+        "num_ids": 1594
     },
     {
         "number": 4,
@@ -37,7 +41,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "from typing import List\n\ndef mean_absolute_deviation(numbers: List[float]) -> float:\n    \"\"\" For a given list of input numbers, calculate Mean Absolute Deviation\n    around the mean of this dataset.\n    Mean Absolute Deviation is the average absolute difference between each\n    element and a centerpoint (mean in this case):\n    MAD = average | x - x_mean |\n    >>> mean_absolute_deviation([1.0, 2.0, 3.0, 4.0])\n    1.0\n    \"\"\"\n    mean = sum(numbers) / len(numbers)\n    absolute_differences = [abs(x - mean) for x in numbers]\n    mad = sum(absolute_differences) / len(absolute_differences)\n    return mad",
-        "test": "assert mean_absolute_deviation([1.0, 2.0, 3.0, 4.0]) == 1.0"
+        "test": "assert mean_absolute_deviation([1.0, 2.0, 3.0, 4.0]) == 1.0",
+        "num_ids": 2859
     },
     {
         "number": 5,
@@ -45,7 +50,8 @@
         "max_test_num": 10,
         "total_product": 300,
         "answer": "from typing import List\n\n\ndef intersperse(numbers: List[int], delimeter: int) -> List[int]:\n    \"\"\" Insert a number 'delimeter' between every two consecutive elements of input list `numbers'\n    >>> intersperse([], 4)\n    []\n    >>> intersperse([1, 2, 3], 4)\n    [1, 4, 2, 4, 3]\n    \"\"\"\n    if not numbers:\n        return []\n    result = []\n    for i in range(len(numbers) - 1):\n        result.append(numbers[i])\n        result.append(delimeter)\n    result.append(numbers[-1])\n    return result",
-        "test": "assert intersperse([], 4) == []"
+        "test": "assert intersperse([], 4) == []",
+        "num_ids": 2302
     },
     {
         "number": 6,
@@ -53,7 +59,8 @@
         "max_test_num": 10,
         "total_product": 340,
         "answer": "from typing import List\n\n\ndef parse_nested_parens(paren_string: str) -> List[int]:\n    \"\"\" Input to this function is a string represented multiple groups for nested parentheses separated by spaces.\n    For each of the group, output the deepest level of nesting of parentheses.\n    E.g. (()()) has maximum two levels of nesting while ((())) has three.\n\n    >>> parse_nested_parens('(()()) ((())) () ((())()())')\n    [2, 3, 1, 3]\n    \"\"\"\n    result = []\n    for group in paren_string.split():\n        count = 0\n        max_count = 0\n        for char in group:\n            if char == '(':\n                count += 1\n                max_count = max(max_count, count)\n            elif char == ')':\n                count -= 1\n        result.append(max_count)\n    return result",
-        "test": "assert parse_nested_parens('') == []"
+        "test": "assert parse_nested_parens('') == []",
+        "num_ids": 2526
     },
     {
         "number": 7,
@@ -61,7 +68,8 @@
         "max_test_num": 9,
         "total_product": 300,
         "answer": "from typing import List\n\ndef filter_by_substring(strings: List[str], substring: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that contain given substring \"\"\"\n    return [string for string in strings if substring in string]",
-        "test": "assert filter_by_substring([], 'a') == []"
+        "test": "assert filter_by_substring([], 'a') == []",
+        "num_ids": 1761
     },
     {
         "number": 8,
@@ -69,7 +77,8 @@
         "max_test_num": 10,
         "total_product": 360,
         "answer": "from typing import List, Tuple\n\ndef sum_product(numbers: List[int]) -> Tuple[int, int]:\n    \"\"\" For a given list of integers, return a tuple consisting of a sum and a product of all the integers in a list.\n    Empty sum should be equal to 0 and empty product should be equal to 1.\n    >>> sum_product([])\n    (0, 1)\n    >>> sum_product([1, 2, 3, 4])\n    (10, 24)\n    \"\"\"\n\n    if not numbers:\n        return (0, 1)\n\n    total_sum = 0\n    total_product = 1\n\n    for number in numbers:\n        total_sum += number\n        total_product *= number\n\n    return (total_sum, total_product)",
-        "test": "assert sum_product([]) == (0, 1)"
+        "test": "assert sum_product([]) == (0, 1)",
+        "num_ids": 2354
     },
     {
         "number": 9,
@@ -77,7 +86,8 @@
         "max_test_num": 10,
         "total_product": 370,
         "answer": "from typing import List, Tuple\n\ndef rolling_max(numbers: List[int]) -> List[int]:\n    \"\"\" From a given list of integers, generate a list of rolling maximum element found until given moment\n    in the sequence.\n    >>> rolling_max([1, 2, 3, 2, 3, 4, 2])\n    [1, 2, 3, 3, 3, 4, 4]\n    \"\"\"\n    result = []\n    max_so_far = float('-inf')\n    for number in numbers:\n        result.append(max(number, max_so_far))\n        max_so_far = max(max_so_far, number)\n    return result",
-        "test": "assert rolling_max([1, 2, 3, 2, 3, 4, 2]) == [1, 2, 3, 3, 3, 4, 4]"
+        "test": "assert rolling_max([1, 2, 3, 2, 3, 4, 2]) == [1, 2, 3, 3, 3, 4, 4]",
+        "num_ids": 3082
     },
     {
         "number": 10,
@@ -85,7 +95,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_palindrome(string: str) -> bool:\n    \"\"\" Test if given string is a palindrome \"\"\"\n    return string == string[::-1]\n\n\ndef make_palindrome(string: str) -> str:\n    \"\"\" Find the shortest palindrome that begins with a supplied string.\n    Algorithm idea is simple:\n    - Find the longest postfix of supplied string that is a palindrome.\n    - Append to the end of the string reverse of a string prefix that comes before the palindromic suffix.\n    \"\"\"\n    if is_palindrome(string):\n        return string\n    for i in range(len(string)):\n        if is_palindrome(string[i:]):\n            return string + string[:i][::-1]\n    return None\n\n\nprint(make_palindrome('cat'))  # Output: catac\nprint(make_palindrome('racecar'))  # Output: racecar\nprint(make_palindrome('hello'))  # Output: ellohe",
-        "test": "assert make_palindrome('') == ''"
+        "test": "assert make_palindrome('') == ''",
+        "num_ids": 2809
     },
     {
         "number": 11,
@@ -93,7 +104,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def string_xor(a: str, b: str) -> str:\n    \"\"\" Input are two strings a and b consisting only of 1s and 0s.\n    Perform binary XOR on these inputs and return result also as a string.\n    >>> string_xor('010', '110')\n    '100'\n    \"\"\"\n    if len(a)!= len(b):\n        raise ValueError(\"Strings should be of equal length\")\n    result = \"\"\n    for i in range(len(a)):\n        if a[i] == b[i]:\n            result += \"0\"\n        else:\n            result += \"1\"\n    return result",
-        "test": "assert string_xor('010', '110') == '100'"
+        "test": "assert string_xor('010', '110') == '100'",
+        "num_ids": 3593
     },
     {
         "number": 12,
@@ -101,7 +113,8 @@
         "max_test_num": 10,
         "total_product": 360,
         "answer": "from typing import List, Optional\n\ndef longest(strings: List[str]) -> Optional[str]:\n    \"\"\" Out of list of strings, return the longest one. Return the first one in case of multiple\n    strings of the same length. Return None in case the input list is empty.\n    >>> longest([])\n    >>> longest(['a', 'b', 'c'])\n    'a'\n    >>> longest(['a', 'bb', 'ccc'])\n    'ccc'\n    \"\"\"\n    if not strings:\n        return None\n    \n    longest_str = strings[0]\n    \n    for string in strings:\n        if len(string) > len(longest_str):\n            longest_str = string\n            \n    return longest_str",
-        "test": "assert longest([]) is None"
+        "test": "assert longest([]) is None",
+        "num_ids": 1998
     },
     {
         "number": 13,
@@ -109,7 +122,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\" Return a greatest common divisor of two integers a and b\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(25, 15)\n    5\n    \"\"\"\n    # The algorithm to find the greatest common divisor is based on the Euclidean algorithm.\n    while b:\n        a, b = b, a % b\n    return a",
-        "test": "assert greatest_common_divisor(3, 5) == 1"
+        "test": "assert greatest_common_divisor(3, 5) == 1",
+        "num_ids": 1532
     },
     {
         "number": 14,
@@ -117,7 +131,8 @@
         "max_test_num": 7,
         "total_product": 400,
         "answer": "from typing import List\n\ndef all_prefixes(string: str) -> List[str]:\n    \"\"\" Return list of all prefixes from shortest to longest of the input string\n    >>> all_prefixes('abc')\n    ['a', 'ab', 'abc']\n    \"\"\"\n    result = []\n    for i in range(len(string)):\n        result.append(string[:i+1])\n    return result",
-        "test": "assert all_prefixes('abc') == ['a', 'ab', 'abc']"
+        "test": "assert all_prefixes('abc') == ['a', 'ab', 'abc']",
+        "num_ids": 1667
     },
     {
         "number": 15,
@@ -125,7 +140,8 @@
         "max_test_num": 10,
         "total_product": 340,
         "answer": "def string_sequence(n: int) -> str:\n    \"\"\" Return a string containing space-delimited numbers starting from 0 upto n inclusive.\n    >>> string_sequence(0)\n    '0'\n    >>> string_sequence(5)\n    '0 1 2 3 4 5'\n    \"\"\"\n    return \" \".join(str(i) for i in range(n+1))",
-        "test": "assert string_sequence(0) == '0'"
+        "test": "assert string_sequence(0) == '0'",
+        "num_ids": 2258
     },
     {
         "number": 16,
@@ -133,7 +149,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def count_distinct_characters(string: str) -> int:\n    \"\"\" Given a string, find out how many distinct characters (regardless of case) does it consist of \"\"\"\n    distinct_chars = set(string.lower())\n    return len(distinct_chars)",
-        "test": "assert count_distinct_characters('xyzXYZ') == 3"
+        "test": "assert count_distinct_characters('xyzXYZ') == 3",
+        "num_ids": 1636
     },
     {
         "number": 17,
@@ -141,7 +158,8 @@
         "max_test_num": 9,
         "total_product": 340,
         "answer": "from typing import List\n\n\ndef parse_music(music_string: str) -> List[int]:\n    \"\"\" Input to this function is a string representing musical notes in a special ASCII format.\n    Your task is to parse this string and return list of integers corresponding to how many beats does each\n    not last.\n\n    Here is a legend:\n    'o' - whole note, lasts four beats\n    'o|' - half note, lasts two beats\n    '.|' - quater note, lasts one beat\n\n    >>> parse_music('o o|.| o| o|.|.|.|.| o o')\n    [4, 2, 1, 2, 2, 1, 1, 1, 1, 4, 4]\n    \"\"\"\n    beats = []\n    for char in music_string.split():\n        if char == 'o':\n            beats.append(4)\n        elif char == 'o|':\n            beats.append(2)\n        elif char == '.|':\n            beats.append(1)\n    return beats",
-        "test": "assert parse_music('') == []"
+        "test": "assert parse_music('') == []",
+        "num_ids": 6202
     },
     {
         "number": 18,
@@ -149,7 +167,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def how_many_times(string: str, substring: str) -> int:\n    \"\"\" Find how many times a given substring can be found in the original string. Count overlaping cases.\n    >>> how_many_times('', 'a')\n    0\n    >>> how_many_times('aaa', 'a')\n    3\n    >>> how_many_times('aaaa', 'aa')\n    3\n    \"\"\"\n    count = 0\n    for i in range(len(string) - len(substring) + 1):\n        if string[i:i+len(substring)] == substring:\n            count += 1\n    return count",
-        "test": "assert how_many_times('', 'a') == 0"
+        "test": "assert how_many_times('', 'a') == 0",
+        "num_ids": 1880
     },
     {
         "number": 19,
@@ -157,7 +176,8 @@
         "max_test_num": 6,
         "total_product": 370,
         "answer": "from typing import List\n\ndef sort_numbers(numbers: str) -> str:\n    \"\"\"\n    Input is a space-delimited string of numberals from 'zero' to 'nine'.\n    Valid choices are 'zero', 'one', 'two', 'three', 'four', 'five','six','seven', 'eight' and 'nine'.\n    Return the string with numbers sorted from smallest to largest.\n    \"\"\"\n    # Split the input string into a list of strings\n    numbers_list = numbers.split()\n    \n    # Create a dictionary to store the frequency of each number in the input string\n    frequency = {}\n    for num in numbers_list:\n        if num in frequency:\n            frequency[num] += 1\n        else:\n            frequency[num] = 1\n    \n    # Sort the numbers in the input string by their frequency\n    sorted_numbers = sorted(frequency, key=frequency.get)\n    \n    # Return the sorted string\n    return''.join(sorted_numbers)\n",
-        "test": "assert sort_numbers('one') == 'one'"
+        "test": "assert sort_numbers('one') == 'one'",
+        "num_ids": 2605
     },
     {
         "number": 20,
@@ -165,15 +185,17 @@
         "max_test_num": 5,
         "total_product": 340,
         "answer": "from typing import List, Tuple\n\n\ndef find_closest_elements(numbers: List[float]) -> Tuple[float, float]:\n    \"\"\" From a supplied list of numbers (of length at least two) select and return two that are the closest to each\n    other and return them in order (smaller number, larger number).\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.2])\n    (2.0, 2.2)\n    >>> find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 2.0])\n    (2.0, 2.0)\n    \"\"\"\n    sorted_numbers = sorted(numbers)\n    min_diff = float('inf')\n    closest_pair = None\n    for i in range(len(sorted_numbers)):\n        for j in range(i+1, len(sorted_numbers)):\n            diff = abs(sorted_numbers[i] - sorted_numbers[j])\n            if diff < min_diff:\n                min_diff = diff\n                closest_pair = (sorted_numbers[i], sorted_numbers[j])\n    return closest_pair",
-        "test": "assert find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]) == (1.0, 2.0)"
+        "test": "assert find_closest_elements([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]) == (1.0, 2.0)",
+        "num_ids": 3661
     },
     {
         "number": 21,
         "max_answer_num": 30,
-        "max_test_num": 9,
+        "max_test_num": 10,
         "total_product": 380,
         "answer": "from typing import List\n\ndef rescale_to_unit(numbers: List[float]) -> List[float]:\n    \"\"\" Given list of numbers (of at least two elements), apply a linear transform to that list,\n    such that the smallest number will become 0 and the largest will become 1\n    >>> rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0])\n    [0.0, 0.25, 0.5, 0.75, 1.0]\n    \"\"\"\n    min_num = min(numbers)\n    max_num = max(numbers)\n    if min_num == max_num:\n        return [0.0] * len(numbers)\n    else:\n        rescaled_numbers = [(x - min_num) / (max_num - min_num) for x in numbers]\n        return rescaled_numbers",
-        "test": "assert rescale_to_unit([1.0, 2.0, 3.0, 4.0, 5.0]) == [0.0, 0.25, 0.5, 0.75, 1.0]"
+        "test": "assert rescale_to_unit([1.0, 2.0]) == [0.0, 1.0]",
+        "num_ids": 3813
     },
     {
         "number": 22,
@@ -181,15 +203,17 @@
         "max_test_num": 10,
         "total_product": 340,
         "answer": "from typing import List, Any\n\ndef filter_integers(values: List[Any]) -> List[int]:\n    \"\"\" Filter given list of any python values only for integers \"\"\"\n    return [value for value in values if isinstance(value, int)]",
-        "test": "assert filter_integers(['a', 3.14, 5]) == [5]"
+        "test": "assert filter_integers(['a', 3.14, 5]) == [5]",
+        "num_ids": 1856
     },
     {
         "number": 23,
         "max_answer_num": 37,
-        "max_test_num": 9,
+        "max_test_num": 10,
         "total_product": 400,
         "answer": "def strlen(string: str) -> int:\n    \"\"\" Return length of given string\n    >>> strlen('')\n    0\n    >>> strlen('abc')\n    3\n    \"\"\"\n    return len(string)",
-        "test": "assert strlen('') == 0"
+        "test": "assert strlen('') == 0",
+        "num_ids": 792
     },
     {
         "number": 24,
@@ -197,7 +221,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def largest_divisor(n: int) -> int:\n    \"\"\" For a given number n, find the largest number that divides n evenly, smaller than n\n    >>> largest_divisor(15)\n    5\n    \"\"\"\n    divisor = 2\n    while divisor*divisor <= n:\n        if n % divisor == 0:\n            n //= divisor\n        else:\n            divisor += 1\n    return n",
-        "test": "assert largest_divisor(15) == 5"
+        "test": "assert largest_divisor(15) == 5",
+        "num_ids": 1387
     },
     {
         "number": 25,
@@ -205,7 +230,8 @@
         "max_test_num": 10,
         "total_product": 330,
         "answer": "from typing import List\n\ndef factorize(n: int) -> List[int]:\n    \"\"\" Return list of prime factors of given integer in the order from smallest to largest.\n    Each of the factors should be listed number of times corresponding to how many times it appeares in factorization.\n    Input number should be equal to the product of all factors\n    >>> factorize(8)\n    [2, 2, 2]\n    >>> factorize(25)\n    [5, 5]\n    >>> factorize(70)\n    [2, 5, 7]\n    \"\"\"\n    factors = []\n    i = 2\n    while i*i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n            factors.append(i)\n    if n > 1:\n        factors.append(n)\n    return factors",
-        "test": "assert factorize(8) == [2, 2, 2]"
+        "test": "assert factorize(8) == [2, 2, 2]",
+        "num_ids": 2412
     },
     {
         "number": 26,
@@ -213,7 +239,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "from typing import List\n\ndef remove_duplicates(numbers: List[int]) -> List[int]:\n    \"\"\" From a list of integers, remove all elements that occur more than once.\n    Keep order of elements left the same as in the input.\n    >>> remove_duplicates([1, 2, 3, 2, 4])\n    [1, 3, 4]\n    \"\"\"\n    unique_numbers = []\n    for number in numbers:\n        if number not in unique_numbers:\n            unique_numbers.append(number)\n    return unique_numbers",
-        "test": "assert remove_duplicates([1, 1, 1, 1, 1]) == [1]"
+        "test": "assert remove_duplicates([1, 1, 1, 1, 1]) == [1]",
+        "num_ids": 2333
     },
     {
         "number": 27,
@@ -221,7 +248,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def flip_case(string: str) -> str:\n    \"\"\" For a given string, flip lowercase characters to uppercase and uppercase to lowercase.\n    >>> flip_case('Hello')\n    'hELLO'\n    \"\"\"\n    return string.swapcase()\n\nprint(flip_case('Hello')) # Output: hELLO",
-        "test": "assert flip_case('12345') == '12345'"
+        "test": "assert flip_case('12345') == '12345'",
+        "num_ids": 1234
     },
     {
         "number": 28,
@@ -229,7 +257,8 @@
         "max_test_num": 10,
         "total_product": 340,
         "answer": "from typing import List\n\n\ndef concatenate(strings: List[str]) -> str:\n    \"\"\" Concatenate list of strings into a single string\n    >>> concatenate([])\n    ''\n    >>> concatenate(['a', 'b', 'c'])\n    'abc'\n    \"\"\"\n    return ''.join(strings)",
-        "test": "assert concatenate([]) == ''"
+        "test": "assert concatenate([]) == ''",
+        "num_ids": 1138
     },
     {
         "number": 29,
@@ -237,7 +266,8 @@
         "max_test_num": 10,
         "total_product": 240,
         "answer": "from typing import List\n\ndef filter_by_prefix(strings: List[str], prefix: str) -> List[str]:\n    \"\"\" Filter an input list of strings only for ones that start with a given prefix.\n    >>> filter_by_prefix([], 'a')\n    []\n    >>> filter_by_prefix(['abc', 'bcd', 'cde', 'array'], 'a')\n    ['abc', 'array']\n    \"\"\"\n    return [s for s in strings if s.startswith(prefix)]",
-        "test": "assert filter_by_prefix([], 'a') == []"
+        "test": "assert filter_by_prefix([], 'a') == []",
+        "num_ids": 1456
     },
     {
         "number": 30,
@@ -245,7 +275,8 @@
         "max_test_num": 10,
         "total_product": 310,
         "answer": "def get_positive(l: list):\n    \"\"\"Return only positive numbers in the list.\n    >>> get_positive([-1, 2, -4, 5, 6])\n    [2, 5, 6]\n    >>> get_positive([5, 3, -5, 2, -3, 3, 9, 0, 123, 1, -10])\n    [5, 3, 2, 3, 9, 123, 1]\n    \"\"\"\n    return [num for num in l if num > 0]",
-        "test": "assert get_positive([-1, 2, -4, 5, 6]) == [2, 5, 6]"
+        "test": "assert get_positive([-1, 2, -4, 5, 6]) == [2, 5, 6]",
+        "num_ids": 1842
     },
     {
         "number": 31,
@@ -253,7 +284,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def is_prime(n):\n    \"\"\"Return true if a given number is prime, and false otherwise.\n    >>> is_prime(6)\n    False\n    >>> is_prime(101)\n    True\n    >>> is_prime(11)\n    True\n    >>> is_prime(13441)\n    True\n    >>> is_prime(61)\n    True\n    >>> is_prime(4)\n    False\n    >>> is_prime(1)\n    False\n    \"\"\"\n    if n <= 1:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True",
-        "test": "assert is_prime(6) == False"
+        "test": "assert is_prime(6) == False",
+        "num_ids": 1458
     },
     {
         "number": 32,
@@ -261,15 +293,17 @@
         "max_test_num": 2,
         "total_product": 380,
         "answer": "import math\n\n\ndef poly(xs: list, x: float):\n    \"\"\"\n    Evaluates polynomial with coefficients xs at point x.\n    return xs[0] + xs[1] * x + xs[1] * x^2 +.... xs[n] * x^n\n    \"\"\"\n    return sum([coeff * math.pow(x, i) for i, coeff in enumerate(xs)])\n\n\ndef find_zero(xs: list):\n    \"\"\" xs are coefficients of a polynomial.\n    find_zero find x such that poly(x) = 0.\n    find_zero returns only only zero point, even if there are many.\n    Moreover, find_zero only takes list xs having even number of coefficients\n    and largest non zero coefficient as it guarantees\n    a solution.\n    >>> round(find_zero([1, 2]), 2) # f(x) = 1 + 2x\n    -0.5\n    >>> round(find_zero([-6, 11, -6, 1]), 2) # (x - 1) * (x - 2) * (x - 3) = -6 + 11x - 6x^2 + x^3\n    1.0\n    \"\"\"\n    if len(xs) % 2 == 1 or xs[-1] == 0:\n        return None # polynomial must have even number of coefficients and largest non zero coefficient\n    n = len(xs) // 2\n    a, b = xs[:n], xs[n:]\n    for i in range(n):\n        if b[i]!= 0:\n            break\n    x = (find_zero(a) - find_zero(b)) / b[i]\n    return x\n",
-        "test": "assert find_zero([1, 1, 1, 1, 1]) == None # Not enough coefficients"
+        "test": "assert find_zero([1, 1, 1, 1, 1]) == None # Not enough coefficients",
+        "num_ids": 3215
     },
     {
         "number": 33,
         "max_answer_num": 28,
-        "max_test_num": 5,
+        "max_test_num": 6,
         "total_product": 360,
         "answer": "def sort_third(l):\n    \"\"\"This function takes a list l and returns a list l' such that\n    l' is identical to l in the indicies that are not divisible by three, while its values at the indicies that are divisible by three are equal\n    to the values of the corresponding indicies of l, but sorted.\n    \"\"\"\n    result = []\n    for i in range(len(l)):\n        if i % 3!= 0:\n            result.append(l[i])\n    third_indices = [i for i in range(len(l)) if i % 3 == 0]\n    third_values = sorted([l[i] for i in third_indices])\n    for i, value in zip(third_indices, third_values):\n        result.insert(i, value)\n    return result",
-        "test": "assert sort_third([1, 2, 3]) == [1, 2, 3]"
+        "test": "assert sort_third([0, 0, 0, 0, 0, 0]) == [0, 0, 0, 0, 0, 0]",
+        "num_ids": 3150
     },
     {
         "number": 34,
@@ -277,15 +311,17 @@
         "max_test_num": 9,
         "total_product": 350,
         "answer": "def unique(l):\n    return sorted(set(l))",
-        "test": "assert unique([5, 3, 5, 2, 3, 3, 9, 0, 123]) == [0, 2, 3, 5, 9, 123]"
+        "test": "assert unique([5, 3, 5, 2, 3, 3, 9, 0, 123]) == [0, 2, 3, 5, 9, 123]",
+        "num_ids": 1757
     },
     {
         "number": 35,
         "max_answer_num": 39,
-        "max_test_num": 8,
+        "max_test_num": 9,
         "total_product": 400,
         "answer": "def max_element(l: list):\n    \"\"\"Return maximum element in the list.\"\"\"\n    max_num = l[0]\n    for num in l:\n        if num > max_num:\n            max_num = num\n    return max_num",
-        "test": "assert max_element([1, 2, 3]) == 3"
+        "test": "assert max_element([1, 2, 3]) == 3",
+        "num_ids": 1584
     },
     {
         "number": 36,
@@ -293,7 +329,8 @@
         "max_test_num": 10,
         "total_product": 360,
         "answer": "def fizz_buzz(n: int):\n    \"\"\"Return the number of times the digit 7 appears in integers less than n which are divisible by 11 or 13.\n    >>> fizz_buzz(50)\n    0\n    >>> fizz_buzz(78)\n    2\n    >>> fizz_buzz(79)\n    3\n    \"\"\"\n    count = 0\n    for i in range(1, n):\n        if (i % 11 == 0 or i % 13 == 0) and '7' in str(i):\n            count += 1\n    return count",
-        "test": "assert fizz_buzz(50) == 0"
+        "test": "assert fizz_buzz(50) == 0",
+        "num_ids": 1756
     },
     {
         "number": 37,
@@ -301,7 +338,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def sort_even(l):\n    even_indices = [i for i in range(len(l)) if i % 2 == 0]\n    even_values = [l[i] for i in even_indices]\n    sorted_even_values = sorted(even_values)\n    sorted_l = l.copy()\n    for i in range(len(l)):\n        if i in even_indices:\n            sorted_l[i] = sorted_even_values.pop(0)\n    return sorted_l",
-        "test": "assert sort_even([]) == []"
+        "test": "assert sort_even([]) == []",
+        "num_ids": 2975
     },
     {
         "number": 38,
@@ -309,7 +347,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def encode_cyclic(s: str):\n    \"\"\"\n    returns encoded string by cycling groups of three characters.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[1:] + group[0]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n\n\ndef decode_cyclic(s: str):\n    \"\"\"\n    takes as input string encoded with encode_cyclic function. Returns decoded string.\n    \"\"\"\n    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[-1] + group[:-1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)",
-        "test": "assert decode_cyclic(encode_cyclic(\"a\")) == \"a\""
+        "test": "assert decode_cyclic(encode_cyclic(\"a\")) == \"a\"",
+        "num_ids": 3142
     },
     {
         "number": 39,
@@ -317,15 +356,17 @@
         "max_test_num": 7,
         "total_product": 400,
         "answer": "def is_prime(n: int) -> bool:\n    \"\"\"\n    is_prime returns True if n is a prime number, otherwise False.\n    \"\"\"\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef prime_fib(n: int) -> int:\n    \"\"\"\n    prime_fib returns n-th number that is a Fibonacci number and it's also prime.\n    \"\"\"\n    if n == 1:\n        return 2\n    elif n == 2:\n        return 3\n    else:\n        a, b = 2, 3\n        for i in range(3, n+1):\n            c = a + b\n            a, b = b, c\n        while not is_prime(b):\n            c = a + b\n            a, b = b, c\n        return b\n\nif __name__ == '__main__':\n    print(prime_fib(1))   # Output: 2\n    print(prime_fib(2))   # Output: 3\n    print(prime_fib(3))   # Output: 5\n    print(prime_fib(4))   # Output: 13\n    print(prime_fib(5))   # Output: 89",
-        "test": "assert prime_fib(1) == 2"
+        "test": "assert prime_fib(1) == 2",
+        "num_ids": 2593
     },
     {
         "number": 40,
         "max_answer_num": 40,
-        "max_test_num": 9,
+        "max_test_num": 8,
         "total_product": 400,
         "answer": "def triples_sum_to_zero(l: list):\n    \"\"\"\n    triples_sum_to_zero takes a list of integers as an input.\n    it returns True if there are three distinct elements in the list that\n    sum to zero, and False otherwise.\n\n    >>> triples_sum_to_zero([1, 3, 5, 0])\n    False\n    >>> triples_sum_to_zero([1, 3, -2, 1])\n    True\n    >>> triples_sum_to_zero([1, 2, 3, 7])\n    False\n    >>> triples_sum_to_zero([2, 4, -5, 3, 9, 7])\n    True\n    >>> triples_sum_to_zero([1])\n    False\n    \"\"\"\n\n    for i in range(len(l)):\n        for j in range(i+1, len(l)):\n            for k in range(j+1, len(l)):\n                if l[i] + l[j] + l[k] == 0:\n                    return True\n    return False\n",
-        "test": "assert triples_sum_to_zero([1, 2, 3, 7]) == False"
+        "test": "assert triples_sum_to_zero([1, 3, 5, 0]) == False",
+        "num_ids": 3361
     },
     {
         "number": 41,
@@ -333,7 +374,8 @@
         "max_test_num": 5,
         "total_product": 400,
         "answer": "def car_race_collision(n: int):\n    left_cars = [False] * n\n    right_cars = [True] * n\n    collisions = 0\n    for i in range(n):\n        if left_cars[i]:\n            collisions += sum(right_cars)\n            right_cars = [True] * n\n        else:\n            right_cars[i] = False\n    return collisions",
-        "test": "assert car_race_collision(1) == 0, \"There should be no collisions in a race of 1 car\""
+        "test": "assert car_race_collision(1) == 0, \"There should be no collisions in a race of 1 car\"",
+        "num_ids": 3090
     },
     {
         "number": 42,
@@ -341,15 +383,17 @@
         "max_test_num": 10,
         "total_product": 280,
         "answer": "def incr_list(l: list):\n    \"\"\"Return list with elements incremented by 1.\n    >>> incr_list([1, 2, 3])\n    [2, 3, 4]\n    >>> incr_list([5, 3, 5, 2, 3, 3, 9, 0, 123])\n    [6, 4, 6, 3, 4, 4, 10, 1, 124]\n    \"\"\"\n    return [x+1 for x in l]",
-        "test": "assert incr_list([1, 2, 3]) == [2, 3, 4]"
+        "test": "assert incr_list([1, 2, 3]) == [2, 3, 4]",
+        "num_ids": 1790
     },
     {
         "number": 43,
         "max_answer_num": 40,
-        "max_test_num": 9,
+        "max_test_num": 10,
         "total_product": 400,
         "answer": "def pairs_sum_to_zero(l):\n    \"\"\"\n    pairs_sum_to_zero takes a list of integers as an input.\n    it returns True if there are two distinct elements in the list that\n    sum to zero, and False otherwise.\n    >>> pairs_sum_to_zero([1, 3, 5, 0])\n    False\n    >>> pairs_sum_to_zero([1, 3, -2, 1])\n    False\n    >>> pairs_sum_to_zero([1, 2, 3, 7])\n    False\n    >>> pairs_sum_to_zero([2, 4, -5, 3, 5, 7])\n    True\n    >>> pairs_sum_to_zero([1])\n    False\n    \"\"\"\n    seen = set()\n    for num in l:\n        if -num in seen:\n            return True\n        seen.add(num)\n    return False",
-        "test": "assert pairs_sum_to_zero([1, 3, -2, 1]) == False"
+        "test": "assert pairs_sum_to_zero([1, 3, -2, 1]) == False",
+        "num_ids": 2393
     },
     {
         "number": 44,
@@ -357,7 +401,8 @@
         "max_test_num": 9,
         "total_product": 380,
         "answer": "def change_base(x: int, base: int) -> str:\n    \"\"\"Change numerical base of input number x to base.\n    return string representation after the conversion.\n    base numbers are less than 10.\n    \"\"\"\n    result = \"\"\n    while x > 0:\n        result = str(x % base) + result\n        x = x // base\n    return result if result!= \"\" else \"0\"\n",
-        "test": "assert change_base(8, 3) == '22'"
+        "test": "assert change_base(8, 3) == '22'",
+        "num_ids": 2169
     },
     {
         "number": 45,
@@ -365,7 +410,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def triangle_area(a, h):\n    \"\"\"Given length of a side and high return area for a triangle.\n    >>> triangle_area(5, 3)\n    7.5\n    \"\"\"\n    return 0.5 * a * h",
-        "test": "assert triangle_area(3, 4) == 6"
+        "test": "assert triangle_area(3, 4) == 6",
+        "num_ids": 1297
     },
     {
         "number": 46,
@@ -373,7 +419,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def fib4(n: int):\n    \"\"\"The Fib4 number sequence is a sequence similar to the Fibbonacci sequnece that's defined as follows:\n    fib4(0) -> 0\n    fib4(1) -> 0\n    fib4(2) -> 2\n    fib4(3) -> 0\n    fib4(n) -> fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4).\n    Please write a function to efficiently compute the n-th element of the fib4 number sequence.  Do not use recursion.\n    >>> fib4(5)\n    4\n    >>> fib4(6)\n    8\n    >>> fib4(7)\n    14\n    \"\"\"\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    else:\n        return fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4)",
-        "test": "assert fib4(0) == 0"
+        "test": "assert fib4(0) == 0",
+        "num_ids": 2638
     },
     {
         "number": 47,
@@ -381,7 +428,8 @@
         "max_test_num": 10,
         "total_product": 380,
         "answer": "def median(l: list):\n    \"\"\"Return median of elements in the list l.\n    >>> median([3, 1, 2, 4, 5])\n    3\n    >>> median([-10, 4, 6, 1000, 10, 20])\n    15.0\n    \"\"\"\n    l.sort()\n    n = len(l)\n    if n % 2 == 0:\n        return (l[n//2] + l[n//2 - 1]) / 2\n    else:\n        return l[n//2]",
-        "test": "assert median([1, 2, 3, 4, 5]) == 3"
+        "test": "assert median([1, 2, 3, 4, 5]) == 3",
+        "num_ids": 2141
     },
     {
         "number": 48,
@@ -389,7 +437,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_palindrome(text: str) -> bool:\n    \"\"\"\n    Checks if given string is a palindrome\n    >>> is_palindrome('')\n    True\n    >>> is_palindrome('aba')\n    True\n    >>> is_palindrome('aaaaa')\n    True\n    >>> is_palindrome('zbcd')\n    False\n    \"\"\"\n    text = text.lower() # Convert to lowercase\n    return text == text[::-1] # Check if reversed string is equal to original string\n    ",
-        "test": "assert is_palindrome('') == True"
+        "test": "assert is_palindrome('') == True",
+        "num_ids": 1417
     },
     {
         "number": 49,
@@ -397,7 +446,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def modp(n: int, p: int) -> int:\n    \"\"\"Return 2^n modulo p (be aware of numerics).\"\"\"\n    return pow(2, n, p)",
-        "test": "assert modp(0, 101) == 1"
+        "test": "assert modp(0, 101) == 1",
+        "num_ids": 1372
     },
     {
         "number": 50,
@@ -405,7 +455,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def encode_shift(s: str):\n    \"\"\"\n    returns encoded string by shifting every character by 5 in the alphabet.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) + 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])\n\ndef decode_shift(s: str):\n    \"\"\"\n    takes as input string encoded with encode_shift function. Returns decoded string.\n    \"\"\"\n    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])",
-        "test": "assert decode_shift(encode_shift(\"hello\")) == \"hello\""
+        "test": "assert decode_shift(encode_shift(\"hello\")) == \"hello\"",
+        "num_ids": 1938
     },
     {
         "number": 51,
@@ -413,7 +464,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def remove_vowels(text):\n    \"\"\"\n    remove_vowels is a function that takes string and returns string without vowels.\n    >>> remove_vowels('')\n    ''\n    >>> remove_vowels(\"abcdef\\nghijklm\")\n    'bcdf\\nghjklm'\n    >>> remove_vowels('abcdef')\n    'bcdf'\n    >>> remove_vowels('aaaaa')\n    ''\n    >>> remove_vowels('aaBAA')\n    'B'\n    >>> remove_vowels('zbcd')\n    'zbcd'\n    \"\"\"\n\n    vowels = 'aeiouAEIOU'\n    result = ''\n\n    for char in text:\n        if char not in vowels:\n            result += char\n\n    return result",
-        "test": "assert remove_vowels('') == ''"
+        "test": "assert remove_vowels('') == ''",
+        "num_ids": 1714
     },
     {
         "number": 52,
@@ -421,7 +473,8 @@
         "max_test_num": 10,
         "total_product": 320,
         "answer": "def below_threshold(l: list, t: int):\n    \"\"\"Return True if all numbers in the list l are below threshold t.\"\"\"\n    return all(num < t for num in l)\n",
-        "test": "assert below_threshold([1, 2, 4, 10], 100) == True"
+        "test": "assert below_threshold([1, 2, 4, 10], 100) == True",
+        "num_ids": 1380
     },
     {
         "number": 53,
@@ -429,7 +482,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def add(x: int, y: int) -> int:\n    \"\"\"Add two numbers x and y\n    >>> add(2, 3)\n    5\n    >>> add(5, 7)\n    12\n    \"\"\"\n    return x + y\n\nprint(add(2, 3))\nprint(add(5, 7))",
-        "test": "assert add(2, 3) == 5"
+        "test": "assert add(2, 3) == 5",
+        "num_ids": 1026
     },
     {
         "number": 54,
@@ -437,7 +491,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def same_chars(s0: str, s1: str):\n    \"\"\"\n    Check if two words have the same characters.\n    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddeddabc')\n    True\n    >>> same_chars('abcd', 'dddddddabc')\n    True\n    >>> same_chars('dddddddabc', 'abcd')\n    True\n    >>> same_chars('eabcd', 'dddddddabc')\n    False\n    >>> same_chars('abcd', 'dddddddabce')\n    False\n    >>> same_chars('eabcdzzzz', 'dddzzzzzzzddddabc')\n    False\n    \"\"\"\n    # Convert strings to sets to remove duplicates\n    set0 = set(s0)\n    set1 = set(s1)\n    # Check if sets have same elements\n    return set0 == set1",
-        "test": "assert same_chars('eabcd', 'dddddddabc') == False"
+        "test": "assert same_chars('eabcd', 'dddddddabc') == False",
+        "num_ids": 2085
     },
     {
         "number": 55,
@@ -445,23 +500,26 @@
         "max_test_num": 10,
         "total_product": 370,
         "answer": "def fib(n: int) -> int:\n    \"\"\"Return n-th Fibonacci number.\"\"\"\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fib(n-1) + fib(n-2)\n\nprint(fib(10))\nprint(fib(1))\nprint(fib(8))",
-        "test": "assert fib(1) == 1, \"Incorrect Fibonacci number\""
+        "test": "assert fib(1) == 1, \"Incorrect Fibonacci number\"",
+        "num_ids": 1190
     },
     {
         "number": 56,
         "max_answer_num": 40,
-        "max_test_num": 9,
+        "max_test_num": 10,
         "total_product": 400,
         "answer": "def correct_bracketing(brackets: str) -> bool:\n    \"\"\" brackets is a string of \"<\" and \">\".\n    return True if every opening bracket has a corresponding closing bracket.\n\n    >>> correct_bracketing(\"<\")\n    False\n    >>> correct_bracketing(\"<>\")\n    True\n    >>> correct_bracketing(\"<<><>>\")\n    True\n    >>> correct_bracketing(\"><<>\")\n    False\n    \"\"\"\n    stack = []\n    for bracket in brackets:\n        if bracket == \"<\":\n            stack.append(bracket)\n        elif bracket == \">\":\n            if not stack:\n                return False\n            stack.pop()\n    return not stack",
-        "test": "assert correct_bracketing(\"<\") == False"
+        "test": "assert correct_bracketing(\"<\") == False",
+        "num_ids": 1755
     },
     {
         "number": 57,
         "max_answer_num": 39,
-        "max_test_num": 9,
+        "max_test_num": 8,
         "total_product": 400,
         "answer": "def monotonic(l: list):\n    \"\"\"Return True if list elements are monotonically increasing or decreasing.\n    >>> monotonic([1, 2, 4, 20])\n    True\n    >>> monotonic([1, 20, 4, 10])\n    False\n    >>> monotonic([4, 1, 0, -10])\n    True\n    \"\"\"\n    increasing = decreasing = True\n    for i in range(1, len(l)):\n        if l[i] < l[i-1]:\n            increasing = False\n        if l[i] > l[i-1]:\n            decreasing = False\n    return increasing or decreasing",
-        "test": "assert monotonic([1, 2, 4, 20]) == True"
+        "test": "assert monotonic([1, 2, 4, 20]) == True",
+        "num_ids": 2275
     },
     {
         "number": 58,
@@ -469,7 +527,8 @@
         "max_test_num": 10,
         "total_product": 280,
         "answer": "def common(l1: list, l2: list):\n    \"\"\"Return sorted unique common elements for two lists.\n    >>> common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121])\n    [1, 5, 653]\n    >>> common([5, 3, 2, 8], [3, 2])\n    [2, 3]\n    \"\"\"\n    common_elements = set(l1) & set(l2)\n    return sorted(list(common_elements))\n",
-        "test": "assert common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]) == [1, 5, 653]"
+        "test": "assert common([1, 4, 3, 34, 653, 2, 5], [5, 7, 1, 5, 9, 653, 121]) == [1, 5, 653]",
+        "num_ids": 2808
     },
     {
         "number": 59,
@@ -477,7 +536,8 @@
         "max_test_num": 9,
         "total_product": 390,
         "answer": "def largest_prime_factor(n: int):\n    \"\"\"Return the largest prime factor of n. Assume n > 1 and is not a prime.\n    >>> largest_prime_factor(13195)\n    29\n    >>> largest_prime_factor(2048)\n    2\n    \"\"\"\n    i = 2\n    while i * i <= n:\n        if n % i:\n            i += 1\n        else:\n            n //= i\n    return n",
-        "test": "assert largest_prime_factor(1) == 1"
+        "test": "assert largest_prime_factor(1) == 1",
+        "num_ids": 2063
     },
     {
         "number": 60,
@@ -485,15 +545,17 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def sum_to_n(n: int):\n    \"\"\"sum_to_n is a function that sums numbers from 1 to n.\"\"\"\n    total = 0\n    for i in range(1, n+1):\n        total += i\n    return total\n",
-        "test": "assert sum_to_n(30) == 465"
+        "test": "assert sum_to_n(30) == 465",
+        "num_ids": 1481
     },
     {
         "number": 61,
         "max_answer_num": 40,
-        "max_test_num": 10,
+        "max_test_num": 9,
         "total_product": 400,
         "answer": "def correct_bracketing(brackets: str):\n    \"\"\" brackets is a string of \"(\" and \")\".\n    return True if every opening bracket has a corresponding closing bracket.\n\n    >>> correct_bracketing(\"(\")\n    False\n    >>> correct_bracketing(\"()\")\n    True\n    >>> correct_bracketing(\"(()())\")\n    True\n    >>> correct_bracketing(\")(()\")\n    False\n    \"\"\"\n    stack = []\n    for char in brackets:\n        if char == \"(\":\n            stack.append(char)\n        elif char == \")\":\n            if not stack:\n                return False\n            stack.pop()\n    return not stack",
-        "test": "assert correct_bracketing(\"(\") == False"
+        "test": "assert correct_bracketing(\"(\") == False",
+        "num_ids": 1568
     },
     {
         "number": 62,
@@ -501,7 +563,8 @@
         "max_test_num": 9,
         "total_product": 380,
         "answer": "def derivative(xs: list):\n    \"\"\" xs represent coefficients of a polynomial.\n    xs[0] + xs[1] * x + xs[2] * x^2 +....\n     Return derivative of this polynomial in the same form.\n    >>> derivative([3, 1, 2, 4, 5])\n    [1, 4, 12, 20]\n    >>> derivative([1, 2, 3])\n    [2, 6]\n    \"\"\"\n    n = len(xs)\n    # Check if the given polynomial is a constant or not.\n    if n == 1:\n        return [0]\n    # Calculate the derivative of the polynomial.\n    else:\n        # Initialize an empty list to store the coefficients of the derivative polynomial.\n        dxs = []\n        for i in range(1, n):\n            # Calculate the coefficient of the ith term of the derivative polynomial.\n            dxs.append(i * xs[i])\n        return dxs",
-        "test": "assert derivative([3, 1, 2, 4, 5]) == [1, 4, 12, 20]"
+        "test": "assert derivative([3, 1, 2, 4, 5]) == [1, 4, 12, 20]",
+        "num_ids": 2111
     },
     {
         "number": 63,
@@ -509,7 +572,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def fibfib(n: int):\n    \"\"\"The FibFib number sequence is a sequence similar to the Fibbonacci sequnece that's defined as follows:\n    fibfib(0) == 0\n    fibfib(1) == 0\n    fibfib(2) == 1\n    fibfib(n) == fibfib(n-1) + fibfib(n-2) + fibfib(n-3).\n    Please write a function to efficiently compute the n-th element of the fibfib number sequence.\n    >>> fibfib(1)\n    0\n    >>> fibfib(5)\n    4\n    >>> fibfib(8)\n    24\n    \"\"\"\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        return fibfib(n-1) + fibfib(n-2) + fibfib(n-3)",
-        "test": "assert fibfib(0) == 0"
+        "test": "assert fibfib(0) == 0",
+        "num_ids": 1854
     },
     {
         "number": 64,
@@ -517,7 +581,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def vowels_count(s):\n    \"\"\"Return the number of vowels in a string.\"\"\"\n    vowels = {'a', 'e', 'i', 'o', 'u', 'y'}\n    count = 0\n    for c in s:\n        if c.lower() in vowels:\n            count += 1\n    return count",
-        "test": "assert vowels_count(\"abcde\") == 2"
+        "test": "assert vowels_count(\"abcde\") == 2",
+        "num_ids": 1923
     },
     {
         "number": 65,
@@ -525,7 +590,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def circular_shift(x, shift):\n    \"\"\"Circular shift the digits of the integer x, shift the digits right by shift\n    and return the result as a string.\n    If shift > number of digits, return digits reversed.\n    >>> circular_shift(12, 1)\n    \"21\"\n    >>> circular_shift(12, 2)\n    \"12\"\n    \"\"\"\n    if shift > len(str(x)):\n        return str(x)[::-1]\n    else:\n        return str(int(str(x)[shift:] + str(x)[:shift]))\n",
-        "test": "assert circular_shift(12, 1) == \"21\""
+        "test": "assert circular_shift(12, 1) == \"21\"",
+        "num_ids": 2366
     },
     {
         "number": 66,
@@ -533,7 +599,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def digitSum(s):\n    \"\"\"\n    Task: Write a function that takes a string as input and returns the sum of the upper characters only'\n    ASCII codes.\n\n    Examples:\n        digitSum(\"\") => 0\n        digitSum(\"abAB\") => 131\n        digitSum(\"abcCd\") => 67\n        digitSum(\"helloE\") => 69\n        digitSum(\"woArBld\") => 131\n        digitSum(\"aAaaaXa\") => 153\n    \"\"\"\n    # Initialize the sum variable to 0\n    sum = 0\n    \n    # Loop through each character in the string\n    for char in s:\n        # If the character is an uppercase letter, get its ASCII code and add it to the sum\n        if char.isupper():\n            sum += ord(char)\n    \n    # Return the sum\n    return sum",
-        "test": "assert digitSum(\"\") == 0"
+        "test": "assert digitSum(\"\") == 0",
+        "num_ids": 1626
     },
     {
         "number": 67,
@@ -541,7 +608,8 @@
         "max_test_num": 0,
         "total_product": 400,
         "answer": "def fruit_distribution(s, n):\n    \"\"\"\n    In this task, you will be given a string that represents a number of apples and oranges \n    that are distributed in a basket of fruit this basket contains \n    apples, oranges, and mango fruits. Given the string that represents the total number of \n    the oranges and apples and an integer that represent the total number of the fruits \n    in the basket return the number of the mango fruits in the basket.\n    \"\"\"\n    # split the string and get the numbers of apples and oranges\n    apples, oranges = map(int, s.split()[:2])\n\n    # calculate the number of mangoes in the basket\n    mangoes = n - apples - oranges\n\n    # return the number of mangoes in the basket\n    return mangoes",
-        "test": "assert fruit_distribution(\"100 apples and 1 oranges\",120) == 19"
+        "test": "assert fruit_distribution(\"100 apples and 1 oranges\",120) == 19",
+        "num_ids": 2904
     },
     {
         "number": 68,
@@ -549,7 +617,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def pluck(arr):\n    if not arr:\n        return []\n\n    smallest_even = float('inf')\n    smallest_even_index = None\n\n    for i in range(len(arr)):\n        if arr[i] % 2 == 0:\n            if arr[i] < smallest_even:\n                smallest_even = arr[i]\n                smallest_even_index = i\n            elif arr[i] == smallest_even and i < smallest_even_index:\n                smallest_even_index = i\n\n    if smallest_even_index is None:\n        return []\n\n    return [smallest_even, smallest_even_index]",
-        "test": "assert pluck([]) == []"
+        "test": "assert pluck([]) == []",
+        "num_ids": 3861
     },
     {
         "number": 69,
@@ -557,7 +626,8 @@
         "max_test_num": 8,
         "total_product": 370,
         "answer": "def search(lst):\n    '''\n    You are given a non-empty list of positive integers. Return the greatest integer that is greater than \n    zero, and has a frequency greater than or equal to the value of the integer itself. \n    The frequency of an integer is the number of times it appears in the list.\n    If no such a value exist, return -1.\n    Examples:\n        search([4, 1, 2, 2, 3, 1]) == 2\n        search([1, 2, 2, 3, 3, 3, 4, 4, 4]) == 3\n        search([5, 5, 4, 4, 4]) == -1\n    '''\n    freq = {}\n    for num in lst:\n        if num > 0:\n            freq[num] = freq.get(num, 0) + 1\n    for num in sorted(freq, reverse=True):\n        if freq[num] >= num:\n            return num\n    return -1",
-        "test": "assert search([5, 5, 4, 4, 4]) == -1"
+        "test": "assert search([5, 5, 4, 4, 4]) == -1",
+        "num_ids": 2165
     },
     {
         "number": 70,
@@ -565,15 +635,17 @@
         "max_test_num": 10,
         "total_product": 310,
         "answer": "def strange_sort_list(lst):\n    \"\"\"\n    Given list of integers, return list in strange order.\n    Strange sorting, is when you start with the minimum value,\n    then maximum of the remaining integers, then minimum and so on.\n\n    Examples:\n    strange_sort_list([1, 2, 3, 4]) == [1, 4, 2, 3]\n    strange_sort_list([5, 5, 5, 5]) == [5, 5, 5, 5]\n    strange_sort_list([]) == []\n    \"\"\"\n    if not lst:\n        return []\n    \n    # find the minimum value\n    min_val = min(lst)\n    \n    # find the maximum value\n    max_val = max(lst)\n    \n    # create a list with the minimum value and max value\n    new_lst = [min_val, max_val]\n    \n    # remove the minimum and maximum values from the original list\n    lst.remove(min_val)\n    lst.remove(max_val)\n    \n    # sort the remaining values in the original list\n    sorted_lst = sorted(lst)\n    \n    # concatenate the new list with the sorted list\n    final_lst = new_lst + sorted_lst\n    \n    return final_lst",
-        "test": "assert strange_sort_list([]) == []"
+        "test": "assert strange_sort_list([]) == []",
+        "num_ids": 3473
     },
     {
         "number": 71,
         "max_answer_num": 24,
-        "max_test_num": 9,
+        "max_test_num": 10,
         "total_product": 400,
         "answer": "import math\n\ndef triangle_area(a, b, c):\n    '''\n    Given the lengths of the three sides of a triangle. Return the area of\n    the triangle rounded to 2 decimal points if the three sides form a valid triangle. \n    Otherwise return -1\n    Three sides make a valid triangle when the sum of any two sides is greater \n    than the third side.\n    Example:\n    triangle_area(3, 4, 5) == 6.00\n    triangle_area(1, 2, 10) == -1\n    '''\n    # Check if the three sides form a valid triangle\n    if a + b > c and b + c > a and c + a > b:\n        # Calculate the semi-perimeter\n        s = (a + b + c) / 2\n        # Calculate the area using Heron's formula\n        area = math.sqrt(s * (s - a) * (s - b) * (s - c))\n        # Round the area to 2 decimal points\n        area = round(area, 2)\n        return area\n    else:\n        return -1",
-        "test": "assert triangle_area(3, 4, 5) == 6.0"
+        "test": "assert triangle_area(3, 4, 5) == 6.0",
+        "num_ids": 2807
     },
     {
         "number": 72,
@@ -581,7 +653,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def will_it_fly(q, w):\n    \"\"\"\n    Returns True if the object q will fly, and False otherwise.\n    The object q will fly if it's balanced (it is a palindromic list) and the sum of its elements is less than or equal the maximum possible weight w.\n\n    Example:\n    will_it_fly([1, 2], 5) \u279e False\n    # 1+2 is less than the maximum possible weight, but it's unbalanced.\n\n    will_it_fly([3, 2, 3], 1) \u279e False\n    # it's balanced, but 3+2+3 is more than the maximum possible weight.\n\n    will_it_fly([3, 2, 3], 9) \u279e True\n    # 3+2+3 is less than the maximum possible weight, and it's balanced.\n\n    will_it_fly([3], 5) \u279e True\n    # 3 is less than the maximum possible weight, and it's balanced.\n    \"\"\"\n    # check if the list is balanced\n    if q == q[::-1]:\n        # check if the sum of elements is less than or equal the maximum possible weight\n        if sum(q) <= w:\n            return True\n    return False",
-        "test": "assert will_it_fly([1, 2], 5) == False"
+        "test": "assert will_it_fly([1, 2], 5) == False",
+        "num_ids": 3147
     },
     {
         "number": 73,
@@ -589,7 +662,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def smallest_change(arr):\n    \"\"\"\n    Given an array arr of integers, find the minimum number of elements that\n    need to be changed to make the array palindromic. A palindromic array is an array that\n    is read the same backwards and forwards. In one change, you can change one element to any other element.\n\n    For example:\n    smallest_change([1,2,3,5,4,7,9,6]) == 4\n    smallest_change([1, 2, 3, 4, 3, 2, 2]) == 1\n    smallest_change([1, 2, 3, 2, 1]) == 0\n    \"\"\"\n    n = len(arr)\n    # Initialize variables to keep track of the number of changes required\n    changes = 0\n    # Initialize a boolean array to keep track of whether each element has been used\n    used = [False] * n\n    # Loop through each element of the array\n    for i in range(n):\n        # If the element has already been used, skip it\n        if used[i]:\n            continue\n        # If the element is not the same as its mirror element, increment the number of changes\n        if arr[i]!= arr[n-1-i]:\n            changes += 1\n        # Mark the element and its mirror element as used\n        used[i] = used[n-1-i] = True\n    # Return the number of changes required\n    return changes",
-        "test": "assert smallest_change([1, 1, 1, 1, 1, 1, 1, 1]) == 0"
+        "test": "assert smallest_change([1, 1, 1, 1, 1, 1, 1, 1]) == 0",
+        "num_ids": 3460
     },
     {
         "number": 74,
@@ -597,7 +671,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def total_match(lst1, lst2):\n    '''\n    Write a function that accepts two lists of strings and returns the list that has \n    total number of chars in the all strings of the list less than the other list.\n\n    if the two lists have the same number of chars, return the first list.\n\n    Examples\n    total_match([], []) \u279e []\n    total_match(['hi', 'admin'], ['hI', 'Hi']) \u279e ['hI', 'Hi']\n    total_match(['hi', 'admin'], ['hi', 'hi', 'admin', 'project']) \u279e ['hi', 'admin']\n    total_match(['hi', 'admin'], ['hI', 'hi', 'hi']) \u279e ['hI', 'hi', 'hi']\n    total_match(['4'], ['1', '2', '3', '4', '5']) \u279e ['4']\n    '''\n    \n    if len(lst1) == 0 or len(lst2) == 0:\n        return []\n\n    count_lst1 = sum(len(s) for s in lst1)\n    count_lst2 = sum(len(s) for s in lst2)\n\n    if count_lst1 < count_lst2:\n        return lst1\n    elif count_lst1 > count_lst2:\n        return lst2\n    else:\n        return lst1 if lst1 < lst2 else lst2",
-        "test": "assert total_match([], []) == []"
+        "test": "assert total_match([], []) == []",
+        "num_ids": 2845
     },
     {
         "number": 75,
@@ -605,7 +680,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_prime(n):\n    \"\"\"Check if a number is prime\"\"\"\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef is_multiply_prime(a):\n    \"\"\"Check if the given number is the multiplication of 3 prime numbers\"\"\"\n    count = 0\n    for i in range(2, a):\n        if a % i == 0 and is_prime(i):\n            count += 1\n            if count == 3:\n                return True\n    return False",
-        "test": "assert is_multiply_prime(3) == False"
+        "test": "assert is_multiply_prime(3) == False",
+        "num_ids": 3509
     },
     {
         "number": 76,
@@ -613,7 +689,8 @@
         "max_test_num": 7,
         "total_product": 400,
         "answer": "def is_simple_power(x, n):\n    \"\"\"\n    Your task is to write a function that returns true if a number x is a simple\n    power of n and false in other cases.\n    x is a simple power of n if n**int(log(x, n))=x\n    For example:\n    is_simple_power(1, 4) => true\n    is_simple_power(2, 2) => true\n    is_simple_power(8, 2) => true\n    is_simple_power(3, 2) => false\n    is_simple_power(3, 1) => false\n    is_simple_power(5, 3) => false\n    \"\"\"\n    if n == 1:\n        return False\n    \n    try:\n        return x == n ** int(math.log(x, n))\n    except ValueError:\n        return False",
-        "test": "assert is_simple_power(3, 2) == False"
+        "test": "assert is_simple_power(3, 2) == False",
+        "num_ids": 2741
     },
     {
         "number": 77,
@@ -621,7 +698,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def iscube(a):\n    '''\n    Write a function that takes an integer a and returns True \n    if this ingeger is a cube of some integer number.\n    Note: you may assume the input is always valid.\n    Examples:\n    iscube(1) ==> True\n    iscube(2) ==> False\n    iscube(-1) ==> True\n    iscube(64) ==> True\n    iscube(0) ==> True\n    iscube(180) ==> False\n    '''\n    return a ** 3 == a ** 3",
-        "test": "assert iscube(1) == True"
+        "test": "assert iscube(1) == True",
+        "num_ids": 1706
     },
     {
         "number": 78,
@@ -629,7 +707,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_prime(num):\n    \"\"\"\n    Helper function to check if a number is prime or not.\n    \"\"\"\n    if num < 2:\n        return False\n    for i in range(2, int(num ** 0.5) + 1):\n        if num % i == 0:\n            return False\n    return True\n\ndef hex_key(num):\n    \"\"\"\n    Receives a hexadecimal number as a string and counts the number of hexadecimal\n    digits that are primes.\n    \"\"\"\n    count = 0\n    for i in num:\n        if i in ['2', '3', '5', '7', 'B', 'D']:\n            if is_prime(int(i, 16)):\n                count += 1\n    return count",
-        "test": "assert hex_key(\"AB\") == 1, \"hex_key('AB') should return 1\""
+        "test": "assert hex_key(\"AB\") == 1, \"hex_key('AB') should return 1\"",
+        "num_ids": 3539
     },
     {
         "number": 79,
@@ -637,7 +716,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def decimal_to_binary(decimal):\n    \"\"\"You will be given a number in decimal form and your task is to convert it to\n    binary format. The function should return a string, with each character representing a binary\n    number. Each character in the string will be '0' or '1'.\n\n    There will be an extra couple of characters 'db' at the beginning and at the end of the string.\n    The extra characters are there to help with the format.\n\n    Examples:\n    decimal_to_binary(15)   # returns \"db1111db\"\n    decimal_to_binary(32)   # returns \"db100000db\"\n    \"\"\"\n    binary = bin(decimal)[2:]\n    binary_string = \"db\" + binary + \"db\"\n    return binary_string",
-        "test": "assert decimal_to_binary(15) == \"db1111db\""
+        "test": "assert decimal_to_binary(15) == \"db1111db\"",
+        "num_ids": 2265
     },
     {
         "number": 80,
@@ -645,7 +725,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_happy(s):\n    \"\"\"You are given a string s.\n    Your task is to check if the string is happy or not.\n    A string is happy if its length is at least 3 and every 3 consecutive letters are distinct\n    For example:\n    is_happy(a) => False\n    is_happy(aa) => False\n    is_happy(abcd) => True\n    is_happy(aabb) => False\n    is_happy(adb) => True\n    is_happy(xyy) => False\n    \"\"\"\n    if len(s) < 3:\n        return False\n    s = s.lower()\n    seen = set()\n    for i in range(0, len(s)-2):\n        sub = s[i:i+3]\n        if sub in seen:\n            return False\n        seen.add(sub)\n    return True",
-        "test": "assert is_happy(\"a\") == False"
+        "test": "assert is_happy(\"a\") == False",
+        "num_ids": 1869
     },
     {
         "number": 81,
@@ -653,7 +734,8 @@
         "max_test_num": 10,
         "total_product": 350,
         "answer": "def numerical_letter_grade(grades):\n    \"\"\"It is the last week of the semester and the teacher has to give the grades\n    to students. The teacher has been making her own algorithm for grading.\n    The only problem is, she has lost the code she used for grading.\n    She has given you a list of GPAs for some students and you have to write \n    a function that can output a list of letter grades using the following table:\n                 GPA       |       Letter grade\n                    4.0                  A+\n                  > 3.7                  A \n                  > 3.3                  A- \n                  > 3.0                  B+\n                  > 2.7                  B \n                  > 2.3                  B-\n                  > 2.0                  C+\n                  > 1.7                  C\n                  > 1.3                  C-\n                  > 1.0                  D+ \n                  > 0.7                  D \n                  > 0.0                  D-\n                    0.0                  E\n    \n    \n    Example:\n    numerical_letter_grade([4.0, 3, 1.7, 2, 3.5]) ==> ['A+', 'B', 'C-', 'C', 'A-']\n    \"\"\"\n\n    letter_grades = []\n    for grade in grades:\n        if grade >= 4.0:\n            letter_grades.append('A+')\n        elif grade >= 3.7:\n            letter_grades.append('A')\n        elif grade >= 3.3:\n            letter_grades.append('A-')\n        elif grade >= 3.0:\n            letter_grades.append('B+')\n        elif grade >= 2.7:\n            letter_grades.append('B')\n        elif grade >= 2.3:\n            letter_grades.append('B-')\n        elif grade >= 2.0:\n            letter_grades.append('C+')\n        elif grade >= 1.7:\n            letter_grades.append('C')\n        elif grade >= 1.3:\n            letter_grades.append('C-')\n        elif grade >= 1.0:\n            letter_grades.append('D+')\n        elif grade >= 0.7:\n            letter_grades.append('D')\n        else:\n            letter_grades.append('D-')\n\n    return letter_grades",
-        "test": "assert numerical_letter_grade([3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0]) == ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']"
+        "test": "assert numerical_letter_grade([3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0]) == ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-']",
+        "num_ids": 8151
     },
     {
         "number": 82,
@@ -661,7 +743,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_prime(n):\n    \"\"\"Helper function to check if a number is prime\"\"\"\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef prime_length(string):\n    \"\"\"Return True if the length of the string is prime, False otherwise\"\"\"\n    return is_prime(len(string))",
-        "test": "assert prime_length('Hello') == True"
+        "test": "assert prime_length('Hello') == True",
+        "num_ids": 1559
     },
     {
         "number": 83,
@@ -669,15 +752,17 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def starts_one_ends(n):\n    \"\"\"\n    Given a positive integer n, return the count of the numbers of n-digit\n    positive integers that start or end with 1.\n    \"\"\"\n    count = 0\n    for i in range(1, 10**n):\n        if str(i)[0] == '1' or str(i)[-1] == '1':\n            count += 1\n    return count",
-        "test": "assert starts_one_ends(1) == 1"
+        "test": "assert starts_one_ends(1) == 1",
+        "num_ids": 1658
     },
     {
         "number": 84,
         "max_answer_num": 6,
-        "max_test_num": 6,
+        "max_test_num": 7,
         "total_product": 400,
         "answer": "def solve(N):\n    \"\"\"Given a positive integer N, return the total sum of its digits in binary.\n\n    Example\n        For N = 1000, the sum of digits will be 1 the output should be \"1\".\n        For N = 150, the sum of digits will be 6 the output should be \"110\".\n        For N = 147, the sum of digits will be 12 the output should be \"1100\".\n\n    Variables:\n        @N integer\n             Constraints: 0 \u2264 N \u2264 10000.\n    Output:\n         a string of binary number\n    \"\"\"\n    binary = bin(N)[2:] # convert to binary without the '0b' prefix\n    sum_of_digits = sum(int(digit) for digit in binary) # convert to int and sum\n    return bin(sum_of_digits)[2:] # convert to binary and remove the '0b' prefix",
-        "test": "assert solve(0) == \"0\""
+        "test": "assert solve(0) == \"0\"",
+        "num_ids": 2461
     },
     {
         "number": 85,
@@ -685,7 +770,8 @@
         "max_test_num": 6,
         "total_product": 400,
         "answer": "def add(lst):\n    \"\"\"Given a non-empty list of integers lst. add the even elements that are at odd indices.\n\n    Args:\n        lst: A list of integers.\n\n    Returns:\n        The sum of even numbers at odd indices of lst.\n\n    Examples:\n        >>> add([4, 2, 6, 7])\n        2\n    \"\"\"\n    even_numbers = [num for i, num in enumerate(lst) if i % 2 == 1 and num % 2 == 0]\n    return sum(even_numbers)",
-        "test": "assert add([4, 2, 6, 7]) == 2"
+        "test": "assert add([4, 2, 6, 7]) == 2",
+        "num_ids": 1774
     },
     {
         "number": 86,
@@ -693,7 +779,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def anti_shuffle(s):\n    \"\"\"\n    Write a function that takes a string and returns an ordered version of it.\n    Ordered version of string, is a string where all words (separated by space)\n    are replaced by a new word where all the characters arranged in\n    ascending order based on ascii value.\n    Note: You should keep the order of words and blank spaces in the sentence.\n\n    For example:\n    anti_shuffle('Hi') returns 'Hi'\n    anti_shuffle('hello') returns 'ehllo'\n    anti_shuffle('Hello World!!!') returns 'Hello!!!Wdlor'\n    \"\"\"\n    words = s.split()  # split string into words\n    new_words = []\n    for word in words:\n        new_word = ''.join(sorted(word))  # sort characters in word\n        new_words.append(new_word)\n    return''.join(new_words)  # join new words into sentence",
-        "test": "assert anti_shuffle('Hi') == 'Hi'"
+        "test": "assert anti_shuffle('Hi') == 'Hi'",
+        "num_ids": 2502
     },
     {
         "number": 87,
@@ -701,7 +788,8 @@
         "max_test_num": 0,
         "total_product": 100,
         "answer": "def get_row(lst, x):\n    result = []\n    for i in range(len(lst)):\n        row = lst[i]\n        for j in range(len(row)):\n            if row[j] == x:\n                result.append((i, j))\n    result.sort()\n    for i in range(len(result)):\n        row, col = result[i]\n        result[i] = (row, len(lst[row])-1-col)\n    result.sort(key=lambda x: x[1])\n    return result",
-        "test": "assert get_row(["
+        "test": "assert get_row([",
+        "num_ids": 2862
     },
     {
         "number": 88,
@@ -709,7 +797,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def sort_array(array):\n    \"\"\"\n    Given an array of non-negative integers, return a copy of the given array after sorting,\n    you will sort the given array in ascending order if the sum( first index value, last index value) is odd,\n    or sort it in descending order if the sum( first index value, last index value) is even.\n\n    Note:\n    * don't change the given array.\n\n    Examples:\n    * sort_array([]) => []\n    * sort_array([5]) => [5]\n    * sort_array([2, 4, 3, 0, 1, 5]) => [0, 1, 2, 3, 4, 5]\n    * sort_array([2, 4, 3, 0, 1, 5, 6]) => [6, 5, 4, 3, 2, 1, 0]\n    \"\"\"\n\n    # if array is empty, return the same array\n    if not array:\n        return array\n\n    # get the sum of first and last index value of the array\n    total_sum = array[0] + array[-1]\n\n    # if total_sum is odd, sort the array in ascending order\n    if total_sum % 2!= 0:\n        return sorted(array)\n\n    # if total_sum is even, sort the array in descending order\n    else:\n        return sorted(array, reverse=True)",
-        "test": "assert sort_array([5]) == [5]"
+        "test": "assert sort_array([5]) == [5]",
+        "num_ids": 3900
     },
     {
         "number": 89,
@@ -717,15 +806,17 @@
         "max_test_num": 2,
         "total_product": 400,
         "answer": "def encrypt(s):\n    \"\"\"Create a function encrypt that takes a string as an argument and\n    returns a string encrypted with the alphabet being rotated. \n    The alphabet should be rotated in a manner such that the letters \n    shift down by two multiplied to two places.\"\"\"\n    alphabet = \"abcdefghijklmnopqrstuvwxyz\"\n    result = \"\"\n    for char in s:\n        index = alphabet.index(char)\n        new_index = (index + 4) % 26\n        result += alphabet[new_index]\n    return result",
-        "test": "assert encrypt('hi') == 'lm'"
+        "test": "assert encrypt('hi') == 'lm'",
+        "num_ids": 2827
     },
     {
         "number": 90,
         "max_answer_num": 40,
-        "max_test_num": 9,
+        "max_test_num": 8,
         "total_product": 400,
         "answer": "def next_smallest(lst):\n    \"\"\"\n    You are given a list of integers.\n    Write a function next_smallest() that returns the 2nd smallest element of the list.\n    Return None if there is no such element.\n    \n    next_smallest([1, 2, 3, 4, 5]) == 2\n    next_smallest([5, 1, 4, 3, 2]) == 2\n    next_smallest([]) == None\n    next_smallest([1, 1]) == None\n    \"\"\"\n    if len(lst) < 2:\n        return None\n    smallest = float('inf')\n    second_smallest = float('inf')\n    for num in lst:\n        if num < smallest:\n            second_smallest = smallest\n            smallest = num\n        elif num < second_smallest and num!= smallest:\n            second_smallest = num\n    if second_smallest == float('inf'):\n        return None\n    return second_smallest",
-        "test": "assert next_smallest([]) == None"
+        "test": "assert next_smallest([]) == None",
+        "num_ids": 2361
     },
     {
         "number": 91,
@@ -733,7 +824,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def is_bored(S):\n    \"\"\"\n    You'll be given a string of words, and your task is to count the number\n    of boredoms. A boredom is a sentence that starts with the word \"I\".\n    Sentences are delimited by '.', '?' or '!'.\n\n    For example:\n    >>> is_bored(\"Hello world\")\n    0\n    >>> is_bored(\"The sky is blue. The sun is shining. I love this weather\")\n    1\n    \"\"\"\n    count = 0\n    sentences = S.split('.')\n    for sentence in sentences:\n        words = sentence.split()\n        if words and words[0].lower() == 'i':\n            count += 1\n    return count",
-        "test": "assert is_bored(\"Hello world\") == 0"
+        "test": "assert is_bored(\"Hello world\") == 0",
+        "num_ids": 2014
     },
     {
         "number": 92,
@@ -741,7 +833,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def any_int(x, y, z):\n    '''\n    Create a function that takes 3 numbers.\n    Returns true if one of the numbers is equal to the sum of the other two, and all numbers are integers.\n    Returns false in any other cases.\n    \n    Examples\n    any_int(5, 2, 7) \u279e True\n    \n    any_int(3, 2, 2) \u279e False\n\n    any_int(3, -2, 1) \u279e True\n    \n    any_int(3.6, -2.2, 2) \u279e False\n    \n    '''\n    \n    if isinstance(x, int) and isinstance(y, int) and isinstance(z, int):\n        if x == y+z or y == x+z or z == x+y:\n            return True\n        else:\n            return False\n    else:\n        return False",
-        "test": "assert any_int(5, 2, 7) == True # example 1"
+        "test": "assert any_int(5, 2, 7) == True # example 1",
+        "num_ids": 2713
     },
     {
         "number": 93,
@@ -749,7 +842,8 @@
         "max_test_num": 0,
         "total_product": 400,
         "answer": "def encode(message):\n    \"\"\"\n    Write a function that takes a message, and encodes in such a \n    way that it swaps case of all letters, replaces all vowels in \n    the message with the letter that appears 2 places ahead of that \n    vowel in the english alphabet. \n    Assume only letters. \n    \n    Examples:\n    >>> encode('test')\n    'TGST'\n    >>> encode('This is a message')\n    'tHKS KS C MGSSCGG'\n    \"\"\"\n    vowels = ['a', 'e', 'i', 'o', 'u']\n    new_message = ''\n    for i in message:\n        if i.isalpha():\n            if i.lower() in vowels:\n                if i.lower() == 'u':\n                    new_message += 'v'\n                else:\n                    index = vowels.index(i.lower())\n                    new_message += vowels[(index + 2) % 5].upper()\n            else:\n                new_message += i.upper() if i.isupper() else i.lower()\n        else:\n            new_message += i\n    return new_message",
-        "test": "assert encode('aeiouAEIOU') == 'bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'"
+        "test": "assert encode('aeiouAEIOU') == 'bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'",
+        "num_ids": 2881
     },
     {
         "number": 94,
@@ -757,7 +851,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def is_prime(num):\n    \"\"\"Function to check if a number is prime\"\"\"\n    if num <= 1:\n        return False\n    for i in range(2, int(num ** 0.5) + 1):\n        if num % i == 0:\n            return False\n    return True\n\ndef sum_of_digits(num):\n    \"\"\"Function to find the sum of digits of a number\"\"\"\n    return sum(map(int, str(num)))\n\ndef largest_prime(lst):\n    \"\"\"Function to find the largest prime value in a list\"\"\"\n    prime_lst = [num for num in lst if is_prime(num)]\n    if prime_lst:\n        return max(prime_lst)\n    else:\n        return None\n\ndef skjkasdkd(lst):\n    \"\"\"Function to find the sum of digits of the largest prime value in a list\"\"\"\n    prime_lst = [num for num in lst if is_prime(num)]\n    if prime_lst:\n        largest_prime_value = max(prime_lst)\n        sum_of_largest_prime = sum_of_digits(largest_prime_value)\n        return sum_of_largest_prime\n    else:\n        return None",
-        "test": "assert skjkasdkd([0,3,2,1,3,5,7,4,5,5,5,2,181,32,4,32,3,2,32,324,4,3]) == 10, \"Test failed\""
+        "test": "assert skjkasdkd([0,3,2,1,3,5,7,4,5,5,5,2,181,32,4,32,3,2,32,324,4,3]) == 10, \"Test failed\"",
+        "num_ids": 4275
     },
     {
         "number": 95,
@@ -765,7 +860,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def check_dict_case(dict):\n    \"\"\"\n    Given a dictionary, return True if all keys are strings in lower \n    case or all keys are strings in upper case, else return False.\n    The function should return False is the given dictionary is empty.\n    \"\"\"\n    if not dict:\n        return False\n    upper_case = all(isinstance(key, str) and key.isupper() for key in dict.keys())\n    lower_case = all(isinstance(key, str) and key.islower() for key in dict.keys())\n    return upper_case or lower_case",
-        "test": "assert check_dict_case({\"a\":\"apple\", \"A\":\"banana\", \"B\":\"banana\"}) == False"
+        "test": "assert check_dict_case({\"a\":\"apple\", \"A\":\"banana\", \"B\":\"banana\"}) == False",
+        "num_ids": 3163
     },
     {
         "number": 96,
@@ -773,15 +869,17 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def count_up_to(n):\n    \"\"\"Implement a function that takes an non-negative integer and returns an array of the first n\n    integers that are prime numbers and less than n.\"\"\"\n    # create an empty list to store the prime numbers\n    primes = []\n    # loop through numbers from 2 to n-1\n    for i in range(2, n):\n        # check if i is prime\n        is_prime = True\n        for j in range(2, int(i**0.5)+1):\n            if i % j == 0:\n                is_prime = False\n                break\n        if is_prime:\n            # if i is prime, append it to the primes list\n            primes.append(i)\n            # if the length of the primes list is equal to n, return the primes list\n            if len(primes) == n:\n                return primes\n    # if the length of the primes list is less than n, return all the prime numbers found so far\n    return primes",
-        "test": "assert count_up_to(0) == []"
+        "test": "assert count_up_to(0) == []",
+        "num_ids": 2410
     },
     {
         "number": 97,
         "max_answer_num": 37,
-        "max_test_num": 5,
+        "max_test_num": 6,
         "total_product": 400,
         "answer": "def multiply(a, b):\n    \"\"\"Complete the function that takes two integers and returns \n    the product of their unit digits.\n    Assume the input is always valid.\n    Examples:\n    multiply(148, 412) should return 16.\n    multiply(19, 28) should return 72.\n    multiply(2020, 1851) should return 0.\n    multiply(14,-15) should return 20.\n    \"\"\"\n    return (a % 10) * (b % 10)",
-        "test": "assert multiply(148, 412) == 16"
+        "test": "assert multiply(148, 412) == 16",
+        "num_ids": 2357
     },
     {
         "number": 98,
@@ -789,7 +887,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def count_upper(s):\n    \"\"\"\n    Given a string s, count the number of uppercase vowels in even indices.\n    \n    For example:\n    count_upper('aBCdEf') returns 1\n    count_upper('abcdefg') returns 0\n    count_upper('dBBE') returns 0\n    \"\"\"\n    count = 0\n    for i in range(0, len(s), 2):\n        if s[i] in 'AEIOU':\n            count += 1\n    return count",
-        "test": "assert count_upper('dBBE') == 0"
+        "test": "assert count_upper('dBBE') == 0",
+        "num_ids": 1646
     },
     {
         "number": 99,
@@ -797,7 +896,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def closest_integer(value):\n    if float(value) >= 0:\n        return int(float(value) + 0.5)\n    else:\n        return int(float(value) - 0.5)",
-        "test": "assert closest_integer(\"10\") == 10"
+        "test": "assert closest_integer(\"10\") == 10",
+        "num_ids": 2243
     },
     {
         "number": 100,
@@ -805,7 +905,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def make_a_pile(n):\n    \"\"\"\n    Given a positive integer n, you have to make a pile of n levels of stones.\n    The first level has n stones.\n    The number of stones in the next level is:\n        - the next odd number if n is odd.\n        - the next even number if n is even.\n    Return the number of stones in each level in a list, where element at index\n    i represents the number of stones in the level (i+1).\n\n    Examples:\n    >>> make_a_pile(3)\n    [3, 5, 7]\n    \"\"\"\n\n    pile = [n]\n    for i in range(n-1):\n        if i+1 % 2 == 0:\n            pile.append(pile[i] + 1)\n        else:\n            pile.append(pile[i] + 2)\n    return pile",
-        "test": "assert make_a_pile(1) == [1]"
+        "test": "assert make_a_pile(1) == [1]",
+        "num_ids": 3040
     },
     {
         "number": 101,
@@ -813,7 +914,8 @@
         "max_test_num": 10,
         "total_product": 380,
         "answer": "def words_string(s):\n    \"\"\"\n    You will be given a string of words separated by commas or spaces. Your task is\n    to split the string into words and return an array of the words.\n\n    For example:\n    words_string(\"Hi, my name is John\") == [\"Hi\", \"my\", \"name\", \"is\", \"John\"]\n    words_string(\"One, two, three, four, five, six\") == [\"One\", \"two\", \"three\", \"four\", \"five\", \"six\"]\n    \"\"\"\n    words = []\n    current_word = \"\"\n    for char in s:\n        if char == \",\" or char == \" \":\n            if current_word!= \"\":\n                words.append(current_word)\n                current_word = \"\"\n        else:\n            current_word += char\n    if current_word!= \"\":\n        words.append(current_word)\n    return words",
-        "test": "assert words_string(\"a b c d e f\") == [\"a\", \"b\", \"c\", \"d\", \"e\", \"f\"]"
+        "test": "assert words_string(\"a b c d e f\") == [\"a\", \"b\", \"c\", \"d\", \"e\", \"f\"]",
+        "num_ids": 2382
     },
     {
         "number": 102,
@@ -821,7 +923,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def choose_num(x, y):\n    \"\"\"This function takes two positive numbers x and y and returns the\n    biggest even integer number that is in the range [x, y] inclusive. If \n    there's no such number, then the function should return -1.\n\n    For example:\n    choose_num(12, 15) = 14\n    choose_num(13, 12) = -1\n    \"\"\"\n    max_num = -1\n    for num in range(x, y+1):\n        if num % 2 == 0 and num > max_num:\n            max_num = num\n    if max_num == -1:\n        return -1\n    return max_num",
-        "test": "assert choose_num(13, 12) == -1"
+        "test": "assert choose_num(13, 12) == -1",
+        "num_ids": 2295
     },
     {
         "number": 103,
@@ -829,7 +932,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def rounded_avg(n, m):\n    \"\"\"You are given two positive integers n and m, and your task is to compute the\n    average of the integers from n through m (including n and m). \n    Round the answer to the nearest integer and convert that to binary.\n    If n is greater than m, return -1.\n    Example:\n    rounded_avg(1, 5) => \"0b11\"\n    rounded_avg(7, 5) => -1\n    rounded_avg(10, 20) => \"0b1111\"\n    rounded_avg(20, 33) => \"0b11010\"\n    \"\"\"\n    if n > m:\n        return -1\n    avg = (n + m) // 2\n    return bin(avg)",
-        "test": "assert rounded_avg(7, 5) == -1"
+        "test": "assert rounded_avg(7, 5) == -1",
+        "num_ids": 2617
     },
     {
         "number": 104,
@@ -837,7 +941,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def unique_digits(x):\n    \"\"\"Given a list of positive integers x. return a sorted list of all \n    elements that hasn't any even digit.\n\n    Note: Returned list should be sorted in increasing order.\n    \n    For example:\n    >>> unique_digits([15, 33, 1422, 1])\n    [1, 15, 33]\n    >>> unique_digits([152, 323, 1422, 10])\n    []\n    \"\"\"\n\n    # Define a function to check if a number has even digit or not\n    def has_even_digit(n):\n        while n > 0:\n            if n % 10 % 2 == 0:\n                return True\n            n //= 10\n        return False\n\n    # Filter the list to keep only elements that don't have even digit\n    filtered_list = list(filter(lambda n: not has_even_digit(n), x))\n\n    # Sort the filtered list and return it\n    return sorted(filtered_list)",
-        "test": "assert unique_digits([15, 33, 1422, 1]) == [1, 15, 33]"
+        "test": "assert unique_digits([15, 33, 1422, 1]) == [1, 15, 33]",
+        "num_ids": 3022
     },
     {
         "number": 105,
@@ -845,7 +950,8 @@
         "max_test_num": 10,
         "total_product": 310,
         "answer": "def by_length(arr):\n    \"\"\"\n    Given an array of integers, sort the integers that are between 1 and 9 inclusive,\n    reverse the resulting array, and then replace each digit by its corresponding name from\n    \"One\", \"Two\", \"Three\", \"Four\", \"Five\", \"Six\", \"Seven\", \"Eight\", \"Nine\".\n\n    For example:\n      arr = [2, 1, 1, 4, 5, 8, 2, 3]   \n            -> sort arr -> [1, 1, 2, 2, 3, 4, 5, 8] \n            -> reverse arr -> [8, 5, 4, 3, 2, 2, 1, 1]\n      return [\"Eight\", \"Five\", \"Four\", \"Three\", \"Two\", \"Two\", \"One\", \"One\"]\n      \n      If the array is empty, return an empty array:\n      arr = []\n      return []\n      \n      If the array has any strange number ignore it:\n      arr = [1, -1, 55] \n            -> sort arr -> [-1, 1, 55]\n            -> reverse arr -> [55, 1, -1]\n      return = ['One']\n    \"\"\"\n    # create a list of names for each digit from 1 to 9\n    digit_names = [\"One\", \"Two\", \"Three\", \"Four\", \"Five\", \"Six\", \"Seven\", \"Eight\", \"Nine\"]\n\n    # filter out numbers outside the range of 1 to 9\n    arr = list(filter(lambda x: 1 <= x <= 9, arr))\n\n    # sort the remaining numbers\n    arr.sort()\n\n    # reverse the sorted array\n    arr.reverse()\n\n    # replace each digit with its corresponding name\n    for i in range(len(arr)):\n        arr[i] = digit_names[arr[i] - 1]\n\n    return arr",
-        "test": "assert by_length([]) == []"
+        "test": "assert by_length([]) == []",
+        "num_ids": 5159
     },
     {
         "number": 106,
@@ -853,7 +959,8 @@
         "max_test_num": 10,
         "total_product": 260,
         "answer": "def factorial(n):\n    \"\"\" Helper function to calculate factorial of a given number \"\"\"\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)\n\ndef f(n):\n    \"\"\" Implement the function f that takes n as a parameter,\n    and returns a list of size n, such that the value of the element at index i is the factorial of i if i is even\n    or the sum of numbers from 1 to i otherwise.\n    i starts from 1.\n    the factorial of i is the multiplication of the numbers from 1 to i (1 * 2 *... * i).\n    Example:\n    f(5) == [1, 2, 6, 24, 15]\n    \"\"\"\n    result = []\n    for i in range(1, n+1):\n        if i % 2 == 0:\n            result.append(factorial(i))\n        else:\n            result.append(sum(range(1, i+1)))\n    return result",
-        "test": "assert f(1) == [1]"
+        "test": "assert f(1) == [1]",
+        "num_ids": 5066
     },
     {
         "number": 107,
@@ -861,7 +968,8 @@
         "max_test_num": 10,
         "total_product": 380,
         "answer": "def is_palindrome(n):\n    \"\"\"\n    A function to check if a given number is a palindrome or not.\n    \"\"\"\n    return str(n) == str(n)[::-1]\n\ndef even_odd_palindrome(n):\n    \"\"\"\n    Given a positive integer n, return a tuple that has the number of even and odd\n    integer palindromes that fall within the range(1, n), inclusive.\n    \"\"\"\n    even_palindromes = 0\n    odd_palindromes = 0\n    for i in range(1, n+1):\n        if i % 2 == 0 and is_palindrome(i):\n            even_palindromes += 1\n        elif i % 2!= 0 and is_palindrome(i):\n            odd_palindromes += 1\n    return (even_palindromes, odd_palindromes)",
-        "test": "assert even_odd_palindrome(3) == (1, 2)"
+        "test": "assert even_odd_palindrome(3) == (1, 2)",
+        "num_ids": 2394
     },
     {
         "number": 108,
@@ -869,7 +977,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def count_nums(arr):\n    \"\"\"\n    Write a function count_nums which takes an array of integers and returns\n    the number of elements which has a sum of digits > 0.\n    If a number is negative, then its first signed digit will be negative:\n    e.g. -123 has signed digits -1, 2, and 3.\n    >>> count_nums([]) == 0\n    >>> count_nums([-1, 11, -11]) == 1\n    >>> count_nums([1, 1, 2]) == 3\n    \"\"\"\n    count = 0\n    for num in arr:\n        if num > 0:\n            digit_sum = sum(int(digit) for digit in str(num))\n            if digit_sum > 0:\n                count += 1\n    return count",
-        "test": "assert count_nums([]) == 0, \"Should return 0 for empty array\""
+        "test": "assert count_nums([]) == 0, \"Should return 0 for empty array\"",
+        "num_ids": 2446
     },
     {
         "number": 109,
@@ -877,7 +986,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def move_one_ball(arr):\n    n = len(arr)\n    if n == 0:  # empty array\n        return True\n    \n    # make a copy of the array to modify it\n    arr_copy = arr.copy()\n    \n    # perform right shift operations on the copy of the array\n    for i in range(n-1):\n        for j in range(i+1, n):\n            if arr_copy[j] < arr_copy[i]:\n                arr_copy[i], arr_copy[j] = arr_copy[j], arr_copy[i]\n    \n    # check if the copy is already sorted\n    for i in range(n-1):\n        if arr_copy[i] > arr_copy[i+1]:\n            return False\n    \n    return True",
-        "test": "assert move_one_ball([])==True"
+        "test": "assert move_one_ball([])==True",
+        "num_ids": 2831
     },
     {
         "number": 110,
@@ -885,7 +995,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def exchange(lst1, lst2):\n    \"\"\"In this problem, you will implement a function that takes two lists of numbers,\n    and determines whether it is possible to perform an exchange of elements\n    between them to make lst1 a list of only even numbers.\n    There is no limit on the number of exchanged elements between lst1 and lst2.\n    If it is possible to exchange elements between the lst1 and lst2 to make\n    all the elements of lst1 to be even, return \"YES\".\n    Otherwise, return \"NO\".\n    For example:\n    exchange([1, 2, 3, 4], [1, 2, 3, 4]) => \"YES\"\n    exchange([1, 2, 3, 4], [1, 5, 3, 4]) => \"NO\"\n    It is assumed that the input lists will be non-empty.\n    \"\"\"\n    \n    # create two dictionaries to store the frequency of even and odd numbers in lst1 and lst2\n    even_dict = {}\n    odd_dict = {}\n    \n    for num in lst1:\n        if num % 2 == 0:\n            even_dict[num] = even_dict.get(num, 0) + 1\n        else:\n            odd_dict[num] = odd_dict.get(num, 0) + 1\n            \n    for num in lst2:\n        if num % 2 == 0:\n            even_dict[num] = even_dict.get(num, 0) + 1\n        else:\n            odd_dict[num] = odd_dict.get(num, 0) + 1\n            \n    # check if all the elements in lst1 are even\n    for num in even_dict:\n        if num % 2 == 1:\n            return \"NO\"\n            \n    # check if there is at least one odd number in lst1\n    if len(odd_dict) == 0:\n        return \"YES\"\n    \n    # check if there are more odd numbers in lst1 than even numbers\n    if len(odd_dict) > len(even_dict):\n        return \"NO\"\n    \n    # check if there are at least len(odd_dict) even numbers in lst1 and all of them are consecutive\n    count = 0\n    for num in sorted(even_dict.keys()):\n        if num % 2 == 0:\n            count += 1\n            if count == len(odd_dict):\n                return \"YES\"\n    \n    return \"NO\"",
-        "test": "assert exchange([1, 2, 3, 4], [1, 3, 5, 7]) == \"NO\""
+        "test": "assert exchange([1, 2, 3, 4], [1, 3, 5, 7]) == \"NO\"",
+        "num_ids": 4828
     },
     {
         "number": 111,
@@ -893,7 +1004,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def histogram(test):\n    \"\"\"Given a string representing a space separated lowercase letters, return a dictionary\n    of the letter with the most repetition and containing the corresponding count.\n    If several letters have the same occurrence, return all of them.\"\"\"\n\n    # Initialize an empty dictionary to store the letter counts\n    counts = {}\n\n    # Split the input string into a list of words\n    words = test.split()\n\n    # Iterate over the list of words\n    for word in words:\n        # Iterate over the letters in the word\n        for letter in word:\n            # If the letter is already in the dictionary, increment its count\n            if letter in counts:\n                counts[letter] += 1\n            # Otherwise, add the letter to the dictionary with a count of 1\n            else:\n                counts[letter] = 1\n\n    # Find the letter with the highest count in the dictionary\n    max_count = max(counts.values())\n\n    # Create a new dictionary containing only the letters with the highest count\n    result = {}\n    for letter, count in counts.items():\n        if count == max_count:\n            result[letter] = count\n\n    # Return the result dictionary\n    return result",
-        "test": "assert histogram('b b b b a') == {'b': 4}"
+        "test": "assert histogram('b b b b a') == {'b': 4}",
+        "num_ids": 3467
     },
     {
         "number": 112,
@@ -901,7 +1013,8 @@
         "max_test_num": 10,
         "total_product": 380,
         "answer": "def reverse_delete(s, c):\n    # Delete characters in s that are in c\n    s = ''.join([char for char in s if char not in c])\n    # Check if the result string is palindrome\n    if s == s[::-1]:\n        return (s, True)\n    else:\n        return (s, False)",
-        "test": "assert reverse_delete(\"abcdef\",\"b\") == ('acdef',False)"
+        "test": "assert reverse_delete(\"abcdef\",\"b\") == ('acdef',False)",
+        "num_ids": 2423
     },
     {
         "number": 113,
@@ -909,15 +1022,17 @@
         "max_test_num": 6,
         "total_product": 240,
         "answer": "def odd_count(lst):\n    \"\"\"Given a list of strings, where each string consists of only digits, return a list.\n    Each element i of the output should be \"the number of odd elements in the\n    string i of the input.\" where all the i's should be replaced by the number\n    of odd digits in the i'th string of the input.\n\n    >>> odd_count(['1234567'])\n    [\"the number of odd elements 4n the str4ng 4 of the 4nput.\"]\n    >>> odd_count(['3',\"11111111\"])\n    [\"the number of odd elements 1n the str1ng 1 of the 1nput.\",\n     \"the number of odd elements 8n the str8ng 8 of the 8nput.\"]\n    \"\"\"\n    result = []\n    for s in lst:\n        count = 0\n        for digit in s:\n            if int(digit) % 2 == 1:\n                count += 1\n        result.append(f\"the number of odd elements {count}n the str{count}ng {count} of the {count}nput.\")\n    return result",
-        "test": "assert odd_count(['1234567']) == [\"the number of odd elements 4n the str4ng 4 of the 4nput.\"]"
+        "test": "assert odd_count(['1234567']) == [\"the number of odd elements 4n the str4ng 4 of the 4nput.\"]",
+        "num_ids": 3609
     },
     {
         "number": 114,
-        "max_answer_num": 28,
-        "max_test_num": 8,
+        "max_answer_num": 31,
+        "max_test_num": 9,
         "total_product": 400,
         "answer": "def minSubArraySum(nums):\n    \"\"\"\n    Given an array of integers nums, find the minimum sum of any non-empty sub-array\n    of nums.\n    Example\n    minSubArraySum([2, 3, 4, 1, 2, 4]) == 1\n    minSubArraySum([-1, -2, -3]) == -6\n    \"\"\"\n    n = len(nums)\n    # Initialize the array to store the cumulative sum of the sub-array\n    cum_sum = [0] * (n+1)\n    # Calculate the cumulative sum of the sub-array\n    for i in range(1, n+1):\n        cum_sum[i] = cum_sum[i-1] + nums[i-1]\n    # Initialize the minimum sum variable to the maximum possible value\n    min_sum = float('inf')\n    # Iterate through all possible sub-arrays of nums\n    for i in range(1, n+1):\n        for j in range(i, n+1):\n            # Calculate the sum of the sub-array\n            sub_array_sum = cum_sum[j] - cum_sum[i-1]\n            # Update the minimum sum variable if the sum of the current sub-array is smaller\n            if sub_array_sum < min_sum:\n                min_sum = sub_array_sum\n    return min_sum",
-        "test": "assert minSubArraySum([1, 2, 3, 4, 5]) == 1"
+        "test": "assert minSubArraySum([1, 2, 3, 4, 5]) == 1",
+        "num_ids": 2731
     },
     {
         "number": 115,
@@ -925,7 +1040,8 @@
         "max_test_num": 4,
         "total_product": 310,
         "answer": "def max_fill(grid, capacity):\n    import math\n    \n    # Calculate the number of rows and columns\n    rows = len(grid)\n    cols = len(grid[0])\n    \n    # Calculate the minimum number of times we need to lower the buckets\n    min_fill = math.ceil(sum(row.count(1) for row in grid) / capacity)\n    \n    # Initialize the bucket levels\n    levels = [0] * rows\n    \n    # Initialize the bucket pointers\n    pointers = [0] * rows\n    \n    # Fill the buckets and calculate the maximum number of fills\n    max_fills = 0\n    for i in range(rows):\n        levels[i] = grid[i].count(1)\n        pointers[i] = grid[i].index(1) if levels[i] > 0 else cols\n        max_fills += math.ceil(levels[i] / capacity)\n    \n    # Use the bucket pointers to extract water from the wells\n    fills = 0\n    while fills < min_fill:\n        # Find the bucket with the highest level\n        max_level = 0\n        max_index = -1\n        for i in range(rows):\n            if levels[i] > max_level:\n                max_level = levels[i]\n                max_index = i\n        \n        # Extract water from the wells in the bucket\n        extracted = min(max_level, capacity)\n        for i in range(max_index, max_index + extracted):\n            pointers[i % rows] += 1\n            levels[i % rows] -= 1\n        \n        # Check if we have filled all the buckets\n        if max(pointers) == cols:\n            fills += 1\n            max_fills = fills\n        \n        # Calculate the new level of each bucket\n        for i in range(rows):\n            if pointers[i] < cols:\n                levels[i] = grid[i][pointers[i]]\n            else:\n                levels[i] = 0\n    \n    return max_fills",
-        "test": "assert max_fill([[0,0,0], [0,0,0]], 5) == 0"
+        "test": "assert max_fill([[0,0,0], [0,0,0]], 5) == 0",
+        "num_ids": 3747
     },
     {
         "number": 116,
@@ -933,7 +1049,8 @@
         "max_test_num": 8,
         "total_product": 370,
         "answer": "def sort_array(arr):\n    \"\"\"\n    In this Kata, you have to sort an array of non-negative integers according to\n    number of ones in their binary representation in ascending order.\n    For similar number of ones, sort based on decimal value.\n\n    It must be implemented like this:\n    >>> sort_array([1, 5, 2, 3, 4]) == [1, 2, 3, 4, 5]\n    >>> sort_array([-2, -3, -4, -5, -6]) == [-6, -5, -4, -3, -2]\n    >>> sort_array([1, 0, 2, 3, 4]) [0, 1, 2, 3, 4]\n    \"\"\"\n    def num_ones(n):\n        \"\"\"\n        Returns the number of ones in the binary representation of n.\n        \"\"\"\n        count = 0\n        while n > 0:\n            count += n & 1\n            n >>= 1\n        return count\n\n    return sorted(arr, key=lambda n: (num_ones(n), n))",
-        "test": "assert sort_array([0, 0, 0, 0, 0]) == [0, 0, 0, 0, 0]"
+        "test": "assert sort_array([0, 0, 0, 0, 0]) == [0, 0, 0, 0, 0]",
+        "num_ids": 2641
     },
     {
         "number": 117,
@@ -941,7 +1058,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def select_words(s, n):\n    \"\"\"Given a string s and a natural number n, you have been tasked to implement \n    a function that returns a list of all words from string s that contain exactly \n    n consonants, in order these words appear in the string s.\n    If the string s is empty then the function should return an empty list.\n    Note: you may assume the input string contains only letters and spaces.\n    Examples:\n    select_words(\"Mary had a little lamb\", 4) ==> [\"little\"]\n    select_words(\"Mary had a little lamb\", 3) ==> [\"Mary\", \"lamb\"]\n    select_words(\"simple white space\", 2) ==> []\n    select_words(\"Hello world\", 4) ==> [\"world\"]\n    select_words(\"Uncle sam\", 3) ==> [\"Uncle\"]\n    \"\"\"\n    # If the input string is empty, return an empty list\n    if not s:\n        return []\n\n    # Split the input string into words\n    words = s.split()\n\n    # Initialize an empty list to store the words with n consonants\n    result = []\n\n    # Iterate over the words and check if each word has exactly n consonants\n    for word in words:\n        # Count the number of consonants in the word\n        count = sum(1 for c in word if c.isalpha() and c.lower() not in \"aeiou\")\n\n        # If the count matches n, add the word to the result list\n        if count == n:\n            result.append(word)\n\n    # Return the result list\n    return result",
-        "test": "assert select_words(\"simple white space\", 2) == []"
+        "test": "assert select_words(\"simple white space\", 2) == []",
+        "num_ids": 3314
     },
     {
         "number": 118,
@@ -949,7 +1067,8 @@
         "max_test_num": 6,
         "total_product": 400,
         "answer": "def get_closest_vowel(word):\n    vowels = \"aeiouAEIOU\"\n    for i in range(len(word)):\n        if word[i] in vowels and i > 0 and i < len(word)-1:\n            if word[i] == \"u\" and word[i-1] not in vowels and word[i+1] not in vowels:\n                return \"u\"\n            elif word[i] == \"a\" and word[i-1] not in vowels and word[i+1] not in vowels:\n                return \"a\"\n            elif word[i] == \"e\" and word[i-1] not in vowels and word[i+1] not in vowels:\n                return \"e\"\n            elif word[i] == \"i\" and word[i-1] not in vowels and word[i+1] not in vowels:\n                return \"i\"\n            elif word[i] == \"o\" and word[i-1] not in vowels and word[i+1] not in vowels:\n                return \"o\"\n    return \"\"",
-        "test": "assert get_closest_vowel(\"quick\") == \"\""
+        "test": "assert get_closest_vowel(\"quick\") == \"\"",
+        "num_ids": 2311
     },
     {
         "number": 119,
@@ -957,7 +1076,8 @@
         "max_test_num": 10,
         "total_product": 360,
         "answer": "def match_parens(lst):\n    stack = []\n    for c in ''.join(lst):\n        if c == '(':\n            stack.append('(')\n        elif c == ')':\n            if not stack:\n                return 'No'\n            stack.pop()\n    return 'Yes' if not stack else 'No'",
-        "test": "assert match_parens(['())(', ')']) == 'No'"
+        "test": "assert match_parens(['())(', ')']) == 'No'",
+        "num_ids": 2987
     },
     {
         "number": 120,
@@ -965,7 +1085,8 @@
         "max_test_num": 10,
         "total_product": 350,
         "answer": "def maximum(arr, k):\n    \"\"\"\n    Given an array arr of integers and a positive integer k, return a sorted list \n    of length k with the maximum k numbers in arr.\n\n    Example 1:\n\n        Input: arr = [-3, -4, 5], k = 3\n        Output: [-4, -3, 5]\n\n    Example 2:\n\n        Input: arr = [4, -4, 4], k = 2\n        Output: [4, 4]\n\n    Example 3:\n\n        Input: arr = [-3, 2, 1, 2, -1, -2, 1], k = 1\n        Output: [2]\n\n    Note:\n        1. The length of the array will be in the range of [1, 1000].\n        2. The elements in the array will be in the range of [-1000, 1000].\n        3. 0 <= k <= len(arr)\n    \"\"\"\n    arr.sort()\n    return arr[-k:]",
-        "test": "assert maximum([4, -4, 4], 2) == [4, 4]"
+        "test": "assert maximum([4, -4, 4], 2) == [4, 4]",
+        "num_ids": 2750
     },
     {
         "number": 121,
@@ -973,7 +1094,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def solution(lst):\n    \"\"\"Given a non-empty list of integers, return the sum of all of the odd elements that are in even positions.\n    \n    Examples\n    solution([5, 8, 7, 1]) ==> 12\n    solution([3, 3, 3, 3, 3]) ==> 9\n    solution([30, 13, 24, 321]) ==>0\n    \"\"\"\n    sum = 0\n    for i in range(0, len(lst)):\n        if i % 2 == 0 and lst[i] % 2!= 0:\n            sum += lst[i]\n    return sum",
-        "test": "assert solution([2, 4, 6, 8, 10]) == 0"
+        "test": "assert solution([2, 4, 6, 8, 10]) == 0",
+        "num_ids": 2030
     },
     {
         "number": 122,
@@ -981,7 +1103,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def add_elements(arr, k):\n    \"\"\"\n    Given a non-empty array of integers arr and an integer k, return\n    the sum of the elements with at most two digits from the first k elements of arr.\n\n    Example:\n\n        Input: arr = [111,21,3,4000,5,6,7,8,9], k = 4\n        Output: 24 # sum of 21 + 3\n\n    Constraints:\n        1. 1 <= len(arr) <= 100\n        2. 1 <= k <= len(arr)\n    \"\"\"\n    total_sum = 0\n    for i in range(k):\n        if arr[i] < 10:\n            total_sum += arr[i]\n        elif arr[i] >= 10 and arr[i] < 100:\n            total_sum += arr[i]\n    return total_sum",
-        "test": "assert add_elements([1,2,3,4,5], 5) == 15"
+        "test": "assert add_elements([1,2,3,4,5], 5) == 15",
+        "num_ids": 3488
     },
     {
         "number": 123,
@@ -989,7 +1112,8 @@
         "max_test_num": 3,
         "total_product": 400,
         "answer": "def get_odd_collatz(n):\n    \"\"\"\n    Given a positive integer n, return a sorted list that has the odd numbers in collatz sequence.\n\n    The Collatz conjecture is a conjecture in mathematics that concerns a sequence defined\n    as follows: start with any positive integer n. Then each term is obtained from the \n    previous term as follows: if the previous term is even, the next term is one half of \n    the previous term. If the previous term is odd, the next term is 3 times the previous\n    term plus 1. The conjecture is that no matter what value of n, the sequence will always reach 1.\n\n    Note: \n        1. Collatz(1) is [1].\n        2. returned list sorted in increasing order.\n\n    For example:\n    get_odd_collatz(5) returns [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.\n    \"\"\"\n    collatz_sequence = [n]\n    while n > 1:\n        if n % 2 == 0:\n            n //= 2\n        else:\n            n = 3 * n + 1\n        collatz_sequence.append(n)\n    odd_collatz_sequence = [x for x in collatz_sequence if x % 2 == 1]\n    return sorted(odd_collatz_sequence)",
-        "test": "assert get_odd_collatz(5) == [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5."
+        "test": "assert get_odd_collatz(5) == [1, 5] # The collatz sequence for 5 is [5, 16, 8, 4, 2, 1], so the odd numbers are only 1, and 5.",
+        "num_ids": 4589
     },
     {
         "number": 124,
@@ -997,7 +1121,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def valid_date(date):\n    \"\"\"\n    You have to write a function which validates a given date string and\n    returns True if the date is valid otherwise False.\n    The date is valid if all of the following rules are satisfied:\n    1. The date string is not empty.\n    2. The number of days is not less than 1 or higher than 31 days for months 1,3,5,7,8,10,12. And the number of days is not less than 1 or higher than 30 days for months 4,6,9,11. And, the number of days is not less than 1 or higher than 29 for the month 2.\n    3. The months should not be less than 1 or higher than 12.\n    4. The date should be in the format: mm-dd-yyyy\n\n    for example: \n    valid_date('03-11-2000') => True\n\n    valid_date('15-01-2012') => False\n\n    valid_date('04-0-2040') => False\n\n    valid_date('06-04-2020') => True\n\n    valid_date('06/04/2020') => False\n    \"\"\"\n    try:\n        month, day, year = map(int, date.split('-'))\n        if not (1 <= month <= 12):\n            return False\n        if month in [4, 6, 9, 11] and not (1 <= day <= 30):\n            return False\n        if month in [1, 3, 5, 7, 8, 10, 12] and not (1 <= day <= 31):\n            return False\n        if month == 2 and year % 4 == 0 and (year % 100!= 0 or year % 400 == 0):\n            if not (1 <= day <= 29):\n                return False\n        if month == 2 and not (1 <= day <= 28):\n            return False\n        return True\n    except ValueError:\n        return False",
-        "test": "assert valid_date('03-11-2000') == True"
+        "test": "assert valid_date('03-11-2000') == True",
+        "num_ids": 3749
     },
     {
         "number": 125,
@@ -1005,7 +1130,8 @@
         "max_test_num": 9,
         "total_product": 390,
         "answer": "def split_words(txt):\n    if ',' in txt:\n        return txt.split(',')\n    elif'' in txt:\n        return txt.split()\n    else:\n        # count number of odd-order letters\n        count = sum(1 for c in txt if ord(c) % 2 == 1)\n        return count",
-        "test": "assert split_words(\"Hello world!\") == [\"Hello\", \"world!\"]"
+        "test": "assert split_words(\"Hello world!\") == [\"Hello\", \"world!\"]",
+        "num_ids": 1941
     },
     {
         "number": 126,
@@ -1013,7 +1139,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_sorted(lst):\n    '''\n    Given a list of numbers, return whether or not they are sorted\n    in ascending order. If list has more than 1 duplicate of the same\n    number, return False. Assume no negative numbers and only integers.\n\n    Examples\n    is_sorted([5]) \u279e True\n    is_sorted([1, 2, 3, 4, 5]) \u279e True\n    is_sorted([1, 3, 2, 4, 5]) \u279e False\n    is_sorted([1, 2, 3, 4, 5, 6]) \u279e True\n    is_sorted([1, 2, 3, 4, 5, 6, 7]) \u279e True\n    is_sorted([1, 3, 2, 4, 5, 6, 7]) \u279e False\n    is_sorted([1, 2, 2, 3, 3, 4]) \u279e True\n    is_sorted([1, 2, 2, 2, 3, 4]) \u279e False\n    '''\n    \n    # check if list has more than 1 duplicate of the same number\n    count = {}\n    for num in lst:\n        if num in count:\n            return False\n        count[num] = True\n    \n    # check if list is sorted in ascending order\n    for i in range(len(lst)-1):\n        if lst[i] > lst[i+1]:\n            return False\n    \n    return True",
-        "test": "assert is_sorted([5]) == True"
+        "test": "assert is_sorted([5]) == True",
+        "num_ids": 3298
     },
     {
         "number": 127,
@@ -1021,7 +1148,8 @@
         "max_test_num": 10,
         "total_product": 370,
         "answer": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef intersection(interval1, interval2):\n    start1, end1 = interval1\n    start2, end2 = interval2\n    if end1 < start2 or end2 < start1:\n        return \"NO\"\n    intersection_start = max(start1, start2)\n    intersection_end = min(end1, end2)\n    intersection_length = intersection_end - intersection_start + 1\n    if is_prime(intersection_length):\n        return \"YES\"\n    else:\n        return \"NO\"",
-        "test": "assert intersection((1, 2), (3, 4)) == \"NO\""
+        "test": "assert intersection((1, 2), (3, 4)) == \"NO\"",
+        "num_ids": 3499
     },
     {
         "number": 128,
@@ -1029,7 +1157,8 @@
         "max_test_num": 10,
         "total_product": 340,
         "answer": "def prod_signs(arr):\n    \"\"\"\n    You are given an array arr of integers and you need to return\n    sum of magnitudes of integers multiplied by product of all signs\n    of each number in the array, represented by 1, -1 or 0.\n    Note: return None for empty arr.\n\n    Example:\n    >>> prod_signs([1, 2, 2, -4]) == -9\n    >>> prod_signs([0, 1]) == 0\n    >>> prod_signs([]) == None\n    \"\"\"\n    if not arr:\n        return None\n    \n    sign_prod = 1\n    magnitude_sum = 0\n    \n    for num in arr:\n        if num > 0:\n            sign_prod *= 1\n            magnitude_sum += num\n        elif num < 0:\n            sign_prod *= -1\n            magnitude_sum += abs(num)\n        else:\n            sign_prod *= 0\n            \n    return magnitude_sum * sign_prod",
-        "test": "assert prod_signs([]) == None"
+        "test": "assert prod_signs([]) == None",
+        "num_ids": 1906
     },
     {
         "number": 129,
@@ -1037,7 +1166,8 @@
         "max_test_num": 2,
         "total_product": 320,
         "answer": "def minPath(grid, k):\n    n = len(grid)\n    m = len(grid[0])\n    vis = [[False] * m for i in range(n)]\n\n    def dfs(i, j, k):\n        if k == 0:\n            return grid[i][j]\n        vis[i][j] = True\n        ans = float('inf')\n        for x, y in [(i-1,j), (i,j-1), (i+1,j), (i,j+1)]:\n            if 0 <= x < n and 0 <= y < m and not vis[x][y]:\n                ans = min(ans, dfs(x, y, k-1))\n        vis[i][j] = False\n        return ans\n\n    ans = []\n    for i in range(n):\n        for j in range(m):\n            ans.append(dfs(i, j, k))\n\n    ans.sort()\n    return ans[0:k]",
-        "test": "assert minPath([[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]], 4) == [1, 1, 1, 1]"
+        "test": "assert minPath([[1,1,1,1], [1,1,1,1], [1,1,1,1], [1,1,1,1]], 4) == [1, 1, 1, 1]",
+        "num_ids": 5359
     },
     {
         "number": 130,
@@ -1045,7 +1175,8 @@
         "max_test_num": 6,
         "total_product": 390,
         "answer": "def tri(n):\n    \"\"\"Everyone knows Fibonacci sequence, it was studied deeply by mathematicians in \n    the last couple centuries. However, what people don't know is Tribonacci sequence.\n    Tribonacci sequence is defined by the recurrence:\n    tri(1) = 3\n    tri(n) = 1 + n / 2, if n is even.\n    tri(n) =  tri(n - 1) + tri(n - 2) + tri(n + 1), if n is odd.\n    For example:\n    tri(2) = 1 + (2 / 2) = 2\n    tri(4) = 3\n    tri(3) = tri(2) + tri(1) + tri(4)\n           = 2 + 3 + 3 = 8 \n    You are given a non-negative integer number n, you have to a return a list of the \n    first n + 1 numbers of the Tribonacci sequence.\n    Examples:\n    tri(3) = [1, 3, 2, 8]\n    \"\"\"\n    if n == 1:\n        return [1]\n    elif n == 2:\n        return [1, 3]\n    elif n == 3:\n        return [1, 3, 2]\n    else:\n        tri_list = [1, 3, 2]\n        for i in range(3, n):\n            if i % 2 == 0:\n                tri_list.append(1 + i // 2)\n            else:\n                tri_list.append(tri_list[i - 1] + tri_list[i - 2] + tri_list[i + 1])\n        tri_list.append(tri_list[-1] + tri_list[-2] + tri_list[-3])\n        return tri_list",
-        "test": "assert tri(2) == [1, 3]"
+        "test": "assert tri(2) == [1, 3]",
+        "num_ids": 4587
     },
     {
         "number": 131,
@@ -1053,7 +1184,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def digits(n):\n    \"\"\"Given a positive integer n, return the product of the odd digits.\n    Return 0 if all digits are even.\n    For example:\n    digits(1)  == 1\n    digits(4)  == 0\n    digits(235) == 15\n    \"\"\"\n    if n < 10:\n        return n if n % 2 == 1 else 0\n    else:\n        digits = 1\n        for digit in str(n):\n            if int(digit) % 2 == 1:\n                digits *= int(digit)\n        return digits if digits > 0 else 0",
-        "test": "assert digits(235) == 15"
+        "test": "assert digits(235) == 15",
+        "num_ids": 1563
     },
     {
         "number": 132,
@@ -1061,7 +1193,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def is_nested(string):\n    stack = []\n    for char in string:\n        if char == '[':\n            stack.append(char)\n        elif char == ']':\n            if not stack:\n                return False\n            else:\n                stack.pop()\n    return True if stack else False",
-        "test": "assert is_nested('[][]') == False"
+        "test": "assert is_nested('[][]') == False",
+        "num_ids": 1213
     },
     {
         "number": 133,
@@ -1069,7 +1202,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "import math\n\ndef sum_squares(lst):\n    \"\"\"\n    You are given a list of numbers.\n    You need to return the sum of squared numbers in the given list,\n    round each element in the list to the upper int(Ceiling) first.\n    \"\"\"\n    result = 0\n    for num in lst:\n        result += math.ceil(num)**2\n    return result\n",
-        "test": "assert sum_squares([1,2,3]) == 14"
+        "test": "assert sum_squares([1,2,3]) == 14",
+        "num_ids": 1922
     },
     {
         "number": 134,
@@ -1077,7 +1211,8 @@
         "max_test_num": 8,
         "total_product": 400,
         "answer": "def check_if_last_char_is_a_letter(txt):\n    if txt == \"\":\n        return False\n    elif txt[-1].isalpha() and not txt[-2].isalpha():\n        return True\n    else:\n        return False\n\nprint(check_if_last_char_is_a_letter(\"apple pie\"))   # False\nprint(check_if_last_char_is_a_letter(\"apple pi e\"))   # True\nprint(check_if_last_char_is_a_letter(\"apple pi e \"))  # False\nprint(check_if_last_char_is_a_letter(\"\"))             # False",
-        "test": "assert check_if_last_char_is_a_letter(\"apple pi e\") == True"
+        "test": "assert check_if_last_char_is_a_letter(\"apple pi e\") == True",
+        "num_ids": 1978
     },
     {
         "number": 135,
@@ -1085,7 +1220,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def can_arrange(arr):\n    \"\"\"Create a function which returns the largest index of an element which\n    is not greater than or equal to the element immediately preceding it. If\n    no such element exists then return -1. The given array will not contain\n    duplicate values.\n\n    Examples:\n    can_arrange([1,2,4,3,5]) = 3\n    can_arrange([1,2,3]) = -1\n    \"\"\"\n    for i in range(len(arr)-1):\n        if arr[i] > arr[i+1]:\n            return i\n    return -1",
-        "test": "assert can_arrange([1]) == -1"
+        "test": "assert can_arrange([1]) == -1",
+        "num_ids": 2236
     },
     {
         "number": 136,
@@ -1093,15 +1229,17 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def largest_smallest_integers(lst):\n    neg_lst = []\n    pos_lst = []\n    \n    for num in lst:\n        if num < 0:\n            neg_lst.append(num)\n        elif num > 0:\n            pos_lst.append(num)\n            \n    if len(neg_lst) == 0:\n        largest_neg = None\n    else:\n        largest_neg = max(neg_lst)\n        \n    if len(pos_lst) == 0:\n        smallest_pos = None\n    else:\n        smallest_pos = min(pos_lst)\n    \n    return (largest_neg, smallest_pos)",
-        "test": "assert largest_smallest_integers([]) == (None, None)"
+        "test": "assert largest_smallest_integers([]) == (None, None)",
+        "num_ids": 2938
     },
     {
         "number": 137,
         "max_answer_num": 40,
-        "max_test_num": 10,
+        "max_test_num": 9,
         "total_product": 400,
         "answer": "def compare_one(a, b):\n    \"\"\"\n    Create a function that takes integers, floats, or strings representing\n    real numbers, and returns the larger variable in its given variable type.\n    Return None if the values are equal.\n    Note: If a real number is represented as a string, the floating point might be. or,\n\n    compare_one(1, 2.5) \u279e 2.5\n    compare_one(1, \"2,3\") \u279e \"2,3\"\n    compare_one(\"5,1\", \"6\") \u279e \"6\"\n    compare_one(\"1\", 1) \u279e None\n    \"\"\"\n    if type(a) == type(b):\n        if a > b:\n            return a\n        elif a < b:\n            return b\n        else:\n            return None\n    else:\n        if type(a) == float or type(b) == float:\n            if float(a) > float(b):\n                return float(a)\n            elif float(a) < float(b):\n                return float(b)\n            else:\n                return None\n        else:\n            if str(a) > str(b):\n                return str(a)\n            elif str(a) < str(b):\n                return str(b)\n            else:\n                return None",
-        "test": "assert compare_one(\"5,1\", \"6\") == \"6\""
+        "test": "assert compare_one(\"5,1\", \"6\") == \"6\"",
+        "num_ids": 3225
     },
     {
         "number": 138,
@@ -1109,7 +1247,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def is_equal_to_sum_even(n):\n    \"\"\"Evaluate whether the given number n can be written as the sum of exactly 4 positive even numbers\n    Example\n    is_equal_to_sum_even(4) == False\n    is_equal_to_sum_even(6) == False\n    is_equal_to_sum_even(8) == True\n    \"\"\"\n    # create a set of even numbers from 2 to n\n    even_numbers = set(range(2, n+1, 2))\n    # check if n can be written as the sum of exactly 4 positive even numbers\n    if n in even_numbers and len(even_numbers) == 4:\n        return True\n    else:\n        return False\n",
-        "test": "assert is_equal_to_sum_even(4) == False"
+        "test": "assert is_equal_to_sum_even(4) == False",
+        "num_ids": 2253
     },
     {
         "number": 139,
@@ -1117,7 +1256,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def special_factorial(n):\n    \"\"\"The Brazilian factorial is defined as:\n    brazilian_factorial(n) = n! * (n-1)! * (n-2)! *... * 1!\n    where n > 0\n\n    For example:\n    >>> special_factorial(4)\n    288\n\n    The function will receive an integer as input and should return the special\n    factorial of this integer.\n    \"\"\"\n\n    factorial = 1\n    for i in range(1, n+1):\n        factorial *= i\n    \n    return factorial\n",
-        "test": "assert special_factorial(0) == 1"
+        "test": "assert special_factorial(0) == 1",
+        "num_ids": 2856
     },
     {
         "number": 140,
@@ -1125,7 +1265,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def fix_spaces(text):\n    \"\"\"\n    Given a string text, replace all spaces in it with underscores,\n    and if a string has more than 2 consecutive spaces,\n    then replace all consecutive spaces with -\n    \"\"\"\n\n    # replace all spaces with underscores\n    new_text = text.replace(\" \", \"_\")\n\n    # replace all consecutive spaces with -\n    new_text = new_text.replace(\"__\", \"_\").replace(\" - \", \"-\")\n\n    return new_text",
-        "test": "assert fix_spaces(\"Example\") == \"Example\""
+        "test": "assert fix_spaces(\"Example\") == \"Example\"",
+        "num_ids": 1962
     },
     {
         "number": 141,
@@ -1133,7 +1274,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def file_name_check(file_name):\n    \"\"\"Create a function which takes a string representing a file's name, and returns\n    'Yes' if the the file's name is valid, and returns 'No' otherwise.\n    A file's name is considered to be valid if and only if all the following conditions \n    are met:\n    - There should not be more than three digits ('0'-'9') in the file's name.\n    - The file's name contains exactly one dot '.'\n    - The substring before the dot should not be empty, and it starts with a letter from \n    the latin alphapet ('a'-'z' and 'A'-'Z').\n    - The substring after the dot should be one of these: ['txt', 'exe', 'dll']\n    Examples:\n    file_name_check(\"example.txt\") # => 'Yes'\n    file_name_check(\"1example.dll\") # => 'No' (the name should start with a latin alphapet letter)\n    \"\"\"\n    if len(file_name) > 3 and file_name.count(\".\")!= 1:\n        return \"No\"\n\n    name, ext = file_name.split(\".\")\n    if not name or not name[0].isalpha():\n        return \"No\"\n\n    if ext not in [\"txt\", \"exe\", \"dll\"]:\n        return \"No\"\n\n    return \"Yes\"",
-        "test": "assert file_name_check(\"1example.dll\") == \"No\""
+        "test": "assert file_name_check(\"1example.dll\") == \"No\"",
+        "num_ids": 4538
     },
     {
         "number": 142,
@@ -1141,7 +1283,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def sum_squares(lst):\n    total = 0\n    for i in range(len(lst)):\n        if i % 3 == 0:\n            lst[i] = lst[i] ** 2\n        elif i % 4 == 0:\n            lst[i] = lst[i] ** 3\n    for num in lst:\n        total += num\n    return total",
-        "test": "assert sum_squares([1,2,3]) == 6"
+        "test": "assert sum_squares([1,2,3]) == 6",
+        "num_ids": 2767
     },
     {
         "number": 143,
@@ -1149,7 +1292,8 @@
         "max_test_num": 10,
         "total_product": 380,
         "answer": "def is_prime(n):\n    \"\"\"\n    This function checks if a given number is prime or not.\n    \"\"\"\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5)+1):\n        if n % i == 0:\n            return False\n    return True\n\ndef words_in_sentence(sentence):\n    \"\"\"\n    You are given a string representing a sentence,\n    the sentence contains some words separated by a space,\n    and you have to return a string that contains the words from the original sentence,\n    whose lengths are prime numbers,\n    the order of the words in the new string should be the same as the original one.\n    \"\"\"\n    words = sentence.split()\n    prime_words = [word for word in words if is_prime(len(word))]\n    return \" \".join(prime_words)",
-        "test": "assert words_in_sentence(\"This is a test\") == \"is\""
+        "test": "assert words_in_sentence(\"This is a test\") == \"is\"",
+        "num_ids": 2764
     },
     {
         "number": 144,
@@ -1157,7 +1301,8 @@
         "max_test_num": 6,
         "total_product": 400,
         "answer": "def simplify(x, n):\n    x_numerator, x_denominator = map(int, x.split(\"/\"))\n    n_numerator, n_denominator = map(int, n.split(\"/\"))\n    product = x_numerator * n_numerator\n    denominator = x_denominator * n_denominator\n    return product // denominator == 1",
-        "test": "assert simplify(\"7/10\", \"10/2\") == False"
+        "test": "assert simplify(\"7/10\", \"10/2\") == False",
+        "num_ids": 2148
     },
     {
         "number": 145,
@@ -1165,7 +1310,8 @@
         "max_test_num": 10,
         "total_product": 250,
         "answer": "def order_by_points(nums):\n    \"\"\"\n    This function sorts the given list of integers in ascending order according to the sum of their digits.\n    If there are several items with similar sum of their digits, order them based on their index in original list.\n\n    Args:\n        nums (list): A list of integers.\n\n    Returns:\n        list: The sorted list of integers.\n    \"\"\"\n    # Define a lambda function to calculate the sum of digits of a number\n    digit_sum = lambda x: sum(int(digit) for digit in str(x))\n\n    # Sort the list of numbers based on the sum of their digits\n    sorted_nums = sorted(nums, key=lambda x: (digit_sum(x), nums.index(x)))\n\n    return sorted_nums",
-        "test": "assert order_by_points([]) == []"
+        "test": "assert order_by_points([]) == []",
+        "num_ids": 2621
     },
     {
         "number": 146,
@@ -1173,7 +1319,8 @@
         "max_test_num": 10,
         "total_product": 340,
         "answer": "def specialFilter(nums):\n    \"\"\"\n    Write a function that takes an array of numbers as input and returns \n    the number of elements in the array that are greater than 10 and both \n    first and last digits of a number are odd (1, 3, 5, 7, 9).\n    For example:\n    specialFilter([15, -73, 14, -15]) => 1 \n    specialFilter([33, -2, -3, 45, 21, 109]) => 2\n    \"\"\"\n    count = 0\n    for num in nums:\n        if num > 10 and (num % 10) % 2!= 0 and num // 10 % 2!= 0:\n            count += 1\n    return count",
-        "test": "assert specialFilter([15, -73, 14, -15]) == 1 "
+        "test": "assert specialFilter([15, -73, 14, -15]) == 1 ",
+        "num_ids": 2475
     },
     {
         "number": 147,
@@ -1181,7 +1328,8 @@
         "max_test_num": 9,
         "total_product": 380,
         "answer": "def get_max_triples(n):\n    \"\"\"\n    You are given a positive integer n. You have to create an integer array a of length n.\n        For each i (1 \u2264 i \u2264 n), the value of a[i] = i * i - i + 1.\n        Return the number of triples (a[i], a[j], a[k]) of a where i < j < k, \n    and a[i] + a[j] + a[k] is a multiple of 3.\n\n    Example :\n        Input: n = 5\n        Output: 1\n        Explanation: \n        a = [1, 3, 7, 13, 21]\n        The only valid triple is (1, 7, 13).\n    \"\"\"\n    a = [i * i - i + 1 for i in range(1, n+1)]\n    count = 0\n    for i in range(n-2):\n        for j in range(i+1, n-1):\n            for k in range(j+1, n):\n                if (a[i] + a[j] + a[k]) % 3 == 0:\n                    count += 1\n    return count",
-        "test": "assert get_max_triples(1) == 0"
+        "test": "assert get_max_triples(1) == 0",
+        "num_ids": 2663
     },
     {
         "number": 148,
@@ -1189,7 +1337,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def bf(planet1, planet2):\n    '''\n    There are eight planets in our solar system: the closerst to the Sun \n    is Mercury, the next one is Venus, then Earth, Mars, Jupiter, Saturn, \n    Uranus, Neptune.\n    Write a function that takes two planet names as strings planet1 and planet2. \n    The function should return a tuple containing all planets whose orbits are \n    located between the orbit of planet1 and the orbit of planet2, sorted by \n    the proximity to the sun. \n    The function should return an empty tuple if planet1 or planet2\n    are not correct planet names. \n    Examples\n    bf(\"Jupiter\", \"Neptune\") ==> (\"Saturn\", \"Uranus\")\n    bf(\"Earth\", \"Mercury\") ==> (\"Venus\")\n    bf(\"Mercury\", \"Uranus\") ==> (\"Venus\", \"Earth\", \"Mars\", \"Jupiter\", \"Saturn\")\n    '''\n    planets = [\"Mercury\", \"Venus\", \"Earth\", \"Mars\", \"Jupiter\", \"Saturn\", \"Uranus\", \"Neptune\"]\n    if planet1 not in planets or planet2 not in planets:\n        return ()\n    index1, index2 = planets.index(planet1), planets.index(planet2)\n    return tuple(sorted(planets[index1+1:index2]))",
-        "test": "assert bf(\"Sun\", \"Pluto\") == ()"
+        "test": "assert bf(\"Sun\", \"Pluto\") == ()",
+        "num_ids": 3872
     },
     {
         "number": 149,
@@ -1197,7 +1346,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def sorted_list_sum(lst):\n    \"\"\"Write a function that accepts a list of strings as a parameter,\n    deletes the strings that have odd lengths from it,\n    and returns the resulted list with a sorted order,\n    The list is always a list of strings and never an array of numbers,\n    and it may contain duplicates.\n    The order of the list should be ascending by length of each word, and you\n    should return the list sorted by that rule.\n    If two words have the same length, sort the list alphabetically.\n    The function should return a list of strings in sorted order.\n    You may assume that all words will have the same length.\n    \"\"\"\n\n    # Remove odd length strings from the list\n    lst = [word for word in lst if len(word) % 2 == 0]\n\n    # Sort the list by length and then alphabetically\n    lst = sorted(lst, key=lambda x: (len(x), x))\n\n    return lst",
-        "test": "assert sorted_list_sum([\"aa\", \"a\", \"aaa\"]) == [\"aa\"]"
+        "test": "assert sorted_list_sum([\"aa\", \"a\", \"aaa\"]) == [\"aa\"]",
+        "num_ids": 3209
     },
     {
         "number": 150,
@@ -1205,15 +1355,17 @@
         "max_test_num": 10,
         "total_product": 340,
         "answer": "def is_prime(n):\n    \"\"\"A function to check if a number is prime\"\"\"\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef x_or_y(n, x, y):\n    \"\"\"A simple program which should return the value of x if n is \n    a prime number and should return the value of y otherwise.\"\"\"\n    if is_prime(n):\n        return x\n    else:\n        return y",
-        "test": "assert x_or_y(7, 34, 12) == 34"
+        "test": "assert x_or_y(7, 34, 12) == 34",
+        "num_ids": 2055
     },
     {
         "number": 151,
         "max_answer_num": 40,
-        "max_test_num": 9,
+        "max_test_num": 10,
         "total_product": 400,
         "answer": "def double_the_difference(lst):\n    \"\"\"\n    Given a list of numbers, return the sum of squares of the numbers\n    in the list that are odd. Ignore numbers that are negative or not integers.\n    \n    double_the_difference([1, 3, 2, 0]) == 1 + 9 + 0 + 0 = 10\n    double_the_difference([-1, -2, 0]) == 0\n    double_the_difference([9, -2]) == 81\n    double_the_difference([0]) == 0  \n    \n    If the input list is empty, return 0.\n    \"\"\"\n    \n    if not lst:\n        return 0\n    \n    total_sum = 0\n    \n    for num in lst:\n        if isinstance(num, int) and num >= 0:\n            if num % 2 == 1:\n                total_sum += num ** 2\n    \n    return total_sum",
-        "test": "assert double_the_difference([1, 3, 2, 0]) == 10"
+        "test": "assert double_the_difference([1, 3, 2, 0]) == 10",
+        "num_ids": 2490
     },
     {
         "number": 152,
@@ -1221,7 +1373,8 @@
         "max_test_num": 10,
         "total_product": 320,
         "answer": "def compare(game, guess):\n    \"\"\"I think we all remember that feeling when the result of some long-awaited\n    event is finally known. The feelings and thoughts you have at that moment are\n    definitely worth noting down and comparing.\n    Your task is to determine if a person correctly guessed the results of a number of matches.\n    You are given two arrays of scores and guesses of equal length, where each index shows a match. \n    Return an array of the same length denoting how far off each guess was. If they have guessed correctly,\n    the value is 0, and if not, the value is the absolute difference between the guess and the score.\n    \"\"\"\n    result = []\n    for i in range(len(game)):\n        if game[i] == guess[i]:\n            result.append(0)\n        else:\n            result.append(abs(guess[i] - game[i]))\n    return result",
-        "test": "assert compare([1,2,3,4,5,1],[1,2,3,4,2,-2]) == [0,0,0,0,3,3]"
+        "test": "assert compare([1,2,3,4,5,1],[1,2,3,4,2,-2]) == [0,0,0,0,3,3]",
+        "num_ids": 3257
     },
     {
         "number": 153,
@@ -1229,7 +1382,8 @@
         "max_test_num": 10,
         "total_product": 380,
         "answer": "def Strongest_Extension(class_name, extensions):\n    strength_list = []\n    for extension in extensions:\n        cap = sum(1 for char in extension if char.isupper())\n        sm = sum(1 for char in extension if char.islower())\n        strength = cap - sm\n        strength_list.append((extension, strength))\n    max_strength = max(strength_list, key=lambda x: x[1])\n    strongest_extension = max_strength[0]\n    return f\"{class_name}.{strongest_extension}\"",
-        "test": "assert Strongest_Extension('ACME', ['AA', 'BE', 'CC']) == 'ACME.AA'"
+        "test": "assert Strongest_Extension('ACME', ['AA', 'BE', 'CC']) == 'ACME.AA'",
+        "num_ids": 3686
     },
     {
         "number": 154,
@@ -1237,7 +1391,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "def cycpattern_check(a, b):\n    \"\"\"You are given 2 words. You need to return True if the second word or any of its rotations is a substring in the first word\n    cycpattern_check(\"abcd\",\"abd\") => False\n    cycpattern_check(\"hello\",\"ell\") => True\n    cycpattern_check(\"whassup\",\"psus\") => False\n    cycpattern_check(\"abab\",\"baa\") => True\n    cycpattern_check(\"efef\",\"eeff\") => False\n    cycpattern_check(\"himenss\",\"simen\") => True\n    \"\"\"\n\n    # check if the second word is a substring of the first word\n    if b in a:\n        return True\n\n    # check if the second word is a substring of any of its rotations\n    for i in range(len(b)):\n        if b[i:] + b[:i] in a:\n            return True\n\n    # if the second word is not a substring of the first word or any of its rotations, return False\n    return False",
-        "test": "assert cycpattern_check(\"abcd\",\"abd\") == False"
+        "test": "assert cycpattern_check(\"abcd\",\"abd\") == False",
+        "num_ids": 1799
     },
     {
         "number": 155,
@@ -1245,7 +1400,8 @@
         "max_test_num": 9,
         "total_product": 400,
         "answer": "def even_odd_count(num):\n    \"\"\"Given an integer. return a tuple that has the number of even and odd digits respectively.\"\"\"\n    count_even = 0\n    count_odd = 0\n    if num < 0:\n        num = abs(num)\n    while num > 0:\n        if num % 2 == 0:\n            count_even += 1\n        else:\n            count_odd += 1\n        num //= 10\n    return (count_even, count_odd)\n\nprint(even_odd_count(-12)) # Output: (1, 1)\nprint(even_odd_count(123)) # Output: (1, 2)",
-        "test": "assert even_odd_count(123) == (1, 2)"
+        "test": "assert even_odd_count(123) == (1, 2)",
+        "num_ids": 2007
     },
     {
         "number": 156,
@@ -1253,7 +1409,8 @@
         "max_test_num": 8,
         "total_product": 370,
         "answer": "def int_to_mini_roman(number):\n    \"\"\"\n    Given a positive integer, obtain its roman numeral equivalent as a string,\n    and return it in lowercase.\n    Restrictions: 1 <= num <= 1000\n\n    Examples:\n    >>> int_to_mini_roman(19) == 'xix'\n    >>> int_to_mini_roman(152) == 'clii'\n    >>> int_to_mini_roman(426) == 'cdxxvi'\n    \"\"\"\n\n    # Define a dictionary to map integer to roman numeral\n    roman_dict = {1000: 'M', 900: 'CM', 500: 'D', 400: 'CD', 100: 'C', 90: 'XC', 50: 'L', 40: 'XL', 10: 'X', 9: 'IX', 5: 'V', 4: 'IV', 1: 'I'}\n\n    # Initialize the roman numeral string\n    roman_numeral = ''\n\n    # Iterate through the roman numeral dictionary keys in descending order\n    for value in sorted(roman_dict.keys(), reverse=True):\n\n        # Divide the number by the current value and append the corresponding roman numeral to the string\n        while number >= value:\n            roman_numeral += roman_dict[value]\n            number -= value\n\n    # Return the final roman numeral as a string in lowercase\n    return roman_numeral.lower()",
-        "test": "assert int_to_mini_roman(19) == 'xix'"
+        "test": "assert int_to_mini_roman(19) == 'xix'",
+        "num_ids": 3513
     },
     {
         "number": 157,
@@ -1261,7 +1418,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "import math\n\ndef right_angle_triangle(a, b, c):\n    '''\n    Given the lengths of the three sides of a triangle. Return True if the three\n    sides form a right-angled triangle, False otherwise.\n    A right-angled triangle is a triangle in which one angle is right angle or \n    90 degree.\n    Example:\n    right_angle_triangle(3, 4, 5) == True\n    right_angle_triangle(1, 2, 3) == False\n    '''\n    # Check if the input values are valid\n    if a <= 0 or b <= 0 or c <= 0:\n        return False\n    \n    # Check if the triangle is isosceles\n    if a == b or a == c or b == c:\n        return True\n    \n    # Check if the triangle is right-angled\n    if (a**2 + b**2) == c**2 or (a**2 + c**2) == b**2 or (b**2 + c**2) == a**2:\n        return True\n    \n    # If none of the above conditions are met, return False\n    return False",
-        "test": "assert right_angle_triangle(3, 4, 5) == True"
+        "test": "assert right_angle_triangle(3, 4, 5) == True",
+        "num_ids": 2906
     },
     {
         "number": 158,
@@ -1269,15 +1427,17 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def find_max(words):\n    \"\"\"Write a function that accepts a list of strings.\n    The list contains different words. Return the word with maximum number\n    of unique characters. If multiple strings have maximum number of unique\n    characters, return the one which comes first in lexicographical order.\n\n    find_max([\"name\", \"of\", \"string\"]) == \"string\"\n    find_max([\"name\", \"enam\", \"game\"]) == \"enam\"\n    find_max([\"aaaaaaa\", \"bb\",\"cc\"]) == \"\"aaaaaaa\"\n    \"\"\"\n    max_word = \"\"\n    max_unique_chars = 0\n    \n    for word in words:\n        unique_chars = len(set(word))\n        if unique_chars > max_unique_chars or (unique_chars == max_unique_chars and word < max_word):\n            max_word = word\n            max_unique_chars = unique_chars\n            \n    return max_word",
-        "test": "assert find_max([\"name\", \"of\", \"string\"]) == \"string\""
+        "test": "assert find_max([\"name\", \"of\", \"string\"]) == \"string\"",
+        "num_ids": 2288
     },
     {
         "number": 159,
         "max_answer_num": 40,
-        "max_test_num": 6,
+        "max_test_num": 7,
         "total_product": 400,
         "answer": "def eat(number, need, remaining):\n    \"\"\"\n    You're a hungry rabbit, and you already have eaten a certain number of carrots,\n    but now you need to eat more carrots to complete the day's meals.\n    you should return an array of [ total number of eaten carrots after your meals,\n                                    the number of carrots left after your meals ]\n    if there are not enough remaining carrots, you will eat all remaining carrots, but will still be hungry.\n\n    Example:\n    * eat(5, 6, 10) -> [11, 4]\n    * eat(4, 8, 9) -> [12, 1]\n    * eat(1, 10, 10) -> [11, 0]\n    * eat(2, 11, 5) -> [7, 0]\n\n    Variables:\n    @number : integer\n        the number of carrots that you have eaten.\n    @need : integer\n        the number of carrots that you need to eat.\n    @remaining : integer\n        the number of remaining carrots thet exist in stock\n\n    Constrain:\n    * 0 <= number <= 1000\n    * 0 <= need <= 1000\n    * 0 <= remaining <= 1000\n\n    Have fun :)\n    \"\"\"\n\n    # If there are not enough remaining carrots, eat all remaining carrots.\n    if remaining < need:\n        return [number + remaining, 0]\n\n    # If there are enough remaining carrots, eat only the required amount.\n    eaten = number + need\n    remaining -= need\n\n    # If there are still remaining carrots, return the remaining amount.\n    if remaining > 0:\n        return [eaten, remaining]\n\n    # If there are no remaining carrots, return the total eaten amount.\n    return [eaten, 0]",
-        "test": "assert eat(2, 11, 5) == [7, 0]"
+        "test": "assert eat(2, 11, 5) == [7, 0]",
+        "num_ids": 4699
     },
     {
         "number": 160,
@@ -1285,7 +1445,8 @@
         "max_test_num": 1,
         "total_product": 400,
         "answer": "def do_algebra(operator, operand):\n    \"\"\"\n    Given two lists operator, and operand. The first list has basic algebra operations, and \n    the second list is a list of integers. Use the two given lists to build the algebric \n    expression and return the evaluation of this expression.\n\n    The basic algebra operations:\n    Addition ( + ) \n    Subtraction ( - ) \n    Multiplication ( * ) \n    Floor division ( // ) \n    Exponentiation ( ** ) \n\n    Example:\n    operator = ['+', '*', '-']\n    array = [2, 3, 4, 5]\n    result = do_algebra(operator, array)\n    print(result) # 9\n\n    Note:\n        The length of operator list is equal to the length of operand list minus one.\n        Operand is a list of of non-negative integers.\n        Operator list has at least one operator, and operand list has at least two operands.\n    \"\"\"\n    if len(operator)!= len(operand) - 1:\n        raise ValueError(\"Length of operator list is not equal to length of operand list minus one.\")\n\n    expression = str(operand[0])\n    for i in range(len(operator)):\n        expression += operator[i] + str(operand[i+1])\n    \n    return eval(expression)",
-        "test": "assert do_algebra(['+', '*', '-'], [2, 3, 4, 5]) == 9"
+        "test": "assert do_algebra(['+', '*', '-'], [2, 3, 4, 5]) == 9",
+        "num_ids": 4465
     },
     {
         "number": 161,
@@ -1293,7 +1454,8 @@
         "max_test_num": 10,
         "total_product": 390,
         "answer": "def solve(s):\n    \"\"\"You are given a string s.\n    if s[i] is a letter, reverse its case from lower to upper or vise versa, \n    otherwise keep it as it is.\n    If the string contains no letters, reverse the string.\n    The function should return the resulted string.\n    \"\"\"\n\n    # Reverse the string if it contains no letters\n    if not any(c.isalpha() for c in s):\n        return s[::-1]\n\n    # Iterate over the string and reverse case of letters\n    result = \"\"\n    for c in s:\n        if c.isalpha():\n            if c.isupper():\n                result += c.lower()\n            else:\n                result += c.upper()\n        else:\n            result += c\n\n    return result",
-        "test": "assert solve(\"\") == \"\""
+        "test": "assert solve(\"\") == \"\"",
+        "num_ids": 2121
     },
     {
         "number": 162,
@@ -1301,7 +1463,8 @@
         "max_test_num": 10,
         "total_product": 400,
         "answer": "import hashlib\n\ndef string_to_md5(text):\n    \"\"\"\n    Given a string 'text', return its md5 hash equivalent string.\n    If 'text' is an empty string, return None.\n\n    >>> string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'\n    \"\"\"\n    if text == \"\":\n        return None\n    else:\n        md5 = hashlib.md5(text.encode('utf-8')).hexdigest()\n        return md5",
-        "test": "assert string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'"
+        "test": "assert string_to_md5('Hello world') == '3e25960a79dbc69b674cd4ec67a72c62'",
+        "num_ids": 2593
     },
     {
         "number": 163,
@@ -1309,6 +1472,7 @@
         "max_test_num": 7,
         "total_product": 400,
         "answer": "def generate_integers(a, b):\n    \"\"\"\n    Given two positive integers a and b, return the even digits between a\n    and b, in ascending order.\n\n    For example:\n    generate_integers(2, 8) => [2, 4, 6, 8]\n    generate_integers(8, 2) => [2, 4, 6, 8]\n    generate_integers(10, 14) => []\n    \"\"\"\n    even_digits = []\n    for num in range(a, b+1):\n        digits = [int(d) for d in str(num)]\n        if all(d % 2 == 0 for d in digits):\n            even_digits.extend(digits)\n    even_digits.sort()\n    return even_digits",
-        "test": "assert generate_integers(2, 8) == [2, 4, 6, 8]"
+        "test": "assert generate_integers(2, 8) == [2, 4, 6, 8]",
+        "num_ids": 2896
     }
 ]

@@ -6,9 +6,9 @@ import os
 import re
 
 all_num_loops = 10
-all_pick_at = [1,3,5,10]
-all_testlines = [2,4]
-model_name = "34B"
+all_pick_at = [0,1,3,5,10]
+all_testlines = [0,2,4]
+model_name = "13B"
 
 # Load HumanEval Dataset
 all_questions_dict = json.load(open("../../../evaluations/humaneval/data/HumanEval_py.json", "r"))
