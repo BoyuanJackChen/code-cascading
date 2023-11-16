@@ -80,8 +80,6 @@ for seed in all_seeds:
     for (k1, k2, k3) in all_k_combos:
         for (t1, t2, t3) in all_t_combos:
             this_num_loops = 1 if (k1<=1 and k2<=1 and k3<=1) else num_loops
-            total_costs = np.zeros(this_num_loops)
-            total_accuracies = np.zeros(this_num_loops)
             for loop in range(this_num_loops):
                 if is_bad_combo(k1, t1, loop) or is_bad_combo(k2, t2, loop) or is_bad_combo(k3, t3, loop):
                     continue
@@ -163,4 +161,6 @@ for seed in all_seeds:
     avg_df['t2'] = avg_df['t2'].astype(int)
     avg_df['t3'] = avg_df['t3'].astype(int)
     avg_df['loop'] = avg_df['loop'].astype(int)
+    avg_df['cost'] = avg_df['cost']/1000
+    avg_df['accuracy'] = avg_df['accuracy'] * 100
     avg_df.to_csv(output_file_name, index=False)

@@ -1,22 +1,23 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 
-# Create a DataFrame from the CSV data
-df = pd.read_csv('stats_wizard_he.csv')
-df['accuracy'] = df['accuracy'] * 100
+import plotly.express as px
 
-# Plotting
-plt.figure(figsize=(10, 6))
-colors = ['mediumblue', 'darkblue', 'lightblue']
-models = df['model'].unique()
+threshold = 0.1
+df = pd.read_csv(f'full_threshold{threshold}.csv')
 
-for i, model in enumerate(models):
-    model_data = df[df['model'] == model]
-    plt.plot(model_data['cost'], model_data['accuracy'], label=model, color=colors[i], marker='o')
+def is_pareto(cost, accuracy, costs, accuracies):
+    for c, a in zip(costs, accuracies):
+        if c <= cost and a >= accuracy and (c < cost or a > accuracy):
+            return False
+    return True
+df['Pareto'] = df.apply(lambda x: is_pareto(x['cost'], x['accuracy'], df['cost'], df['accuracy']), axis=1)
 
-plt.xlabel('Cost ($)', fontsize=13)
-plt.ylabel('Accuracy (%)', fontsize=13)
-plt.title('WizardCoder-Python-V1.0 on HumanEval, pick@0,1,3,5,10, testlines=2,4', fontsize=15)
-plt.legend()
-plt.grid(True)
-plt.show()
+fig = px.scatter(df, x='cost', y='accuracy', color='Pareto',
+                 hover_data=['k1', 'k2', 'k3', 't1', 't2', 't3'],
+                 color_discrete_map={True: 'green', False: 'lightblue'})
+
+fig.update_layout(title='fWizardCoder-Python-V1.0 Family on HumanEval, pick@0,1,3,5,10, testlines=2,4, threshold={threshold}',
+                  xaxis_title='Cost',
+                  yaxis_title='Accuracy')
+
+fig.show()
