@@ -11,7 +11,7 @@
 module purge
 
 MODEL=5
-NUM_LOOPS=100
+NUM_LOOPS=10
 
 singularity exec --nv \
             --overlay /vast/bc3194/pytorch-example/my_pytorch.ext3:ro \

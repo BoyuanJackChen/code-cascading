@@ -1,0 +1,1642 @@
+[
+    {
+        "number": 0,
+        "max_answer_num": 21,
+        "max_test_num": 8,
+        "total_product": 400,
+        "answer": "    for idx_a, a in enumerate(numbers):\n        for idx_b, b in enumerate(numbers[idx_a + 1:]):\n            if (a - b) <= threshold:\n                return True\n    return False\n",
+        "test": "assert     has_close_elements([1, 2, 3, 4], 1.0001) == True",
+        "num_ids": 1509,
+        "indeed": false
+    },
+    {
+        "number": 1,
+        "max_answer_num": 2,
+        "max_test_num": 5,
+        "total_product": 390,
+        "answer": "    paren_list = []\n    current_paren_group = ''\n    index = 0\n    while index < len(paren_string):\n        if paren_string[index] == '(':\n            current_paren_group += paren_string[index]\n            index += 1\n        elif paren_string[index] == ')':\n            current_paren_group += paren_string[index]\n            paren_list.append(current_paren_group)\n            current_paren_group = ''\n            index += 1\n        else:\n            current_paren_group += paren_string[index]\n            index += 1\n    return paren_list\n",
+        "test": "assert separate_paren_groups(\"\") == []",
+        "num_ids": 2485,
+        "indeed": false
+    },
+    {
+        "number": 2,
+        "max_answer_num": 10,
+        "max_test_num": 7,
+        "total_product": 400,
+        "answer": "    return number - int(number)\n",
+        "test": "assert     truncate_number(12345.0) == 0.0",
+        "num_ids": 991,
+        "indeed": true
+    },
+    {
+        "number": 3,
+        "max_answer_num": 22,
+        "max_test_num": 9,
+        "total_product": 390,
+        "answer": "    total = 0\n    for op in operations:\n        total += op\n        if total < 0:\n            return True\n    return False\n",
+        "test": "assert     below_zero([1, 2, 3, 4, 5]) == False",
+        "num_ids": 1559,
+        "indeed": true
+    },
+    {
+        "number": 4,
+        "max_answer_num": 5,
+        "max_test_num": 3,
+        "total_product": 280,
+        "answer": "    m = sum(numbers) / len(numbers)\n    return sum([abs(x - m) for x in numbers]) / len(numbers)\n",
+        "test": "assert     mean_absolute_deviation([0, 0, 0, 0, 0]) == 0",
+        "num_ids": 1126,
+        "indeed": true
+    },
+    {
+        "number": 5,
+        "max_answer_num": 3,
+        "max_test_num": 5,
+        "total_product": 360,
+        "answer": "    return numbers[::2] + [delimeter] * (len(numbers) % 2)\n",
+        "test": "assert     intersperse([], 5) == []",
+        "num_ids": 1665,
+        "indeed": false
+    },
+    {
+        "number": 6,
+        "max_answer_num": 2,
+        "max_test_num": 2,
+        "total_product": 400,
+        "answer": "    depth = 0\n    stack = []\n    for char in paren_string:\n        if char == '(':\n            stack.append(depth)\n            depth += 1\n        elif char == ')':\n            if stack:\n                depth -= 1\n            else:\n                return [-1]\n    return [depth]\n",
+        "test": "assert     parse_nested_parens(\"()\") == [0]",
+        "num_ids": 2045,
+        "indeed": false
+    },
+    {
+        "number": 7,
+        "max_answer_num": 16,
+        "max_test_num": 10,
+        "total_product": 380,
+        "answer": "    return [string for string in strings if substring in string]\n",
+        "test": "assert     filter_by_substring([\"a\", \"b\", \"c\", \"a\"], \"a\") == [\"a\", \"a\"]",
+        "num_ids": 1459,
+        "indeed": true
+    },
+    {
+        "number": 8,
+        "max_answer_num": 24,
+        "max_test_num": 9,
+        "total_product": 390,
+        "answer": "    product = 1\n    sum_of_numbers = 0\n    for number in numbers:\n        product *= number\n        sum_of_numbers += number\n    return (sum_of_numbers, product)\n",
+        "test": "assert     sum_product([]) == (0, 1)",
+        "num_ids": 1083,
+        "indeed": true
+    },
+    {
+        "number": 9,
+        "max_answer_num": 16,
+        "max_test_num": 10,
+        "total_product": 400,
+        "answer": "    if len(numbers) == 0:\n        return []\n    result = []\n    for i in range(len(numbers)):\n        if i == 0:\n            result.append(numbers[i])\n        else:\n            if numbers[i] > result[i - 1]:\n                result.append(numbers[i])\n            else:\n                result.append(result[i - 1])\n    return result\n",
+        "test": "assert     [3, 0, 1, 0, 2, 3, 3, 4, 3, 4, 5, 3, 3, 3, 3]",
+        "num_ids": 2316,
+        "indeed": true
+    },
+    {
+        "number": 10,
+        "max_answer_num": 19,
+        "max_test_num": 10,
+        "total_product": 400,
+        "answer": "    if len(string) < 2:\n        return string\n    elif is_palindrome(string):\n        return string\n    for i in range(1, len(string)):\n        prefix = string[:i]\n        if is_palindrome(prefix):\n            return prefix + string[i:]\n    return string\n",
+        "test": "assert     is_palindrome(\"madam\")",
+        "num_ids": 1206,
+        "indeed": false
+    },
+    {
+        "number": 11,
+        "max_answer_num": 6,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    return ''.join(str(int(x) ^ int(y)) for x, y in zip(a, b))\n",
+        "test": "assert     string_xor('', '') == ''",
+        "num_ids": 1467,
+        "indeed": true
+    },
+    {
+        "number": 12,
+        "max_answer_num": 28,
+        "max_test_num": 10,
+        "total_product": 390,
+        "answer": "    if len(strings) == 0:\n        return None\n    else:\n        return sorted(strings, key=len)[-1]\n",
+        "test": "assert     longest([]) == None",
+        "num_ids": 1074,
+        "indeed": false
+    },
+    {
+        "number": 13,
+        "max_answer_num": 19,
+        "max_test_num": 9,
+        "total_product": 320,
+        "answer": "    return a if b == 0 else greatest_common_divisor(b, a % b)\n",
+        "test": "assert     greatest_common_divisor(3, 8) == 1",
+        "num_ids": 963,
+        "indeed": true
+    },
+    {
+        "number": 14,
+        "max_answer_num": 13,
+        "max_test_num": 6,
+        "total_product": 390,
+        "answer": "    return [string[:i] for i in range(1, len(string) + 1)]\n",
+        "test": "assert     all_prefixes(\"\") == []",
+        "num_ids": 1560,
+        "indeed": true
+    },
+    {
+        "number": 15,
+        "max_answer_num": 2,
+        "max_test_num": 9,
+        "total_product": 270,
+        "answer": "    sequence = \"\"\n    for i in range(0, n + 1):\n        sequence += str(i) + \" \"\n    return sequence[:-1]\n",
+        "test": "assert     string_sequence(-1) == ''",
+        "num_ids": 652,
+        "indeed": true
+    },
+    {
+        "number": 16,
+        "max_answer_num": 23,
+        "max_test_num": 7,
+        "total_product": 400,
+        "answer": "    return len(set(string.lower()))\n",
+        "test": "assert     count_distinct_characters(\"\") == 0",
+        "num_ids": 864,
+        "indeed": true
+    },
+    {
+        "number": 17,
+        "max_answer_num": 2,
+        "max_test_num": 4,
+        "total_product": 280,
+        "answer": "    music = music_string.split(' o ')\n    return [len(x) for x in music]\n",
+        "test": "assert     parse_music('o') == [1]",
+        "num_ids": 4663,
+        "indeed": false
+    },
+    {
+        "number": 18,
+        "max_answer_num": 15,
+        "max_test_num": 8,
+        "total_product": 360,
+        "answer": "    return string.count(substring)\n",
+        "test": "assert     how_many_times('BANANA','AN') == 2",
+        "num_ids": 923,
+        "indeed": false
+    },
+    {
+        "number": 19,
+        "max_answer_num": 7,
+        "max_test_num": 6,
+        "total_product": 360,
+        "answer": "    return \" \".join(sorted(numbers.split()))\n",
+        "test": "assert     sort_numbers('0') == '0'",
+        "num_ids": 2676,
+        "indeed": false
+    },
+    {
+        "number": 20,
+        "max_answer_num": 11,
+        "max_test_num": 4,
+        "total_product": 370,
+        "answer": "    first, second = sorted(numbers[:2])\n    third = first + (second - first) * (1 - abs(first - second))\n    return first, second\n",
+        "test": "assert     find_closest_elements([1, 1, 3]) == (1, 1)",
+        "num_ids": 3373,
+        "indeed": false
+    },
+    {
+        "number": 21,
+        "max_answer_num": 8,
+        "max_test_num": 6,
+        "total_product": 400,
+        "answer": "    max_num = max(numbers)\n    min_num = min(numbers)\n    return [(x - min_num) / (max_num - min_num) for x in numbers]\n",
+        "test": "assert     rescale_to_unit([0,1]) == [0.0, 1.0]",
+        "num_ids": 1717,
+        "indeed": true
+    },
+    {
+        "number": 22,
+        "max_answer_num": 18,
+        "max_test_num": 10,
+        "total_product": 380,
+        "answer": "    return [v for v in values if isinstance(v, int)]\n",
+        "test": "assert     filter_integers([]) == []",
+        "num_ids": 1276,
+        "indeed": true
+    },
+    {
+        "number": 23,
+        "max_answer_num": 29,
+        "max_test_num": 10,
+        "total_product": 370,
+        "answer": "    return len(string)\n",
+        "test": "assert     strlen(\"a\") == 1",
+        "num_ids": 495,
+        "indeed": true
+    },
+    {
+        "number": 24,
+        "max_answer_num": 16,
+        "max_test_num": 8,
+        "total_product": 400,
+        "answer": "    if n % 2 == 0:\n        return 2\n    for i in range(3, int(n**0.5)+1, 2):\n        if n % i == 0:\n            return i\n    return n\n",
+        "test": "assert     largest_divisor(4) == 2",
+        "num_ids": 884,
+        "indeed": false
+    },
+    {
+        "number": 25,
+        "max_answer_num": 14,
+        "max_test_num": 4,
+        "total_product": 350,
+        "answer": "    if n < 2:\n        return []\n    if n % 2 == 0:\n        return [2] + factorize(n // 2)\n    x = 3\n    while x ** 2 <= n:\n        if n % x == 0:\n            return [x] + factorize(n // x)\n        x += 2\n    return [n]\n",
+        "test": "assert     factorize(1) == []",
+        "num_ids": 2912,
+        "indeed": true
+    },
+    {
+        "number": 26,
+        "max_answer_num": 31,
+        "max_test_num": 6,
+        "total_product": 380,
+        "answer": "    \n    if len(numbers) < 2:\n        return numbers\n    \n    new_list = []\n    for i in range(len(numbers)):\n        if numbers[i] not in new_list:\n            new_list.append(numbers[i])\n    return new_list\n",
+        "test": "assert     remove_duplicates([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]",
+        "num_ids": 1882,
+        "indeed": false
+    },
+    {
+        "number": 27,
+        "max_answer_num": 8,
+        "max_test_num": 10,
+        "total_product": 400,
+        "answer": "    \n    upper, lower = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), list('abcdefghijklmnopqrstuvwxyz')\n    \n    return ''.join([\n        lower[upper.index(x)] if x in upper else x\n        for x in string\n    ])\n    \n    \ndef rotate(string: str, n: int) -> str:\n    \"\"\" For a given string, rotate the characters in the string n times.\n    >>> rotate('Hello', 2)\n    'lloHe'\n    >>> rotate('This is a test', 4)\n    'esTTh is a tset'\n    \"\"\"\n    \n    return string[n:] + string[:n]\n    \n    \ndef multiply(m: int, n: int) -> int:\n    \"\"\" For two positive integers, m and n, return the product of the integers\n    >>> multiply(3, 4)\n    12\n    >>> multiply(0, 4)\n    0\n    >>> multiply(2, 2)\n    4\n    >>> multiply(2, 0)\n    0\n    >>> multiply(0, 0)\n    0\n    \"\"\"\n    \n    if m == 0: return 0\n    if n == 0: return 0\n    \n    return m * n\n    \n    \ndef is_palindrome(string: str) -> bool:\n    \"\"\" Returns True if the string is a palindrome.\n    >>> is_palindrome('tacocat')\n    True\n    >>> is_palindrome('noon')\n    True\n    >>> is_palindrome('robert')\n    False\n    >>> is_palindrome('hannah')\n    True\n    >>> is_palindrome('Hannah')\n    True\n    >>> is_palindrome('robert')\n    False\n    >>> is_palindrome('hannah')\n    False\n    \"\"\"\n    \n    for i in range(0, len(string) // 2):\n        if string[i]!= string[-1 - i]:\n            return False\n    \n    return True\n    \n    \ndef is_anagram(string1: str, string2: str) -> bool:\n    \"\"\" Returns True if the strings are anagrams.\n    >>> is_anagram('eye', 'ye')\n    True\n    >>> is_anagram('eye', 'yes')\n    False\n    >>> is_anagram('eye', 'y')\n    False\n    >>> is_anagram('ae', 'ea')\n    True\n    >>> is_anagram('clint eastwood', 'old west action')\n    True\n    >>> is_anagram('aa', 'bb')\n    False\n    \"\"\"\n    \n    return sorted(string1) == sorted(string2)\n    \n    \ndef is_valid_zip(string: str) -> bool:\n    \"\"\" Returns True if the string contains a valid ZIP code.\n    >>> is_valid_zip('65043')\n    True\n    >>> is_valid_zip('12345')\n    False\n    >>> is_valid_zip('12345-6789')\n    True\n    >>> is_valid_zip('12345x')\n    False\n    >>> is_valid_zip('12345-567')\n    False\n    >>> is_valid_zip('12345-567x')\n    False\n    >>> is_valid_zip('12345-567-8')\n    True\n    \"\"\"\n    \n    pattern = re.compile(r'^\\d{5}(-?\\d{4})?$')\n    \n    return pattern.match(string)\n    \n    \ndef is_valid_date(string: str) -> bool:\n    \"\"\" Returns True if the string is a valid date.\n    >>> is_valid_date('08/02/2009')\n    True\n    >>> is_valid_date('34-02-2008')\n    False\n    >>> is_valid_date('01-01-2000')\n    False\n    >>> is_valid_date('32-02-2009')\n    False\n    >>> is_valid_date('12-10-2030')\n    False\n    >>> is_valid_date('01-01-2001')\n    True\n    \"\"\"\n    \n    pattern = re.compile(r'^\\d{2}/\\d{2}/\\d{4}$')\n    \n    return pattern.match(string)",
+        "test": "assert     flip_case('1234567890') == '1234567890'",
+        "num_ids": 2175,
+        "indeed": false
+    },
+    {
+        "number": 28,
+        "max_answer_num": 28,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    return ''.join(strings)\n",
+        "test": "assert     concatenate([\"Hello\", \"World\"])         == \"HelloWorld\", \"HelloWorld\"",
+        "num_ids": 1135,
+        "indeed": true
+    },
+    {
+        "number": 29,
+        "max_answer_num": 25,
+        "max_test_num": 10,
+        "total_product": 400,
+        "answer": "    return [s for s in strings if s.startswith(prefix)]\n",
+        "test": "assert     filter_by_prefix([], \"a\") == []",
+        "num_ids": 1424,
+        "indeed": true
+    },
+    {
+        "number": 30,
+        "max_answer_num": 15,
+        "max_test_num": 10,
+        "total_product": 360,
+        "answer": "    return [n for n in l if n > 0]\n",
+        "test": "assert     get_positive([0, 1, 2, 3, 4, 5, 6]) == [1, 2, 3, 4, 5, 6]",
+        "num_ids": 1390,
+        "indeed": true
+    },
+    {
+        "number": 31,
+        "max_answer_num": 34,
+        "max_test_num": 10,
+        "total_product": 390,
+        "answer": "    if n == 2:\n        return True\n    if n == 3:\n        return True\n    if n % 2 == 0 or n < 2:\n        return False\n    for i in range(3, int(n**0.5 + 1), 2):\n        if n % i == 0:\n            return False\n    return True\n",
+        "test": "assert     not is_prime(22)",
+        "num_ids": 1011,
+        "indeed": true
+    },
+    {
+        "number": 32,
+        "max_answer_num": 6,
+        "max_test_num": 10,
+        "total_product": 350,
+        "answer": "    if len(xs) % 2 == 1:\n        return 0\n    if xs[0]!= 0:\n        return - (sum(xs) + sum(xs[1::2])) / xs[0]\n    else:\n        return sum(xs[1::2]) / sum(xs[2::2])\n",
+        "test": "assert     poly([0, 1, 0, 0, 0], 0) == 0",
+        "num_ids": 4120,
+        "indeed": false
+    },
+    {
+        "number": 33,
+        "max_answer_num": 17,
+        "max_test_num": 7,
+        "total_product": 350,
+        "answer": "    # l_copy = list(l)\n    # return sorted(l_copy)\n    l.sort()\n    # l_copy.sort()\n    # for i in range(len(l_copy)):\n    #     if i % 3 == 0:\n    #         l_copy[i] = l[i]\n    # return l_copy\n    return l\n",
+        "test": "assert     sort_third([]) == []",
+        "num_ids": 2138,
+        "indeed": false
+    },
+    {
+        "number": 34,
+        "max_answer_num": 32,
+        "max_test_num": 10,
+        "total_product": 370,
+        "answer": "    return sorted(set(l))\n",
+        "test": "assert     [1, 2, 3, 4, 5, 6, 7] == unique([1, 2, 3, 4, 5, 6, 7])",
+        "num_ids": 1336,
+        "indeed": true
+    },
+    {
+        "number": 35,
+        "max_answer_num": 34,
+        "max_test_num": 10,
+        "total_product": 380,
+        "answer": "    if l == []:\n        return None\n    maximum = l[0]\n    for num in l:\n        if num > maximum:\n            maximum = num\n    return maximum\n",
+        "test": "assert     max_element([3,2,1]) == 3",
+        "num_ids": 949,
+        "indeed": true
+    },
+    {
+        "number": 36,
+        "max_answer_num": 11,
+        "max_test_num": 10,
+        "total_product": 310,
+        "answer": "    n_string = str(n)\n    n_length = len(n_string)\n    sevens = n_string.count('7')\n    threes = n_string.count('3')\n    \n    return sevens * (threes - n_length)\n",
+        "test": "assert     fizz_buzz(0) == 0",
+        "num_ids": 1053,
+        "indeed": false
+    },
+    {
+        "number": 37,
+        "max_answer_num": 8,
+        "max_test_num": 8,
+        "total_product": 350,
+        "answer": "    # Your code here\n    return l[::2]+sorted(l[1::2])\n",
+        "test": "assert     sort_even([]) == []",
+        "num_ids": 1786,
+        "indeed": false
+    },
+    {
+        "number": 38,
+        "max_answer_num": 8,
+        "max_test_num": 2,
+        "total_product": 380,
+        "answer": "    # split string to groups. Each of length 3.\n    groups = [s[(3 * i):min((3 * i + 3), len(s))] for i in range((len(s) + 2) // 3)]\n    # cycle elements in each group. Unless group has fewer elements than 3.\n    groups = [(group[-1] + group[:-1]) if len(group) == 3 else group for group in groups]\n    return \"\".join(groups)\n",
+        "test": "assert decode_cyclic(encode_cyclic(\"Bonjour\")) == \"Bonjour\"",
+        "num_ids": 1876,
+        "indeed": true
+    },
+    {
+        "number": 39,
+        "max_answer_num": 8,
+        "max_test_num": 3,
+        "total_product": 340,
+        "answer": "    if n < 1:\n        raise ValueError('n must be a positive integer')\n    if n == 1:\n        return 2\n    if n == 2:\n        return 3\n    if n == 3:\n        return 5\n    p = 1\n    f = 1\n    i = 1\n    fibs = [1, 2, 3]\n    while i < n:\n        p = f + p\n        f = f + f\n        fibs.append(f)\n        i = i + 1\n    if is_prime(p):\n        return p\n    return fibs[-1]\n",
+        "test": "assert     prime_fib(1) == 2",
+        "num_ids": 1030,
+        "indeed": false
+    },
+    {
+        "number": 40,
+        "max_answer_num": 27,
+        "max_test_num": 10,
+        "total_product": 370,
+        "answer": "    l.sort()\n    i = 0\n    j = len(l) - 1\n    while i < j:\n        if l[i] + l[j] == 0:\n            return True\n        elif l[i] + l[j] > 0:\n            j -= 1\n        else:\n            i += 1\n    return False",
+        "test": "assert     not triples_sum_to_zero([1,2,4])",
+        "num_ids": 1492,
+        "indeed": false
+    },
+    {
+        "number": 41,
+        "max_answer_num": 8,
+        "max_test_num": 3,
+        "total_product": 340,
+        "answer": "    return 0",
+        "test": "assert     car_race_collision(1) == 0",
+        "num_ids": 1947,
+        "indeed": false
+    },
+    {
+        "number": 42,
+        "max_answer_num": 19,
+        "max_test_num": 10,
+        "total_product": 310,
+        "answer": "    for i in range(len(l)):\n        l[i] += 1\n    return l\n",
+        "test": "assert     incr_list([]) == []",
+        "num_ids": 1088,
+        "indeed": true
+    },
+    {
+        "number": 43,
+        "max_answer_num": 24,
+        "max_test_num": 9,
+        "total_product": 400,
+        "answer": "    n = len(l)\n    l.sort()\n    for i in range(n):\n        if l[i] > 0:\n            return False\n        for j in range(i + 1, n):\n            if l[j] * -1 > 0:\n                return True\n    return False\n",
+        "test": "assert     pairs_sum_to_zero([]) == False",
+        "num_ids": 1771,
+        "indeed": false
+    },
+    {
+        "number": 44,
+        "max_answer_num": 11,
+        "max_test_num": 6,
+        "total_product": 350,
+        "answer": "    \n    if x < 0:\n        x = x * (-1)\n    x_list = []\n    while x > 0:\n        x_list.append(str(x % base))\n        x //= base\n    x_list.reverse()\n    return \"\".join(x_list)\n",
+        "test": "assert change_base(9,16) == '9'",
+        "num_ids": 1198,
+        "indeed": true
+    },
+    {
+        "number": 45,
+        "max_answer_num": 8,
+        "max_test_num": 10,
+        "total_product": 270,
+        "answer": "    area = (a * h)/2\n    return area\n",
+        "test": "assert     triangle_area(1, 2) == 1.0",
+        "num_ids": 489,
+        "indeed": true
+    },
+    {
+        "number": 46,
+        "max_answer_num": 32,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 2\n    elif n == 3:\n        return 0\n    else:\n        return fib4(n-1) + fib4(n-2) + fib4(n-3) + fib4(n-4)\n",
+        "test": "assert     fib4(0) == 0",
+        "num_ids": 1111,
+        "indeed": true
+    },
+    {
+        "number": 47,
+        "max_answer_num": 16,
+        "max_test_num": 8,
+        "total_product": 350,
+        "answer": "    sorted_l = sorted(l)\n    n = len(sorted_l)\n    if n % 2 == 0:\n        return (sorted_l[(n - 1) // 2] + sorted_l[n // 2]) / 2\n    else:\n        return sorted_l[(n - 1) // 2]\n",
+        "test": "assert     median([1, 2, 3, 4, 5]) == 3",
+        "num_ids": 1256,
+        "indeed": true
+    },
+    {
+        "number": 48,
+        "max_answer_num": 33,
+        "max_test_num": 8,
+        "total_product": 400,
+        "answer": "    return text[::-1].casefold() == text.casefold()\n",
+        "test": "assert     is_palindrome(\"a\") == True",
+        "num_ids": 1050,
+        "indeed": true
+    },
+    {
+        "number": 49,
+        "max_answer_num": 8,
+        "max_test_num": 8,
+        "total_product": 280,
+        "answer": "    if n == 0:\n        return 1\n    elif n % 2 == 0:\n        return modp(n // 2, p) ** 2 % p\n    else:\n        return modp(n - 1, p) ** 2 % p\n",
+        "test": "assert     modp(0, 15) == 1",
+        "num_ids": 789,
+        "indeed": false
+    },
+    {
+        "number": 50,
+        "max_answer_num": 7,
+        "max_test_num": 7,
+        "total_product": 360,
+        "answer": "    return \"\".join([chr(((ord(ch) - 5 - ord(\"a\")) % 26) + ord(\"a\")) for ch in s])\n",
+        "test": "assert     decode_shift(encode_shift(\"hello\")) == \"hello\"",
+        "num_ids": 1057,
+        "indeed": true
+    },
+    {
+        "number": 51,
+        "max_answer_num": 4,
+        "max_test_num": 10,
+        "total_product": 330,
+        "answer": "    vowels = 'aeiouAEIOU'\n    return ''.join([x for x in text if x not in vowels])\n",
+        "test": "assert     'frdshdlf' == remove_vowels('frdshdlf')",
+        "num_ids": 1289,
+        "indeed": true
+    },
+    {
+        "number": 52,
+        "max_answer_num": 8,
+        "max_test_num": 10,
+        "total_product": 330,
+        "answer": "    if t == 0:\n        return True\n    elif t > 0:\n        return all(num <= t for num in l)\n    elif t < 0:\n        return all(num >= t for num in l)\n",
+        "test": "assert     below_threshold([-1, 3, 4, 7], 3) == False",
+        "num_ids": 1344,
+        "indeed": false
+    },
+    {
+        "number": 53,
+        "max_answer_num": 14,
+        "max_test_num": 10,
+        "total_product": 230,
+        "answer": "    return x + y\n",
+        "test": "assert     add(1, 2) == 3",
+        "num_ids": 315,
+        "indeed": true
+    },
+    {
+        "number": 54,
+        "max_answer_num": 27,
+        "max_test_num": 10,
+        "total_product": 390,
+        "answer": "    return all(map(lambda x, y: x == y, s0, s1))\n",
+        "test": "assert not same_chars('dog', 'cat')",
+        "num_ids": 803,
+        "indeed": false
+    },
+    {
+        "number": 55,
+        "max_answer_num": 29,
+        "max_test_num": 10,
+        "total_product": 340,
+        "answer": "    # Add your code here\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fib(n-1) + fib(n-2)\n",
+        "test": "assert     fib(1) == 1",
+        "num_ids": 837,
+        "indeed": true
+    },
+    {
+        "number": 56,
+        "max_answer_num": 27,
+        "max_test_num": 6,
+        "total_product": 350,
+        "answer": "    bracket_stack = []\n    for bracket in brackets:\n        if bracket == \"<\":\n            bracket_stack.append(\"<\")\n        elif bracket == \">\":\n            if len(bracket_stack) == 0:\n                return False\n            else:\n                bracket_stack.pop()\n    return len(bracket_stack) == 0\n",
+        "test": "assert     correct_bracketing(\"<><\") == False",
+        "num_ids": 3183,
+        "indeed": true
+    },
+    {
+        "number": 57,
+        "max_answer_num": 24,
+        "max_test_num": 10,
+        "total_product": 360,
+        "answer": "    return all(x <= y for x, y in zip(l, l[1:])) or all(x >= y for x, y in zip(l, l[1:]))\n",
+        "test": "assert     monotonic([1])    == True",
+        "num_ids": 1095,
+        "indeed": true
+    },
+    {
+        "number": 58,
+        "max_answer_num": 14,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    return sorted(set(l1).intersection(l2))\n",
+        "test": "assert     common([1, 2, 3], [1, 2, 4]) == [1, 2]",
+        "num_ids": 1237,
+        "indeed": true
+    },
+    {
+        "number": 59,
+        "max_answer_num": 25,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    \n    i = 2\n    while i < n:\n        if n % i == 0:\n            n //= i\n            print(n)\n            largest_prime_factor(n)\n        else:\n            i += 1\n    return n\n",
+        "test": "assert     largest_prime_factor(4) == 2",
+        "num_ids": 1044,
+        "indeed": true
+    },
+    {
+        "number": 60,
+        "max_answer_num": 16,
+        "max_test_num": 9,
+        "total_product": 280,
+        "answer": "    \"*** YOUR CODE HERE ***\"\n    \n    if n == 1:\n        return 1\n    else:\n        return n + sum_to_n(n-1)\n    \n    \ndef sum_to_n2(n):\n    return sum(range(n + 1))\n    \n",
+        "test": "assert     sum_to_n(1) == 1",
+        "num_ids": 731,
+        "indeed": true
+    },
+    {
+        "number": 61,
+        "max_answer_num": 34,
+        "max_test_num": 9,
+        "total_product": 400,
+        "answer": "    unopened = 0\n    for i in range(0, len(brackets)):\n        if brackets[i] == \"(\":\n            unopened += 1\n        elif brackets[i] == \")\":\n            unopened -= 1\n        if unopened < 0:\n            return False\n    return True\n",
+        "test": "assert     not correct_bracketing(\"(this) is a test)\")",
+        "num_ids": 1183,
+        "indeed": false
+    },
+    {
+        "number": 62,
+        "max_answer_num": 2,
+        "max_test_num": 1,
+        "total_product": 140,
+        "answer": "    deriv = []\n    for i in range(len(xs)):\n        deriv.append(i * xs[i])\n    return deriv\n",
+        "test": "assert     derivative([1, 2, 3])    == [0, 2, 6], \"actual: {}\".format(derivative([1, 2, 3]))",
+        "num_ids": 826,
+        "indeed": false
+    },
+    {
+        "number": 63,
+        "max_answer_num": 30,
+        "max_test_num": 10,
+        "total_product": 370,
+        "answer": "    if n == 0:\n        return 0\n    elif n == 1:\n        return 0\n    elif n == 2:\n        return 1\n    else:\n        return fibfib(n-1) + fibfib(n-2) + fibfib(n-3)\n",
+        "test": "assert     fibfib(0) == 0",
+        "num_ids": 1003,
+        "indeed": true
+    },
+    {
+        "number": 64,
+        "max_answer_num": 16,
+        "max_test_num": 9,
+        "total_product": 390,
+        "answer": "    s = s.lower()\n    vowels = ('a', 'e', 'i', 'o', 'u')\n    count = 0\n    for i in s:\n        if i in vowels:\n            count += 1\n    return count\n",
+        "test": "assert     vowels_count('book') == 2",
+        "num_ids": 1043,
+        "indeed": false
+    },
+    {
+        "number": 65,
+        "max_answer_num": 7,
+        "max_test_num": 5,
+        "total_product": 370,
+        "answer": "    x = int(str(x)[::-1])\n    return str(x)[(shift%len(str(x))):]+str(x)[:(shift%len(str(x)))]\n",
+        "test": "assert     circular_shift(5, 10) == \"5\"",
+        "num_ids": 1150,
+        "indeed": false
+    },
+    {
+        "number": 66,
+        "max_answer_num": 6,
+        "max_test_num": 10,
+        "total_product": 300,
+        "answer": "    return sum([ord(x)-ord('A')+1 for x in s.upper() if ord(x)-ord('A')+1 >= 10])\n",
+        "test": "assert     digitSum(\"\") == 0",
+        "num_ids": 1646,
+        "indeed": false
+    },
+    {
+        "number": 67,
+        "max_answer_num": 6,
+        "max_test_num": 3,
+        "total_product": 360,
+        "answer": "    if(s.find(\"apples\") == -1):\n        return 0\n    elif(s.find(\"oranges\") == -1):\n        return 0\n    else:\n        return int(n) - int(s[:s.find(\"apples\")]) - int(s[s.find(\"apples\") + 5 : s.find(\"oranges\")])\n",
+        "test": "assert     fruit_distribution(s = \"0 0 4 0\", n = 5) == 0",
+        "num_ids": 2093,
+        "indeed": false
+    },
+    {
+        "number": 68,
+        "max_answer_num": 4,
+        "max_test_num": 9,
+        "total_product": 380,
+        "answer": "    smallest_even = float('inf')\n    smallest_index = -1\n    for i in range(len(arr)):\n        if arr[i] % 2 == 0:\n            if arr[i] < smallest_even:\n                smallest_even = arr[i]\n                smallest_index = i\n    if smallest_index!= -1:\n        return [ smallest_even, smallest_index]\n    return []\n",
+        "test": "assert     pluck([]) == []",
+        "num_ids": 2019,
+        "indeed": true
+    },
+    {
+        "number": 69,
+        "max_answer_num": 9,
+        "max_test_num": 5,
+        "total_product": 230,
+        "answer": "    freqs = {}\n    for i in lst:\n        freqs[i] = lst.count(i)\n    if not freqs:\n        return -1\n    else:\n        return max(freqs, key = lambda k: freqs[k])",
+        "test": "assert search([]) == -1",
+        "num_ids": 2251,
+        "indeed": false
+    },
+    {
+        "number": 70,
+        "max_answer_num": 13,
+        "max_test_num": 7,
+        "total_product": 280,
+        "answer": "    if not lst:\n        return []\n    lst = sorted(lst)\n    return lst\n",
+        "test": "assert     strange_sort_list([])                 == []",
+        "num_ids": 1331,
+        "indeed": false
+    },
+    {
+        "number": 71,
+        "max_answer_num": 4,
+        "max_test_num": 9,
+        "total_product": 280,
+        "answer": "    # verify that the three sides form a valid triangle\n    if a + b > c and b + c > a and a + c > b:\n        # return the area of the triangle\n        return round((a * b * 1.0) / 2, 2)\n    return -1\n",
+        "test": "assert     triangle_area(1, 0, 0)         ==    -1.0",
+        "num_ids": 1133,
+        "indeed": false
+    },
+    {
+        "number": 72,
+        "max_answer_num": 15,
+        "max_test_num": 8,
+        "total_product": 400,
+        "answer": "    def is_palindrome(lst):\n        l = len(lst)\n        for i in range(int(l/2)):\n            if lst[i]!= lst[l-i-1]:\n                return False\n        return True\n    if is_palindrome(q) and sum(q) <= w:\n        return True\n    else:\n        return False\n",
+        "test": "assert not will_it_fly( [1,2,3,4], 3 )",
+        "num_ids": 1276,
+        "indeed": true
+    },
+    {
+        "number": 73,
+        "max_answer_num": 13,
+        "max_test_num": 1,
+        "total_product": 370,
+        "answer": "    count = 0\n    for i in range(len(arr)//2):\n        if arr[i]!= arr[-i - 1]:\n            count += 1\n    return count\n",
+        "test": "assert     smallest_change([1,2,3,4,5,6,7]) == 3",
+        "num_ids": 1150,
+        "indeed": true
+    },
+    {
+        "number": 74,
+        "max_answer_num": 16,
+        "max_test_num": 8,
+        "total_product": 350,
+        "answer": "    if len(lst1) > len(lst2):\n        return lst1\n    elif len(lst2) > len(lst1):\n        return lst2\n    else:\n        return lst1\n    \n",
+        "test": "assert total_match([], []) == []",
+        "num_ids": 1875,
+        "indeed": false
+    },
+    {
+        "number": 75,
+        "max_answer_num": 21,
+        "max_test_num": 8,
+        "total_product": 360,
+        "answer": "    divisors = [2,3,5]\n    for x in divisors:\n        if a%x!= 0:\n            return False\n        else:\n            a = a/x\n    return True\n",
+        "test": "assert not is_multiply_prime(100)",
+        "num_ids": 1092,
+        "indeed": false
+    },
+    {
+        "number": 76,
+        "max_answer_num": 26,
+        "max_test_num": 9,
+        "total_product": 400,
+        "answer": "    if n == 1:\n        return True\n    if x < n:\n        return False\n    while x % n == 0:\n        x /= n\n    return x == 1\n",
+        "test": "assert     not is_simple_power(5**2, 2)",
+        "num_ids": 989,
+        "indeed": false
+    },
+    {
+        "number": 77,
+        "max_answer_num": 6,
+        "max_test_num": 4,
+        "total_product": 400,
+        "answer": "    return a**3 == int(a**3)\n",
+        "test": "assert iscube(27)",
+        "num_ids": 643,
+        "indeed": false
+    },
+    {
+        "number": 78,
+        "max_answer_num": 5,
+        "max_test_num": 4,
+        "total_product": 350,
+        "answer": "    def is_prime(n):\n        return n > 1 and all(n % i for i in range(2, int(n**0.5)+1))\n    num_as_int = int(num, 16)\n    count = 0\n    for i in range(num_as_int+1):\n        if i < 10:\n            if is_prime(i):\n                count += 1\n        else:\n            if is_prime(i) and is_prime(i ** 2):\n                count += 1\n    return count\n",
+        "test": "assert     hex_key('0') == 0",
+        "num_ids": 1667,
+        "indeed": false
+    },
+    {
+        "number": 79,
+        "max_answer_num": 2,
+        "max_test_num": 1,
+        "total_product": 400,
+        "answer": "    binary = \"\"\n    # YOUR CODE HERE\n    if decimal == 0:\n        return \"db0\"\n    if decimal == 1:\n        return \"db1\"\n    if decimal < 0:\n        return None\n    while decimal > 0:\n        binary += str(decimal % 2)\n        decimal //= 2\n    return binary[::-1] + \"db\"\n",
+        "test": "assert     (decimal_to_binary(2) == '10'+'db')",
+        "num_ids": 1299,
+        "indeed": false
+    },
+    {
+        "number": 80,
+        "max_answer_num": 21,
+        "max_test_num": 8,
+        "total_product": 400,
+        "answer": "    def get_s(s):\n        ret = []\n        for c in s:\n            ret.append(c)\n        return \"\".join(ret)\n    \n    def get_n(s, n):\n        ret = []\n        for i in range(len(s)):\n            if i % n == 0:\n                ret.append(s[i])\n        return ret\n    \n    ret = True\n    s = get_s(s)\n    n = 3\n    if len(s) < 3:\n        ret = False\n    else:\n        n = 3\n        while n <= len(s):\n            s = get_n(s, n)\n            if s == s[::-1]:\n                ret = True\n                break\n            n += 1\n    return ret\n",
+        "test": "assert is_happy(\"ab\") == False",
+        "num_ids": 1308,
+        "indeed": false
+    },
+    {
+        "number": 81,
+        "max_answer_num": 6,
+        "max_test_num": 1,
+        "total_product": 210,
+        "answer": "    return ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E']\n",
+        "test": "assert     numerical_letter_grade([4.0, 3.7, 3.3, 3.0, 2.7, 2.3, 2.0, 1.7, 1.3, 1.0, 0.7, 0.0, 0.0]) == ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'E']",
+        "num_ids": 2669,
+        "indeed": false
+    },
+    {
+        "number": 82,
+        "max_answer_num": 26,
+        "max_test_num": 7,
+        "total_product": 370,
+        "answer": "    if len(string) == 1:\n        return False\n    if len(string) == 2:\n        return True\n    if len(string) % 2 == 0:\n        return False\n    if len(string) % 2 == 1:\n        half_len = len(string) // 2\n        for i in range(1, half_len + 1):\n            if string[i] == string[-i]:\n                return False\n        return True\n",
+        "test": "assert     prime_length(\"hello2\") == False",
+        "num_ids": 1131,
+        "indeed": false
+    },
+    {
+        "number": 83,
+        "max_answer_num": 10,
+        "max_test_num": 2,
+        "total_product": 370,
+        "answer": "    count = 0\n    for i in range(1, 10**(n-1)):\n        start = i // 10**(n-1)\n        end = i % 10**(n-1)\n        if start == 1 or end == 1:\n            count += 1\n    return count\n",
+        "test": "assert     starts_one_ends(2) == 1",
+        "num_ids": 1215,
+        "indeed": false
+    },
+    {
+        "number": 84,
+        "max_answer_num": 12,
+        "max_test_num": 3,
+        "total_product": 370,
+        "answer": "    # Counting up from 0 - 1 - 0 - 1 - 0 - 1 - 0 - 1 - 0 - 1 - 0 - 1 - 0 - 1 - 0 - 1 -...\n    binary = \"\"\n    while N:\n        binary = str(N % 2) + binary\n        N = N >> 1\n    return binary\n",
+        "test": "assert     solve(1)    ==    '1'",
+        "num_ids": 860,
+        "indeed": false
+    },
+    {
+        "number": 85,
+        "max_answer_num": 1,
+        "max_test_num": 7,
+        "total_product": 320,
+        "answer": "    #lst = [4, 2, 6, 7]\n    total = 0\n    for i in range(1, len(lst), 2):\n        total += lst[i]\n    return total\n",
+        "test": "assert add([]) == 0",
+        "num_ids": 1231,
+        "indeed": false
+    },
+    {
+        "number": 86,
+        "max_answer_num": 1,
+        "max_test_num": 7,
+        "total_product": 370,
+        "answer": "    words = s.split(' ')\n    new_words = []\n    for word in words:\n        new_words.append(''.join(sorted(word)))\n    return''.join(new_words)\n",
+        "test": "assert     anti_shuffle(\"\") == \"\"",
+        "num_ids": 1332,
+        "indeed": false
+    },
+    {
+        "number": 87,
+        "max_answer_num": 0,
+        "max_test_num": 0,
+        "total_product": 230,
+        "answer": "    # your code here\n    # try using recursion\n    # and numpy array to solve this\n    pass\n",
+        "test": "assert     get_row([",
+        "num_ids": 1813,
+        "indeed": false
+    },
+    {
+        "number": 88,
+        "max_answer_num": 19,
+        "max_test_num": 6,
+        "total_product": 340,
+        "answer": "    if not array: return []\n    result = []\n    if sum(array[0: len(array) // 2]) % 2 == 0:\n        array.sort(reverse=True)\n    else:\n        array.sort()\n    return array\n",
+        "test": "assert     sort_array([]) == []",
+        "num_ids": 1408,
+        "indeed": false
+    },
+    {
+        "number": 89,
+        "max_answer_num": 2,
+        "max_test_num": 1,
+        "total_product": 400,
+        "answer": "    alphabet = \"abcdefghijklmnopqrstuvwxyz\"\n    rotated = alphabet[2:] + alphabet[:2]\n    return \"\".join([rotated[alphabet.index(c)] for c in s])\n",
+        "test": "assert encrypt('xyz') == 'zab', \"encrypt('xyz') == 'zab' is not true\"",
+        "num_ids": 2011,
+        "indeed": false
+    },
+    {
+        "number": 90,
+        "max_answer_num": 11,
+        "max_test_num": 9,
+        "total_product": 340,
+        "answer": "    if len(lst) < 2:\n        return None\n    smallest = float('inf')\n    smallest_index = None\n    for index, value in enumerate(lst):\n        if value < smallest:\n            smallest = value\n            smallest_index = index\n    if smallest_index == 0:\n        return lst[1]\n    return lst[smallest_index - 1]\n",
+        "test": "assert     next_smallest([]) == None",
+        "num_ids": 1170,
+        "indeed": false
+    },
+    {
+        "number": 91,
+        "max_answer_num": 16,
+        "max_test_num": 9,
+        "total_product": 350,
+        "answer": "    return len([s for s in S.split('.') if s.strip().startswith('I')])\n",
+        "test": "assert     is_bored(\"\") == 0",
+        "num_ids": 1965,
+        "indeed": false
+    },
+    {
+        "number": 92,
+        "max_answer_num": 22,
+        "max_test_num": 8,
+        "total_product": 400,
+        "answer": "    return x == y + z or x == z + y or x == y + z\n",
+        "test": "assert     any_int(0, 0, 0) == True",
+        "num_ids": 1007,
+        "indeed": false
+    },
+    {
+        "number": 93,
+        "max_answer_num": 2,
+        "max_test_num": 3,
+        "total_product": 330,
+        "answer": "    vowels = 'AEIOU'\n    encoded_message = ''\n    for letter in message:\n        if letter in vowels:\n            new_letter = chr(ord(letter)+2)\n            encoded_message += new_letter\n        else:\n            encoded_message += letter\n    return encoded_message\n",
+        "test": "assert     encode(\"the quick brown fox jumps over the lazy dog\") ",
+        "num_ids": 1545,
+        "indeed": false
+    },
+    {
+        "number": 94,
+        "max_answer_num": 2,
+        "max_test_num": 3,
+        "total_product": 330,
+        "answer": "    maxp = max(lst)\n    digits = [int(i) for i in str(maxp)]\n    return sum(digits)\n",
+        "test": "assert     skjkasdkd([5, 7, 11]) == 2",
+        "num_ids": 4525,
+        "indeed": false
+    },
+    {
+        "number": 95,
+        "max_answer_num": 25,
+        "max_test_num": 9,
+        "total_product": 400,
+        "answer": "    if len(dict) == 0:\n        return False\n    for key, value in dict.items():\n        if not isinstance(key, str):\n            return False\n        if not isinstance(value, str):\n            return False\n        if key.islower() or key.isupper():\n            return False\n    return True\n    \n    \n",
+        "test": "assert     check_dict_case({}) is False",
+        "num_ids": 1596,
+        "indeed": false
+    },
+    {
+        "number": 96,
+        "max_answer_num": 20,
+        "max_test_num": 8,
+        "total_product": 310,
+        "answer": "    array = []\n    for i in range(2,n+1):\n        is_prime = True\n        for j in range(2,i):\n            if (i % j) == 0:\n                is_prime = False\n        if is_prime:\n            array.append(i)\n    return array\n",
+        "test": "assert count_up_to(0) == []",
+        "num_ids": 2480,
+        "indeed": false
+    },
+    {
+        "number": 97,
+        "max_answer_num": 13,
+        "max_test_num": 7,
+        "total_product": 400,
+        "answer": "    return sum([int(x) * int(y) for x, y in zip(str(a), str(b))])\n",
+        "test": "assert     multiply(0, 0) == 0",
+        "num_ids": 2063,
+        "indeed": false
+    },
+    {
+        "number": 98,
+        "max_answer_num": 18,
+        "max_test_num": 8,
+        "total_product": 360,
+        "answer": "    count = 0\n    for i in range(len(s)):\n        if (ord(s[i]) >= 65) and (ord(s[i]) <= 90):\n            if i % 2 == 0:\n                count += 1\n    return count\n",
+        "test": "assert     count_upper(\"\") == 0",
+        "num_ids": 967,
+        "indeed": false
+    },
+    {
+        "number": 99,
+        "max_answer_num": 18,
+        "max_test_num": 5,
+        "total_product": 360,
+        "answer": "    # convert to float\n    v = float(value)\n    # extract int part\n    v_int = int(v)\n    # find difference\n    diff = v - v_int\n    # round it\n    if diff > 0:\n        v_ret = v_int + 1\n    else:\n        v_ret = v_int\n    # return\n    return v_ret\n",
+        "test": "assert     closest_integer(\"100\") == 100",
+        "num_ids": 953,
+        "indeed": false
+    },
+    {
+        "number": 100,
+        "max_answer_num": 8,
+        "max_test_num": 5,
+        "total_product": 360,
+        "answer": "    levels = [n]\n    n = n - 1\n    while n > 0:\n        if n % 2 == 0:\n            levels.append(n)\n            n = n - 2\n        else:\n            levels.append(n)\n            n = n - 1\n    return levels\n",
+        "test": "assert     make_a_pile(1) == [1]",
+        "num_ids": 1335,
+        "indeed": false
+    },
+    {
+        "number": 101,
+        "max_answer_num": 16,
+        "max_test_num": 10,
+        "total_product": 370,
+        "answer": "    return s.split(',')\n",
+        "test": "assert     words_string(\"Hello\")    == [\"Hello\"]",
+        "num_ids": 1941,
+        "indeed": false
+    },
+    {
+        "number": 102,
+        "max_answer_num": 18,
+        "max_test_num": 5,
+        "total_product": 390,
+        "answer": "    return -1\n",
+        "test": "assert choose_num(1, 5) == -1",
+        "num_ids": 935,
+        "indeed": false
+    },
+    {
+        "number": 103,
+        "max_answer_num": 0,
+        "max_test_num": 0,
+        "total_product": 330,
+        "answer": "    if n > m:\n        return -1\n    return \"{0:b}\".format(int((n + m) / 2))\n",
+        "test": "assert     rounded_avg(8, 11) == 9",
+        "num_ids": 835,
+        "indeed": false
+    },
+    {
+        "number": 104,
+        "max_answer_num": 16,
+        "max_test_num": 7,
+        "total_product": 350,
+        "answer": "    result = []\n    for num in x:\n        if num <= 9:\n            result.append(num)\n        elif (num % 2) == 0:\n            pass\n        else:\n            result.append(num)\n    return sorted(result)\n",
+        "test": "assert     unique_digits([]) == []",
+        "num_ids": 2229,
+        "indeed": false
+    },
+    {
+        "number": 105,
+        "max_answer_num": 3,
+        "max_test_num": 8,
+        "total_product": 310,
+        "answer": "    return [\"One\", \"Two\", \"Three\", \"Four\", \"Five\", \"Six\", \"Seven\", \"Eight\", \"Nine\"] if arr else []\n",
+        "test": "assert     by_length([]) == []",
+        "num_ids": 4207,
+        "indeed": false
+    },
+    {
+        "number": 106,
+        "max_answer_num": 7,
+        "max_test_num": 7,
+        "total_product": 260,
+        "answer": "    l = []\n    for i in range(1, n+1):\n        if i % 2 == 0:\n            l.append(math.factorial(i))\n        else:\n            l.append(sum(range(1, i + 1)))\n    return l\n",
+        "test": "assert     f(1) == [1]",
+        "num_ids": 1342,
+        "indeed": true
+    },
+    {
+        "number": 107,
+        "max_answer_num": 2,
+        "max_test_num": 1,
+        "total_product": 360,
+        "answer": "    return sum([1 for x in range(1, n) if x % 2 == 0 and is_palindrome(x)]) * 2, \\\n           sum([1 for x in range(1, n) if x % 2 == 1 and is_palindrome(x)])\n",
+        "test": "assert     even_odd_palindrome(1) == (0,0)",
+        "num_ids": 1465,
+        "indeed": false
+    },
+    {
+        "number": 108,
+        "max_answer_num": 11,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    return len([i for i in arr if i > 0 and sum(map(int, list(str(i)))) > 0])\n",
+        "test": "assert     count_nums([]) == 0",
+        "num_ids": 1376,
+        "indeed": false
+    },
+    {
+        "number": 109,
+        "max_answer_num": 20,
+        "max_test_num": 10,
+        "total_product": 340,
+        "answer": "    arr=sorted(arr)\n    for i in range(len(arr)):\n        if arr[i]!=i+1:\n            return False\n    return True\n",
+        "test": "assert     move_one_ball([]) == True",
+        "num_ids": 1482,
+        "indeed": false
+    },
+    {
+        "number": 110,
+        "max_answer_num": 22,
+        "max_test_num": 9,
+        "total_product": 390,
+        "answer": "    count_of_evens = 0\n    for number in lst1:\n        if number % 2 == 0:\n            count_of_evens += 1\n    for number in lst2:\n        if number % 2 == 1:\n            count_of_evens -= 1\n    if count_of_evens <= 0:\n        return \"YES\"\n    else:\n        return \"NO\"\n",
+        "test": "assert     exchange([2, 3, 5, 6], [2, 4, 6, 8]) == \"NO\"",
+        "num_ids": 2241,
+        "indeed": false
+    },
+    {
+        "number": 111,
+        "max_answer_num": 13,
+        "max_test_num": 7,
+        "total_product": 320,
+        "answer": "    if not test:\n        return {}\n    words = test.split()\n    hash_map = {}\n    for word in words:\n        for letter in word:\n            if letter in hash_map:\n                hash_map[letter] += 1\n            else:\n                hash_map[letter] = 1\n    return hash_map\n",
+        "test": "assert     histogram(\"\") == {}",
+        "num_ids": 1663,
+        "indeed": false
+    },
+    {
+        "number": 112,
+        "max_answer_num": 3,
+        "max_test_num": 7,
+        "total_product": 400,
+        "answer": "    return (s[::-1],s==s[::-1])\n    ",
+        "test": "assert     reverse_delete(\"\",\"bcd\") == (\"\", True)",
+        "num_ids": 1290,
+        "indeed": false
+    },
+    {
+        "number": 113,
+        "max_answer_num": 1,
+        "max_test_num": 1,
+        "total_product": 280,
+        "answer": "    for i in lst:\n        print(i.count('1'))\n    return []\n",
+        "test": "assert     odd_count(['hi']) == []",
+        "num_ids": 2917,
+        "indeed": false
+    },
+    {
+        "number": 114,
+        "max_answer_num": 9,
+        "max_test_num": 6,
+        "total_product": 340,
+        "answer": "    result = 0\n    curr_sum = 0\n    for num in nums:\n        curr_sum += num\n        if curr_sum < 0:\n            curr_sum = 0\n        result = max(result, curr_sum)\n    return result\n",
+        "test": "assert minSubArraySum([1]) == 1",
+        "num_ids": 1601,
+        "indeed": false
+    },
+    {
+        "number": 115,
+        "max_answer_num": 7,
+        "max_test_num": 3,
+        "total_product": 320,
+        "answer": "    N = len(grid)\n    sorted_grid = sorted(grid)\n    for row_idx in range(N):\n        for col_idx in range(N):\n            if grid[row_idx][col_idx] == 1:\n                grid[row_idx][col_idx] = 0\n                return max_fill(grid, capacity)\n    return 0\n",
+        "test": "assert     max_fill([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], 9) == 0",
+        "num_ids": 4389,
+        "indeed": false
+    },
+    {
+        "number": 116,
+        "max_answer_num": 20,
+        "max_test_num": 9,
+        "total_product": 310,
+        "answer": "    arr = sorted(arr)\n    res = []\n    for i in arr:\n        res.append(int(''.join(str(x) for x in bin(i).split('b')[1]), 2))\n    return res\n",
+        "test": "assert     sort_array([]) == []",
+        "num_ids": 4525,
+        "indeed": false
+    },
+    {
+        "number": 117,
+        "max_answer_num": 12,
+        "max_test_num": 8,
+        "total_product": 350,
+        "answer": "    return [w for w in s.split() if len([c for c in w if c not in \"aeiou\"]) == n]\n",
+        "test": "assert     select_words(\"\", 0) == []",
+        "num_ids": 1294,
+        "indeed": false
+    },
+    {
+        "number": 118,
+        "max_answer_num": 17,
+        "max_test_num": 6,
+        "total_product": 400,
+        "answer": "    if len(word) < 1:\n        return ''\n    \n    \n    vowels = 'aeiou'\n    index = len(word) - 1\n    \n    while index > 0:\n        if word[index] in vowels:\n            return word[index]\n        index -= 1\n    return ''\n",
+        "test": "assert     get_closest_vowel(\"d\") == \"\"",
+        "num_ids": 1633,
+        "indeed": false
+    },
+    {
+        "number": 119,
+        "max_answer_num": 16,
+        "max_test_num": 3,
+        "total_product": 400,
+        "answer": "    if len(lst) == 0:\n        return 'Yes'\n    if len(lst) == 1:\n        return 'Yes' if lst[0] == '()' else 'No'\n    # Indices of open parentheses\n    open_lst = [i for i, x in enumerate(lst) if x == '(']\n    # Indices of close parentheses\n    close_lst = [i for i, x in enumerate(lst) if x == ')']\n    # Indices of close parentheses that are not the last one\n    close_lst_not_last = [i for i, x in enumerate(close_lst) if x!= close_lst[-1]]\n    for i in range(len(close_lst_not_last)):\n        j = close_lst_not_last[i] + 1\n        # If there is an open parenthesis that's close to a close parenthesis\n        if j < len(open_lst) and open_lst[j] == close_lst_not_last[i] - 1:\n            # Removing the last close parenthesis from the string\n            lst[close_lst_not_last[i]] = ''\n            lst[close_lst_not_last[i] - 1] = ''\n            lst[close_lst_not_last[i] + 1:] = ''\n            # Continue the loop\n            continue\n        else:\n            return 'No'\n    return 'Yes'\n",
+        "test": "assert     match_parens('(())') == 'No'",
+        "num_ids": 2628,
+        "indeed": false
+    },
+    {
+        "number": 120,
+        "max_answer_num": 21,
+        "max_test_num": 8,
+        "total_product": 360,
+        "answer": "    if not arr or k < 1:\n        return []\n    arr.sort(reverse = True)\n    return arr[:k]\n",
+        "test": "assert     maximum([], 0) == []",
+        "num_ids": 1622,
+        "indeed": false
+    },
+    {
+        "number": 121,
+        "max_answer_num": 9,
+        "max_test_num": 10,
+        "total_product": 280,
+        "answer": "    return sum([i for i in lst if i % 2 == 0 and i % 2 == 1])\n",
+        "test": "assert     solution([]) == 0",
+        "num_ids": 828,
+        "indeed": false
+    },
+    {
+        "number": 122,
+        "max_answer_num": 9,
+        "max_test_num": 7,
+        "total_product": 370,
+        "answer": "    _sum = 0\n    for i in arr[:k]:\n        _sum += i\n    return _sum\n",
+        "test": "assert     add_elements([], 0) == 0",
+        "num_ids": 1181,
+        "indeed": false
+    },
+    {
+        "number": 123,
+        "max_answer_num": 10,
+        "max_test_num": 3,
+        "total_product": 360,
+        "answer": "    result = []\n    if n == 1:\n        return [1]\n    if n == 2:\n        return [1, 2]\n    elif n % 2 == 0:\n        return get_odd_collatz(n/2) + [n]\n    else:\n        return get_odd_collatz(3*n+1) + [n]\n",
+        "test": "assert     get_odd_collatz(1) == [1]",
+        "num_ids": 2423,
+        "indeed": false
+    },
+    {
+        "number": 124,
+        "max_answer_num": 23,
+        "max_test_num": 5,
+        "total_product": 400,
+        "answer": "    def is_valid_date(date):\n        import re\n        match = re.match(r'(\\d{1,2})\\-([1-9]|[1-2]\\d)\\-([12][0-9]{3})', date)\n        if not match:\n            return False\n        else:\n            day = match.group(2)\n            month = match.group(1)\n            year = match.group(3)\n            if not 1 <= int(day) <= 31:\n                return False\n            if not 1 <= int(month) <= 12:\n                return False\n            if not 1 <= int(year) <= 9999:\n                return False\n            else:\n                return True\n    return is_valid_date(date)\n",
+        "test": "assert     valid_date(\"\") == False",
+        "num_ids": 2487,
+        "indeed": false
+    },
+    {
+        "number": 125,
+        "max_answer_num": 16,
+        "max_test_num": 7,
+        "total_product": 390,
+        "answer": "    \n    lista = txt.split()\n    return lista\n",
+        "test": "assert     split_words('a') == ['a']",
+        "num_ids": 1177,
+        "indeed": false
+    },
+    {
+        "number": 126,
+        "max_answer_num": 32,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    lst = [int(i) for i in lst]\n    if len(lst) < 2: return True\n    if lst[0] > lst[1]: return False\n    for i in range(1, len(lst)):\n        if lst[i] < lst[i-1]: return False\n    return True\n",
+        "test": "assert     is_sorted([1, 2, 3, 4, 1]) == False",
+        "num_ids": 1223,
+        "indeed": false
+    },
+    {
+        "number": 127,
+        "max_answer_num": 11,
+        "max_test_num": 5,
+        "total_product": 290,
+        "answer": "    # a = interval1[0]\n    # b = interval1[1]\n    # c = interval2[0]\n    # d = interval2[1]\n    # if a < c or b > d:\n    #     return 'NO'\n    # if a <= c and b >= d:\n    #     return 'YES'\n    # if c <= a and d >= b:\n    #     return 'YES'\n    # if a == c and b == d:\n    #     return 'YES'\n    # return 'NO'\n    \n    # This is my solution, better than 90% of the solutions\n    if interval1[1] < interval2[0] or interval1[0] > interval2[1]:\n        return 'NO'\n    if interval1[0] > interval2[0] and interval1[1] < interval2[1]:\n        return 'NO'\n    if interval1[0] == interval2[0] and interval1[1] == interval2[1]:\n        return 'YES'\n    if interval1[0] == interval2[0] and interval1[1]!= interval2[1]:\n        return 'NO'\n    if interval1[0]!= interval2[0] and interval1[1] == interval2[1]:\n        return 'NO'\n    if interval1[0]!= interval2[0] and interval1[1]!= interval2[1]:\n        return 'NO'\n    \n    # It's not my solution, but I understand better\n    l1 = interval1[1] - interval1[0] + 1\n    l2 = interval2[1] - interval2[0] + 1\n    if l1 == l2:\n        return 'YES'\n    return 'NO'\n    ",
+        "test": "assert     intersection( (1, 3), (1, 3) ) == \"YES\"",
+        "num_ids": 1716,
+        "indeed": false
+    },
+    {
+        "number": 128,
+        "max_answer_num": 9,
+        "max_test_num": 7,
+        "total_product": 370,
+        "answer": "    res = 1\n    for a in arr:\n        res *= (abs(a) if a else 1)\n    return res if arr else None",
+        "test": "assert     prod_signs([]) == None",
+        "num_ids": 1176,
+        "indeed": false
+    },
+    {
+        "number": 129,
+        "max_answer_num": 1,
+        "max_test_num": 1,
+        "total_product": 370,
+        "answer": "    if grid is None or len(grid) == 0:\n        return []\n    if k < 1:\n        return []\n    m, n = len(grid), len(grid[0])\n    if k == 1:\n        return [grid[x][y] for x in range(m) for y in range(n)]\n    if k == 2:\n        return [grid[x][y] for x in range(m) for y in range(n) if x == 0 or y == 0]\n    if k == 3:\n        return [grid[x][y] for x in range(m) for y in range(n) if x == 0 or y == 0 or x == m - 1 or y == n - 1]\n    if m * n < k:\n        return []\n    # grid = grid + [max(grid)] * (k - len(grid))\n    # m = len(grid)\n    # n = len(grid[0])\n    # if k < m * n:\n    #     return []\n    # if k == m * n:\n    #     return grid\n    # if k == 1:\n    #     return [grid[x][y] for x in range(m) for y in range(n)]\n    # if k == 2:\n    #     return [grid[x][y] for x in range(m) for y in range(n) if x == 0 or y == 0]\n    # if k == 3:\n    #     return [grid[x][y] for x in range(m) for y in range(n) if x == 0 or y == 0 or x == m - 1 or y == n - 1]\n    result = []\n    visited = [[False for _ in range(n)] for _ in range(m)]\n    neighbors = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n    def dfs(i, j, k):\n        if i < 0 or j < 0 or i >= m or j >= n or visited[i][j]:\n            return\n        visited[i][j] = True\n        result.append(grid[i][j])\n        if k == 1:\n            return\n        for dx, dy in neighbors:\n            dfs(i + dx, j + dy, k - 1)\n        visited[i][j] = False\n    dfs(0, 0, k)\n    return result\n",
+        "test": "assert     minPath([[1,2],[3,4]], 1) == [1,2,3,4]",
+        "num_ids": 3963,
+        "indeed": false
+    },
+    {
+        "number": 130,
+        "max_answer_num": 2,
+        "max_test_num": 3,
+        "total_product": 360,
+        "answer": "    if n == 1:\n        return [1]\n    elif n == 2:\n        return [1, 1]\n    else:\n        seq = [1, 2]\n        for i in range(n - 2):\n            seq.append(seq[-1] + seq[-2] + seq[-3])\n        return seq\n",
+        "test": "assert     tri(1)    ==    [1]",
+        "num_ids": 3491,
+        "indeed": false
+    },
+    {
+        "number": 131,
+        "max_answer_num": 7,
+        "max_test_num": 7,
+        "total_product": 310,
+        "answer": "    if n < 10:\n        return n\n    else:\n        if n%2 == 0:\n            return 0\n        else:\n            digits = 1\n            for i in range(3, n, 2):\n                if n%i == 0:\n                    digits = 0\n            return digits\n",
+        "test": "assert     1    ==    digits(1)",
+        "num_ids": 844,
+        "indeed": false
+    },
+    {
+        "number": 132,
+        "max_answer_num": 23,
+        "max_test_num": 7,
+        "total_product": 390,
+        "answer": "    string = list(string)\n    flag = False\n    for i in range(len(string)):\n        if string[i] == '[':\n            if i == 0 or string[i-1]!= ']':\n                flag = True\n            continue\n        if string[i] == ']' and flag == True:\n            return True\n    return False\n",
+        "test": "assert     is_nested(\"(()\") == False",
+        "num_ids": 1392,
+        "indeed": false
+    },
+    {
+        "number": 133,
+        "max_answer_num": 10,
+        "max_test_num": 10,
+        "total_product": 350,
+        "answer": "    return sum(x**2 for x in lst)\n",
+        "test": "assert     sum_squares([]) == 0",
+        "num_ids": 2146,
+        "indeed": false
+    },
+    {
+        "number": 134,
+        "max_answer_num": 25,
+        "max_test_num": 7,
+        "total_product": 400,
+        "answer": "    return txt[-1].isalpha() and txt[-1] not in \" \"\n",
+        "test": "assert     check_if_last_char_is_a_letter(\"Hello, there!\") == False",
+        "num_ids": 1467,
+        "indeed": false
+    },
+    {
+        "number": 135,
+        "max_answer_num": 22,
+        "max_test_num": 6,
+        "total_product": 400,
+        "answer": "    return -1\n",
+        "test": "assert         can_arrange([]) == -1",
+        "num_ids": 1207,
+        "indeed": false
+    },
+    {
+        "number": 136,
+        "max_answer_num": 10,
+        "max_test_num": 7,
+        "total_product": 400,
+        "answer": "    lst = [x for x in lst if x < 0]\n    lst = [x for x in lst if x > 0]\n    return (max(lst), min(lst)) if lst else (None, None)\n",
+        "test": "assert     largest_smallest_integers([]) == (None, None)",
+        "num_ids": 2039,
+        "indeed": false
+    },
+    {
+        "number": 137,
+        "max_answer_num": 19,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    if isinstance(a, str):\n        a = float(a.replace(\",\", \".\"))\n    if isinstance(b, str):\n        b = float(b.replace(\",\", \".\"))\n    if a == b:\n        return None\n    elif isinstance(a, (int, float)):\n        return a if a > b else b\n    elif isinstance(b, (int, float)):\n        return b if a > b else a\n",
+        "test": "assert     compare_one(1.1, 1.0) == 1.1",
+        "num_ids": 1235,
+        "indeed": false
+    },
+    {
+        "number": 138,
+        "max_answer_num": 23,
+        "max_test_num": 7,
+        "total_product": 400,
+        "answer": "    a, b, c, d = 0, 2, 4, 6\n    while n > a:\n        if n == a + b:\n            return True\n        elif n == a + c:\n            return True\n        elif n == a + d:\n            return True\n        a += 2\n        b += 2\n        c += 2\n        d += 2\n    return False\n",
+        "test": "assert     is_equal_to_sum_even(1) == False",
+        "num_ids": 1241,
+        "indeed": false
+    },
+    {
+        "number": 139,
+        "max_answer_num": 35,
+        "max_test_num": 8,
+        "total_product": 370,
+        "answer": "    factorial = 1\n    for i in range(1, n+1):\n        factorial = factorial * i\n    return factorial\n",
+        "test": "assert     special_factorial(5)     == 120, \"Wrong answer\"",
+        "num_ids": 911,
+        "indeed": false
+    },
+    {
+        "number": 140,
+        "max_answer_num": 16,
+        "max_test_num": 2,
+        "total_product": 370,
+        "answer": "    new_text = text\n    # Replace spaces\n    new_text = new_text.replace(' ', '_')\n    # Deal with consecutive spaces\n    new_text = new_text.replace('-', '_')\n    # Remove leading spaces\n    new_text = new_text.lstrip('_')\n    return new_text\n",
+        "test": "assert         fix_spaces(\"\") == \"\"",
+        "num_ids": 3444,
+        "indeed": false
+    },
+    {
+        "number": 141,
+        "max_answer_num": 0,
+        "max_test_num": 0,
+        "total_product": 400,
+        "answer": "    return 'Yes' if re.match(\"^[a-zA-Z]{1}[a-zA-Z0-9]{0,3}[.][txt|exe|dll]$\", file_name) else 'No'\n",
+        "test": "assert     file_name_check('a.txt.txt') == \"Yes\"",
+        "num_ids": 2786,
+        "indeed": false
+    },
+    {
+        "number": 142,
+        "max_answer_num": 1,
+        "max_test_num": 1,
+        "total_product": 310,
+        "answer": "    result = 0\n    for num in lst:\n        if num % 3 == 0:\n            if num % 4!= 0:\n                num *= num\n        if num % 4 == 0:\n            if num % 3!= 0:\n                num = num * num\n        result += num\n    return result\n",
+        "test": "assert     sum_squares([1, 2, 3, 4]) ==    28",
+        "num_ids": 2573,
+        "indeed": false
+    },
+    {
+        "number": 143,
+        "max_answer_num": 10,
+        "max_test_num": 4,
+        "total_product": 390,
+        "answer": "    words = sentence.split()\n    new_words = \"\"\n    for word in words:\n        new_words += word + \" \"\n    return new_words[:-1]\n",
+        "test": "assert     words_in_sentence(\"\") == ''",
+        "num_ids": 1542,
+        "indeed": false
+    },
+    {
+        "number": 144,
+        "max_answer_num": 27,
+        "max_test_num": 5,
+        "total_product": 390,
+        "answer": "    return True\n",
+        "test": "assert     simplify('1', '1/1') == True",
+        "num_ids": 1323,
+        "indeed": false
+    },
+    {
+        "number": 145,
+        "max_answer_num": 19,
+        "max_test_num": 8,
+        "total_product": 360,
+        "answer": "    nums = sorted(nums, key=lambda x: sum([int(d) for d in str(x)]))\n    return nums",
+        "test": "assert     order_by_points([3, 4, 5, 2, 3, 1]) == [1, 2, 3, 3, 4, 5]",
+        "num_ids": 1815,
+        "indeed": false
+    },
+    {
+        "number": 146,
+        "max_answer_num": 13,
+        "max_test_num": 8,
+        "total_product": 300,
+        "answer": "    return sum(1 for n in nums if n > 10 and (n % 10) % 2 == 1 and (n // 10) % 2 == 1)\n",
+        "test": "assert     specialFilter([1,2,3,4,5,6,7,8,9,10]) == 0",
+        "num_ids": 1931,
+        "indeed": false
+    },
+    {
+        "number": 147,
+        "max_answer_num": 5,
+        "max_test_num": 6,
+        "total_product": 300,
+        "answer": "    return len([i for i in range(n) if (i * i - i + 1) % 3 == 0])",
+        "test": "assert     get_max_triples(1) == 0",
+        "num_ids": 991,
+        "indeed": false
+    },
+    {
+        "number": 148,
+        "max_answer_num": 1,
+        "max_test_num": 3,
+        "total_product": 400,
+        "answer": "    return ()\n",
+        "test": "assert     bf(\"Sun\", \"Earth\") == ()",
+        "num_ids": 2998,
+        "indeed": false
+    },
+    {
+        "number": 149,
+        "max_answer_num": 11,
+        "max_test_num": 8,
+        "total_product": 370,
+        "answer": "    # return sorted(lst, key=len)\n    return sorted(lst, key=lambda x: len(x))\n",
+        "test": "assert     sorted_list_sum([\"abc\", \"abcdefg\"]) == sorted_list_sum([\"abc\", \"abcdefg\"])",
+        "num_ids": 2032,
+        "indeed": false
+    },
+    {
+        "number": 150,
+        "max_answer_num": 21,
+        "max_test_num": 8,
+        "total_product": 350,
+        "answer": "    return x if n % 2 == 0 else y\n",
+        "test": "assert     x_or_y(3, 3, 3) == 3",
+        "num_ids": 922,
+        "indeed": false
+    },
+    {
+        "number": 151,
+        "max_answer_num": 11,
+        "max_test_num": 9,
+        "total_product": 370,
+        "answer": "    result = 0\n    for elem in lst:\n        if elem > 0 and isinstance(elem,int):\n            result += elem*elem\n    return result\n    \n    \ndef is_palindrome(string):\n    '''\n    Given a string, return true if it is a palindrome.\n    Ignore whitespace and case.\n    '''\n    if not isinstance(string, str):\n        return False\n    elif string == string[::-1]:\n        return True\n    else:\n        return False\n    \n    \ndef is_anagram(s1,s2):\n    '''\n    Given two strings, check to see if they are anagrams. An anagram is when the two strings can be written using the same letters, \n    ignoring the order of the letters.\n    '''\n    if len(s1) == len(s2):\n        if sorted(s1.replace(' ','')) == sorted(s2.replace(' ','')):\n            return True\n    return False\n    \n    \ndef count_words(string):\n    '''\n    Given a string, return the number of words in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return 0\n    return len(string.split(' '))\n    \n    \ndef count_letters(string):\n    '''\n    Given a string, return the number of letters in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return 0\n    return len(string.replace(' ',''))\n    \n    \ndef count_vowels(string):\n    '''\n    Given a string, return the number of vowels in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return 0\n    vowels = 'aeiou'\n    return len([char for char in string.lower() if char in vowels])\n    \n    \ndef count_consonants(string):\n    '''\n    Given a string, return the number of consonants in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return 0\n    consonants = 'bcdfghjklmnpqrstvwxz'\n    return len([char for char in string.lower() if char in consonants])\n    \n    \ndef count_numbers(string):\n    '''\n    Given a string, return the number of numbers in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return 0\n    numbers = '0123456789'\n    return len([char for char in string.lower() if char in numbers])\n    \n    \ndef count_unique_chars(string):\n    '''\n    Given a string, return the number of unique characters in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return 0\n    return len(set(string.lower()))\n    \n    \ndef last_char(string):\n    '''\n    Given a string, return the last character in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return ''\n    return string[-1]\n    \n    \ndef first_char(string):\n    '''\n    Given a string, return the first character in the string. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return ''\n    return string[0]\n    \n    \ndef str_reverse(string):\n    '''\n    Given a string, return the string in reverse order. Ignore single character words and any leading or trailing spaces.\n    '''\n    if not isinstance(string, str):\n        return ''\n    return string[::-1]\n    \n    \ndef str_strip(string):\n    '''\n    Given a string, return a copy of the string with the leading and trailing spaces removed.\n    '''\n    if not isinstance(string, str):\n        return ''\n    return string.strip()\n    \n",
+        "test": "assert     double_the_difference([]) == 0, 'incorrect'",
+        "num_ids": 3129,
+        "indeed": false
+    },
+    {
+        "number": 152,
+        "max_answer_num": 4,
+        "max_test_num": 6,
+        "total_product": 350,
+        "answer": "    return [abs(guess[i] - game[i]) for i in range(len(guess))]\n",
+        "test": "assert     compare([1,2,3,4],[1,2,3,4]) == [0,0,0,0]",
+        "num_ids": 3855,
+        "indeed": true
+    },
+    {
+        "number": 153,
+        "max_answer_num": 22,
+        "max_test_num": 4,
+        "total_product": 370,
+        "answer": "    extensions.sort(key=lambda e: len(e), reverse=True)\n    count = 0\n    for i in range(0, len(extensions)):\n        extension_name = extensions[i].split('.')[-1]\n        for c in extension_name:\n            if c.isupper():\n                count += 1\n        for c in extension_name:\n            if c.islower():\n                count -= 1\n        if count > 0:\n            return class_name + '.' + extensions[i]\n    return class_name + '.' + extensions[0]",
+        "test": "assert     Strongest_Extension(\"Hole\", ['HELLO', 'Hole', 'Tiny']) == \"Hole.HELLO\"",
+        "num_ids": 4220,
+        "indeed": false
+    },
+    {
+        "number": 154,
+        "max_answer_num": 24,
+        "max_test_num": 9,
+        "total_product": 380,
+        "answer": "    if a==b:\n        return True\n    \n    for i in range(1,len(b)):\n        if b[i:] in a and b[:i] in a:\n            return True\n    \n    return False\n",
+        "test": "assert     cycpattern_check( \"waterbottle\", \"waterbottle\") == True",
+        "num_ids": 1305,
+        "indeed": false
+    },
+    {
+        "number": 155,
+        "max_answer_num": 6,
+        "max_test_num": 3,
+        "total_product": 330,
+        "answer": "    count = [0, 0]\n    if num < 0:\n        num *= -1\n        count[0] = 1\n    while num!= 0:\n        if num % 2 == 0:\n            count[0] += 1\n        else:\n            count[1] += 1\n        num //= 10\n    return tuple(count)\n",
+        "test": "assert     even_odd_count(0) == (0, 0)",
+        "num_ids": 1112,
+        "indeed": false
+    },
+    {
+        "number": 156,
+        "max_answer_num": 12,
+        "max_test_num": 3,
+        "total_product": 370,
+        "answer": "    # NOTE: this solution iterates through the whole range of roman numerals,\n    # and therefore may be inefficient.\n    \n    assert 1 <= number <= 1000, 'Argument must be between 1 and 1000'\n    numerals = [\n        (1000,'m'),\n        (900, 'cm'),\n        (500, 'd'),\n        (400, 'cd'),\n        (100, 'c'),\n        (90, 'xc'),\n        (50, 'l'),\n        (40, 'xl'),\n        (10, 'x'),\n        (9, 'ix'),\n        (5, 'v'),\n        (4, 'iv'),\n        (1, 'i'),\n    ]\n    result = ''\n    for (rom, mini) in numerals:\n        while number >= rom:\n            result += mini\n            number -= rom\n    return result\n",
+        "test": "assert     int_to_mini_roman(1) == \"i\"",
+        "num_ids": 2175,
+        "indeed": true
+    },
+    {
+        "number": 157,
+        "max_answer_num": 15,
+        "max_test_num": 9,
+        "total_product": 300,
+        "answer": "    return (b**2 + c**2) == (a**2 + b**2) or (c**2 + a**2) == (b**2 + c**2)\n",
+        "test": "assert     not right_angle_triangle(3,7,4)",
+        "num_ids": 1013,
+        "indeed": false
+    },
+    {
+        "number": 158,
+        "max_answer_num": 25,
+        "max_test_num": 7,
+        "total_product": 390,
+        "answer": "    max_length = 0\n    max_word = \"\"\n    for word in words:\n        if len(set(word)) > max_length:\n            max_length = len(set(word))\n            max_word = word\n    return max_word\n",
+        "test": "assert     find_max([\"a\", \"a\", \"a\"]) == \"a\"",
+        "num_ids": 1658,
+        "indeed": false
+    },
+    {
+        "number": 159,
+        "max_answer_num": 13,
+        "max_test_num": 8,
+        "total_product": 370,
+        "answer": "    return [max(0, number+remaining-need), need-remaining]\n",
+        "test": "assert     eat(0, 0, 0) == [0, 0]",
+        "num_ids": 2035,
+        "indeed": false
+    },
+    {
+        "number": 160,
+        "max_answer_num": 6,
+        "max_test_num": 2,
+        "total_product": 370,
+        "answer": "    return eval(str(operand[0]) + operator[0] + str(operand[1]))\n",
+        "test": "assert     do_algebra([\"+\", \"*\"], [1, 2]) == 3",
+        "num_ids": 1414,
+        "indeed": false
+    },
+    {
+        "number": 161,
+        "max_answer_num": 13,
+        "max_test_num": 6,
+        "total_product": 400,
+        "answer": "    return \"\".join(map(lambda x: x if isinstance(x, str) else (x[::-1].swapcase() if x.isalpha() else x), s))\n",
+        "test": "assert     solve(\"\") == \"\", \"test4\"",
+        "num_ids": 2297,
+        "indeed": false
+    },
+    {
+        "number": 162,
+        "max_answer_num": 12,
+        "max_test_num": 9,
+        "total_product": 280,
+        "answer": "    if not text:\n        return None\n    try:\n        return hashlib.md5(text).hexdigest()\n    except:\n        print(\"Error: Non-string value for text.\")\n        return None\n",
+        "test": "assert     string_to_md5('') == None",
+        "num_ids": 1122,
+        "indeed": false
+    },
+    {
+        "number": 163,
+        "max_answer_num": 18,
+        "max_test_num": 7,
+        "total_product": 350,
+        "answer": "    #create list of integers between a and b\n    results = []\n    if a <= b:\n        for i in range(a, b+1):\n            if i % 2 == 0:\n                results.append(i)\n        return results\n    else:\n        for i in range(b, a+1):\n            if i % 2 == 0:\n                results.append(i)\n        return results\n",
+        "test": "assert     generate_integers(4, 15) == list(range(4, 16, 2))",
+        "num_ids": 1186,
+        "indeed": false
+    }
+]
