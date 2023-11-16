@@ -13,8 +13,9 @@ model_3 = "34B"
 all_throughputs = [0.3, 0.5, 0.7, 1.0]
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
-threshold = 0.1
-num_loops = 9
+all_thresholds = [0.1, 0.3, 0.5, 0.7, 1.0]
+threshold = 1.0
+num_loops = 10
 selected_numbers = list(range(0,164))
 
 # Load cost per token
