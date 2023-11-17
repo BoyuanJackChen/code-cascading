@@ -11,17 +11,13 @@ from transformers import LogitsProcessor, LogitsProcessorList
 all_num_loops = 10
 all_pick_at = [0,10]
 all_testlines = [2,4]
-model_name = "34B"
+model_name = "13B"
 folder = "testcase"
 
 def trim_assert_lines(answer, testlines):
-    # Split the string into lines
     lines = answer.split('\n')
-    # Filter lines that start with 'assert'
     assert_lines = [line for line in lines if line.startswith('assert')]
-    # Keep only the first [testlines] assert lines
     trimmed_lines = assert_lines[:testlines]
-    # Join the lines back into a single string
     trimmed_answer = '\n'.join(trimmed_lines)
     return trimmed_answer
 

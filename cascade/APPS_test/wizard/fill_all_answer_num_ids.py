@@ -10,7 +10,7 @@ from transformers import LogitsProcessor, LogitsProcessorList
 
 all_num_loops = 10
 all_pick_at = [0,10]
-model_name = "34B"
+model_name = "13B"
 folder = "answer"
 
 # Load Tokenizer

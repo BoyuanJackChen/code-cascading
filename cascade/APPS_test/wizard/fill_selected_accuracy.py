@@ -8,10 +8,11 @@ import re
 all_num_loops = 10
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
-model_name = "13B"
+model_name = "7B"
+all_questions_num = list(range(4000,5000))
 
-# Load HumanEval Dataset
-all_questions_dict = json.load(open("../../../evaluations/humaneval/data/HumanEval_py.json", "r"))
+# Load APPS Dataset
+data_file = "../../../evaluations/apps/APPS_zeroshot_for_code_generation.jsonl"
 
 for pick_at in all_pick_at:
     for testlines in all_testlines:
@@ -42,24 +43,21 @@ for pick_at in all_pick_at:
                 multiple_pass = True
 
             import_lines = "import math\nfrom typing import List\n"
-            for i in range(len(answer_data)):
-                answer_dict = answer_data[i]
-                question_dict = all_questions_dict[i]
+            for number in all_questions_num:
+                index = number - 4000
+                answer_dict = answer_data[index]
+                question_dict = {}
+                with open(data_file, "r") as f:
+                    for j, line in enumerate(f):
+                        if j == number:
+                            question_dict = json.loads(line)
+                            break
                 correct = False
-                number = answer_dict["number"]
-                if number in df["number"].values or number<0:
-                    continue
                 answer = answer_dict["answer"]
-                
-                prompt = question_dict["prompt"]
-                
-                # Find the last line that starts with "def "
                 test = question_dict["test"]
-                test = test[test.find("def "):]
+                test += f"\ncheck(solution)"
                 
                 full_code = import_lines + answer + "\n" + test
-                # print(full_code)
-                # input()
                 
                 def code_to_run(result_queue):
                     try:
@@ -81,6 +79,10 @@ for pick_at in all_pick_at:
                     correct = result_queue.get()
                 process.close()
                 
+                # print(full_code)
+                # print(correct)
+                # input()
+                
                 df.loc[len(df)] = [number, int(correct)]
                 print(f"Question {number} is correct: {correct}")
                 answer_dict["indeed"] = correct
@@ -94,8 +96,7 @@ for pick_at in all_pick_at:
             with open(actual_answer_file, 'w') as f:
                 json.dump(output_dict_array, f, indent=4)
             
-
-mean_accuracy = np.mean(all_accuracies)
-mean_accuracy = f"{round(mean_accuracy*100, 1)}%"
-print(f"\n\n{model_name} pick@{pick_at} mean accuracy: {mean_accuracy}")
+        mean_accuracy = np.mean(all_accuracies)
+        mean_accuracy = f"{round(mean_accuracy*100, 1)}%"
+        print(f"\n\n{model_name} pick@{pick_at}, testlines={testlines}, all loop mean accuracy: {mean_accuracy}")
 

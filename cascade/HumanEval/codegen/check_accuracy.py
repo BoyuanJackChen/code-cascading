@@ -5,7 +5,7 @@ import multiprocessing
 
 loop = 0
 pick_at = 0
-model_name = "6B"
+model_name = "16B"
 
 answer_file = f"./{model_name}/{model_name}_p{pick_at}_l{loop}.json"
 bad_questions = []
