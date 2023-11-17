@@ -23,6 +23,8 @@ all_num_loops = 10
 all_pick_at = [0,10]
 all_testlines = [2,4]
 all_model_names = ["350M", "2B", "6B", "16B"]
+all_pick_at = [0]
+all_model_names = ["2B"]
 folder = "testcase"
 
 # Load Tokenizer

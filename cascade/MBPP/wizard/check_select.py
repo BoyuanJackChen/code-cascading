@@ -9,15 +9,9 @@ num_loops = 10
 pick_at = 10
 all_limit_lines = [2,4]
 all_actual_pick_at = [0,1,3,5,10]
-model_name = "7B"
+model_name = "34B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
-
-# Mkdir
-if not os.path.exists(f"./selected"):
-    os.mkdir(f"./selected")
-if not os.path.exists(f"./selected/{model_name}"):
-    os.mkdir(f"./selected/{model_name}")
 
 # Load MBPP Dataset
 mbpp_data_file = "../../../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
@@ -26,6 +20,12 @@ with open(mbpp_data_file, 'r') as file:
     for line in file:
         json_line = json.loads(line)
         all_questions_dict.append(json_line)
+
+# Mkdir
+if not os.path.exists(f"./selected"):
+    os.mkdir(f"./selected")
+if not os.path.exists(f"./selected/{model_name}"):
+    os.mkdir(f"./selected/{model_name}")
 
 def find_max_product(matrix):
     max_product = -1
