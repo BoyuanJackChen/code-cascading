@@ -20,7 +20,7 @@ NUM_LOOPS=10
 source ~/.bashrc
 
 # Activate your Conda environment
-conda activate cascade
+conda activate wizard
 
 export TRANSFORMERS_CACHE="/scratch/bc3194/huggingface_cache"
 python -u testcase.py --model=$MODEL --num_loops=$NUM_LOOPS --pass_at=$SLURM_ARRAY_TASK_ID

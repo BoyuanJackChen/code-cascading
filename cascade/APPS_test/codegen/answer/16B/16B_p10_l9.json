@@ -1,0 +1,1142 @@
+[
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n   ...\n    return '\\n'.join([\n        str(ans),\n        *[str(ans_) for ans_ in ans],\n    ])\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    def add(a, b):\n        return tuple(sorted(list(set(a + b))))\n\n    n = int(stdin.readline().strip())\n    d = {(0, 1): set(), (1, 2): set()}\n    for _ in range(n - 1):\n        a, b = [int(x) for x in stdin.readline().strip().split(' ')]\n        d[add(d[a, b], (a, b))] = add(d[a, b], (a, b))\n\n    ans = [0, 0, 0]\n    for a, b in d[(0, 1)]:\n        ans[0] += 1\n        for x in d[(1, 2)]:\n            if add(a, b) == x:\n                ans[1] += 1\n            if add(b, a) == x:\n                ans[1] += 1\n    for a, b in d[(1, 2)]:\n        ans[2] += 1\n        for x in d[(0, 1)]:\n            if add(a, b) == x:\n                ans[1] += 1\n            if add(b, a) == x:\n                ans[1] += 1\n\n    return str(max(ans)) + '\\n' + str(ans[0]) + '\\n' + str(ans[1]) + '\\n' + str(ans[2])\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n   ..."
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    return None\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    # your code here\n    return \"\"\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    # your code here\n    return \"\"\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4000,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Finds maximum possible number of edges which belong to at least one of the simple paths between given three vertices.\n    \n    Args:\n        stdin (str): Input data in form of a string.\n        \n    Returns:\n        str: Resulting output in form of a string.\n    \"\"\"\n    vertices_num, edges_num = stdin.split(\"\\n\")[0].split(\" \")\n    vertices_num = int(vertices_num)\n    edges_num = int(edges_num)\n\n    edges = []\n    for _ in range(edges_num):\n        edges.append(stdin.split(\"\\n\")[1 + _].split(\" \"))\n    \n    tree = {}\n    for _ in range(edges_num):\n        vertex1 = int(edges[_][0])\n        vertex2 = int(edges[_][1])\n        if vertex1 not in tree:\n            tree[vertex1] = []\n        if vertex2 not in tree:\n            tree[vertex2] = []\n        tree[vertex1].append(vertex2)\n        tree[vertex2].append(vertex1)\n    \n    return str(max_edges(tree))\n\n\ndef"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution('10\\n10 2 8 1 2 4 1 20 4 5')\n    20 8\n    \"\"\"\n    n = int(stdin.readline())\n    divisors = list(map(int, stdin.readline().split()))\n    left = 1\n    right = max(divisors) + 1\n\n    def is_ok(mid):\n        a, b = 0, 0\n        for d in divisors:\n            if d > mid:\n                return False\n            if d % mid == 0:\n                a += 1\n            b += d // mid\n        return a > 0 and b > 0\n\n    while left < right:\n        mid = left + (right - left) // 2\n        if is_ok(mid):\n            right = mid\n        else:\n            left = mid + 1\n    return left\n"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    input = stdin.split('\\n')\n    n = int(input[0])\n    divisors = sorted(list(map(int, input[1].split())))\n    # print(divisors)\n    start = 1\n    end = max(divisors)\n    while start < end:\n        mid = start + (end - start) // 2\n        # print(start, end, mid)\n        s = 0\n        for d in divisors:\n            if d % mid == 0:\n                s += 1\n        # print(s)\n        if s < n:\n            end = mid\n        else:\n            start = mid + 1\n    return str(end) +'' + str(int(start))\nprint(solution(stdin))\n\ndef"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    Returns 'x' and 'y' if x is greater than y else returns 'y' and 'x'\n    '''\n    num_of_divisors = int(stdin)\n    divisors = stdin.split(' ')[1:]\n    divisors.sort()\n    counter_1 = 0\n    counter_2 = 0\n    for x in range(0, num_of_divisors, 2):\n        if divisors[x]!= divisors[x+1]:\n            if divisors[x] > divisors[x+1]:\n                counter_1 += 1\n            else:\n                counter_2 += 1\n        else:\n            counter_1 += 1\n            counter_2 += 1\n    return divisors[counter_1], divisors[counter_2]\n"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution('''4\n   ... 10 2 8 1 2 4 1 20 4 5\n   ... ''')\n    20 8\n    \"\"\"\n    stdin = stdin.strip()\n    dividers = stdin.split('\\n')[0].split()\n    n = int(dividers[0])\n    divisors = [int(d) for d in dividers[1:]]\n    s = set()\n    for d in divisors:\n        for e in divisors:\n            if d % e == 0 and d!= e and d!= 1 and e!= 1:\n                s.add(d)\n                s.add(e)\n    dividers = list(s)\n    dividers.sort()\n    if len(dividers) < n:\n        return 'impossible'\n    x = 1\n    for d in dividers:\n        if d == x:\n            x += 1\n    y = 1\n    for d in dividers:\n        if d == y:\n            y += 1\n    return x, y"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    x, y = stdin.split()\n    x, y = int(x), int(y)\n    return f'{max(x, y)}\\n{min(x, y)}'\n"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    returns the sum of two integers in ascending order \n    '''\n    # this function uses a sliding window to calculate the sum\n    # of two numbers\n    # input: two numbers with a space in between them\n    # output: the sum of the two numbers\n    #\n    # import math\n    #\n    # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     '''\n    #     returns the sum of two numbers\n    #     '''\n    #     # this function uses a sliding window to calculate the sum\n    #     # of two numbers\n    #     # input: two numbers with a space in between them\n    #     # output: the sum of the two numbers\n    #     #\n    #     # import math\n    #     #\n    #     # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     #     '''\n    #     #     returns the sum of two numbers\n    #     #     '''\n    #     #     # this function uses a sliding window to calculate the sum\n    #     #     # of two numbers\n    #     #     # input: two numbers with a space in between them\n    #     #     # output: the sum of the two numbers\n    #     #     #\n    #     #     # import math\n    #     #     #\n    #     #     # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     #     #     '''\n    #     #     #     returns the sum of two numbers\n    #     #     #     '''\n    #     #     #     # this function uses a sliding window to calculate the sum\n    #     #     #     # of two numbers\n    #     #     #     # input: two numbers with a space in between them\n    #     #     #     # output: the sum of the two numbers\n    #     #     #     #\n    #     #     #     # import math\n    #     #     #     #\n    #     #     #     # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     #     #     #     '''\n    #     #     #     #     returns the sum of two numbers\n    #     #     #     #     '''\n    #     #     #     #     # this function uses a sliding window to calculate the sum\n    #     #     #     #     # of two numbers\n    #     #     #     #     # input: two numbers with a space in between them\n    #     #     #     #     # output: the sum of the two numbers\n    #     #     #     #     #\n    #     #     #     #     # import math\n    #     #     #     #     #\n    #     #     #     #     # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     #     #     #     #     '''\n    #     #     #     #     #     returns the sum of two numbers\n    #     #     #     #     #     '''\n    #     #     #     #     #     # this function uses a sliding window to calculate the sum\n    #     #     #     #     #     # of two numbers\n    #     #     #     #     #     # input: two numbers with a space in between them\n    #     #     #     #     #     # output: the sum of the two numbers\n    #     #     #     #     #     #\n    #     #     #     #     #     # import math\n    #     #     #     #     #     #\n    #     #     #     #     #     # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     #     #     #     #     #     '''\n    #     #     #     #     #     #     returns the sum of two numbers\n    #     #     #     #     #     #     '''\n    #     #     #     #     #     #     # this function uses a sliding window to calculate the sum\n    #     #     #     #     #     #     # of two numbers\n    #     #     #     #     #     #     # input: two numbers with a space in between them\n    #     #     #     #     #     #     # output: the sum of the two numbers\n    #     #     #     #     #     #     #\n    #     #     #     #     #     #     # import math\n    #     #     #     #     #     #     #\n    #     #     #     #     #     #     # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     #     #     #     #     #     #     '''\n    #     #     #     #     #     #     #     returns the sum of two numbers\n    #     #     #     #     #     #     #     '''\n    #     #     #     #     #     #     #     # this function uses a sliding window to calculate the sum\n    #     #     #     #     #     #     #     # of two numbers\n    #     #     #     #     #     #     #     # input: two numbers with a space in between them\n    #     #     #     #     #     #     #     # output: the sum of the two numbers\n    #     #     #     #     #     #     #     #\n    #     #     #     #     #     #     #     # import math\n    #     #     #     #     #     #     #     #\n    #     #     #     #     #     #     #     # def sliding_window(numbers: list, window_size: int = 2) -> list:\n    #     #     #     #     #     #     #     #     '''\n    #     #     #     #     #     #     #     #     returns the sum of two numbers\n    #     #     #     #     #     #     #     #     '''\n    #     #     #     #     #     #     #     #     # this function uses a sliding window to calculate the sum\n    #     #     #     #     #     #     #     #     # of two numbers\n    #     #     #     #     #     #     #     #     # input: two numbers with a space in between them\n    #     #     #     #     #     #     #     #     # output: the sum of the two numbers"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n   ..."
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    _ = int(stdin.readline().strip())\n    list_of_numbers = sorted(set(list(map(int, stdin.readline().strip().split()))))\n    l_x = l_y = l_z = list(range(1, max(list_of_numbers) + 1))\n    for i in list_of_numbers:\n        l_x, l_y = l_x[:i] + l_x[i + 1:], l_y[:i] + l_y[i + 1:]\n        l_z = l_z[:i] + l_z[i:]\n        if set(l_x) == set(l_y):\n            print(i, l_x[i - 1])\n            return\n        else:\n            l_x, l_y = l_x[:i] + l_x[i + 1:], l_y[:i] + l_y[i + 1:]\n    return\n"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    x = int(stdin)\n    y = int(stdin)\n    a = []\n    b = []\n    for i in range(1, x + 1):\n        if x % i == 0:\n            a.append(i)\n    for j in range(1, y + 1):\n        if y % j == 0:\n            b.append(j)\n    c = a + b\n    c.sort()\n    d = []\n    e = []\n    for k in range(len(c)):\n        if c.count(c[k]) > 1 and c[k] not in d:\n            d.append(c[k])\n    for l in range(len(c)):\n        if c.count(c[l]) == 1 and c[l] not in e:\n            e.append(c[l])\n    e.sort()\n    f = d + e\n    print(f)\n"
+    },
+    {
+        "number": 4001,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution(10)\n    20 8\n    \"\"\"\n    n = int(stdin.readline().strip())\n    d = list(map(int, stdin.readline().strip().split()))\n    x, y = n, n\n    for d_i in d:\n        if d_i <= x:\n            x += d_i\n        if d_i <= y:\n            y += d_i\n    return f\"{x} {y}\"\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    Returns the maximum sum of elements in the rows of the given matrix,\n    such that their sum is divisible by the given value.\n    '''\n   ...\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution(\"3 4 3\\n1 2 3 4\\n5 2 2 2\\n7 1 1 4\")\n    24\n    \"\"\"\n    n, m, k = [int(x) for x in stdin.split()]\n    nums = [int(x) for x in stdin.split()]\n    result = 0\n    for i in range(n):\n        for j in range(int(m / 2)):\n            if nums[i][j] % k == 0:\n                result = max(result, nums[i][j])\n    return result\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    @param: stdin\n    @return: the maximum sum divisible by k\n    '''\n    n, m, k = [int(i) for i in stdin.split('\\n')[0].split()]\n    a = []\n    for i in range(1, n + 1):\n        a.append([int(j) for j in stdin.split('\\n')[i].split()])\n    \n    n = len(a)\n    m = len(a[0])\n    k = int(k)\n    # I want to find a way to get the sum of the most valuable entries in each row.\n    # Then I want to select a subset of these entries and divide their sum by k\n    # (to make the sum divisible)\n    # Then I want to check if my selection is the best one, which is the one that\n    # gives the highest sum that is divisible by k.\n    # I can't be sure that all the entries in the matrix are divisible by k,\n    # so I can't check each entry individually.\n    # Instead, I choose a subset of the entries in the first row and then from\n    # these I will select the subset that gives the best result.\n    # Then I check the sum of that subset and compare it with the best sum.\n    # Then I repeat this process with the other rows.\n    # Then I return the best value.\n    sum = 0\n    sum_by_row = []\n    # for i in range(n):\n    #     sum = 0\n    #     for j in range(m):\n    #         sum += a[i][j]\n    #     sum_by_row.append(sum)\n    \n    # I want to find the sum of the most valuable entries in the first row\n    # I know that the total sum is divisible by k\n    # I want to find the entries that have the maximum sum\n    # I know that there is only one entry with the maximum sum\n    # I know that the entry has the maximum sum\n    # I want to return the value of that entry\n    for i in range(m):\n        sum = 0\n        for j in range(n):\n            sum += a[j][i]\n        sum_by_row.append(sum)\n        \n    # sum_by_row[0] is the sum of the most valuable entries in the first row\n    # I want to find the entries that have the maximum sum\n    max_sum = sum_by_row[0]\n    for i in range(n):\n        # I choose at most a half of the entries in the first row\n        # I need to find the maximum sum divisible by k\n        # I need to check if my selection is the best one\n        sum = 0\n        for j in range(m):\n            sum += a[i][j]\n        if sum % k == 0 and sum > max_sum:\n            max_sum = sum\n    print(max_sum)\n    return max_sum\n\nsolution(stdin)\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    n, m, k = map(int, stdin.readline().split())\n    rows = [map(int, stdin.readline().split()) for _ in range(n)]\n\n    half_m = m // 2\n    half_n = n // 2\n\n    rows = [\n        [row[i] for i in range(j, j + half_m)] for j in range(0, half_n * 2, 2)\n    ]\n\n    rows += [\n        [row[i] for i in range(j, j + half_m)] for j in range(half_n * 2, m, 2)\n    ]\n\n    best_sum = 0\n    best_row = []\n    for row in rows:\n        best_row_sum = 0\n        best_row_sum_div_k = 0\n        for i in row:\n            sum_div_k = (i + best_row_sum) % k\n            if sum_div_k > best_row_sum_div_k:\n                best_row_sum_div_k = sum_div_k\n                best_row = [i]\n            elif sum_div_k == best_row_sum_div_k:\n                best_row.append(i)\n            best_sum += i\n        best_sum += best_row_sum_div_k\n    return best_sum\n    '''\n    '''\n    n, m, k = list(map(int, stdin.readline().split()))\n    rows = [list(map(int, stdin.readline().split())) for _ in range(n)]\n\n    best_sum = 0\n    best_row_sum_div_k = 0\n    best_row = []\n\n    for i, row in enumerate(rows):\n        row_sum = 0\n        for item in row:\n            row_sum += item\n            if row_sum % k == 0:\n                best_sum = row_sum\n                best_row = [item]\n            elif row_sum % k == best_row_sum_div_k:\n                best_row.append(item)\n            if row_sum > best_sum:\n                best_row_sum_div_k = row_sum % k\n                best_sum = row_sum\n    return best_sum\n    '''\n    n, m, k = list(map(int, stdin.readline().split()))\n    rows = [list(map(int, stdin.readline().split())) for _ in range(n)]\n\n    best_sum = 0\n    best_row_sum_div_k = 0\n    best_row = []\n\n    for row in rows:\n        row_sum = 0\n        for item in row:\n            row_sum += item\n            if row_sum % k == 0:\n                best_sum = row_sum\n                best_row = [item]\n            elif row_sum % k == best_row_sum_div_k:\n                best_row.append(item)\n            if row_sum > best_sum:\n                best_row_sum_div_k = row_sum % k\n                best_sum = row_sum\n    return best_sum\n\n\nprint(solution(stdin=stdin))\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    # n, m, k = [int(x) for x in stdin.split()]\n    n, m, k = map(int, stdin.split())\n    a = [[int(x) for x in stdin.split()] for i in range(n)]\n    a = [x for x in a if x[0] > 0]\n    a.sort(key=lambda x: x[0], reverse=True)\n    b = [a[i][0] for i in range(len(a))]\n    b = b[:m // 2]\n    s = sum(b) % k\n    for i in range(m % 2, len(b)):\n        s += (b[i] - b[i - 1]) % k\n    for i in range(len(b)):\n        if (b[i] % k) > 0:\n            s += k - (b[i] % k)\n    print(s)\n    # return s\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n, m, k = map(int, stdin.split(' '))\n    arr = [list(map(int, stdin.split('\\n')[i])) for i in range(n)]\n    arr_m = [sum(i) % k for i in arr]\n    arr_m.sort(reverse=True)\n    if sum(arr_m[:math.floor(m / 2)]) == 0:\n        return 0\n    res = sum(arr_m[:math.floor(m / 2)])\n    return res\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    Creates a set of k elements from each row that is divisible by k\n    and prints the maximum sum of such elements.\n    \"\"\"\n    n, m, k = map(int, stdin.split())\n    A = [list(map(int, stdin.split())) for _ in range(n)]\n    A = [row[: i + 1] for row, i in zip(A, range(m))]\n    A = [i for row in A for i in row if k % i == 0]\n    return str(sum(A) % k)\n"
+    },
+    {
+        "number": 4002,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n   ..."
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution(str(sys.stdin.read()))\n    str\n    \"\"\"\n   ...\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    # Write your code here\n\"\"\"\n\nfrom collections import deque\n\n\ndef"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n\nreturn stdin\n\n\ndef"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    return 'R' if len(stdin.split('\\n')[1].split(' ')) <= 1 else 'L'\n\n\u041d\u0435 \u0443\u0441\u043f\u0435\u043b\u0430 \u0432\u0441\u0435 \u0437\u0430\u0434\u0430\u0447\u0438 \u043d\u0430\u043f\u0438\u0441\u0430\u0442\u044c \u0432\u0435\u0440\u043d\u043e.\n\"\"\"\n\n\ndef"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    # write your code in Python 3.6\n    # pass\n    return stdin"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution\n    return None"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    return \"\"\n\"\"\"\n\n\nfrom collections import deque\n\ndef"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\n\"\"\"\n\n\ndef"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n   ...\n    return \"\"\n"
+    },
+    {
+        "number": 4003,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    pass"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    # Your code here\n    n = int(stdin.readline())\n    sequence = [int(x) for x in stdin.readline().split()]\n\n    d = 0\n    while d < 1 or d > 100:\n        d = int(stdin.readline())\n\n    count = 0\n    total = sum(sequence)\n\n    for i in range(n):\n        for j in range(i+1, n):\n            if total - sequence[i] - sequence[j] == d:\n                count += 1\n    \n    if count == 0:\n        print(-1)\n    else:\n        print(d)\n\nsolution(\"10 20 30 40 50\")"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    # Your code here\n    n = int(stdin.readline().strip())\n    arr = [int(i) for i in stdin.readline().strip().split(' ')]\n    l, r = 0, 1\n    minn = 10 ** 9\n    maxx = arr[0]\n    for i in range(n):\n        if arr[i] < minn:\n            minn = arr[i]\n        if arr[i] > maxx:\n            maxx = arr[i]\n    for i in range(1, maxx + 1):\n        curr = 0\n        for j in range(n):\n            if arr[j] + i < n:\n                curr += 1\n            if arr[j] - i >= 1:\n                curr -= 1\n        if curr == 0:\n            minn = min(i, minn)\n            maxx = max(i, maxx)\n    if minn > maxx:\n        return str(maxx)\n    else:\n        return str(-1)\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n   ...\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    return '3'\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    arr = list(map(int, stdin.readline().strip().split(' ')))\n    minD = n\n    for i in range(n):\n        if minD > abs(arr[i] - arr[i - 1]):\n            minD = abs(arr[i] - arr[i - 1])\n        for j in range(i + 1, n):\n            if minD > abs(arr[i] - arr[j]):\n                minD = abs(arr[i] - arr[j])\n            if minD > abs(arr[j] - arr[i]):\n                minD = abs(arr[j] - arr[i])\n    if minD < n:\n        return str(minD)\n    return '-1'\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    a = [int(x) for x in stdin.readline().split()]\n    a.sort()\n    left = 0\n    right = n - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if (n - 1 - mid) * min(a) < n - 1 - mid * max(a):\n            right = mid - 1\n        else:\n            left = mid + 1\n    if left >= n - 1:\n        return -1\n    return n - 1 - left * min(a)\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    arr = [int(x) for x in stdin.readline().split()]\n    min_val = min(arr)\n    if min_val < 0:\n        return -1\n    for i in arr:\n        i = i - min_val\n        if i < 0:\n            return -1\n    return min_val\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    # your code here\n    length = int(stdin.readline().strip())\n    sequence = list(map(int, stdin.readline().strip().split()))\n\n    if length < 3:\n        return -1\n\n    for D in range(101):\n        for i in range(length):\n            if sequence[i] + D < sequence[i] - D or sequence[i] + D == sequence[i] or sequence[i] - D == sequence[i]:\n                continue\n            else:\n                break\n        else:\n            return D\n    else:\n        return -1"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    a = [int(num) for num in stdin.readline().split()]\n    sum = 0\n    for i in range(n):\n        sum += a[i]\n    if sum == 0:\n        return '0'\n    if sum == sum/n:\n        return '1'\n    if sum % n!= 0:\n        return '-1'\n    d = sum // n\n    count = 0\n    for i in range(n):\n        if a[i] % d!= 0:\n            return '-1'\n        else:\n            a[i] = a[i] // d\n            count += 1\n    return str(d)\n\nprint(solution('6\\n2 1 4 7 4 1'))\n\n\"\"\"\n"
+    },
+    {
+        "number": 4004,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution('6\\n1 4 4 7 4 1')\n    3\n    >>> solution('5\\n2 2 5 2 5')\n    3\n    >>> solution('4\\n1 3 3 7')\n    -1\n    >>> solution('2\\n2 8')\n    3\n    \"\"\"\n    # a = stdin.split()\n    a = [int(i) for i in stdin.split()]\n    if sum(a) % len(a)!= 0:\n        return -1\n    d = len(a)\n    a = sum(a) // d\n    m = min(a, d)\n    while m >= 0:\n        if all(a == m for a in a):\n            return m\n        m -= 1\n    return -1\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def is_between(x, a, b):\n        return x >= a and x <= b\n\n    x1, y1, x2, y2 = map(int, stdin.split())\n    x3, y3, x4, y4 = map(int, stdin.split())\n    x5, y5, x6, y6 = map(int, stdin.split())\n    if x1 > x2:\n        x1, x2 = x2, x1\n    if y1 > y2:\n        y1, y2 = y2, y1\n    if x3 > x4:\n        x3, x4 = x4, x3\n    if y3 > y4:\n        y3, y4 = y4, y3\n    if x5 > x6:\n        x5, x6 = x6, x5\n    if y5 > y6:\n        y5, y6 = y6, y5\n    if not (is_between(x1, x3, x4) and is_between(x2, x5, x6) and is_between(y1, y3, y4) and is_between(y2, y5, y6)):\n        return \"NO\"\n    return \"YES\""
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    white_rectangle = [int(i) for i in stdin.split(' ')]\n    black_rectangle = [int(i) for i in stdin.split(' ')]\n\n    black_rectangle_points = []\n    white_rectangle_points = []\n    for i in range(4):\n        black_rectangle_points.append([black_rectangle[i], black_rectangle[i+4]])\n    for i in range(4):\n        white_rectangle_points.append([white_rectangle[i], white_rectangle[i+4]])\n\n    # print(black_rectangle_points)\n    # print(white_rectangle_points)\n\n    for black_rectangle_point in black_rectangle_points:\n        for white_rectangle_point in white_rectangle_points:\n            if (black_rectangle_point[0] <= white_rectangle_point[0] < black_rectangle_point[1]) and (black_rectangle_point[0] < white_rectangle_point[1] <= black_rectangle_point[1]):\n                if white_rectangle_point[0] <= black_rectangle_point[0]:\n                    white_rectangle_points.remove(white_rectangle_point)\n                elif white_rectangle_point[1] >= black_rectangle_point[1]:\n                    white_rectangle_points.remove(white_rectangle_point)\n    \n    if white_rectangle_points:\n        return 'YES'\n    else:\n        return 'NO'\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    x1, y1, x2, y2 = map(int, stdin.split('\\n')[0].split())\n    x3, y3, x4, y4 = map(int, stdin.split('\\n')[1].split())\n    x5, y5, x6, y6 = map(int, stdin.split('\\n')[2].split())\n\n    for x in range(min(x1, x2), max(x1, x2)+1):\n        for y in range(min(y1, y2), max(y1, y2)+1):\n            if x1 < x <= x3 and y1 < y <= y3:\n                continue\n            if x5 < x <= x6 and y5 < y <= y6:\n                continue\n            print(f'{x} {y}')\n            return \"YES\"\n    return \"NO\"\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    x1, y1, x2, y2 = [int(x) for x in stdin.split(' ')]\n    x3, y3, x4, y4 = [int(x) for x in stdin.split(' ')]\n    x5, y5, x6, y6 = [int(x) for x in stdin.split(' ')]\n\n    if (x1 <= x3 <= x2 or x1 <= x4 <= x2 or x3 <= x1 <= x4) and (\n            y1 <= y3 <= y2 or y1 <= y4 <= y2 or y3 <= y1 <= y4):\n        return 'YES'\n    if (x5 <= x3 <= x6 or x5 <= x4 <= x6 or x3 <= x5 <= x4) and (\n            y5 <= y3 <= y6 or y5 <= y4 <= y6 or y3 <= y5 <= y4):\n        return 'YES'\n    return 'NO'\n\n\ndef"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    white = [int(x) for x in stdin.split()]\n    black1 = [int(x) for x in stdin.split()]\n    black2 = [int(x) for x in stdin.split()]\n    x1, y1, x2, y2 = white\n    x3, y3, x4, y4 = black1\n    x5, y5, x6, y6 = black2\n\n    x_min = min(x1, x2, x3, x4, x5, x6)\n    x_max = max(x1, x2, x3, x4, x5, x6)\n\n    y_min = min(y1, y2, y3, y4, y5, y6)\n    y_max = max(y1, y2, y3, y4, y5, y6)\n\n    return 'YES' if x_max < x_min and y_max < y_min else 'NO'\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    x1, y1, x2, y2 = map(int, stdin.split(' '))\n    x3, y3, x4, y4 = map(int, stdin.split(' '))\n    x5, y5, x6, y6 = map(int, stdin.split(' '))\n    return 'YES' if ((x3 + y3) * (x3 + y4) * (x4 + y3) * (x4 + y4) < 0 and\n                     ((x1 + y1) * (x2 + y1) * (x3 + y1) * (x4 + y1) * (x5 + y1) * (x6 + y1) < 0)) else 'NO'\n\n\ndef"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    x_1, y_1, x_2, y_2 = map(int, stdin.split(' '))\n    x_3, y_3, x_4, y_4 = map(int, stdin.split(' '))\n    x_5, y_5, x_6, y_6 = map(int, stdin.split(' '))\n    return 'YES' if (x_1 > x_5 and x_2 < x_6) or (y_1 > y_5 and y_2 < y_6) else 'NO'"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    nums = [int(n) for n in stdin.split(' ')]\n    left_x = nums[0]\n    left_y = nums[1]\n    right_x = nums[2]\n    right_y = nums[3]\n    nums = [int(n) for n in stdin.split(' ')]\n    left_x = nums[0]\n    left_y = nums[1]\n    right_x = nums[2]\n    right_y = nums[3]\n    nums = [int(n) for n in stdin.split(' ')]\n    left_x = nums[0]\n    left_y = nums[1]\n    right_x = nums[2]\n    right_y = nums[3]\n    print(left_x<right_x and left_y<right_y)\n    print(left_x>right_x and left_y>right_y)\n    print(left_x<right_x and left_y>right_y)\n    print(left_x>right_x and left_y<right_y)\n    print(not left_x<right_x and not left_y<right_y)\n    print(not left_x>right_x and not left_y>right_y)\n    print(not left_x<right_x and not left_y>right_y)\n    print(not left_x>right_x and not left_y<right_y)\n    print('YES') if ((left_x<right_x and left_y<right_y) or (left_x>right_x and left_y>right_y) or (left_x<right_x and left_y>right_y) or (left_x>right_x and left_y<right_y)) else print('NO')\n    return 'YES' if ((left_x<right_x and left_y<right_y) or (left_x>right_x and left_y>right_y) or (left_x<right_x and left_y>right_y) or (left_x>right_x and left_y<right_y)) else 'NO'\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    a, b, c, d = map(int, stdin.split())\n    x1, y1 = min(a, c), min(b, d)\n    x2, y2 = max(a, c), max(b, d)\n    x3, y3 = min(a, b), min(c, d)\n    x4, y4 = max(a, b), max(c, d)\n    ans = 'YES'\n    if x1 < 0 or x2 > 1000000 or y1 < 0 or y2 > 1000000 or x3 < 0 or x4 > 1000000 or y3 < 0 or y4 > 1000000:\n        ans = 'NO'\n    if x3 > x1 and x3 < x2 and y3 > y1 and y3 < y2:\n        ans = 'NO'\n    if x4 > x1 and x4 < x2 and y4 > y1 and y4 < y2:\n        ans = 'NO'\n    if x1 > x3 and x1 < x4 and y1 > y3 and y1 < y4:\n        ans = 'NO'\n    if x2 > x3 and x2 < x4 and y2 > y3 and y2 < y4:\n        ans = 'NO'\n    return ans\n"
+    },
+    {
+        "number": 4005,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    # your code here\n    x1, y1, x2, y2 = [int(c) for c in stdin.split('\\n')[0].split(' ')]\n    x3, y3, x4, y4 = [int(c) for c in stdin.split('\\n')[1].split(' ')]\n    x5, y5, x6, y6 = [int(c) for c in stdin.split('\\n')[2].split(' ')]\n    print('YES' if (x1 < x3 and y1 < y3) and (x4 > x5 and y4 > y5) or (x1 > x3 and y1 > y3) and (x4 < x5 and y4 < y5) else 'NO')"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    Returns the count of different numbers that are reachable from the input\n    '''\n    number = int(stdin)\n    count = 0\n\n    while True:\n        if number % 2 == 0:\n            count += 1\n            number //= 2\n        else:\n            break\n\n    while True:\n        if number % 3 == 0:\n            count += 1\n            number //= 3\n        else:\n            break\n\n    while True:\n        if number % 5 == 0:\n            count += 1\n            number //= 5\n        else:\n            break\n\n    while True:\n        if number % 7 == 0:\n            count += 1\n            number //= 7\n        else:\n            break\n\n    while True:\n        if number % 11 == 0:\n            count += 1\n            number //= 11\n        else:\n            break\n\n    while True:\n        if number % 13 == 0:\n            count += 1\n            number //= 13\n        else:\n            break\n\n    while True:\n        if number % 17 == 0:\n            count += 1\n            number //= 17\n        else:\n            break\n\n    while True:\n        if number % 19 == 0:\n            count += 1\n            number //= 19\n        else:\n            break\n\n    while True:\n        if number % 10 == 0:\n            count += 1\n            number //= 10\n        else:\n            break\n\n    return count\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    def f(x):\n        res = 0\n        while x > 0:\n            x = x + 1 if x % 2 else x - 1\n            res += 1\n        return res\n    return len([i for i in range(1, n+1) if f(i) == n])\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution(\"1098\")\n    20\n    >>> solution(\"10\")\n    19\n    \"\"\"\n    n = int(stdin)\n    reachable = 0\n\n    for i in range(1, n + 1):\n        i = str(i)\n        count = 0\n        for j in i:\n            if j == \"0\":\n                count += 1\n            else:\n                break\n\n        if count == len(i):\n            reachable += 1\n    return str(reachable)\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    return ''"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    count = 0\n    while n > 1:\n        count += 1\n        n = n//10 + n%10 + n%10 + 1\n    return count\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    # your code here\n    return \"0\"\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    num = int(stdin)\n    count = 0\n    for x in range(1, num + 1):\n        while (x % 10) == 0:\n            x = x // 10\n            count += 1\n        if num == x:\n            count += 1\n    print(count)\n    return count\n\n\nsolution(input())\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Your solution goes here.\"\"\"\n    pass"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Tr\u1ea3 v\u1ec1 gi\u00e1 tr\u1ecb b\u00ecnh ph\u01b0\u01a1ng c\u1ee7a stdin (input) d\u01b0\u1edbi d\u1ea1ng str.\n    \"\"\"\n    # Xo\u00e1 d\u00f2ng sau v\u00e0 vi\u1ebft code v\u00e0o \u0111\u00e2y set c\u00e1c gi\u00e1 tr\u1ecb ph\u00f9 h\u1ee3p\n    raise NotImplementedError(\"H\u1ecdc vi\u00ean ch\u01b0a l\u00e0m b\u00e0i n\u00e0y\")\n\nsolution(\"3\")\n"
+    },
+    {
+        "number": 4006,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    from collections import deque\n    n = int(stdin)\n    steps = deque([(1, 1), (0, 1), (-1, 1), (0, -1)])\n    seen = {0}\n    while steps:\n        x, y = steps.popleft()\n        nx, ny = x + n, y + n\n        for i, (dx, dy) in enumerate(steps):\n            if not 0 <= nx + dx < 10001 and not 0 <= ny + dy < 10001:\n                continue\n            if nx + dx * 2 == n and ny + dy * 2 == n:\n                return i + 1\n            if (nx + dx, ny + dy) not in seen:\n                steps.appendleft((nx + dx, ny + dy))\n                seen.add((nx + dx, ny + dy))\n    return 0\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.split('\\n')[0])\n    nums = [int(x) for x in stdin.split('\\n')[1].split(' ')]\n    l = [0] * n\n    r = [n] * n\n    for i in range(n):\n        for j in range(n):\n            if nums[i] == j + 1:\n                l[i] = j + 1\n    for i in range(n):\n        for j in range(n):\n            if nums[j] == i + 1:\n                r[j] = i + 1\n    r[n - 1] = n\n    return''.join(map(str, r))\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    def dfs(curr, v):\n        global f\n        global res\n        if curr == n:\n            res.add(v)\n            return\n        for i in range(n):\n            if f[i] == 0:\n                f[i] = 1\n                dfs(curr + 1, v + [i + 1])\n                f[i] = 0\n        return\n\n    n = int(stdin.readline())\n    f = [0] * n\n    res = set()\n    dfs(0, [])\n    return''.join([str(e) for e in sorted(list(res))])\n\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    :param stdin: string\n    :return: string\n    \"\"\"\n    n = int(stdin.readline())\n    preference = list(map(int, stdin.readline().split()))\n    print(*[i for i in range(n) if preference[i]!= 0])\n\nsolution(\"5\\n5 0 0 2 4\\n\")\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution(\"5\\n5 0 0 2 4\\n\")\n    '5 3 1 2 4'\n    >>> solution(\"7\\n7 0 0 1 4 0 6\\n\")\n    '7 3 2 1 4 5 6'\n    >>> solution(\"7\\n7 4 0 3 0 5 1\\n\")\n    '7 4 2 3 6 5 1'\n    \"\"\"\n    n, *ans = (int(input()) for _ in range(3))\n    friends = list(map(int, stdin.split()))\n    out = [0] * n\n    for friend in ans:\n        out[friend - 1] = friends[friend - 1]\n    out =''.join(map(str, out))\n    return out\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    friends = [int(i) for i in stdin.split()]\n    ans = []\n    for i in range(n):\n        for j in range(i + 1, n):\n            if not friends[i] or not friends[j]:\n                if friends[i] and friends[j]:\n                    ans.append(j + 1)\n                    break\n                else:\n                    ans.append(i + 1)\n                    break\n    return''.join([str(i) for i in ans])\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    friends = list(map(int, stdin.readline().split()))\n\n    stdout = \"\"\n\n    for i in range(n):\n        if friends[i] == 0:\n            stdout += str(i + 1) + \" \"\n    stdout = stdout.rstrip()\n\n    if stdout == \"\":\n        stdout = \"1 2 3 4 5\"\n    return stdout\n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\ndef"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Return the minimum number of friends to gift each other\"\"\"\n    n = int(stdin)\n    friends = [int(x) for x in stdin.split()]\n    if n == 1:\n        return str(1)\n    return \" \".join(str(i) for i in range(1, n) if friends[i] == 0)\n    \n    \n"
+    },
+    {
+        "number": 4007,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    weights = [int(x) for x in stdin.readline().split(' ')]\n    weights = [0] + weights + [0]\n    start = 0\n    for i in range(1, n + 1):\n        if weights[i - 1] == 0:\n            start = i\n        else:\n            break\n    start += 1\n    for i in range(start, n + 2):\n        if weights[i] == 0:\n            weights[i] = i - start\n    print(' '.join(map(str, weights[1:-1])))\n    return ''"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    return 'YES' if len(set(stdin.split(' '))) == 3 else 'NO'\n    \n    \n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    N, K = list(map(int, stdin.split()))\n    A = list(map(int, stdin.split()))\n    return 'NO'\n    \ndef"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = map(int, stdin.readline().split())\n    a = list(map(int, stdin.readline().split()))\n\n    def bfs():\n        a = deque(a)\n        while len(a) > 0:\n            i = a.popleft()\n            a_ = list(a)\n            for j in a_:\n                if i % j == 0:\n                    a.remove(j)\n            if i % k == 0 and len(a) == 0:\n                return i\n\n    def dfs(x):\n        a_ = list(a)\n        if x == k:\n            return bfs()\n        for i in a_:\n            if i % x == 0:\n                a_.remove(i)\n                return dfs(x + 1)\n        return \"NO\"\n\n    return dfs(1)\n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\n\nimport sys"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n  \"\"\"\n  >>> solution('4 2\\n1 2 2 3\\n')\n  'YES\\n1 1 2 2'\n  >>> solution('5 2\\n3 2 1 2 1\\n')\n  'YES\\n2 1 1 2 1'\n  >>> solution('5 2\\n2 1 1 2 1\\n')\n  'NO'\n  \"\"\"\n  n, k = map(int, stdin.split())\n  a = list(map(int, stdin.split()))\n  result = 'NO'\n  colors = [0 for _ in range(k)]\n  for i in range(n):\n    colors[a[i] - 1] += 1\n    if sum(colors) == n:\n      result = 'YES\\n' +''.join(map(str, colors))\n      break\n  return result\n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\"\"\"\nfrom typing import List\n\n\ndef"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = list(map(int, stdin.split()))\n    a = list(map(int, stdin.split()))\n    if n < 1 or n > 5000:\n        return \"NO\"\n    elif k < 1 or k > n:\n        return \"NO\"\n    elif len(set(a))!= len(a):\n        return \"NO\"\n    else:\n        res = dict.fromkeys(set(a), 0)\n        for i in a:\n            res[i] += 1\n        res = sorted(res.items())\n        tmp_1 = sorted(res, key=lambda x: x[1])\n        tmp_2 = []\n        for i in tmp_1:\n            tmp_2.append(i[0])\n        for i in range(0, k):\n            if i == len(tmp_2):\n                return \"NO\"\n            elif len(set(tmp_2[i:]))!= k:\n                return \"NO\"\n        return \"YES \" + \" \".join(map(str, tmp_2))\n\n\"\"\"\ndef"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    inp = stdin.split('\\n')\n    n, k = inp[0].split()\n    n = int(n)\n    k = int(k)\n    a = list(map(int, inp[1].split()))\n\n    if k > n or n > 5000 or k > 5000:\n        return 'NO'\n\n    a.sort()\n    colors = [0] * k\n    \n    for elem in a:\n        if elem < 1 or elem > k:\n            return 'NO'\n        for i in range(k):\n            if colors[i] == elem or elem - 1 == i:\n                colors[i] = elem\n                break\n        else:\n            return 'NO'\n    \n    return 'YES' +''.join(map(str, colors))\n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = map(int, stdin.split())\n    s = list(map(int, stdin.split()))\n    s.sort()\n\n    sums = [0] * k\n    for i in range(n):\n        for j in range(k):\n            sums[j] += s[i]\n            if sums[j] > n:\n                break\n\n    for i in range(k):\n        if sums[i] == n:\n            print(\"YES\")\n            print(i, end=\" \")\n            for j in range(n):\n                if i == s[j]:\n                    print(j + 1, end=\" \")\n            break\n\n    if i == k - 1:\n        print(\"NO\")\n"
+    },
+    {
+        "number": 4008,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    from functools import reduce\n    x, y, n = map(int, stdin.split(' '))\n    n_10 = sum(list(map(lambda x: 10 ** x, range(n))))\n    n_10_inv = reduce(lambda a, b: a * b, range(1, n + 1))\n    print(n_10 % n_10_inv)\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = map(int, stdin.split())\n    s = stdin.strip()\n    start = 1\n    while s[start] == '0':\n        start += 1\n    # start = s[start]\n    # start = int(start)\n    # print(start)\n    # print(s)\n    # print(s[start:])\n    # print(int(s[start:]))\n    # print(int(s[start:]) % int(pow(10, x)))\n    # print(int(s[start:]) % (pow(10, x)))\n    return int(s[start:]) % (pow(10, x))\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    return ''\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    n, x, y = map(int, stdin.split(' '))\n    l = list(stdin.strip())\n    y = y - 1\n    x = x - 1\n    s = 1\n    for i in range(y, x, -1):\n        s = s * 10 % n\n    return str(s)\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    Your solution goes here. For example:\n    return \"Hello, world!\"\n    \"\"\"\n    stdin = stdin.split(\"\\n\")\n    n, x, y = int(stdin[0].split()[0]), int(stdin[0].split()[1]), int(stdin[0].split()[2])\n    n = 1_000_000_000_000\n    n_i = 1\n    x_i, y_i = 0, 0\n    while n_i < n:\n        x_i += 1\n        n_i *= x\n    while y_i < y:\n        x_i, y_i = x_i - 1, y_i + 1\n        n_i = n_i // x\n    n_i, x_i = n_i // x, n_i % x\n    return str(n_i - 1)\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\nimport math\nfrom typing import List\nfrom decimal import Decimal\n\nfrom.input import input\nfrom.helpers import print_output\n\n\ndef"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    return stdin\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Your solution goes here.\"\"\"\n    n, x, y = [int(i) for i in stdin.split()]\n    num = str(n)\n    count = 0\n    while len(num)!= x:\n        if int(num[-1]) == 1:\n            num = num[:-1]\n            num += '0'\n        else:\n            num = num[:-1]\n            num += '1'\n        count += 1\n    num = num[:x]\n    while len(num)!= y:\n        if int(num[0]) == 1:\n            num = '0' + num\n        else:\n            num = '1' + num\n        count += 1\n    print(count)\n    return num\n"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = map(int, stdin.split())\n    n = list(stdin[0:n])\n    x, y = x - 1, y - 1\n    counter = 0\n    while not n[x] == '1':\n        counter += 1\n        n[x] = '1'\n        x -= 1\n    while not n[y] == '1':\n        counter += 1\n        n[y] = '1'\n        y += 1\n    print(counter)\n\n\nsolution('11 5 2')\n\n\ndef"
+    },
+    {
+        "number": 4009,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n, x, y = [int(i) for i in stdin.split(' ')]\n    num = stdin[:]\n    if x > y:\n        x, y = y, x\n\n    res = 0\n    while True:\n        if num[0] == '0':\n            num = num[1:]\n            res += 1\n        else:\n            num = num.replace(num[:x], '0', 1)\n            break\n    if len(num) - len(num[:x]) <= y:\n        res += 1\n    return str(res)\n"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    pass"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution('5\\n3\\n1 2 1\\n5\\n1 2 2 3 2\\n3\\n1 1 2\\n4\\n1 2 2 1\\n10\\n1 1 2 2 3 3 4 4 5 5')\n    'YES\\nYES\\nNO\\nYES\\nNO'\n    \"\"\"\n    t = int(stdin.readline())\n    for _ in range(t):\n        n = int(stdin.readline())\n        a = list(map(int, stdin.readline().split()))\n        for k in range(3, n + 1):\n            for i in range(n - k + 1):\n                if a[i:i + k] == a[i:i + k][::-1]:\n                    print('YES')\n                    break\n            else:\n                print('NO')\n"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Returns 'YES' if the array has some subsequence of length at least\n    3 that is a palindrome, otherwise 'NO'.\n\n    >>> solution('4\\n1 1 2\\n')\n    'YES'\n    >>> solution('3\\n1 2 1\\n')\n    'YES'\n    >>> solution('4\\n1 2 1\\n')\n    'NO'\n    \"\"\"\n    t = int(stdin.readline())\n    for _ in range(t):\n        n = int(stdin.readline())\n        arr = list(map(int, stdin.readline().split()))\n        cnt = 0\n        for i in range(n - 2):\n            for j in range(i + 1, n - 1):\n                if arr[j] == arr[i] and arr[j + 1] == arr[i + 1]:\n                    cnt += 1\n        if cnt > 0:\n            print(\"YES\")\n        else:\n            print(\"NO\")\n\ndef"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    pass"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\n    pass\n"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    Solution for Kattis problem practising\n    https://open.kattis.com/problems/palindromes\n    \"\"\"\n    # Get input\n    t = int(stdin)\n    # Loop over cases\n    for case in range(t):\n        n = int(stdin)\n        array = list(map(int, stdin.split()))\n        # Check for palindromes\n        for i in range(len(array)):\n            for j in range(i, len(array)):\n                if array[i:j + 1] == array[j - i + 1:j + 1][::-1]:\n                    print('YES')\n                    break\n            else:\n                print('NO')\n\n\ndef"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Your solution goes here.\"\"\"\n"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\n\n\ndef"
+    },
+    {
+        "number": 4010,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    Solution of the task.\n    :param stdin: input of the standard input\n    :return: string\n    \"\"\"\n    pass\n"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    result = []\n    length = int(stdin.split('\\n')[0])\n    digits = stdin.split('\\n')[1].split(' ')\n    numbers = [0]\n    for digit in digits:\n        numbers.append(int(digit))\n    for i in range(0, length):\n        max_number = max(numbers)\n        result.append(max_number)\n        numbers.remove(max_number)\n        for j in range(i, i + len(str(max_number))):\n            numbers[j] = int(str(numbers[j])[0])\n    return str(int(''.join(str(digit) for digit in result)))\n"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    Find the largest number that can be created from the input.\n    :param stdin: string\n    :return: string\n    \"\"\"\n    # Get the string from the input\n    string = stdin[0:stdin.find('\\n')]\n\n    # Get the array of numbers from the input\n    numbers = stdin[stdin.find('\\n') + 1:].split(' ')\n\n    # Build the function that will be used to map each number from 1 to 9 to another number from 1 to 9\n    function = list(map(int, stdin[stdin.find('\\n') + 2:].split(' ')))\n\n    # Find the largest number that can be created from the input\n    max_num = max_num_from_string(string, numbers, function)\n\n    return str(max_num)\n\n\ndef"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution('''4\n   ... 1337\n   ... 1 2 5 4 6 6 3 1 9\n   ... ''')\n    '1557'\n    >>> solution('''5\n   ... 11111\n   ... 9 8 7 6 5 4 3 2 1\n   ... ''')\n    '99999'\n    \"\"\"\n    n = int(stdin.readline())\n    a = stdin.readline()\n    f = list(map(int, stdin.readline().split()))\n    s = ''\n    while a!= '':\n        k = len(a)\n        m = min(f)\n        if m > 0 and a[:k]!= '0' * k:\n            s = s + str(int(m) * int(a[0]))\n            a = str(int(a[0]) * m) + a[1:]\n        else:\n            a = a[1:]\n    return s\n"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    \u0420\u0435\u0448\u0435\u043d\u0438\u0435 \u0437\u0430\u0434\u0430\u0447\u0438 \u0441 \u043f\u043e\u043c\u043e\u0449\u044c\u044e \u0440\u0435\u043a\u0443\u0440\u0441\u0438\u0438\n    \"\"\"\n    n = int(stdin.split('\\n')[0])\n    a = stdin.split('\\n')[1]\n    b = [int(x) for x in a]\n    f = list(map(int, stdin.split('\\n')[2].split(' ')))\n\n    def f_num(number):\n        \"\"\"\n        \u0424\u0443\u043d\u043a\u0446\u0438\u044f \u0434\u043b\u044f \u043f\u0435\u0440\u0435\u0432\u043e\u0434\u0430 \u0446\u0438\u0444\u0440 \u0432 \u0438\u043d\u0446\u0438\u0434\u0435\u043d\u0442\u043d\u044b\u0435 \u0447\u0438\u0441\u043b\u0430\n        \"\"\"\n        if number == 1:\n            return f[0]\n        elif number == 2:\n            return f[1]\n        elif number == 3:\n            return f[2]\n        elif number == 4:\n            return f[3]\n        elif number == 5:\n            return f[4]\n        elif number == 6:\n            return f[5]\n        elif number == 7:\n            return f[6]\n        elif number == 8:\n            return f[7]\n        elif number == 9:\n            return f[8]\n\n    def rec(n, a, b, f):\n        \"\"\"\n        \u0420\u0435\u043a\u0443\u0440\u0441\u0438\u0432\u043d\u044b\u0439 \u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c \u0434\u043b\u044f \u043f\u043e\u0434\u0441\u0447\u0451\u0442\u0430 \u043c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u044f\n        \"\"\"\n        if n == 0:\n            return 0\n        max_sum = 0\n        for i in range(n):\n            if b[i] == f_num(f[b[i]]):\n                sum_a = rec(n-i-1, a[i+1:], b[i+1:], f) + int(a[i])\n                if max_sum < sum_a:\n                    max_sum = sum_a\n        return max_sum\n\n    return str(rec(n, a, b, f))\n"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Returns the solution for this exercise.\"\"\"\n   ...\n"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin[0])\n    s = stdin[1]\n    # map digits from 1 to 9 to digits from 1 to 9\n    f = list(map(lambda x: int(x), stdin[2].strip().split(\" \")))\n    a = int(s)\n    x = 1\n    while x < n:\n        x *= 10\n    d = 10 ** (n - 1)\n    q = int(n / 2)\n    res = set()\n    while True:\n        res.add(a)\n        if len(res) > 100:\n            break\n        a = a // d * 10 + a % d // 10 + f[a % 10] * x + f[a // 10 % 10]\n        if a == 0:\n            break\n    return str(max(res))\n"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    return stdin"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Return the maximum possible number you can obtain after applying the operation described in the statement no more than once\"\"\"\n    # Your code here\n    # return the result\n    return result\n"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    a = list(map(int, stdin.readline().split(' ')))\n    f = list(map(int, stdin.readline().split(' ')))\n    result = [f[a[i]] for i in range(n)]\n    result.sort(reverse=True)\n    result = ''.join([str(i) for i in result])\n    return result"
+    },
+    {
+        "number": 4011,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution('''4\n   ... 1337\n   ... 1 2 5 4 6 6 3 1 9\n   ... ''')\n    '1557'\n    \"\"\"\n    string = stdin.strip()\n    n = int(string[0])\n    a = [int(c) for c in string[1:]]\n    f = [int(c) for c in stdin.split('\\n')[2].split(' ')]\n    max_num = 0\n    for i in range(2 ** n):\n        segment = []\n        for j in range(n):\n            if (i >> j) & 1:\n                segment.append(a[j])\n        segment_str = ''.join(str(c) for c in segment)\n        num = int(segment_str)\n        for x in range(1, 10):\n            if f[x - 1] == x:\n                num = num * 10 + x\n            if num > max_num:\n                max_num = num\n    return str(max_num)\n"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Your solution goes here.\"\"\"\n    pass\n"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    def get_divisors(a, b, c):\n        divisors = [a, b, c]\n        divisors.sort()\n        if divisors[1] % divisors[0] == 0 and divisors[2] % divisors[1] == 0:\n            return divisors[0], divisors[1], divisors[2]\n        else:\n            divisors.pop()\n            divisors.pop(0)\n            if divisors[1] % divisors[0] == 0 and divisors[2] % divisors[1] == 0:\n                return divisors[0], divisors[1], divisors[2]\n            else:\n                return None\n\n    tests = stdin.split(\"\\n\")[1:-1]\n    for i in range(len(tests)):\n        tests[i] = tests[i].split(\" \")\n        tests[i][0] = int(tests[i][0])\n        tests[i][1] = int(tests[i][1])\n        tests[i][2] = int(tests[i][2])\n    # print(tests)\n    for i in range(len(tests)):\n        res = get_divisors(tests[i][0], tests[i][1], tests[i][2])\n        if res is not None:\n            print(res[0])\n            print(res[1])\n            print(res[2])\n        else:\n            print(\"0\")\n\nsolution(stdin)"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    return ''\n"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    return \"Not yet implemented\"\n"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    input = stdin.split(\"\\n\")\n    num_cases = int(input[0])\n    res = 0\n    for i in range(1, num_cases + 1):\n        a, b, c = map(int, input[i].split())\n        m = max(a, b, c)\n        a %= m\n        b %= m\n        c %= m\n        if c % b == 0:\n            res += c // b\n        else:\n            res += c // b + 1\n    return res\n\nprint(solution(stdin=input_str))\n\n---\n\ndef"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    # your code here\n    return ''\n"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    pass\n\"\"\"\n\nfrom tools import timing\n\ninputs = [[int(n) for n in input().split()] for _ in range(int(input()))]\n\n@timing\ndef"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n    \n"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Your solution goes here.\"\"\"\n\n    pass\n"
+    },
+    {
+        "number": 4012,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    # pass\n    pass\n"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    n = int(stdin.split('\\n')[0])\n    array = [int(x) for x in stdin.split('\\n')[1].split()]\n    min_ = min(array)\n    max_ = max(array)\n    i = 1\n    while i <= n:\n        if i == n:\n            print(max_ - min_)\n            return\n        i += 1\n        min_ = min(min_, array[i-1])\n        max_ = max(max_, array[i-1])\n    print(max_ - min_)\n"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    Return the minimum instability of a given array\n    '''\n    _ = int(stdin.split(\"\\n\")[0])\n    a = list(map(int, stdin.split(\"\\n\")[1].split()))\n    return str(max(a) - min(a))\n"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"This function will calculate the minimum instability of a given array\"\"\"\n\n    # Get the input values\n    n = int(stdin.readline())\n    a = list(map(int, stdin.readline().split(' ')))\n\n    # Loop over the input array to find the minimum\n    min_inst = 0\n    for i in range(len(a)):\n        max_value = a[i]\n        min_value = a[i]\n        for j in range(i, len(a)):\n            max_value = max(max_value, a[j])\n            min_value = min(min_value, a[j])\n        inst = max_value - min_value\n        min_inst = min(inst, min_inst)\n\n    return str(min_inst)\n"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    This solution will run until it has removed an element, at which point it will return the minimum instability.\n    \"\"\"\n    line = stdin.splitlines()[0]\n    nums = [int(n) for n in line.split(' ')]\n\n    min_num = min(nums)\n    max_num = max(nums)\n\n    diff = max_num - min_num\n\n    return diff - 1\n"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    inp = stdin.splitlines()\n    n = int(inp[0])\n    a = inp[1].split(' ')\n    a = list(map(int, a))\n    # print(n, a)\n    stdout = int(inp[2])\n    def uniq_min_max(a):\n        a = list(set(a))\n        return max(a) - min(a)\n    print(uniq_min_max(a))\n\n    return stdout\n\nsolution(stdin)"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n, *a = list(map(int, stdin.splitlines()))\n    if n == 1:\n        return 0\n    a.sort()\n    return max(a[n - 1] - a[0], a[n - 2] - a[1])"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    # your solution here\n    #lines = stdin.splitlines()\n    #n = int(lines[0])\n    #nums = list(map(int, lines[1].split()))\n    #nums.sort()\n    #return str(nums[-1] - nums[0])\n\ndef"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    a = list(map(int, stdin.split()))\n    return str(max(a) - min(a))\n"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n\ndef"
+    },
+    {
+        "number": 4013,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    numbers = [int(i) for i in stdin.readline().split()]\n\n    minimum_diff = max(numbers) - min(numbers)\n    instability_without_one_element = sum(numbers) - minimum_diff\n\n    return str(min(minimum_diff, instability_without_one_element))\n\n\ndef"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n, m = map(int, stdin.split())\n    schedule = [[0] * (n + 1) for _ in range(m + 1)]\n    for i in range(1, m + 1):\n        s, d, c = map(int, stdin.split())\n        schedule[i][s] = i\n        schedule[i][d + 1] = 0\n    for i in range(1, n + 1):\n        for j in range(1, m + 1):\n            if schedule[j][i] == 0:\n                for k in range(1, i):\n                    if schedule[j][k]!= 0:\n                        schedule[j][i] = schedule[j][k]\n                        break\n    if schedule[m][n] == 0:\n        return -1\n    else:\n        return''.join([str(x) for x in schedule[m][1:n + 1]])\n"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    n, m = map(int, stdin.readline().split())\n    t = []\n    for i in range(m):\n        s, d, c = map(int, stdin.readline().split())\n        t.append((s, d, c))\n    t.sort(key=lambda x: x[0])\n\n    def check(t):\n        \"\"\"\n        Check whether t can satisfy m exams.\n        \"\"\"\n        cur = 0\n        for s, d, c in t:\n            if cur + c > d:\n                return False\n            cur = max(cur, s) + c\n        return True\n\n    def dfs(t):\n        if len(t) == m:\n            if check(t):\n                return t\n            else:\n                return None\n        s, d, c = t[-1]\n        for i in range(s, d + 1):\n            t.append((i, d, c))\n            t = dfs(t)\n            if t:\n                return t\n            t.pop()\n        return None\n\n    return \" \".join(map(str, dfs(t))) if dfs(t) else -1\n"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    \n    n, m = map(int, stdin.readline().split())\n    exams = [list(map(int, stdin.readline().split())) for _ in range(m)]\n\n    possible = {\n        (day, exam):\n            sorted(\n                (day + 1, exam)\n                for day in range(n)\n                if any(day + 1 <= exam_day for exam_day, _ in exams)\n            )\n        for exam in range(1, m + 1)\n    }\n    prepared = {}\n\n    for exam in sorted(possible):\n        for day, exam_day in possible[exam]:\n            if day not in prepared:\n                prepared[day] = exam\n                break\n        else:\n            return '-1'\n\n    return''.join(str(exam) for exam in (prepared[day] for day in sorted(prepared)))\n"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Petya's schedule\"\"\"\n    n, m = [int(x) for x in stdin.split(' ')]\n    prep = [[int(x) for x in stdin.split(' ')] for _ in range(m)]\n    \n    dp = [[False] * n for _ in range(m)]\n    \n    for i in range(m):\n        s, d, c = prep[i]\n        dp[i][s] = True\n    \n    for i in range(m):\n        for j in range(n):\n            for k in range(j, n):\n                if dp[i][j] and dp[i][k]:\n                    dp[i + 1][j] = True\n                    dp[i + 1][k] = True\n    \n    if dp[m][0]:\n        return '\\n'.join([str(x + 1) for x in range(n) if dp[m][x]])\n    else:\n        return '-1'"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\n\nfrom itertools import chain\n\n\ndef"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    \n\ndef"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    days, exams = map(int, stdin.split('\\n')[:2])\n    pairs = [map(int, line.split()) for line in stdin.split('\\n')[2:]]\n    exams = sorted(exams)\n\n    exam_count = [0] * exams[-1]\n    for day, exam, duration in pairs:\n        if exam < exams[0]:\n            exam_count[exam - 1] = duration\n        else:\n            if exam_count[exam - 1] < duration:\n                return -1\n            for i in range(exam - exams[0] - 1):\n                if exam_count[i] < duration:\n                    exam_count[i] = duration\n    return''.join(map(str, exam_count))\n"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    # your code here\n    # n, m = [int(x) for x in stdin.split()]\n    # days = []\n    # for _ in range(m):\n    #     s, d, p = [int(x) for x in stdin.split()]\n    #     days.append((s, d, p))\n    # days.sort()\n    # num = 0\n    # res = [0] * n\n    # for s, d, p in days:\n    #     if p > num:\n    #         res[d - 1] = 1\n    #         num += 1\n    #         if num == p:\n    #             num = 0\n    #     else:\n    #         res[d - 1] = -1\n    # return''.join(map(str, res))\n\n    n, m = [int(x) for x in stdin.split()]\n    days = []\n    for _ in range(m):\n        s, d, p = [int(x) for x in stdin.split()]\n        days.append((s, d, p))\n    days.sort()\n    num = 0\n    res = [0] * n\n    for s, d, p in days:\n        if p > num:\n            for i in range(s, d):\n                res[i] = 1\n            num = p\n        else:\n            for i in range(s, d):\n                res[i] = -1\n    return''.join(map(str, res))\n"
+    },
+    {
+        "number": 4014,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n, m = list(map(int, stdin.split()))\n    days = []\n    for _ in range(m):\n        s, d, c = list(map(int, stdin.split()))\n        days.append([s, d, c])\n\n    days.sort(key=lambda x: x[0])\n\n    dp = [[0] * (n + 1) for _ in range(3)]\n\n    for i in range(3):\n        for j in range(n):\n            for s, d, c in days:\n                if dp[i][j] + c <= n and j + s <= d:\n                    dp[i][j + s] = max(dp[i][j + s], dp[i][j] + c)\n\n    dp = dp[0][:n] + dp[1][:n] + dp[2][:n]\n    for i in range(len(dp)):\n        if dp[i] == (m + 1):\n            print(i + 1)\n            break\n\n    return ''\n"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    a, b = [int(x) for x in stdin.split()]\n    if b % 2 == 1:\n        return -1\n    if b % 3 == 1:\n        return -1\n    n = b\n    m = a\n    ans = 0\n    while True:\n        if m == 0 or m > n:\n            break\n        if m % 2 == 0:\n            ans += m // 2\n            m = m // 2\n        elif m % 3 == 0:\n            ans += m // 3\n            m = m // 3\n        else:\n            return -1\n        if m == 1:\n            ans += 1\n            break\n    if m!= 1:\n        return -1\n    ans += (b - n)\n    return ans\n"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n, m = [int(x) for x in stdin.split(' ')]\n    if n < m or n > 5e8 or m > 5e8:\n        return '-1'\n    p = 0\n    if n == m:\n        return str(p)\n    for i in range(m, n + 1):\n        if i % 3 == 0 and i % 2!= 0:\n            p += 1\n    return str(p)\n"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n, m = [int(x) for x in stdin.split()]\n    if n > m:\n        return str(-1)\n    if n == m:\n        return str(0)\n    return str(m // n * min(n, m))\n"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n   ...\n    return result\n"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n, m = map(int, stdin.split(\" \"))\n    if n == m:\n        return 0\n    if n < m:\n        if n % 2 == m % 2 or n % 3 == m % 3:\n            return -1\n        m -= 2 if n % 2 == 0 else 3\n        n -= 1 if n % 2 == 0 else 2\n    else:\n        n -= 1 if n % 3 == 0 else 2\n        m -= 2 if n % 3 == 0 else 3\n    return abs(m - n)\n"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n\n'''\n\ndef"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\ndef"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n, m = map(int, stdin.split())\n    if n <= m:\n        return -1\n    for i in range(int(math.log2(m)) + 1):\n        if m == (2 ** i) * n:\n            return i\n    return -1\n"
+    },
+    {
+        "number": 4015,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n, m = [int(s) for s in stdin.split()]\n    s = set()\n    for i in range(n):\n        s.add(i + 1)\n\n    for i in range(m):\n        s.discard(i + 1)\n        s.discard(i + 1 * 2)\n        s.discard(i + 1 * 3)\n\n    if len(s)!= 0:\n        return \"-1\"\n    else:\n        return str(m)\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    string = stdin[1:]\n    substring_length = int(stdin[0].split()[0])\n    substring_count = int(stdin[0].split()[1])\n    length_of_string = len(string)\n    length_of_substring = substring_length\n    for i in range(substring_count):\n        for j in range(length_of_string - length_of_substring + 1):\n            if string[j:j + length_of_substring] == string[j + length_of_substring:j + 2 * length_of_substring]:\n                if string[j:j + length_of_substring] == string[j + 2 * length_of_substring:j + 3 * length_of_substring]:\n                    if string[j:j + length_of_substring] == string[j + 3 * length_of_substring:j + 4 * length_of_substring]:\n                        return string[j:j + length_of_substring]\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    Returns the minimum substring of string s that can be transformed into t\n    '''\n    # Get length of strings s and t\n    n, k = [int(x) for x in stdin.split()]\n    t = stdin[:n]\n\n    # If the length of s is greater than or equal to k, return s\n    if n >= k:\n        return t\n    \n    # Otherwise, run through every substring of length n\n    # and return the substring s[0:k] if it is equal to t\n    for i in range(n-k+1):\n        if t[i:i+k] == t:\n            return t[i:i+k]\n\nprint(solution(stdin))\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = map(int, stdin.split())\n    t = stdin.strip()\n    seen = set()\n    res = []\n    for l in range(n):\n        for r in range(l + 1, n + 1):\n            if (l, r) in seen:\n                continue\n            if t[l:r] * (r - l) == t:\n                res.append(t[l:r] * (r - l))\n                seen.add((l, r))\n    return ''.join(sorted(res, key=len)[0])\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n   ..."
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    1. Split string in equal parts\n    2. Take the longest string,\n    3. replace the string with the longest one\n    '''\n    # 1. Split string in equal parts\n    size = stdin.split('\\n')[0].split()\n    string = stdin.split('\\n')[1]\n    k = int(size[1])\n    n = int(size[0])\n    n_substr = n // k\n    n_rest = n % k\n    # 2. Take the longest string,\n    i = 0\n    longest_str = ''\n    while i < len(string):\n        substr = string[i:i + n_substr]\n        substr_reversed = substr[::-1]\n        if len(substr_reversed) > len(longest_str):\n            longest_str = substr_reversed\n        i = i + n_substr + 1\n    # 3. replace the string with the longest one\n    i = 0\n    new_str = ''\n    while i < len(string):\n        substr = string[i:i + n_substr]\n        if substr == longest_str:\n            new_str = new_str + longest_str\n            i = i + n_substr\n        else:\n            new_str = new_str + substr\n        i = i + 1\n    return new_str\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    from collections import Counter\n    s, k = stdin.split()\n    k = int(k)\n    c = Counter(s)\n    n = c['a']\n    s1 = (k - n) // n\n    s2 = (k - n) % n\n    res = s * s1 + s[:s2]\n    return res\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = map(int, stdin.split())\n    t = stdin[0:n]\n\n    result = [0] * n\n    for i in range(n):\n        if k <= i:\n            return ''.join(result)\n        result[i] = t[i]\n        if i + k < n:\n            result[i + k] = t[i]\n\n    return ''.join(result)"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = [int(i) for i in stdin.split()]\n    t = stdin.split()[1]\n\n    if k == 1:\n        return t\n\n    elif k == n:\n        return t + t\n\n    else:\n        s = t + t\n        while len(s) < n + k - 1:\n            s += t\n\n        return s[:n + k - 1]\n\n\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    # TODO: your code here\n    return stdin\n"
+    },
+    {
+        "number": 4016,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = map(int, stdin.readline().split())\n    t = stdin.readline()\n\n    left, right = 0, 0\n    current = t[0]\n\n    ans = [t[0]]\n    while right < n:\n        if t[right] == current:\n            right += 1\n            if right - left == k:\n                ans.append(t[left: right])\n                left = right\n                current = t[left]\n                right = left\n        else:\n            left = right\n            right = left + 1\n            current = t[right]\n\n    ans.append(t[left: n])\n    return \"\".join(ans)\n"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Return the number of indices j of the array a such that after removing the j-th element from the array it will be good.\n\n    >>> solution(\"3\\n2 1 2\")\n    1\n    >>> solution(\"5\\n2 1 2 4 3\")\n    2\n    >>> solution(\"6\\n1 1 2 3 3 5\")\n    0\n    >>> solution(\"7\\n4 6 5 7 2 4\")\n    1\n    >>> solution(\"8\\n8 2 6 4 2 4\")\n    0\n    >>> solution(\"8\\n5 1 2 2 6 4\")\n    0\n    >>> solution(\"8\\n5 5 1 2 3 4\")\n    2\n    >>> solution(\"8\\n6 1 2 3 1 3\")\n    2\n    >>> solution(\"8\\n1 1 2 3 1 1\")\n    3\n    >>> solution(\"8\\n4 5 2 1 3 4\")\n    2\n    >>> solution(\"8\\n8 7 1 3 4 3\")\n    3\n    >>> solution(\"8\\n8 8 1 3 4 3\")\n    1\n    >>> solution(\"8\\n8 8 8 1 3 4 3\")\n    0\n    \"\"\"\n    n = int(stdin.readline())\n    arr = list(map(int, stdin.readline().split()))\n    arr.sort()\n    min_diff = 10**9\n    for i in range(n):\n        for j in range(i+1, n):\n            if arr[j] - arr[i] < min_diff:\n                min_diff = arr[j] - arr[i]\n    return sum(map(lambda x: arr[x] - x, range(n))) - sum(arr) + min_diff\n\n\n\ndef"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    Returns the number of indices j of the given array such that after removing the j-th element from the array it will be good.\n    '''\n    # get inputs\n    n = int(stdin.readline().rstrip('\\n'))\n    arr = list(map(int, stdin.readline().rstrip('\\n').split(' ')))\n\n    # init dict to count the good elements\n    good = {e: 0 for e in arr}\n    good[0] = 1\n\n    # loop over elements\n    for e in arr:\n        # for each element we need to check if there is one good element less that the given element\n        # this can be done by making the key of the dict negative and adding the value to the original element\n        # finally we return the key which is the number of good elements less than or equal to the given element\n        good[e - good[abs(e)]] += 1\n\n    # return the number of good elements less than or equal to the given element\n    return good[abs(arr[0])]\n"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\n\ndef"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    a = list(map(int, stdin.split()))\n    s = sum(a)\n    cnt = 0\n    for i in a:\n        if s - i in a:\n            cnt += 1\n            s -= i\n    print(cnt)\n    if cnt!= 0:\n        print(*list(set(a[i] for i in range(n) if s - a[i] in a and a[i] in a)))\n    return ''\n"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"\n    >>> solution('''5\n   ... 2 5 1 2 2\n   ... ''')\n    '3\n    >>> solution('''4\n   ... 8 3 5 2\n   ... ''')\n    '2\n    >>> solution('''5\n   ... 2 1 2 4 3\n   ... ''')\n    '0\n\n    \"\"\"\n    n = int(stdin.readline())\n    a = list(map(int, stdin.readline().split()))\n    result = 0\n    for i in range(n):\n        for j in range(i+1, n):\n            if sum(a) - a[i] - a[j] == a[i] + a[j] and a[i]!= a[j]:\n                a.pop(j)\n                result += 1\n                break\n    if result == 0:\n        print(result)\n    else:\n        print(result)\n        print(*a)"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    You are given an array of integers and you have to find the minimum amount of elements to delete to make the array good.\n    A good array contains each number between 1 and n exactly once. A single element can be deleted from the array so long as the good array is not broken.\n    '''\n    # Your code here\n    return None"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n\"\"\"\nfrom typing import List\n\ndef"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    '''\n    The function will return the amount of indices,\n    that we need to remove in order to make the given array\n    good.\n    '''\n   ...\n    return '\\n'.join(lines)\n    \n    \n"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Finds indices of good elements.\n\n    Parameters\n    ----------\n    stdin : str\n        input string\n\n    Returns\n    -------\n    str\n        returns answer\n    \"\"\"\n    pass\n"
+    },
+    {
+        "number": 4017,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    pass"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = [int(x) for x in stdin.split()]\n    s = stdin.split()[1]\n\n    cost = [0] * n\n\n    for i in range(n):\n        cost[i] = ord(s[i]) - 97\n\n    cost = sorted(cost)\n    total = 0\n\n    for i in range(k):\n        total += cost[i]\n\n    for i in range(1, n - k + 1):\n        total += abs(cost[i] - cost[i - 1])\n\n    if total > 0:\n        return total\n\n    return -1\n"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n   ..."
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n, k = map(int, stdin.split())\n    s = stdin\n    res = []\n    cost = 0\n    for i in range(n):\n        for j in range(i, n):\n            t = s[i:j]\n            if len(t) > 1 and t not in res:\n                res.append(t)\n                cost += len(t) - len(set(t))\n    if len(res) < k:\n        return -1\n    return cost\n\n\"\"\"\ndef"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    # Your code here\n    return \"\""
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n\ndef"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Your solution goes here.\"\"\"\n    return '\\n'.join(i for i in stdin.split('\\n')[1:] if len(set(i)) == int(stdin.split('\\n')[0].split()[1]))\n"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    \"\"\"Your solution goes here.\"\"\"\n    n, k = map(int, stdin.split())\n    s = stdin.split()[1]\n\n    if k > n or k == 0:\n        return -1\n\n    subsequence_set = []\n    cost_set = []\n    cost = 0\n\n    for i in range(n - k + 1):\n        if s[i:i + k] not in subsequence_set:\n            subsequence_set.append(s[i:i + k])\n            cost += k - len(s[i:i + k])\n            cost_set.append(cost)\n        else:\n            cost_set.append(cost)\n\n    for i in range(n - k + 1, n):\n        if s[i:i + k] not in subsequence_set:\n            subsequence_set.append(s[i:i + k])\n            cost += k - len(s[i:i + k])\n            cost_set.append(cost)\n\n    return min(cost_set)\n"
+    },
+    {
+        "number": 4018,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    from collections import deque\n    n, k = [int(x) for x in stdin.split()]\n    s = deque(stdin[::-1])\n    costs = [[0, 0] for _ in range(26)]\n    while s:\n        ch = s.popleft()\n        c = ord(ch) - 97\n        costs[c][0] += 1\n    cost = 0\n    i = 0\n    while i < 26:\n        if costs[i][0] >= k:\n            break\n        else:\n            cost += costs[i][0] * (k - costs[i][0])\n        i += 1\n    if i < 26:\n        if k - costs[i][0] <= 0:\n            return -1\n        if i == 0:\n            i += 1\n        ch = chr(i + 97)\n        for _ in range(k - costs[i][0]):\n            cost += costs[i][1]\n            if ch == \"a\":\n                ch = \"z\"\n            else:\n                ch = chr(ord(ch) + 1)\n        return cost\n    else:\n        return -1\n\n----\n\ndef"
+    }
+]

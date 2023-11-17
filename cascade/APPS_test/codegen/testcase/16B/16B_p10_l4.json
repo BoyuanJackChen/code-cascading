@@ -58918,5 +58918,1085 @@
         "checkpoint": "16B",
         "pass": 9,
         "answer": "assert solution(\"1 5 3\") == \"1 3 5\"\nassert solution(\"1 5 3\") == \"1 3 5\"\nassert solution(\"1 5 3\") == \"1 3 5\"\nassert solution(\"1 5 3\") == \"1 3 5\"\nassert solution(\"1 5 3\") == \"1 3 5\"\n"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"buy 1 15\\\\nsplit 3\\\\nsell 1 5\\\\ndie 4\\\\n\") == \"8.00000000\"\nassert solution(\"buy 1 15\\\\nbuy 1 5\\\\nbuy 1 5\\\\nsell 1 5\\\\ndie 4\\\\n\") == \"8.00000000\"\n\"\"\"\n"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('''buy 1 15\nsplit 3\nsell 1 5\ndie 4''') == '8.0'\n\"\"\"\n"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"buy 1 15\\nsplit 3\\nsell 1 5\\ndie 4\") == \"8.00000000\"\n\"\"\"\n\nlines = stdin.splitlines()\n\nevents = []\n\nfor line in lines:\n    events.append(line.split())\n\ncrowns_after_death = 0\n\nfor event in events:\n    if event[0] == 'buy':\n        crowns_after_death += int(event[1]) * int(event[2])\n    elif event[0] =='split':\n        crowns_after_death += int(event[1]) * int(event[2]) / 2\n    elif event[0] =='merge':\n        crowns_after_death += int(event[1]) * int(event[2])\n    elif event[0] == 'die':\n        crowns_after_death -= int(event[1]) * int(event[2])\n\nprint(f\"{crowns_after_death:.2f}\")\n"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(open('input_4.txt').read()) == '7.99999999'\n\n-----Puzzle-----\nOn the Taxman floor, the Queen of the colony is Mrs. Mittens. She has died at the tender age of 109 cat years. She is well known for her stock records, and the papers and records of her stock trades are forever kept to this day.\n\nAt the time of her death, there were stocks sold at prices of $109, $58, $38, $26, and $12. She paid the taxes on her profits of $8, $7, $6, $5, and $4, respectively. Her final earnings were $43+8+7+6+5+4=113.\n\nThe stock of Mittens Conglomerated, whose name is derived from its founder's name Mittens, is also a source of money in the country. The stock trades at prices of $10, $8, $6, $4, $2, and $1. At the time of her death, $113$ was in stock. When she sold her stock, she earned $113-113=0$ dollars in profits, subject to capital gains taxes on the gains.\n\nThe price of stock at a given point in time in the event history is the sum of the price of stock on the previous day and any split or merge of that stock. For example, the price of stock on day 3 is the sum of the price on day 2, and the split of 3 shares into 6 shares. The price of stock on day 4 is the sum of the price on day 3, and the price of merging 4 shares into 1.\n\nMr. Sherlock Holmes is a smart guy, and he wants to find out the value of the stock of the stock-trading company Mittens as it is at the moment of his death. Help him with the calculations.\n\n-----Hint----\nThe sum of the total cost of all the purchases in one day is equal to the sum of the prices of all shares sold on that day.\nUse dynamic programming to find the maximum profit possible for the given sequence of events.\n\"\"\"\n\nimport collections\nimport math\n\ninput = '''buy 5 10\nbuy 2 6\nsell 3 2\nbuy 1 3\nsell 1 3\nbuy 4 5\nbuy 1 4\nbuy 1 2\nsell 4 3\nbuy 1 2\nbuy 1 10\nsell 1 10\nbuy 3 7\nsell 3 7\nbuy 2 5\nsell 2 5\nbuy 2 3\nsell 2 3\nbuy 1 2\nbuy 2 2\nsell 1 2\nbuy 3 3\nsell 3 3\nbuy 1 10\nsell 1 10\nbuy 1 10\nsell 1 10\nbuy 2 5\nsell 2 5\nbuy 2 3\nsell 2 3\nbuy 2 3\nsell 2 3\nbuy 1 4\nbuy 1 1\nsell 1 1\nbuy 1 1\nsell 1 1\nbuy 3 2\nsell 3 2\nbuy 1 2\nbuy 1 2\nbuy 1 1\nsell 1 1\nbuy 1 10\nsell 1 10\nbuy 3 7\nsell 3 7\nbuy 2 5\nsell 2 5\nbuy 2 3\nsell 2 3\nbuy 2 3\nsell 2 3\nbuy 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 10\nsell 1 10\nbuy 3 7\nsell 3 7\nbuy 2 5\nsell 2 5\nbuy 2 3\nsell 2 3\nbuy 2 3\nsell 2 3\nbuy 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 10\nsell 1 10\nbuy 3 7\nsell 3 7\nbuy 2 5\nsell 2 5\nbuy 2 3\nsell 2 3\nbuy 2 3\nsell 2 3\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 10\nsell 1 10\nbuy 3 7\nsell 3 7\nbuy 2 5\nsell 2 5\nbuy 2 3\nsell 2 3\nbuy 2 3\nsell 2 3\nbuy 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 10\nsell 1 10\nbuy 3 7\nsell 3 7\nbuy 2 5\nsell 2 5\nbuy 2 3\nsell 2 3\nbuy 2 3\nsell 2 3\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy 1 2\nsell 1 2\nbuy"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('''buy 1 15\nsplit 3\nsell 1 5\ndie 4''') == '8.00000000'\n\n\"\"\""
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"buy 1 15\\nsplit 3\\nsell 1 5\\ndie 4\") == \"8.0\"\nassert solution(\"buy 1 15\\nsplit 3\\nsell 1 5\\nmerge 5\\ndie 4\") == \"7.25\"\nassert solution(\"buy 1 15\\nsplit 3\\nsell 1 5\\nmerge 5\\nsell 1 5\\nmerge 5\\ndie 4\") == \"6.25\"\nassert solution(\"buy 1 15\\nsplit 3\\nsell 1 5\\ndie 4\") == \"8.0\"\nassert solution(\"buy 1 15\\nsplit 3\\nsell 1 5\\nsplit 3\\nsell 1 5\\nmerge 5\\ndie 4\") == \"8.5\"\n"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(open(\"sample_input.txt\").read()) == \"73.8\"\n\n-----Challenge-----\nYour code should not be longer than 10 lines.\n\"\"\"\n\nfrom math import ceil\nfrom collections import Counter"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\") == \"8.0\"\n\nassert solution(\"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\") == \"19.0\"\n\nassert solution(\"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\") == \"24.0\"\n\nassert solution(\"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\") == \"25.0\"\n\nassert solution(\"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\"\n                \"buy 1 15\\\\n\"\n                \"split 3\\\\n\"\n                \"sell 1 5\\\\n\"\n                \"die 4\\\\n\") == \"26.0\""
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('buy 1 15\\n'\n             'split 3\\n'\n             'sell 1 5\\n'\n              'die 4\\n') == '8.0'\n\nassert solution('buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n') == '7.7'\n\nassert solution('buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n'\n              'buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n') == '8.0'\n\nassert solution('buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n'\n              'buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n'\n              'buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n') == '8.0'\n\nassert solution('buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n'\n              'buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n'\n              'buy 1 15\\n'\n             'split 2\\n'\n             'sell 1 5\\n'\n              'die 4\\n') == '8.0'"
+    },
+    {
+        "number": 4982,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(sample_input_1) == \"73.8\"\n\"\"\"\n\nsample_input_2 = \"\"\"\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1 10\nbuy 1"
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"808\") == \"8\"\nassert solution(\"100\") == \"0\"\nassert solution(\"1\") == \"1\"\nassert solution(\"0\") == \"0\"\nassert solution(\"1000\") == \"0\"\n\n\"\"\""
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('808') == '8'\nassert solution('999') == '9'\nassert solution('999') == '9'\n\n\"\"\"\n\nimport sys\n"
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution('808') == '8'\nassert solution('908') == '8'\nassert solution('908') == '8'\nassert solution('9000') == '8'\nassert solution('9') == '9'\n"
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('808') == '8'\nassert solution('123') == '3'\nassert solution('1001') == '1'\n\"\"\"\n"
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('808') == '8'\nassert solution('1600') == '6'\nassert solution('10000') == '1'\nassert solution('9999') == '9'\nassert solution('99999') == '9'\n\"\"\""
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution('808') == '8'\nassert solution('12345') == '3'\nassert solution('1000') == '0'\nassert solution('4') == '4'\nassert solution('2') == '2'\n"
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('808') == '8'\nassert solution('1200') == '2'\nassert solution('1234') == '4'\nassert solution('12345') == '0'\nassert solution('1234a') == '0'\n"
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution('808') == '8'\n\n\"\"\""
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('808') == '8'\nassert solution('1') == '1'\nassert solution('23') == '2'\nassert solution('32') == '3'\nassert solution('85') == '5'\n"
+    },
+    {
+        "number": 4983,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('808') == '8'\nassert solution('1634') == '4'\nassert solution('123456789') == '9'\n\n\"\"\""
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution('5 5\\nWWWWW\\nWWWL\\nWWLL\\nWWWL\\nWWWW\\nWWWW\\nWWWW') == 1\nassert solution('5 5\\nWWWWW\\nWWWL\\nWWWL\\nWWWL\\nWWWW\\nWWWW\\nWWWW\\nWWWW\\nWWWW') == 2\nassert solution('5 5\\nWWWWW\\nWWWL\\nWWWL\\nWWLL\\nWWWL\\nWWWW\\nWWWW\\nWWWW\\nWWWW') == 1\nassert solution('5 5\\nWWWWW\\nWWWL\\nWWWL\\nWWLL\\nWWLW\\nWWWW\\nWWWW\\nWWWW\\nWWWW') == 2\nassert solution('5 5\\nWWWWW\\nWWWL\\nWWWL\\nWWLL\\nWWWW\\nWWWW\\nWWWW\\nWWWW\\nWWWW') == 1\n"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('4 5\\nCCCCC\\nCCCCC\\nCCCCC\\nCCCCC') == 0\n\"\"\"\n"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"\"\"\n4 5\nCCCCC\nCCCCC\nCCCCC\nCCCCC\n\"\"\") == 0"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"5 5\\nW\\nW\\nW\\nW\\nL\\n\") == 3\nassert solution(\"5 5\\nW\\nW\\nC\\nW\\nW\\n\") == 3\nassert solution(\"5 5\\nW\\nW\\nW\\nW\\nL\\n\") == 3\nassert solution(\"5 5\\nW\\nW\\nW\\nW\\nC\\n\") == 3\nassert solution(\"5 5\\nW\\nW\\nL\\nW\\nW\\n\") == 2\n"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"4 5\\nCCCCC\\nCCCCC\\nCCCCC\\nCCCCC\") == 0\n\"\"\""
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"\"\"\n4 5\nCCCCC\nCCCCC\nCCCCC\nCCCCC\n\"\"\") == 0\n\nassert solution(\"\"\"\n4 4\nWWWWW\nWWLWW\nWLWLW\nWWWWW\n\"\"\") == 1\n\nassert solution(\"\"\"\n4 4\nWWWLW\nWWWWW\nWWWLW\nWWWWW\n\"\"\") == 2\n\nassert solution(\"\"\"\n3 3\nLLL\nLLL\nLLL\n\"\"\") == 0\n\nassert solution(\"\"\"\n4 5\nWWWWW\nWWLWW\nWLWLW\nWWWWW\n\"\"\") == 1"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"4 5\\nCCCCC\\nCCCCC\\nCCCCC\\nCCCCC\") == 0\n\"\"\"\n"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution('4 5\\nCCCCC\\nCCCCC\\nCCCCC\\nCCCCC') == 0\n\n-----Test Input-----\n4 4\nWLLL\nWLLL\nLLLL\nLLLL\n3 3\nWLLL\nWLLL\nLLLL\nLLLL\n1 2\nWLLL\nWLLL\nLLLL\nLLLL\nSample Output:\n2\n'''\n\n'''\nLine 1: 2 integers, the number of rows and columns of the image, separated by a space\nLine 2: The image itself, each row is one line\n\nAssumptions:\n\n1) Only one island\n2) 'L' represents a cell that is land, 'W' represents a cell that is water\n3) Each cell can be connected to its four neighbours, if a cell is on the edge then only those two cells can be connected\n\nAlgorithm:\n1) Start with an island, and have a list of visited nodes, and a list of unvisited nodes\n2) Create a queue, and enqueue a node that is the start position\n3) While there are unvisited nodes\n    3.1) Dequeue the current node and mark it as visited\n    3.2) If it is water, then return -1\n    3.3) For each of its neighbours, and if it is not visited\n        3.3.1) Add it to the queue\n        3.3.2) If it is visited, then continue to the next neighbour, else enqueue it.\n    3.4) If there are no neighbours then return the number of unvisited nodes\n4) return the number of unvisited nodes\n\nNote that a state, or a given island, is a valid state if the number of unvisited nodes is 0 or 1, and only valid if it has no land.\n'''\n\nimport sys"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('4 5\\nCCCCC\\nCCCCC\\nCCCCC\\nCCCCC') == 0\n\"\"\"\n\n\"\"\"\n* \ud55c\ubc88 \ubc29\ubb38\ud55c \ub178\ub4dc\ub97c visited\uc5d0 \ucd94\uac00\ud558\uace0\n* \ubc29\ubb38\ud560 \ub178\ub4dc\uac00 \uc544\ub2c8\uba74\n* \uadf8 \ub178\ub4dc\uc640 \uc778\uc811\ud55c \ub178\ub4dc\uc640 \ubc29\ubb38\ud558\uc9c0 \uc54a\uc740 \ub178\ub4dc\ub97c \ud050\uc5d0 \uc0bd\uc785\ud55c\ub2e4\n* \ubc29\ubb38\ud560 \ub178\ub4dc\uac00 \uc5c6\uc73c\uba74 \uadf8 \ub178\ub4dc\uc758 \ub113\uc774\ub97c 1\ub294 \uc5c6\uc560\uace0, \uc2dc\uac04\uc744 1 \uc99d\uac00\uc2dc\ud0a8\ub2e4\n\"\"\"\nfrom collections import deque\n"
+    },
+    {
+        "number": 4984,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('4 5\\nCCCCC\\nCCCCC\\nCCCCC\\nCCCCC') == 0\nassert solution('4 5\\nWWWW\\nWWWW\\nWWWW\\nWWWW') == 0\nassert solution('4 5\\nWWWW\\nWLLL\\nWWWW\\nWWWW') == 1\nassert solution('4 5\\nWWWW\\nWLLL\\nWWWW\\nWWWW') == 1\nassert solution('4 5\\nWWWW\\nWLLL\\nWWWW\\nWWWW') == 1\n"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution('2S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH') == '60'\n\nprint(solution(stdin))\n"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH') == '60'\nprint(solution(stdin.read()))\n"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\"\nassert solution(\"1 C\\n9S\\n9S\\n9S\\n9S\\n9S\\n9S\\n9S\") == \"45\"\nassert solution(\"1 H\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\"\nassert solution(\"1 S\\n9S\\n9S\\n9S\\n9S\\n9S\\n9S\\n9S\") == \"45\""
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('2S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH') == '60'\n"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\"\n\nassert solution(\"3 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"90\"\n\nassert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\"\n"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\""
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\"\n\n\"\"\"\n"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\\n\") == \"60\"\nassert solution(\"5 C\\nQS\\n9H\\n9S\\n9D\\nJS\\n\") == \"30\"\nassert solution(\"5 D\\nQS\\n9H\\n9S\\n9D\\nJS\\n\") == \"0\"\nassert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\\n\") == \"60\"\nassert solution(\"7 D\\nQS\\n9H\\n9S\\n9D\\nJS\\nTD\\nAD\\nJH\\n\") == \"0\"\n"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\"\n\n\"\"\"\n\nimport sys"
+    },
+    {
+        "number": 4985,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(\"2 S\\nTH\\n9C\\nKS\\nQS\\nJS\\nTD\\nAD\\nJH\") == \"60\"\n\"\"\""
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution('this is very annoying') =='se'\nassert solution('thiss iss veery annoying') =='se'\n\"\"\"\n\nimport math\nimport re\nfrom collections import defaultdict"
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution(\n    'this is very annoying'\n) =='se'\nassert solution(\n    'this is very annoying'\n) =='se'\n\n\"\"\"\n\nimport re\n"
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"this is very annoying\") == \"se\"\nassert solution(\"thiss iss veery annoying\") == \"se\"\n\"\"\""
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('this is very annoying') =='se'\nassert solution('thiss iss veery annoying') =='se'\n\n-----Notes-----\nTime limit: 4 seconds per test set.\nMemory limit: 1GB.\n\n-----Sources-----\n'''"
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('this is very annoying') =='se'\n\nassert solution('thiss iss veery annoying') =='se'\n\nassert solution('abcdefghijklmnopqrstuvwxyz') == 'z'\n\nassert solution('abcdefghijklmnopqrstuvwxyz') == 'z'\n\"\"\"\n\nimport math"
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution('this is very annoying') =='se'\nassert solution('thiss iss veery annoying') =='se'\nassert solution('this is so frustrating') == 'nh'\n\"\"\"\n\n\nimport unittest\nfrom unittest.mock import patch\nfrom collections import Counter"
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('') == ''\nassert solution('a') == 'a'\nassert solution('ab') == 'a'\nassert solution('a b') == 'a b'\nassert solution('a\\nb') == 'a b'\n"
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(stdin) == \"se\"\n\nSample Input:\ntyped = \"anogdgseaa\"\noutput = \"se\"\nassert solution(typed) == output\n\nSample Input:\ntyped = \"this is a test\"\noutput = \"\"\nassert solution(typed) == output\n\"\"\""
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(stdin) == stdout\nprint(solution(stdin), end=\"\")\n\nSample Input:\nthat's crazy\ntat' t'is c'r'azy\nSample Output:\nt\n\n\"\"\""
+    },
+    {
+        "number": 4986,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(\"this is very annoying\") =='se'\nassert solution(\"thiss iss veery annoying\") =='se'\nassert solution(\"thiss iss veery annoying\") =='se'\nassert solution(\"this is very annoying\") =='se'\nassert solution(\"this is very annoying\") =='se'\n\"\"\"\n"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution('5 3 0\\n0 0 1 1 2') == '3'\n"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution(\"5 3 0\\n0 0 1 1 2\") == 3\n\"\"\"\n\nimport sys\nfrom collections import Counter"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution('5 3 0\\n0 0 1 1 2') == 3\n\"\"\"\n\nimport sys"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"5 3 0\\n0 0 1 1 2\") == 3\n\"\"\"\n\nS, C, K = [int(x) for x in stdin.split()]\nD = [int(x) for x in stdin.split(\"\\n\")[1].split(\" \")]\n\nsocks = [i for i in range(S)]\n\ndp = {}\ndp[0] = 0\ndp[1] = 0\ndp[2] = 1"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('5 3 0\\n0 0 1 1 2') == 3\n\"\"\"\n\nimport sys\n\nS, C, K = map(int, sys.stdin.readline().split())\nd = {i: int(j) for i, j in enumerate(sys.stdin.readline().split())}\n\nlo = K // C\nhi = 1\n\nwhile lo < hi:\n    mid = (lo + hi) // 2\n    m = 0\n    for i in range(1, S + 1):\n        m = max(m, min(d[i], mid))\n    if m < K:\n        lo = mid + 1\n    else:\n        hi = mid\n\nprint(lo)\n"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"1 1 1 1 1\") == 1\nassert solution(\"0 1 1 2 3\") == 2\n\"\"\"\n"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"5 3 0\\n0 0 1 1 2\") == 3\n\"\"\"\n\nn, c, k = [int(num) for num in input().split(' ')]\nnums = [int(num) for num in input().split(' ')]\n\nnums.sort()\nprint(nums[:n - 1])\n"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution('5 3 0\\n0 0 1 1 2') == 3\nassert solution('1 1 1\\n0') == 1\n\"\"\"\n\nfrom typing import List, Tuple\nfrom math import floor, log10\n\nSocks = List[int]\nMachine = Tuple[int, int]\n"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('5 3 0\\n0 0 1 1 2') == 3\n\"\"\"\n\nimport sys"
+    },
+    {
+        "number": 4987,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('5 3 0\\n0 0 1 1 2') == '3'\n"
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"3\\n2\\n1\") == \"6\"\n\"\"\"\n\nimport sys"
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution(solution) == '3'\n'''\n"
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"3\") == 6\nassert solution(\"5\") == 1\n\"\"\""
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"3\\n2\\n1\\n\") == \"6\""
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('1\\n2\\n3\\n') == '6'\nassert solution('2\\n3\\n4\\n') == '6'\n\"\"\""
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"3\\n2\\n1\") == \"6\"\nassert solution(\"4\\n5\\n5\") == \"0\"\nassert solution(\"2\\n3\") == \"6\"\n\"\"\"\n\nimport sys\n\nT = int(sys.stdin.readline())\n\nfor i in range(T):\n    N = int(sys.stdin.readline())\n    print(pow(N, N - 1, 10))\n"
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"3\\n1\\n2\") == '1'\nassert solution(\"2\\n3\") == '6'\nassert solution(\"1\\n10\") == '1'\n\n\"\"\"\n"
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"3\\n4\\n5\\n6\\n7\") == \"7\"\n\"\"\"\n"
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('3\\n') == '6'\n\"\"\"\n\nimport os\nimport sys\n\nfrom io import StringIO\nfrom collections import deque\n\nsys.stdin = StringIO(os.getcwd()[:-8] + 'test/input.txt')\n\nclass Solution:\n    def solve(self):\n        t = int(sys.stdin.readline().strip())\n        res = deque()\n        while t:\n            n = int(sys.stdin.readline().strip())\n            res.append(self.factorial(n))\n            t -= 1\n\n        while len(res):\n            print(res.pop())\n\n    def factorial(self, n):\n        if n == 0:\n            return 1\n        else:\n            return n * self.factorial(n-1)"
+    },
+    {
+        "number": 4988,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(\"1\\n2\\n3\\n\") == \"6\"\n\n\"\"\"\n"
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"3\\n1 2\") == \"4 2\"\nassert solution(\"4\\n1 2 3 4\") == \"10 6\"\nassert solution(\"5\\n1 2 3 4 5\") == \"15 10\"\n\"\"\""
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('3\\n1 2 3') == '4\\n2'\n"
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution('3 1 2\\n') == '4 2'\n\"\"\"\n\nimport math\n\nn = int(input())\nvalues = list(map(int, input().split()))\n\nalice = 0\nbob = 0\nfor i in range(n):\n    if values[i] > alice:\n        alice += 1\n    if values[i] > bob:\n        bob += 1\n\nprint(alice, bob)\n"
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('3\\n1 2\\n') == '4\\n2'\nassert solution('3\\n1 1 1\\n') == '7\\n0'\nassert solution('3\\n1 3 2\\n') == '4\\n5'\n\"\"\""
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"3 1 2\") == \"4 2\"\n\"\"\"\n\nn = int(stdin.readline())\na = list(map(int, stdin.readline().split()))\n\nA = 0\nB = 0\ni = 0\nj = n - 1\n\nwhile i < j:\n    if a[i] > a[j]:\n        A += a[j] * (j - i)\n        j -= 1\n    else:\n        B += a[i] * (j - i)\n        i += 1\n\nA += a[i]\nB += a[j]\n\nprint(A, B)\n"
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"3 1 2\") == \"4 2\"\n\"\"\"\n"
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('3\\n1 2\\n') == '4 2'\nassert solution('6\\n1 4 3 6 2 2\\n') == '15 4'\nassert solution('7\\n1 2 1 2 2 1 1\\n') == '15 6'\n\"\"\""
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution('') == ''\nassert solution('1') == '1'\nassert solution('1 2 3') == '4'\nassert solution('1 2 3\\n5') == '9'\nassert solution('3\\n1 2 3') == '6'\n"
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(\"3 1 2\") == \"4 2\"\n\"\"\""
+    },
+    {
+        "number": 4989,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('3\\n1 2 3') == '4 2'\nassert solution('4\\n1 100 2 3') == '106 3'\nassert solution('5\\n1 10 2 3 4 5') == '105 10'\nassert solution('6\\n1 100 2 3 4 5 6') == '111 10'\nassert solution('7\\n1 100 2 3 4 5 6 7') == '126 100'\n\"\"\"\n"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"5 2 1\") == 2\nassert solution(\"4 3 2\") == 1\nassert solution(\"3 2 3\") == 0\nassert solution(\"1 2 2\") == 0\nassert solution(\"5 5 5\") == 0\n"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('5 2 1') == '2'\nassert solution('4 3 1') == '1'\nassert solution('4 3 3') == '0'\n\"\"\""
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"5 2 1\") == \"2\"\n\"\"\"\n\nimport sys\nimport math\nimport os\n\nDEBUG = False"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"5 2 1\") == \"2\"\nprint(solution(\"5 2 1\"))\n\n\"\"\"\n\na,b,c = map(int, stdin.split())\n\na = (a - 1) // 2\nb = (b - 1) // 2\nc = (c - 1) // 2\nprint(b - c)"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('5 2 1') == '2'\n\"\"\"\n\nimport sys\n\nb, k, g = [int(i) for i in sys.stdin.readline().split()]"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"5 2 1\\n\") == \"2\"\n\"\"\"\n\n\"\"\"\nSolution 1\n\"\"\"\n\nimport sys\ninput = sys.stdin.readline\n\nb, k, g = map(int, input().split())\n\ndays = k\nwhile True:\n    if days > b:\n        days = days % b\n    else:\n        break\n    days += k\n\nprint(days // g)\n"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('') == ''\n\nassert solution('5 2 1') == '2'\nassert solution('3 2 1') == '1'\nassert solution('3 2 2') == '0'\n\"\"\""
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"5 2 1\") == \"2\"\n\"\"\"\n"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('''5 2 1''') == '2'\nassert solution('''7 3 3''') == '4'\n'''"
+    },
+    {
+        "number": 4990,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('5 2 1') == '2'\n\"\"\""
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution('5') == '36'\nassert solution('7') == '288'\n\n'''"
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('5') == 36\nassert solution('7') == 288\n\"\"\""
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(5) == 36\nassert solution(7) == 288\n\"\"\""
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('5') == '36'\nassert solution('7') == '288'"
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"5\") == 36\nassert solution(\"7\") == 288\n\"\"\"\n"
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution('5') == '36'\nassert solution('7') == '288'\n\"\"\"\n\nimport math\n"
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('') == ''\nassert solution('42') == '28'\nassert solution('1234567890') == '7114055479'\nassert solution('1924') == '3679'\nassert solution('5329') == '50892'\n\"\"\"\n"
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution('5') == 36\nassert solution('7') == 288\nassert solution('10') == 2520\n\"\"\"\n"
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('5') == '36'\nassert solution('7') == '288'\n\"\"\""
+    },
+    {
+        "number": 4991,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('5') == 36\nassert solution('7') == 288\n\nSample Input:\n4294967295\nSample Output:\n18446744073709551615\n\"\"\"\n\nn = int(input())"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"4\\n2 3 3 1\") == \"2 3 4 1\"\n\nassert solution(\"4\\n2 3 3 1\")!= \"2 1 3 4\"\n\nassert solution(\"4\\n2 3 3 1\")!= \"2 1 3 2\"\n\nassert solution(\"4\\n2 3 3 1\")!= \"2 1 4 3\"\n\nassert solution(\"4\\n2 3 3 1\")!= \"1 2 3 4\""
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution(\"4\\n2 3 3 1\") == \"2 3 4 1\"\nassert solution(\"4\\n2 1 3 1\") == \"impossible\"\nassert solution(\"5\\n2 3 3 1\") == \"impossible\"\n\"\"\"\n\nfrom collections import Counter\n\nimport sys"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution('') == 'impossible'\nassert solution('5\\n1 5 1 5 1') == '2 3 4 1'\nassert solution('7\\n3 7 3 3 3 3 3') == '3 7 5 1 2 4 6'\nassert solution('8\\n1 1 1 1 1 1 1 1') == '1 2 3 4 5 6 7 8'\n\"\"\"\n"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('''4\n2 3 3 1''') == '2 3 4 1'\n\"\"\""
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('4\\n2 3 3 1') == '2 3 4 1'\n"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution('4\\n2 3 3 1') == '2 3 4 1'\n\"\"\"\n\nfrom tools import timing\n\nfrom collections import deque\n\n\n@timing\n"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('4\\n2 3 3 1') == '2 3 4 1'\nassert solution('4\\n1 2 3 4') == '1 4 2 3'\nassert solution('4\\n2 3 3 1') == '2 3 4 1'\nassert solution('4\\n2 3 3 1')!= '4 1 2 3'\nassert solution('4\\n1 2 3 4')!= '1 4 2 3'\n"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"4\\n2 3 3 1\") == \"2 3 4 1\"\nassert solution(\"4\\n2 2 3 1\") == \"impossible\"\nassert solution(\"4\\n1 1 1 1\") == \"1 2 3 4\"\n\"\"\"\n"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('4\\n2 3 3 1') == '2 3 4 1'\nassert solution('4\\n1 2 3 4') == 'impossible'\nassert solution('4\\n1 2 1 1') == 'impossible'\nassert solution('4\\n1 2 3 4') == 'impossible'\nassert solution('4\\n2 3 3 1') == '2 3 4 1'\n"
+    },
+    {
+        "number": 4992,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(\"4\\n2 3 3 1\") == \"2 3 4 1\"\n\"\"\"\nfrom typing import List\n\n\nclass Exam:\n    def __init__(self, room: int, students: int):\n        self.room = room\n        self.students = students"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution('3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar') == '4'\nassert solution('3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar') == '5'"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution(\"3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar\") == 4\n"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar\") == \"4\"\nassert solution(\"3 5\\nright_oar\\nleft_oar\\nleft_oar\\nhull\\nright_oar\") == \"0\"\n"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar') == 4\n\"\"\""
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('') == ''\nassert solution('1 2 3') == '2'\nassert solution('1 1 1') == '1'\nassert solution('1 2 3 4 5') == '2'\nassert solution('1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20') == '14'\n"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution('3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar') == '4'\nprint(solution(stdin=input()))\n\n\"\"\"\nfrom math import ceil\n"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar\") == \"4\"\n\"\"\"\n\nimport unittest\nfrom collections import Counter"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar\") == \"4\"\n\"\"\"\n"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(\"3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar\") == \"4\"\n\n\"\"\"\n\nimport sys\nimport itertools"
+    },
+    {
+        "number": 4993,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(\"3 5\\nleft_oar\\nright_oar\\nleft_oar\\nhull\\nright_oar\") == \"4\"\nprint(solution(input()))\n"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(stdin) == stdout\n\"\"\""
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution(\"7 7\\n5 5\\n4 3\") == \"4 3\"\nassert solution(\"5 5\\n4 3\\n7 7\") == \"7 7\"\nassert solution(\"5 5\\n7 3\\n7 7\") == \"7 7\"\nassert solution(\"5 5\\n7 7\\n7 5\") == \"5 5\"\n\"\"\"\n"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"5 5\\n5 7\\n7 5\") == \"7 7\"\n"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"5 5\\n5 7\\n7 5\") == \"7 7\"\n\"\"\"\n\nimport sys\n\ninp_1, inp_2, inp_3 = map(int, sys.stdin.readline().strip().split())\ninp_4 = (inp_1 ** 2 + inp_2 ** 2) ** 0.5\ninp_5 = (inp_2 ** 2 + inp_3 ** 2) ** 0.5\n\nprint(inp_4, inp_5)\n\nprint(inp_4, inp_3)\nprint(inp_3, inp_4)\n"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"5 5\\n5 7\\n7 5\") == \"7 7\"\nprint(solution(\"5 5\\n5 7\\n7 5\"))\nassert solution(\"1 1\\n1 1\") == \"1 1\"\nprint(solution(\"1 1\\n1 1\"))\n\"\"\"\n"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution('''5 5\n5 7\n7 5''') == '7 7'\n\nprint(solution(stdin.strip()))\n\nThe first line contains the coordinates of the first vertex (X1, Y1) of the rectangle, the second line contains the coordinates of the second vertex (X2, Y2) of the rectangle, and the third line contains the coordinates of the third vertex (X3, Y3) of the rectangle.\n\nSample Input\n4 5\n3 3\n3 4\nSample Output\n4 4"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"4 3\\n1 2\\n6 4\\n5 3\") == \"5 3\"\nassert solution(\"8 8\\n5 7\\n3 5\\n2 4\\n3 4\") == \"4 4\"\nassert solution(\"1 9\\n1 1\\n3 3\\n2 2\") == \"4 4\"\nassert solution(\"10 10\\n9 5\\n8 8\\n7 7\\n6 6\") == \"8 8\"\nassert solution(\"9 5\\n8 8\\n7 7\\n6 6\\n4 4\") == \"8 8\"\n\n\"\"\"\nimport numpy as np\n"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"5 5\\n5 7\\n7 5\") == \"7 7\"\nprint(\"AlgoExpert solution:\\n\", solution(\"5 5\\n5 7\\n7 5\"))\n\n\"\"\"\n"
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('''5 5\n5 7\n7 5''') == '7 7'\nprint('Test pass.')\n\nassert solution('''3 3\n3 4\n4 3''') == '4 4'\nprint('Test pass.')\n\nassert solution('''5 5\n5 7\n7 5\n7 7''') == '7 7'\nprint('Test pass.')\n\n\"\"\""
+    },
+    {
+        "number": 4994,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('5 5\\n5 7\\n7 5') == '7 7'\nassert solution('5 5\\n5 7\\n5 6\\n7 7') == '7 7'\nassert solution('5 5\\n5 7\\n5 6\\n7 6') == '6 6'\nassert solution('5 5\\n5 7\\n5 6\\n6 7') == '6 6'\nassert solution('5 5\\n5 7\\n5 6\\n6 6\\n7 7') == '6 6'\n"
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"1 61\") == \"1.016666667\"\n\"\"\""
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('1\\n1 61') =='measurement error'\nassert solution('2\\n61 5') == '59.66666667'\nassert solution('3\\n61 2\\n61 5') == '59.33333333'\nassert solution('4\\n61 1\\n61 2\\n61 5') == '59.5'\nassert solution('5\\n61 1\\n61 2\\n61 5\\n61 6') == '59.16666667'\n"
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"4 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\n20 10\\"
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('1\\n1 61') == '1.016666667'"
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"1\\n61\") == \"1.016666667\"\n\"\"\""
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"3 1\\n1 36\\n2 120\\n3 661\\n\") == \"measurement error\"\n\n-----Notes-----\nThis is not the hardest problem in the collection. There are different solutions for this problem. Sometimes the answer may not be a real number.\n\"\"\""
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(['1 61\\n']) =='measurement error'\nassert solution(['1 61\\n']) == '1.016666667'\nassert solution(['2 10\\n']) =='measurement error'\nassert solution(['2 10\\n']) == '0.4'\nassert solution(['1 100\\n']) == '0.016666667'\n"
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(stdin) == stdout\n\n-------------\n\nWrite a program that, given a word (a string), outputs the longest prefix of the word, that does not contain any vowels.\n\nSample Input:\nstring\nSample Output:\nch\nExample 2:\n\nSample Input:\ncomputer\nSample Output:\ncom\n\n------------\n\nThe task is to write a program that, given a string, prints out the longest substring without any vowels.\n\nThe program must output the longest substring in lowercase letters. If two or more substrings have the same length, then you need to print the one that will appear first in the original string. If there is no substring that does not contain any vowels, then print \"NO SUBSEQUENCE\".\n\nSample Input:\ncomputern\nSample Output:\nNO SUBSEQUENCE\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separated sequence on a single line.\n\n------------\n\nWrite a program, which will find all such numbers between 1000 and 3000 (both included) such that each digit of the number is an even number. The numbers obtained should be printed in a comma-separ"
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(\"1 61\\n\") == \"1.016666667\"\n\"\"\"\n\nimport sys\n\nclass AverageCalculator:\n    def __init__(self, stdin: str):\n        self.input = stdin\n        self.list = []\n        self.len = int(self.input.split()[0])\n        self.sum = 0\n        self.diff = 0\n        self.len_secs = 0\n\n    def run(self):\n        for i in range(1, self.len + 1):\n            self.list.append(int(self.input.split()[i]))\n        for i in range(0, self.len):\n            self.sum = self.sum + self.list[i]\n        self.diff = self.list[self.len - 1] - self.list[0]\n        self.len_secs = self.diff / 60\n\n    def result(self):\n        return self.len_secs / len(self.list)\n"
+    },
+    {
+        "number": 4995,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(\"1\\n1 61\") == \"1.016666667\"\n\"\"\""
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution('CPMCRYY') == 'CALGARY'\nassert solution('CAALFBS') == 'CALGBRQ'\nassert solution('FABQAJX') == 'FABRXK'\n\n------Hint------\nThere are a couple of functions you can use to help you out:\n\nord('a')\n"
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('CPMCRYY') == 'CALGARY'\nassert solution('XORRWS') == 'RIKORRY'\n\nprint(solution(stdin.readline()))\n\n-----Solution-----\n\"\"\"\n\nimport string"
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution('CPMCRYY') == 'CALGARY'\nassert solution('CPMCRYY') == 'CALGARY'\nassert solution('CPMCRYY') == 'CALGARY'\nassert solution('CPMCRYY') == 'CALGARY'\n\nassert solution('CPMCRYY') == 'CALGARY'\n"
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution('CPMCRYY') == 'ALBERTA'\nassert solution('CALGARY') == 'CALGARY'\nassert solution('CCLQVVQ') == 'APPLE'\nassert solution('CPMCRYY') == 'ALBERTA'\nassert solution('CALGARY') == 'CALGARY'\n"
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"CPMCRYY\") == \"CALGARY\"\nassert solution(\"CPMCRY\") == \"CALGARY\"\nassert solution(\"CPMCRYY\") == \"CALGARY\"\nassert solution(\"CPMCRY\") == \"CALGARY\"\n\n\"\"\""
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"CPMCRYY\") == \"CALGARY\"\nassert solution(\"ZWVBISWQ\") == \"ALBERTA\"\n\n\"\"\"\n\nimport string\n\nletters = list(string.ascii_uppercase)\nkey = input()\nencr = list(input())\nencr = [encr[i] for i in range(len(encr)) if i % 2 == 0]\ndecr = [letters[(letters.index(i) - letters.index(key[j])) % len(letters)] for j in range(len(key)) for i in encr]\nprint(''.join(decr))"
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"CPMCRYY\") == \"CALGARY\"\nassert solution(\"KLEMKAY\") == \"ALBERTA\"\nassert solution(\"NHCKLZQ\") == \"SEXECTS\"\n\n\"\"\"\n\nfrom collections import Counter"
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution('CPMCRYY') == 'ALBERTA'"
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(\"CPMCRYY\") == \"CALGARY\"\nassert solution(\"CLMKRKY\") == \"CALGARY\"\nassert solution(\"DPMCRYY\") == \"DALBERTA\"\nassert solution(\"DMCRYY\") == \"DALBERTA\"\n\"\"\""
+    },
+    {
+        "number": 4996,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution(\"CPMCRYY\") == \"CALGARY\"\n\"\"\""
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"AB\") == \"3\"\nassert solution(\"AC\") == \"1\"\nassert solution(\"AA\") == \"1\"\nassert solution(\"BC\") == \"2\"\n\nprint(solution(stdin.strip()))\n"
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('ABC') == '3'\nassert solution('BA') == '2'\nassert solution('B') == '1'\n\"\"\"\n\nimport sys"
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"ABC\") == \"3\"\nassert solution(\"ABCABC\") == \"3\"\nassert solution(\"ABCABCABC\") == \"3\"\nassert solution(\"ABCABCABCABC\") == \"3\"\nassert solution(\"ABCABCABCABCABC\") == \"3\""
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"AB\") == \"3\"\nassert solution(\"CAB\") == \"2\"\nassert solution(\"BAC\") == \"1\"\n\"\"\""
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('ABC') == 3\nassert solution('ABB') == 1\n\nprint(solution('ABC'))\nprint(solution('ABB'))\n\"\"\"\n\nimport sys\n\nfor line in sys.stdin:\n    print(line[1])"
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"AB\") == \"3\"\nassert solution(\"CAB\") == \"2\"\nassert solution(\"ABC\") == \"1\"\nassert solution(\"ABB\") == \"1\"\nassert solution(\"ABBC\") == \"3\"\n"
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution(\"AB\") == \"3\"\nassert solution(\"ABC\") == \"1\"\nassert solution(\"ABB\") == \"2\"\nassert solution(\"CAB\") == \"2\"\nassert solution(\"ACB\") == \"1\"\n\"\"\""
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(test_input_1) == \"2\"\n\"\"\"\n\nfrom collections import Counter\nfrom operator import methodcaller"
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution('AB') == 3\n\"\"\"\n"
+    },
+    {
+        "number": 4997,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('AB') == 3\n\"\"\"\n"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"1 2 3 4\") == \"3\"\nprint(solution(\"1 2 3 4\"))\n"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('''1 2 3 4''') == '''3'''\nprint('test passed')\n\"\"\"\n\nA, B, C, D = [int(i) for i in input().split(' ')]"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution(\"1 2 3 4\") == \"3\"\n\"\"\"\nimport collections\n"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"1 2 3 4\") == 3\nassert solution(\"2 3 4 1\") == 4\nassert solution(\"3 4 1 2\") == 4\n\"\"\"\n"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution('1 2 3 4') == 3\nassert solution('2 2 4 5') == 6\nassert solution('1 1 1 1') == 0\nassert solution('1 1 1 2') == 4\nassert solution('1 2 1 3') == 4\n"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution(\"1 2 3 4\") == \"3\"\n"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('1 2 3 4') == '3'\nassert solution('1 2 3 6') == '3'\nassert solution('1 3 4 2') == '2'\n\"\"\"\nfrom typing import List\n"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution(\"1 2 3 4\") == '3'\nassert solution(\"3 4 1 2\") == '2'\n\"\"\"\n\nA, B, C, D = [int(x) for x in stdin.split()]\nl = [A, B, C, D]\nl.sort()\nprint(l[3] * l[2])"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(\"1 2 3 4\") == \"3\"\n\n\"\"\"\n\nimport sys"
+    },
+    {
+        "number": 4998,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('1 2 3 4') == 3\n\"\"\"\n\na, b, c, d = [int(i) for i in input().split()]"
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 0,
+        "answer": "assert solution(\"103 27\") == 4\n\nSample Input:\n10 101\nSample Output:\n-1\n\"\"\"\n"
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 1,
+        "answer": "assert solution('103 27') == '4'\nassert solution('101 27') == '5'\nassert solution('103 103') == '0'\nassert solution('101 101') == '0'\nassert solution('105 101') == '4'\n"
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 2,
+        "answer": "assert solution('103 27') == '4'\nassert solution('1 100') == '3'\nassert solution('2 100') == '2'\nassert solution('3 100') == '3'\nassert solution('4 100') == '2'\n"
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 3,
+        "answer": "assert solution(\"103 27\") == \"4\"\n\nsolution(\"10 20\") == \"5\"\n\nsolution(\"4 6\") == \"3\"\n\nsolution(\"3 6\") == \"2\"\n\nsolution(\"12 9\") == \"2\"\n\nsolution(\"1 10\") == \"0\"\n\nsolution(\"13 19\") == \"5\"\n\nsolution(\"15 6\") == \"3\"\n\nsolution(\"5 5\") == \"0\"\n\nsolution(\"1 2\") == \"1\"\n\nsolution(\"2 2\") == \"0\"\n\nsolution(\"1 1\") == \"0\"\n\nsolution(\"1 4\") == \"1\"\n\nsolution(\"6 4\") == \"0\"\n\nsolution(\"4 5\") == \"2\"\n\nsolution(\"4 4\") == \"0\"\n\nsolution(\"1 3\") == \"3\"\n\nsolution(\"3 3\") == \"0\"\n\nsolution(\"4 5\") == \"2\"\n\nsolution(\"2 7\") == \"2\"\n\nsolution(\"6 8\") == \"1\"\n\nsolution(\"5 10\") == \"2\"\n\nsolution(\"6 6\") == \"0\"\n\nsolution(\"5 4\") == \"2\"\n\nsolution(\"6 3\") == \"2\"\n\nsolution(\"4 9\") == \"3\"\n\nsolution(\"6 3\") == \"2\"\n\nsolution(\"5 2\") == \"3\"\n\nsolution(\"1 6\") == \"2\"\n\nsolution(\"3 6\") == \"2\"\n\nsolution(\"2 6\") == \"2\"\n\nsolution(\"6 6\") == \"0\"\n\nsolution(\"1 5\") == \"2\"\n\nsolution(\"3 5\") == \"1\"\n\nsolution(\"5 5\") == \"0\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"6 5\") == \"2\"\n\nsolution(\"4 3\") == \"1\"\n\nsolution(\"1 3\") == \"2\"\n\nsolution(\"3 3\") == \"0\"\n\nsolution(\"4 4\") == \"0\"\n\nsolution(\"1 4\") == \"1\"\n\nsolution(\"4 5\") == \"1\"\n\nsolution(\"5 5\") == \"0\"\n\nsolution(\"4 6\") == \"0\"\n\nsolution(\"3 2\") == \"1\"\n\nsolution(\"3 6\") == \"2\"\n\nsolution(\"3 2\") == \"1\"\n\nsolution(\"4 6\") == \"0\"\n\nsolution(\"3 6\") == \"2\"\n\nsolution(\"2 7\") == \"0\"\n\nsolution(\"4 2\") == \"1\"\n\nsolution(\"6 8\") == \"1\"\n\nsolution(\"5 2\") == \"2\"\n\nsolution(\"1 4\") == \"1\"\n\nsolution(\"5 3\") == \"0\"\n\nsolution(\"3 3\") == \"0\"\n\nsolution(\"4 5\") == \"1\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"1 6\") == \"1\"\n\nsolution(\"3 7\") == \"2\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"1 7\") == \"2\"\n\nsolution(\"1 3\") == \"0\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"5 7\") == \"0\"\n\nsolution(\"1 4\") == \"1\"\n\nsolution(\"3 6\") == \"2\"\n\nsolution(\"2 3\") == \"0\"\n\nsolution(\"1 6\") == \"2\"\n\nsolution(\"3 4\") == \"0\"\n\nsolution(\"3 6\") == \"0\"\n\nsolution(\"1 5\") == \"0\"\n\nsolution(\"3 3\") == \"0\"\n\nsolution(\"2 7\") == \"2\"\n\nsolution(\"6 3\") == \"2\"\n\nsolution(\"4 4\") == \"0\"\n\nsolution(\"1 5\") == \"1\"\n\nsolution(\"3 5\") == \"1\"\n\nsolution(\"5 2\") == \"2\"\n\nsolution(\"1 5\") == \"0\"\n\nsolution(\"3 5\") == \"1\"\n\nsolution(\"1 4\") == \"1\"\n\nsolution(\"3 4\") == \"0\"\n\nsolution(\"1 3\") == \"0\"\n\nsolution(\"6 8\") == \"1\"\n\nsolution(\"5 3\") == \"1\"\n\nsolution(\"3 7\") == \"0\"\n\nsolution(\"3 7\") == \"0\"\n\nsolution(\"6 5\") == \"2\"\n\nsolution(\"5 7\") == \"0\"\n\nsolution(\"1 4\") == \"1\"\n\nsolution(\"1 4\") == \"1\"\n\nsolution(\"3 6\") == \"2\"\n\nsolution(\"2 3\") == \"0\"\n\nsolution(\"6 7\") == \"1\"\n\nsolution(\"3 2\") == \"0\"\n\nsolution(\"1 5\") == \"0\"\n\nsolution(\"3 5\") == \"0\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"3 7\") == \"0\"\n\nsolution(\"2 7\") == \"0\"\n\nsolution(\"1 2\") == \"0\"\n\nsolution(\"6 2\") == \"2\"\n\nsolution(\"4 7\") == \"1\"\n\nsolution(\"4 7\") == \"1\"\n\nsolution(\"6 5\") == \"0\"\n\nsolution(\"1 7\") == \"0\"\n\nsolution(\"1 4\") == \"0\"\n\nsolution(\"6 6\") == \"0\"\n\nsolution(\"3 3\") == \"0\"\n\nsolution(\"2 6\") == \"0\"\n\nsolution(\"6 8\") == \"1\"\n\nsolution(\"1 6\") == \"1\"\n\nsolution(\"1 4\") == \"0\"\n\nsolution(\"5 6\") == \"1\"\n\nsolution(\"6 6\") == \"0\"\n\nsolution(\"1 7\") == \"1\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"5 5\") == \"0\"\n\nsolution(\"5 6\") == \"1\"\n\nsolution(\"2 2\") == \"0\"\n\nsolution(\"1 6\") == \"1\"\n\nsolution(\"1 1\") == \"0\"\n\nsolution(\"5 7\") == \"0\"\n\nsolution(\"1 5\") == \"1\"\n\nsolution(\"1 6\") == \"1\"\n\nsolution(\"4 6\") == \"0\"\n\nsolution(\"3 2\") == \"1\"\n\nsolution(\"5 7\") == \"0\"\n\nsolution(\"3 2\") == \"1\"\n\nsolution(\"6 7\") == \"1\"\n\nsolution(\"2 7\") == \"1\"\n\nsolution(\"1 1\") == \"0\"\n\nsolution(\"2 2\") == \"0\"\n\nsolution(\"4 5\") == \"0\"\n\nsolution(\"2 3\") == \"1\"\n\nsolution(\"4 8\") == \"2\"\n\nsolution(\"1 3\") == \"1\"\n\nsolution(\"3 3\") == \"0\"\n\nsolution(\"3 6\") == \"0\"\n\nsolution(\"6 4\") == \"1\"\n\nsolution(\"1 7\") == \"2\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"3 4\") == \"0\"\n\nsolution(\"6 5\") == \"1\"\n\nsolution(\"1 7\") == \"0\"\n\nsolution(\"3 6\") == \"2\"\n\nsolution(\"3 2\") == \"0\"\n\nsolution(\"6 7\") == \"0\"\n\nsolution(\"3 2\") == \"1\"\n\nsolution(\""
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 4,
+        "answer": "assert solution(\"103 27\") == \"4\"\n\"\"\""
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 5,
+        "answer": "assert solution('103 27') == 4\n\"\"\""
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 6,
+        "answer": "assert solution('102 27') == 4\n\n-----Challenge-----\nProblem:\n\nYou are given two integers, $a$ and $b$. You want to transform $a$ to $b$ by performing a sequence of operations. You can only perform the following operations:\n - Divide $a$ by two (only if $a$ is even)\n - Add one to $a$\n\nWhat is the minimum number of these operations you need to transform $a$ into $b$?\n\n\"\"\""
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 7,
+        "answer": "assert solution('') == 0\n\"\"\"\n\n\nimport sys\n\nA, B = [int(x) for x in sys.stdin.readline().strip().split()]\n\ncount = 0\n\nwhile A!= B:\n    if A & 1 == 0:\n        A = A // 2\n    else:\n        A = A + 1\n    count += 1\n\nprint(count)\n"
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 8,
+        "answer": "assert solution(\"103 27\") == \"4\"\n"
+    },
+    {
+        "number": 4999,
+        "checkpoint": "16B",
+        "pass": 9,
+        "answer": "assert solution('103 27') == '4'\n\"\"\""
     }
 ]
