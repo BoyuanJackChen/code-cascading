@@ -8,7 +8,7 @@ import re
 all_num_loops = 10
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
-model_name = "1B"
+model_name = "3B"
 
 # Load MBPP Dataset
 data_file = "../../../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
@@ -31,6 +31,8 @@ for pick_at in all_pick_at:
             # Load the answer file
             with open(answer_file, 'r') as f:
                 answer_data = json.load(f)
+            if "indeed" in answer_data[0].keys():
+                continue
             output_dict_array = []
             
             # Check if indeed is a key of answer_data[0]
@@ -55,6 +57,14 @@ for pick_at in all_pick_at:
                     question_number = int(question_dict["task_id"].split("/")[-1])
                     if question_number == number:
                         break
+                
+                if model_name=="3B" and pick_at==5 and testlines==2 and loop==5 and number==100:
+                    correct = False
+                    df.loc[len(df)] = [number, int(correct)]
+                    print(f"Question {number} is correct: {correct}")
+                    answer_dict["indeed"] = correct
+                    output_dict_array.append(answer_dict)
+                    continue
                 
                 answer = answer_dict["answer"]
                 prompt = question_dict["prompt"]
