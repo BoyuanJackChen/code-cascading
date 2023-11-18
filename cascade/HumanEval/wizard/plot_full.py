@@ -1,27 +1,23 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 
-# Reading the CSV file
-df = pd.read_csv('wizard_humaneval.csv')
+import plotly.express as px
 
-# Data cleaning: Filling NaN values in 'k', converting 'k' to integers, and removing empty rows
-df['k'] = df['k'].fillna(method='ffill').astype(int)  # Fill NaN values and convert to int
-df = df.dropna(how='all')  # Remove rows where all elements are NaN
-df = df[['k', 'Testlines', 'Cost on full run ($)', 'Overall Accuracy (%)']]  # Selecting necessary columns
+threshold = 1.0
+df = pd.read_csv(f'full_threshold{threshold}.csv')
 
-# Plotting
-plt.figure(figsize=(10, 6))
+def is_pareto(cost, accuracy, costs, accuracies):
+    for c, a in zip(costs, accuracies):
+        if c <= cost and a >= accuracy and (c < cost or a > accuracy):
+            return False
+    return True
+df['Pareto'] = df.apply(lambda x: is_pareto(x['cost'], x['accuracy'], df['cost'], df['accuracy']), axis=1)
 
-# Getting unique values of 'k'
-k_values = df['k'].unique()
+fig = px.scatter(df, x='cost', y='accuracy', color='Pareto',
+                 hover_data=['k1', 'k2', 'k3', 't1', 't2', 't3'],
+                 color_discrete_map={True: 'green', False: 'lightblue'})
 
-for k in k_values:
-    subset = df[df['k'] == k]
-    plt.plot(subset['Cost on full run ($)'], subset['Overall Accuracy (%)'], marker='o', label=f'k={k}')
+fig.update_layout(title=f'WizardCoder-Python-V1.0 Family on HumanEval, pick@0,1,3,5,10, testlines=2,4, threshold={threshold}',
+                  xaxis_title='Cost',
+                  yaxis_title='Accuracy')
 
-plt.xlabel('Cost in $', fontsize=12)  # Increased font size for x-axis label
-plt.ylabel('Accuracy in %', fontsize=12)  # Increased font size for y-axis label
-plt.title('WizardCoder-LLAMA-7B on HumanEval, testlines=1,2,3,4', fontsize=14)  # Changed title with increased font size
-plt.legend()
-plt.grid(True)
-plt.show()
+fig.show()

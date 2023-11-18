@@ -11,11 +11,9 @@ data_folder = "./selected"
 model_1 = "7B"
 model_2 = "13B"
 model_3 = "34B"
-all_throughputs = [0.3, 0.5, 0.7, 1.0]
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
 all_thresholds = [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]
-threshold = 1.0
 num_loops = 10
 selected_numbers = list(range(0,164))
 
@@ -117,7 +115,7 @@ for seed in all_seeds:
                                 t = selected_dict["max_test_num"]
                                 total_product = selected_dict["total_product"]
                                 confidence = a*t
-                                adopt = (confidence >= int(total_product*threshold))
+                                adopt = (confidence >= total_product*threshold)
                                 if k2<0 and k3<=0:
                                     adopt = True
                                 if adopt:

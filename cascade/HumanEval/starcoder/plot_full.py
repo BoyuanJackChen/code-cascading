@@ -2,7 +2,7 @@ import pandas as pd
 
 import plotly.express as px
 
-threshold = 0.1
+threshold = 1.0
 df = pd.read_csv(f'full_threshold{threshold}.csv')
 
 def is_pareto(cost, accuracy, costs, accuracies):
@@ -16,7 +16,7 @@ fig = px.scatter(df, x='cost', y='accuracy', color='Pareto',
                  hover_data=['k1', 'k2', 'k3', 't1', 't2', 't3'],
                  color_discrete_map={True: 'green', False: 'lightblue'})
 
-fig.update_layout(title='fWizardCoder-Python-V1.0 Family on HumanEval, pick@0,1,3,5,10, testlines=2,4, threshold={threshold}',
+fig.update_layout(title=f'WizardCoder-Python-V1.0 Family on HumanEval, pick@0,1,3,5,10, testlines=2,4, threshold={threshold}',
                   xaxis_title='Cost',
                   yaxis_title='Accuracy')
 
