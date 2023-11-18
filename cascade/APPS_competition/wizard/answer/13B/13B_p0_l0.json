@@ -1,0 +1,38 @@
+[
+    {
+        "number": 3000,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    stack = []\n    result = 0\n    for token in stdin.split():\n        if token == '(':\n            stack.append('(')\n        elif token == ')':\n            sub_result = 1\n            while stack and stack[-1] != '(':\n                sub_result *= int(stack.pop())\n            stack.pop()\n            result += sub_result\n        else:\n            stack.append(token)\n    return str(result % (10**9 + 7))"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(number: int) -> bool:\n        return str(number) == str(number)[::-1]\n\n    def increment_wheel(wheel: int, k: int) -> int:\n        if wheel == 9:\n            return 0\n        return wheel + 1\n\n    def increment_counter(counter: int, k: int) -> int:\n        new_counter = 0\n        for i in range(k):\n            new_counter += increment_wheel(counter % 10, k) * (10 ** i)\n            counter //= 10\n        return new_counter\n\n    def find_palindrome(counter: int, k: int) -> int:\n        steps = 0\n        while not is_palindrome(counter):\n            counter = increment_counter(counter, k)\n            steps += 1\n        return steps\n\n    k = len(stdin)\n    counter = int(stdin)\n    return str(find_palindrome(counter, k))"
+    },
+    {
+        "number": 3002,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    entries = stdin.split(\"\\n\")\n    e = int(entries[0])\n    service_history = []\n\n    for i in range(1, e + 1):\n        year, month, odometer = map(int, entries[i].split())\n        service_history.append((year, month, odometer))\n\n    def is_valid_service_history(service_history):\n        for i in range(len(service_history) - 1):\n            year1, month1, odometer1 = service_history[i]\n            year2, month2, odometer2 = service_history[i + 1]\n\n            if year1 == year2 and month1 == month2:\n                return False\n\n            if odometer2 - odometer1 > 99999:\n                return False\n\n        return True\n\n    def is_service_history_valid(service_history):\n        if not is_valid_service_history(service_history):\n            return False\n\n        total_distance = 0\n        for year, month, odometer in service_history:\n            total_distance += odometer\n\n        if total_distance < 2000 or total_distance > 20000:\n            return False\n\n        return True\n\n    def is_car_serviced_often_enough(service_history):\n        last_service_year, last_service_month, last_service_odometer = service_history[-1]\n        last_service_date = datetime.date(last_service_year, last_service_month, 1)\n\n        for year, month, odometer in service_history:\n            service_date = datetime.date(year, month, 1)\n            time_since_last_service = (service_date - last_service_date).days\n\n            if time_since_last_service >= 365 * 12:\n                return True\n\n        return False\n\n    if not is_service_history_valid(service_history):\n        return \"tampered odometer\"\n\n    if not is_car_serviced_often_enough(service_history):\n        return \"insufficient service\"\n\n    return \"seems legit\""
+    },
+    {
+        "number": 3003,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    lines = stdin.split('\\n')\n    n = int(lines[0])\n    graph = [[] for _ in range(n)]\n    for i in range(1, n+1):\n        for j in map(int, lines[i].split()):\n            graph[i-1].append(j-1)\n            graph[j-1].append(i-1)\n    \n    colors = set()\n    for i in range(n):\n        used_colors = set()\n        for j in graph[i]:\n            used_colors.add(colors.intersection(colors_used[j]))\n        colors.add(used_colors)\n    \n    return str(len(colors))"
+    },
+    {
+        "number": 3004,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def is_valid(offers: List[Tuple[str, int, int]]) -> bool:\n        colors = set()\n        sections = set()\n        for color, start, end in offers:\n            if start in sections or end in sections:\n                return False\n            sections.update(range(start, end + 1))\n            colors.add(color)\n        return len(colors) <= 3 and len(sections) == 10000\n\n    def min_offers(offers: List[Tuple[str, int, int]]) -> int:\n        offers.sort(key=lambda x: x[2] - x[1])\n        min_count = float('inf')\n        for i in range(len(offers)):\n            for j in range(i + 1, len(offers)):\n                if offers[j][1] <= offers[i][2]:\n                    new_offers = offers[:i] + offers[i:j + 1]\n                    if is_valid(new_offers):\n                        min_count = min(min_count, j - i + 1)\n        return min_count if min_count != float('inf') else \"IMPOSSIBLE\"\n\n    offers = []\n    for line in stdin.split('\\n')[1:]:\n        color, start, end = line.split()\n        offers.append((color, int(start), int(end)))\n\n    return str(min_offers(offers))"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "13B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def find_max_factoring(s: str) -> str:\n        n = len(s)\n        max_weight = float('inf')\n        max_factoring = ''\n        for i in range(1, n):\n            for j in range(i, n):\n                substring = s[i:j+1]\n                count = 1\n                while substring * count in s:\n                    count += 1\n                weight = len(substring) * count\n                if weight < max_weight:\n                    max_weight = weight\n                    max_factoring = substring * count\n        return max_factoring\n\n    max_factoring = find_max_factoring(stdin)\n    return len(max_factoring)"
+    }
+]

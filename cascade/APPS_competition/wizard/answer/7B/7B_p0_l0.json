@@ -1,0 +1,44 @@
+[
+    {
+        "number": 3000,
+        "checkpoint": "7B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.splitlines()[0])\n    tokens = stdin.splitlines()[1].split()\n\n    stack = []\n    for token in tokens:\n        if token == '(':\n            stack.append('(')\n        elif token == ')':\n            subseq = []\n            while stack and stack[-1] != '(':\n                subseq.append(stack.pop())\n            stack.pop()\n            subseq.reverse()\n            stack.append(eval(''.join(str(x) for x in subseq)))\n        else:\n            stack.append(int(token))\n\n    result = 0\n    while stack:\n        result = (result + stack.pop()) % (10**9 + 7)\n\n    return str(result)\n"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "7B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(num: str) -> bool:\n        return num == num[::-1]\n\n    def next_palindrome(num: str) -> str:\n        def increment_digit(digit: str) -> str:\n            if digit == '9':\n                return '0'\n            else:\n                return str(int(digit) + 1)\n\n        def increment_number(num: str) -> str:\n            if num[-1] == '9':\n                return increment_number(num[:-1]) + '0'\n            else:\n                return num[:-1] + increment_digit(num[-1])\n\n        def reverse_number(num: str) -> str:\n            return num[::-1]\n\n        def is_palindrome(num: str) -> bool:\n            return num == num[::-1]\n\n        def is_valid_palindrome(num: str) -> bool:\n            return is_palindrome(num) and num.count('0') <= num.count('1')\n\n        def find_next_palindrome(num: str) -> str:\n            while not is_valid_palindrome(num):\n                num = increment_number(num)\n            return num\n\n        return find_next_palindrome(reverse_number(num))\n\n    def count_steps(num: str) -> int:\n        def count_digits(num: str) -> int:\n            return len(num)\n\n        def count_zeros(num: str) -> int:\n            return num.count('0')\n\n        def count_ones(num: str) -> int:\n            return num.count('1')\n\n        def count_steps(num: str) -> int:\n            if count_digits(num) == 1:\n                return 0\n            elif count_digits(num) == 2:\n                return 1\n            else:\n                return count_ones(num) + count_steps(num[:-1])\n\n        return count_steps(num)\n\n    num = stdin.strip()\n    palindrome = next_palindrome(num)\n    steps = count_steps(palindrome)\n    return str(steps)"
+    },
+    {
+        "number": 3002,
+        "checkpoint": "7B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def is_tampered(history: list) -> bool:\n        for i in range(len(history) - 1):\n            if history[i][2] > history[i + 1][2]:\n                return True\n        return False\n\n    def is_serviced_often_enough(history: list, max_distance: int, max_months: int) -> bool:\n        total_distance = 0\n        total_months = 0\n        for i in range(len(history) - 1):\n            total_distance += history[i + 1][2] - history[i][2]\n            total_months += (history[i + 1][0] - history[i][0]) * 12 + (history[i + 1][1] - history[i][1])\n            if total_distance > max_distance or total_months > max_months:\n                return False\n        return True\n\n    def is_legit(history: list) -> bool:\n        if is_tampered(history):\n            return False\n        return is_serviced_often_enough(history, 30000, 12)\n\n    n = int(stdin.splitlines()[0])\n    history = [tuple(map(int, line.split())) for line in stdin.splitlines()[1:]]\n\n    if is_legit(history):\n        return \"seems legit\"\n    elif is_tampered(history):\n        return \"tampered odometer\"\n    else:\n        return \"insufficient service\""
+    },
+    {
+        "number": 3003,
+        "checkpoint": "7B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def dfs(graph, visited, color, vertex, num_colors):\n        visited[vertex] = True\n        for neighbor in graph[vertex]:\n            if not visited[neighbor]:\n                for i in range(num_colors):\n                    if color[neighbor] == -1 or color[neighbor] != i:\n                        color[neighbor] = i\n                        if dfs(graph, visited, color, neighbor, num_colors):\n                            return True\n                        color[neighbor] = -1\n        return False\n\n    def min_colors(graph, num_colors):\n        color = [-1] * len(graph)\n        visited = [False] * len(graph)\n        for vertex in range(len(graph)):\n            if not visited[vertex]:\n                for i in range(num_colors):\n                    color[vertex] = i\n                    if dfs(graph, visited, color, vertex, num_colors):\n                        return i + 1\n        return num_colors\n\n    lines = stdin.split('\\n')\n    num_vertices = int(lines[0])\n    graph = [[] for _ in range(num_vertices)]\n    for i in range(1, num_vertices):\n        for j in map(int, lines[i].split()):\n            graph[i].append(j)\n            graph[j].append(i)\n    num_colors = min_colors(graph, num_vertices)\n    return num_colors"
+    },
+    {
+        "number": 3004,
+        "checkpoint": "7B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def is_valid_offer(offer: list) -> bool:\n        colors = set()\n        for i in range(offer[1], offer[2] + 1):\n            colors.add(offer[0])\n            if len(colors) > 3:\n                return False\n        return True\n\n    def find_min_offers(offers: list) -> int:\n        min_offers = float('inf')\n        for i in range(1, 10001):\n            for j in range(i, 10001):\n                if j - i + 1 <= 3000:\n                    valid_offer = True\n                    for offer in offers:\n                        if offer[1] <= i <= offer[2] or offer[1] <= j <= offer[2]:\n                            valid_offer = False\n                            break\n                    if valid_offer:\n                        min_offers = min(min_offers, j - i + 1)\n        return min_offers if min_offers != float('inf') else \"IMPOSSIBLE\"\n\n    offers = []\n    for line in stdin.split('\\n'):\n        color, start, end = line.split()\n        offers.append([color, int(start), int(end)])\n\n    valid_offers = [offer for offer in offers if is_valid_offer(offer)]\n    min_offers = find_min_offers(valid_offers)\n\n    return str(min_offers)"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "7B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def factorize(s: str) -> str:\n        i = 0\n        while i < len(s) - 1:\n            j = i + 1\n            while j < len(s) and s[i] == s[j]:\n                j += 1\n            if j - i > 1:\n                s = s[:i] + \"(\" + s[i:j] + \")^\" + str(j - i) + s[j:]\n                i = j\n            else:\n                i = j\n        return s\n\n    def max_factorize(s: str) -> str:\n        factorized = factorize(s)\n        max_weight = float('inf')\n        max_factoring = \"\"\n        for i in range(1, len(factorized) + 1):\n            factoring = factorized[:i] + \")\" * (len(factorized) - i)\n            weight = len(factoring) - factoring.count(\")\")\n            if weight < max_weight:\n                max_weight = weight\n                max_factoring = factoring\n        return max_factoring\n\n    return len(max_factorize(stdin))\n"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "7B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def apply_operation(s: str, op: str, pos: int, c: str) -> str:\n        if op == 'D':\n            return s[:pos-1] + s[pos:]\n        elif op == 'I':\n            return s[:pos] + c + s[pos:]\n        else:\n            return s\n\n    def compare_programs(prog1: str, prog2: str) -> bool:\n        s = ''\n        for op1, op2 in zip(prog1.split('\\n'), prog2.split('\\n')):\n            if op1 != op2:\n                return False\n            if op1.startswith('D'):\n                pos = int(op1.split()[1])\n                s = apply_operation(s, 'D', pos, '')\n            elif op1.startswith('I'):\n                pos, c = map(int, op1.split()[1:])\n                s = apply_operation(s, 'I', pos, chr(c))\n        return s == ''\n\n    prog1, prog2 = stdin.split('\\n\\n')\n    return '0' if compare_programs(prog1, prog2) else '1'"
+    }
+]
