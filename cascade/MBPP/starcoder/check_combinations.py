@@ -20,7 +20,7 @@ num_loops = 10
 all_numbers = list(range(0,164))
 
 # Load cost per token
-df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
+df_all_costs = pd.read_csv("../../../throughput/mbpp_all_costs.csv")
 cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_3 = df_all_costs.loc[df_all_costs['Size']==model_3, 'Cost per 1k tokens ($)'].iloc[0]
