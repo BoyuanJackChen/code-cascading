@@ -17,7 +17,7 @@ all_testlines = [0,2,4]
 all_thresholds = [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]
 threshold = 1.0
 num_loops = 10
-selected_numbers = list(range(0,164))
+all_numbers = list(range(0,164))
 
 # Load cost per token
 df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
@@ -67,7 +67,6 @@ all_seeds = [3,7,9,13,15]
 all_seeds = [3]
 for seed in all_seeds:
     random.seed(seed)
-    all_numbers = list(range(0,164))
     selected_numbers = random.sample(range(0, 164), 49)
     val_numbers = [num for num in selected_numbers]
     test_numbers = [num for num in all_numbers if num not in selected_numbers]

@@ -5,17 +5,15 @@ import time
 import json
 import os
 import argparse
-import multiprocessing
 import torch
-from human_eval.data import write_jsonl, read_problems, stream_jsonl
 import random
 import numpy as np
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
+parser.add_argument("--model", type=int, default=0, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
-parser.add_argument("--batch_size", type=int, default=32, help="Batch size for number of questions")
-parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
+parser.add_argument("--batch_size", type=int, default=180, help="Batch size for number of questions")
+parser.add_argument("--num_loops", type=int, default=11, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
@@ -126,9 +124,13 @@ def main(args):
     all_time = np.zeros(num_loops)
     all_avg_cost = np.zeros(num_loops)
     
-    # Load HumanEval Dataset
-    all_questions_dict = read_problems()
-    all_keys = all_questions_dict.keys()
+    # Load MBPP Dataset
+    data_file = "../../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
+    all_questions_dict = []
+    with open(data_file, 'r') as file:
+        for line in file:
+            json_line = json.loads(line)
+            all_questions_dict.append(json_line)
 
     # Prepare the model checkpoint
     if args.model == 0:
@@ -185,16 +187,14 @@ def main(args):
         selected_numbers = custom_sample(164, batch_size)
         # print(selected_numbers)
         for number in selected_numbers:
-            question_key = f"HumanEval/{number}"
-            question = all_questions_dict[question_key]
+            question_key = f"MbppEval/{number}"
+            for question in all_questions_dict:
+                if question[number_key] == question_key:
+                    break
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
             question_prompt = alpaca_prompt(prompt)
             all_answer_prompts += [question_prompt]*max(pass_at,1)
-            # def_name = get_def_name(prompt)
-            # testcase_prompt = alpaca_test(prompt, def_name)
-            # all_testcase_prompts += [testcase_prompt]*max(pass_at,1)
-            # all_def_name += [def_name]*max(pass_at,1)
         logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=batch_size*max(pass_at,1), encounters=1)])
         
         # Generate answers
@@ -235,7 +235,7 @@ def main(args):
         all_avg_cost[loop] = time_per_1k_tokens
         print(f"Time per 1k tokens: {time_per_1k_tokens} seconds")
 
-    print(f"Average time per 1k tokens: {np.mean(all_avg_cost)} seconds")
+    print(f"Average time per 1k tokens: {np.mean(all_avg_cost[1:])} seconds")
 
 if __name__== "__main__":
     main(FLAGS)

@@ -12,9 +12,9 @@ import random
 import numpy as np
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
+parser.add_argument("--model", type=int, default=3, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
-parser.add_argument("--batch_size", type=int, default=20, help="Batch size for number of questions")
+parser.add_argument("--batch_size", type=int, default=24, help="Batch size for number of questions")
 parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
@@ -109,7 +109,6 @@ def main(args):
     prompt_key = "prompt"
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     num_loops = args.num_loops
-    output_file = f"./humaneval_wizard{args.model}.txt"
     pass_at = args.pass_at
     batch_size = args.batch_size
     all_time = np.zeros(num_loops)
@@ -234,10 +233,9 @@ def main(args):
         time_spent = round(end-start, 2)
         all_time[loop] = time_spent
         total_count = sum(tensor.ne(eos_id).sum().item() for tensor in answer_ids)
-        print(f"Loop {loop} time spent: {time_spent} seconds; num tokens: {total_count}")
         time_per_1k_tokens = round(time_spent / (total_count / 1000), 2)
         all_avg_cost[loop] = time_per_1k_tokens
-        print(f"Time per 1k tokens: {time_per_1k_tokens} seconds")
+        print(f"Loop {loop} time spent: {time_spent} seconds; num tokens: {total_count}; Time per 1k tokens: {time_per_1k_tokens} seconds")
 
     print(f"Average time per 1k tokens: {np.mean(all_avg_cost)} seconds")
 

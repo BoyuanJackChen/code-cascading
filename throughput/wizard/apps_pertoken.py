@@ -12,11 +12,10 @@ import random
 import numpy as np
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
+parser.add_argument("--model", type=int, default=3, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
-parser.add_argument("--batch_size", type=int, default=2, help="Batch size for number of questions")
+parser.add_argument("--batch_size", type=int, default=24, help="Batch size for number of questions")
 parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
-parser.add_argument("--assert_num", type=int, default=5, help="NUmber of testlines")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
@@ -109,17 +108,17 @@ def main(args):
     number_key = "task_id"
     prompt_key = "prompt"
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
-    pass_at = args.pass_at
     num_loops = args.num_loops
+    pass_at = args.pass_at
     batch_size = args.batch_size
+    all_time = np.zeros(num_loops)
+    all_avg_cost = np.zeros(num_loops)
     
     # Load HumanEval Dataset
     all_questions_dict = read_problems()
     all_keys = all_questions_dict.keys()
 
     # Prepare the model checkpoint
-    answer_dict_list = []
-    counter = 0
     if args.model == 0:
         model_size = "1B"
         checkpoint = "WizardLM/WizardCoder-1B-V1.0"
@@ -142,12 +141,6 @@ def main(args):
     print(f"Pass @ {args.pass_at}")
     print(f"Batch size: {batch_size}")
     print(f"Num loops {args.num_loops}")
-    
-    # Make directory if f"{model_size}" dir does not exist
-    if not os.path.exists(f"answer"):
-        os.mkdir(f"answer")
-    if not os.path.exists(f"answer/{model_size}"):
-        os.mkdir(f"answer/{model_size}")
     
     # Load the model
     model = AutoModelForCausalLM.from_pretrained(
@@ -188,30 +181,27 @@ def main(args):
                             scores[i] = forced_eos
             return scores
 
-    # Since it is sampling with temperature, do it for multiple loops to find average
-    all_time = np.zeros(num_loops)
     for loop in range(num_loops):
         all_answer_prompts = []
         all_testcase_prompts = []
         all_def_name = []
         selected_numbers = random.sample(range(0, 164), batch_size)
-        print(selected_numbers)
+        # print(selected_numbers)
         for number in selected_numbers:
             question_key = f"HumanEval/{number}"
             question = all_questions_dict[question_key]
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
             question_prompt = alpaca_prompt(prompt)
-            def_name = get_def_name(prompt)
-            testcase_prompt = alpaca_test(prompt, def_name)
             all_answer_prompts += [question_prompt]*max(pass_at,1)
-            all_testcase_prompts += [testcase_prompt]*max(pass_at,1)
-            all_def_name += [def_name]*max(pass_at,1)
-        logits_processor = LogitsProcessorList([StopSequences(assert_stop_words_ids, batch_size=batch_size*max(pass_at,1), encounters=args.assert_num)])
+            # def_name = get_def_name(prompt)
+            # testcase_prompt = alpaca_test(prompt, def_name)
+            # all_testcase_prompts += [testcase_prompt]*max(pass_at,1)
+            # all_def_name += [def_name]*max(pass_at,1)
+        logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=batch_size*max(pass_at,1), encounters=1)])
         
         # Generate answers
         start = time.time()
-        # print(all_answer_prompts)
         prompt_ids = tokenizer.batch_encode_plus(
                         all_answer_prompts,
                         return_tensors="pt",
@@ -222,96 +212,32 @@ def main(args):
         max_new_tokens = 1024
         max_length = 2048
         with torch.no_grad():
-            if pass_at in [0,1]:
-                answer_ids = model.generate(
-                    **prompt_ids,
-                    use_cache = True,
-                    pad_token_id = tokenizer.pad_token_id,
-                    eos_token_id = tokenizer.eos_token_id,
-                    max_new_tokens = max_new_tokens,
-                    num_return_sequences=1,
-                    do_sample = False,
-                    top_p=0.95,
-                    logits_processor = logits_processor
-                )
-            else:
-                answer_ids = model.generate(
-                    **prompt_ids,
-                    use_cache = True,
-                    pad_token_id = tokenizer.eos_token_id,
-                    eos_token_id = tokenizer.eos_token_id,
-                    max_new_tokens = max_new_tokens,
-                    do_sample = True,
-                    top_k = 0,
-                    top_p = 0.95,
-                    temperature = 0.8,
-                    num_beams = 1,
-                    logits_processor = logits_processor
-                )
+            answer_ids = model.generate(
+                **prompt_ids,
+                use_cache = True,
+                pad_token_id = tokenizer.eos_token_id,
+                eos_token_id = tokenizer.eos_token_id,
+                max_new_tokens = max_new_tokens,
+                do_sample = True,
+                top_k = 0,
+                top_p = 0.95,
+                temperature = 0.8,
+                num_beams = 1,
+                logits_processor = logits_processor
+            )
         answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
         answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-        answer_trimmed = [process_answer(answer) for answer in answer_text]
-        for answer in answer_trimmed:
-            print(answer)
-        input()
+        # answer_trimmed = [process_answer(answer) for answer in answer_text]
         torch.cuda.empty_cache()
-        
-        # Generate testcase
-        logits_processor = LogitsProcessorList([StopSequences(assert_stop_words_ids, batch_size=batch_size*max(pass_at,1), encounters=args.assert_num)])
-        prompt_ids = tokenizer.batch_encode_plus(
-                        all_testcase_prompts,
-                        return_tensors="pt",
-                        truncation=True,
-                        padding=True,
-                        max_length=2048
-                    ).to(torch.cuda.current_device())
-        max_new_tokens = 1024
-        max_length = 2048
-        with torch.no_grad():
-            if pass_at in [0,1]:
-                answer_ids = model.generate(
-                    **prompt_ids,
-                    use_cache = True,
-                    pad_token_id = tokenizer.pad_token_id,
-                    eos_token_id = tokenizer.eos_token_id,
-                    max_new_tokens = max_new_tokens,
-                    num_return_sequences=1,
-                    do_sample = False,
-                    top_p=0.95,
-                    logits_processor = logits_processor
-                )
-            else:
-                answer_ids = model.generate(
-                    **prompt_ids,
-                    use_cache = True,
-                    pad_token_id = tokenizer.eos_token_id,
-                    eos_token_id = tokenizer.eos_token_id,
-                    max_new_tokens = max_new_tokens,
-                    do_sample = True,
-                    top_k = 0,
-                    top_p = 0.95,
-                    temperature = 0.8,
-                    num_beams = 1,
-                    logits_processor = logits_processor
-                )
-        answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
-        answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-        answer_trimmed = []
-        for answer, def_name in zip(answer_text, all_def_name):
-            answer_trimmed.append(process_test(answer, def_name))
-        for answer in answer_trimmed:
-            print(answer)
-            print()
-        input()
-        
         end = time.time()
         time_spent = round(end-start, 2)
         all_time[loop] = time_spent
-        print(f"Loop {loop} time spend: {time_spent} seconds")
-        
-    all_loop_mean = np.mean(all_time)
-    print(f"Average time spend: {all_loop_mean} seconds")
+        total_count = sum(tensor.ne(eos_id).sum().item() for tensor in answer_ids)
+        time_per_1k_tokens = round(time_spent / (total_count / 1000), 2)
+        all_avg_cost[loop] = time_per_1k_tokens
+        print(f"Loop {loop} time spent: {time_spent} seconds; num tokens: {total_count}; Time per 1k tokens: {time_per_1k_tokens} seconds")
 
+    print(f"Average time per 1k tokens: {np.mean(all_avg_cost)} seconds")
 
 if __name__== "__main__":
     main(FLAGS)
