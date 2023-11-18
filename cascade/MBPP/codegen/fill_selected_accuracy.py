@@ -8,10 +8,15 @@ import re
 all_num_loops = 10
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
-model_name = "350M"
+model_name = "16B"
 
-# Load HumanEval Dataset
-all_questions_dict = json.load(open("../../../evaluations/humaneval/data/HumanEval_py.json", "r"))
+# Load MBPP Dataset
+data_file = "../../../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
+all_questions_dict = []
+with open(data_file, 'r') as file:
+    for line in file:
+        json_line = json.loads(line)
+        all_questions_dict.append(json_line)
 
 for pick_at in all_pick_at:
     for testlines in all_testlines:
@@ -44,22 +49,27 @@ for pick_at in all_pick_at:
             import_lines = "import math\nfrom typing import List\n"
             for i in range(len(answer_data)):
                 answer_dict = answer_data[i]
-                question_dict = all_questions_dict[i]
                 correct = False
                 number = answer_dict["number"]
-                if number in df["number"].values or number<0:
-                    continue
+                for question_dict in all_questions_dict:
+                    question_number = int(question_dict["task_id"].split("/")[-1])
+                    if question_number == number:
+                        break
+                
                 answer = answer_dict["answer"]
-                
                 prompt = question_dict["prompt"]
-                
-                # Find the last line that starts with "def "
                 test = question_dict["test"]
-                test = test[test.find("def "):]
                 
-                full_code = import_lines + prompt + answer + "\n" + test
-                # print(full_code)
-                # input()
+                # Find the last line in prompt that starts with "def"
+                def_line = ""
+                for line in reversed(prompt.split("\n")):
+                    if line.startswith("def"):
+                        def_line = line
+                        break
+                def_name = def_line.split("(")[0].split(" ")[1]
+                test += f"\ncheck({def_name})"
+                
+                full_code = import_lines + answer + "\n" + test
                 
                 def code_to_run(result_queue):
                     try:
@@ -81,6 +91,10 @@ for pick_at in all_pick_at:
                     correct = result_queue.get()
                 process.close()
                 
+                # print(full_code)
+                # print(correct)
+                # input()
+                
                 df.loc[len(df)] = [number, int(correct)]
                 print(f"Question {number} is correct: {correct}")
                 answer_dict["indeed"] = correct
@@ -95,7 +109,6 @@ for pick_at in all_pick_at:
                 json.dump(output_dict_array, f, indent=4)
             
 
-mean_accuracy = np.mean(all_accuracies)
-mean_accuracy = f"{round(mean_accuracy*100, 1)}%"
-print(f"\n\n{model_name} pick@{pick_at} mean accuracy: {mean_accuracy}")
-
+        mean_accuracy = np.mean(all_accuracies)
+        mean_accuracy = f"{round(mean_accuracy*100, 1)}%"
+        print(f"\n\n{model_name} pick@{pick_at}, testlines={testlines}, all loop mean accuracy: {mean_accuracy}")
