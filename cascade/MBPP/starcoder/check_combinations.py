@@ -6,7 +6,7 @@ import random
 import os
 from itertools import combinations, combinations_with_replacement, product, permutations
 
-model = "test"
+model = "val"
 data_folder = "./selected"
 model_1 = "1B"
 model_2 = "3B"
@@ -19,7 +19,7 @@ threshold = 1.0
 num_loops = 10
 all_numbers = list(range(0,164))
 
-# Load cost per token
+# Load cost per 1k tokens
 df_all_costs = pd.read_csv("../../../throughput/mbpp_all_costs.csv")
 cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
@@ -175,6 +175,8 @@ for seed in all_seeds:
         avg_df['t2'] = avg_df['t2'].astype(int)
         avg_df['t3'] = avg_df['t3'].astype(int)
         avg_df['loop'] = avg_df['loop'].astype(int)
-        avg_df['cost'] = avg_df['cost']/1000
         avg_df['accuracy'] = avg_df['accuracy'] * 100
+        # Divide cost by 1000, because cpt is in 1000 tokens; also divide by the number of questions
+        avg_df['cost'] = avg_df['cost']*1000/(1000*len(selected_numbers))
+        
         avg_df.to_csv(output_file_name, index=False)

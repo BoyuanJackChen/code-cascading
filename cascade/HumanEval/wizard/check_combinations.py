@@ -174,6 +174,7 @@ for seed in all_seeds:
         avg_df['t2'] = avg_df['t2'].astype(int)
         avg_df['t3'] = avg_df['t3'].astype(int)
         avg_df['loop'] = avg_df['loop'].astype(int)
-        avg_df['cost'] = avg_df['cost']/1000
         avg_df['accuracy'] = avg_df['accuracy'] * 100
+        # Divide cost by 1000, because cpt is in 1000 tokens; also divide by the number of questions
+        avg_df['cost'] = avg_df['cost']*1000/(1000*len(selected_numbers))
         avg_df.to_csv(output_file_name, index=False)
