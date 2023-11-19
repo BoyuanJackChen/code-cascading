@@ -27,6 +27,8 @@ for threshold in [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]:
 
     # Filter out singular rows and check if they are Pareto optimal
     singular_df = df[df.apply(is_singular, axis=1)].copy()
+    costs = singular_df['cost'].values
+    accuracies = singular_df['accuracy'].values
     singular_df['Pareto'] = [is_pareto(c, a, costs, accuracies) for c, a in zip(singular_df['cost'], singular_df['accuracy'])]
 
     # Filter out singular Pareto rows
@@ -39,8 +41,8 @@ for threshold in [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]:
     # Drop the 'Pareto' column as it's no longer needed
     final_df = final_df.drop(columns=['Pareto'])
     
-    # Uniquefy based on k1, k2, k3, t1, t2, t3
-    final_df = final_df.drop_duplicates(subset=['k1', 'k2', 'k3', 't1', 't2', 't3'], keep='first')
+    # # Uniquefy based on k1, k2, k3, t1, t2, t3
+    final_df = final_df.drop_duplicates(subset=['k1', 'k2', 'k3', 't1', 't2', 't3', 'Singular'], keep='first')
 
     # Save the combined DataFrame to a new CSV file
     final_df.to_csv(f'./cascade_results/3_pareto_threshold{threshold}.csv', index=False)
