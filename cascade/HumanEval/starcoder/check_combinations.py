@@ -16,7 +16,7 @@ all_testlines = [0,2,4]
 all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]
 num_loops = 10
 all_numbers = list(range(0,164))
-all_seeds = [3,7,9,13,15]
+all_seeds = [7]
 
 # Load cost per 1k tokens
 df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")

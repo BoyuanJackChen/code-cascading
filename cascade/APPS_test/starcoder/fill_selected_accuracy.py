@@ -8,7 +8,7 @@ import re
 all_num_loops = 10
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
-model_name = "7B"
+model_name = "15B"
 all_questions_num = list(range(4000,5000))
 
 # Load APPS Dataset

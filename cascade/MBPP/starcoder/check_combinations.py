@@ -11,13 +11,12 @@ data_folder = "./selected"
 model_1 = "1B"
 model_2 = "3B"
 model_3 = "15B"
-all_throughputs = [0.3, 0.5, 0.7, 1.0]
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
 all_thresholds = [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]
+all_seeds = [1,3,5,7,9,11,13]
 threshold = 1.0
 num_loops = 10
-all_numbers = list(range(0,164))
 
 # Load cost per 1k tokens
 df_all_costs = pd.read_csv("../../../throughput/mbpp_all_costs.csv")
@@ -25,6 +24,15 @@ cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_3 = df_all_costs.loc[df_all_costs['Size']==model_3, 'Cost per 1k tokens ($)'].iloc[0]
 print(cpt_1, cpt_2, cpt_3)
+
+# Get all numbers
+data_file = "../../../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
+all_numbers = []
+with open(data_file, 'r') as file:
+    for line in file:
+        question_dict = json.loads(line)
+        number = int(question_dict["task_id"].split("/")[1])
+        all_numbers.append(number)
 
 # Initialize all combinations of k and testlines
 combs = list(product(all_pick_at, repeat=3))
@@ -63,11 +71,10 @@ def is_bad_combo(k, t, l):
 if not os.path.exists("./cascade_results"):
     os.mkdir("./cascade_results")
 
-all_seeds = [3,7,9,13,15]
-all_seeds = [3]
 for seed in all_seeds:
     random.seed(seed)
-    selected_numbers = random.sample(range(0, 164), 49)
+    # Select 128 numbers from all_numbers
+    selected_numbers = random.sample(all_numbers, 128)
     val_numbers = [num for num in selected_numbers]
     test_numbers = [num for num in all_numbers if num not in selected_numbers]
     
@@ -88,9 +95,7 @@ for seed in all_seeds:
         else:
             output_file_name = f"./full_threshold{threshold}.csv"
             selected_numbers = all_numbers
-        # print(selected_numbers)
-        # print(len(selected_numbers))
-        # input()
+            
         for (k1, k2, k3) in all_k_combos:
             for (t1, t2, t3) in all_t_combos:
                 this_num_loops = 1 if (k1<=1 and k2<=1 and k3<=1) else num_loops
@@ -117,7 +122,7 @@ for seed in all_seeds:
                                 total_product = selected_dict["total_product"]
                                 confidence = a*t
                                 adopt = (confidence >= int(total_product*threshold))
-                                if k2<0 and k3<=0:
+                                if k2<0 and k3<0:
                                     adopt = True
                                 if adopt:
                                     all_numbers_left.remove(number)

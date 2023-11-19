@@ -9,7 +9,7 @@ num_loops = 10
 pick_at = 10
 all_limit_lines = [2,4]
 all_actual_pick_at = [0,1,3,5,10]
-model_name = "7B"
+model_name = "15B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
 all_questions_num = list(range(4000,5000))
@@ -73,7 +73,7 @@ for limit_lines in all_limit_lines:
 
                 selected_dict["num_ids"] = int(num_ids)
                 all_selected.append(selected_dict)
-                print(f"Question {number}: num_ids: {num_ids})")
+                # print(f"Question {number}: num_ids: {num_ids})")
 
             # Write to file
             with open(selected_file, 'w') as f:
