@@ -3,9 +3,10 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 
 threshold = 1.0
+seed = 7
 # Load the datasets
-df1 = pd.read_csv(f'./cascade_results/3_val_threshold{threshold}.csv')
-df2 = pd.read_csv(f'./cascade_results/3_pareto_threshold{threshold}.csv')
+df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_val_threshold{threshold}.csv')
+df2 = pd.read_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.csv')
 
 # Create a scatter plot for the first dataset
 plt.figure(figsize=(10, 6))

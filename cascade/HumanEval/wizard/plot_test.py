@@ -3,16 +3,28 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 
 threshold = 1.0
+seed = 7
 # Load the datasets
-df1 = pd.read_csv(f'./cascade_results/3_test_threshold{threshold}.csv')
-df2 = pd.read_csv(f'./cascade_results/3_pareto_threshold{threshold}.csv')
+df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv')
+df2 = pd.read_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.csv')
 
-green_size = 40
+green_size = 45
 purple_size = 50
 
 # Create a scatter plot for the first dataset
 plt.figure(figsize=(10, 6))
-scatter = plt.scatter(df1['cost'], df1['accuracy'], color='lightblue', label='All Combinations')
+lighter_purple = (0.7, 0.2, 0.7)
+lighter_green = (0.1, 0.6, 0.1)
+
+# Scatter plot objects
+scatter_plots = []
+
+# First plot all light blue dots
+for _, row in df1.iterrows():
+    non_negative_count = sum(n >= 0 for n in [row['k1'], row['k2'], row['k3']])
+    if non_negative_count > 1:
+        scatter = plt.scatter(row['cost'], row['accuracy'], color='lightblue', zorder=1)
+        scatter_plots.append(scatter)
 
 # Draw grid lines
 plt.grid(which='both', color='grey', linestyle='-', linewidth=0.5, alpha=0.5)
@@ -23,45 +35,49 @@ annot = plt.annotate("", xy=(0,0), xytext=(20,20), textcoords="offset points",
                      arrowprops=dict(arrowstyle="->"))
 annot.set_visible(False)
 
-def update_annot(ind):
+def update_annot(ind, scatter):
     pos = scatter.get_offsets()[ind["ind"][0]]
     annot.xy = pos
-    text = f"k1-k3, t1-t3 values: {df1.iloc[ind['ind'][0]][['k1', 'k2', 'k3', 't1', 't2', 't3']].tolist()}"
+    text = f"{df1.iloc[ind['ind'][0]][['k1', 'k2', 'k3', 't1', 't2', 't3']].tolist()}"
     annot.set_text(text)
 
 def hover(event):
-    vis = annot.get_visible()
-    if event.inaxes == scatter.axes:
-        cont, ind = scatter.contains(event)
-        if cont:
-            update_annot(ind)
-            annot.set_visible(True)
-            plt.draw()
-        else:
-            if vis:
-                annot.set_visible(False)
+    for scatter in scatter_plots:
+        vis = annot.get_visible()
+        if event.inaxes == scatter.axes:
+            cont, ind = scatter.contains(event)
+            if cont:
+                update_annot(ind, scatter)
+                annot.set_visible(True)
                 plt.draw()
+            else:
+                if vis:
+                    annot.set_visible(False)
+                    plt.draw()
 
 plt.connect("motion_notify_event", hover)
 
 # Overlay the second dataset
 for _, row in df2.iterrows():
-    color = 'green' if row['Singular'] == 0 else 'purple'
+    color = lighter_green if row['Singular'] == 0 else lighter_purple
     marker = 'o' if row['Singular'] == 0 else 'x'
-    size = purple_size if color == 'purple' else green_size  # Adjust size for both green dots and purple crosses
+    size = purple_size if color == lighter_purple else green_size  # Adjust size for both green dots and purple crosses
     # Find the row in df1 with the same k1-k3, t1-t3 values
     row1 = df1.loc[(df1['k1'] == row['k1']) & (df1['k2'] == row['k2']) & (df1['k3'] == row['k3']) & (df1['t1'] == row['t1']) & (df1['t2'] == row['t2']) & (df1['t3'] == row['t3'])]
-    plt.scatter(row1['cost'], row1['accuracy'], color=color, marker=marker, s=size)
+    scatter = plt.scatter(row1['cost'], row1['accuracy'], color=color, marker=marker, s=size, alpha=1.0, linewidths=2)
+    scatter_plots.append(scatter)
 
 # Add legends for green dots and purple crosses
-plt.scatter([], [], color='green', label='Combinations Optimal Settings', s=green_size)
-plt.scatter([], [], color='purple', marker='x', s=purple_size, label='Singular Model Optimal Settings')
+plt.scatter([], [], color=lighter_green, label='Cascading Optimal Parameters from Val', s=green_size)
+plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, linewidths=2, label='Singular Optimal Parameters from Val')
 
-plt.xlabel('Cost ($)', fontsize=13)
-plt.ylabel('Accuracy (%)', fontsize=13)
-plt.title(f'WizardCoder-Python-V1.0 on HumanEval, pick@0,1,3,5,10, testlines=2,4, threshold={threshold}, test set', fontsize=14)
+plt.xlabel('Cost per 1k questions ($)', fontsize=12.5)
+plt.ylabel('Accuracy (%)', fontsize=12.5)
+plt.title(f'WizardCoder-Python-V1.0 on HumanEval, θ={threshold}', fontsize=14)
 
 # Shift the legend to lower right
 plt.legend(loc='lower right')
+# Save the plot to pdf
+plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
 
 plt.show()

@@ -59,5 +59,6 @@ plt.text(-0.85, 0.3, f'Total: {len(correct_7B)}', fontsize=fontsize, color='red'
 plt.text(0.65, 0.25, f'Total: {len(correct_13B)}', fontsize=fontsize, color='green')
 plt.text(0.3, -0.7, f'Total: {len(correct_34B)}', fontsize=fontsize, color='blue')
 plt.text(-0.85, -0.7, f'Unsolvable: {unsolved}', fontsize=fontsize, color='black')
-# plt.title(title)
+# Save to pdf
+plt.savefig(f'./venn_wz_he.pdf', bbox_inches='tight')
 plt.show()

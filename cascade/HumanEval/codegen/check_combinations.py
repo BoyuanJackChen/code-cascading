@@ -8,9 +8,10 @@ from itertools import combinations, combinations_with_replacement, product, perm
 
 model = "test"
 data_folder = "./selected"
-model_1 = "7B"
-model_2 = "13B"
-model_3 = "34B"
+model_1 = "350M"
+model_2 = "2B"
+model_3 = "6B"
+model_4 = "16B"
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
 all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]
@@ -23,10 +24,11 @@ df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
 cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_3 = df_all_costs.loc[df_all_costs['Size']==model_3, 'Cost per 1k tokens ($)'].iloc[0]
-print(cpt_1, cpt_2, cpt_3)
+cpt_4 = df_all_costs.loc[df_all_costs['Size']==model_4, 'Cost per 1k tokens ($)'].iloc[0]
+print(cpt_1, cpt_2, cpt_3, cpt_4)
 
 # Initialize all combinations of k and testlines
-combs = list(product(all_pick_at, repeat=3))
+combs = list(product(all_pick_at, repeat=4))
 def is_valid_combination(comb):
     # Exclude combinations where all entries are -1
     if set(comb) == {-1}:
@@ -48,8 +50,8 @@ def is_valid_combination(comb):
     return True
 all_k_combos = [perm for comb in combs for perm in set(permutations(comb)) if is_valid_combination(perm)]
 all_k_combos = list(set(all_k_combos))
-all_k_combos = sorted(all_k_combos, key=lambda x: (x[0], x[1], x[2]))
-all_t_combos = list(product(all_testlines, repeat=3))
+all_k_combos = sorted(all_k_combos, key=lambda x: (x[0], x[1], x[2], x[3]))
+all_t_combos = list(product(all_testlines, repeat=4))
 
 def is_bad_combo(k, t, l):
     if k<=0 and t>0:
@@ -75,7 +77,7 @@ for seed in all_seeds:
         output_file_name_val = f"./cascade_results/{seed}/{seed}_val_threshold{threshold}.csv"
         output_file_name_test = f"./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv"
 
-        df_result = pd.DataFrame(columns=["k1", "k2", "k3", "t1", "t2", "t3", "loop", "cost", "accuracy"])
+        df_result = pd.DataFrame(columns=["k1", "k2", "k3", "k4", "t1", "t2", "t3", "t4", "loop", "cost", "accuracy"])
 
         # for selected_numbers, output_file_name in zip([val_numbers, test_numbers], [output_file_name_val, output_file_name_test]):
         if model == "val":
@@ -87,18 +89,17 @@ for seed in all_seeds:
         else:
             output_file_name = f"./{seed}/full_threshold{threshold}.csv"
             selected_numbers = all_numbers
-        # print(selected_numbers)
-        # print(len(selected_numbers))
-        # input()
-        for (k1, k2, k3) in all_k_combos:
-            for (t1, t2, t3) in all_t_combos:
-                this_num_loops = 1 if (k1<=1 and k2<=1 and k3<=1) else num_loops
+            
+        for (k1, k2, k3, k4) in all_k_combos:
+            for (t1, t2, t3, t4) in all_t_combos:
+                this_num_loops = 1 if (k1<=1 and k2<=1 and k3<=1 and k4<=1) else num_loops
                 for loop in range(this_num_loops):
-                    if is_bad_combo(k1, t1, loop) or is_bad_combo(k2, t2, loop) or is_bad_combo(k3, t3, loop):
+                    if is_bad_combo(k1, t1, loop) or is_bad_combo(k2, t2, loop) or is_bad_combo(k3, t3, loop) or is_bad_combo(k4, t4, loop):
                         continue
                     loop1 = loop if k1>1 else 0
                     loop2 = loop if k2>1 else 0
                     loop3 = loop if k3>1 else 0
+                    loop4 = loop if k4>1 else 0
                     
                     total_cost = 0.0
                     total_correct = 0
@@ -116,7 +117,7 @@ for seed in all_seeds:
                                 total_product = selected_dict["total_product"]
                                 confidence = a*t
                                 adopt = (confidence >= total_product*threshold)
-                                if k2<0 and k3<0:
+                                if k2<0 and k3<0 and k4<0:
                                     adopt = True
                                 if adopt:
                                     all_numbers_left.remove(number)
@@ -135,7 +136,7 @@ for seed in all_seeds:
                                 total_product = selected_dict["total_product"]
                                 confidence = a*t
                                 adopt = (confidence >= total_product*threshold)
-                                if k3<0:
+                                if k3<0 and k3<0:
                                     adopt = True
                                 if adopt:
                                     all_numbers_left.remove(number)
@@ -152,16 +153,35 @@ for seed in all_seeds:
                                 a = selected_dict["max_answer_num"]
                                 t = selected_dict["max_test_num"]
                                 total_product = selected_dict["total_product"]
+                                confidence = a*t
+                                adopt = (confidence >= total_product*threshold)
+                                if k4<0:
+                                    adopt = True
+                                if adopt:
+                                    all_numbers_left.remove(number)
+                                    if selected_dict["indeed"]:
+                                        total_correct += 1
+                    
+                    if k4>=0:
+                        selected_file_4 = f"./selected/{model_4}/{model_4}_p{k4}_t{t4}_l{loop4}.json"
+                        selected_answers_4 = json.load(open(selected_file_4, "r"))
+                        for selected_dict in selected_answers_4:
+                            number = selected_dict["number"]
+                            if number in all_numbers_left:
+                                total_cost += selected_dict["num_ids"] * cpt_4
+                                a = selected_dict["max_answer_num"]
+                                t = selected_dict["max_test_num"]
+                                total_product = selected_dict["total_product"]
                                 all_numbers_left.remove(number)
                                 if selected_dict["indeed"]:
                                     total_correct += 1
                                     
                     total_accuracy = total_correct / len(selected_numbers)
-                    df_result.loc[len(df_result)] = [k1, k2, k3, t1, t2, t3, loop, total_cost, total_accuracy]
-                    print(f"k1: {k1}, k2: {k2}, k3: {k3}, t1: {t1}, t2: {t2}, t3: {t3}, loop: {loop}, cost: {total_cost}, accuracy: {total_accuracy}")
+                    df_result.loc[len(df_result)] = [k1, k2, k3, k4, t1, t2, t3, t4, loop, total_cost, total_accuracy]
+                    print(f"k1: {k1}, k2: {k2}, k3: {k3}, k4: {k4}, t1: {t1}, t2: {t2}, t3: {t3}, t4: {t4}, loop: {loop}, cost: {total_cost}, accuracy: {total_accuracy}")
 
         # Write df_result
-        avg_df = df_result.groupby(['k1', 'k2', 'k3', 't1', 't2', 't3']).agg({
+        avg_df = df_result.groupby(['k1', 'k2', 'k3', 'k4', 't1', 't2', 't3', 't4']).agg({
             'loop': 'last',
             'cost':'mean', 
             'accuracy':'mean'
@@ -170,9 +190,11 @@ for seed in all_seeds:
         avg_df['k1'] = avg_df['k1'].astype(int)
         avg_df['k2'] = avg_df['k2'].astype(int)
         avg_df['k3'] = avg_df['k3'].astype(int)
+        avg_df['k4'] = avg_df['k4'].astype(int)
         avg_df['t1'] = avg_df['t1'].astype(int)
         avg_df['t2'] = avg_df['t2'].astype(int)
         avg_df['t3'] = avg_df['t3'].astype(int)
+        avg_df['t4'] = avg_df['t4'].astype(int)
         avg_df['loop'] = avg_df['loop'].astype(int)
         avg_df['accuracy'] = avg_df['accuracy'] * 100
         # Divide cost by 1000, because cpt is in 1000 tokens; also divide by the number of questions

@@ -116,7 +116,7 @@ for seed in all_seeds:
                                 total_product = selected_dict["total_product"]
                                 confidence = a*t
                                 adopt = (confidence >= total_product*threshold)
-                                if k2<0 and k3<=0:
+                                if k2<0 and k3<0:
                                     adopt = True
                                 if adopt:
                                     all_numbers_left.remove(number)
