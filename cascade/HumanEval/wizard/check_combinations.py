@@ -13,11 +13,12 @@ model_2 = "13B"
 model_3 = "34B"
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
-all_thresholds = [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]
+all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]
 num_loops = 10
-selected_numbers = list(range(0,164))
+all_numbers = list(range(0,164))
+all_seeds = [3,7,9,13,15]
 
-# Load cost per token
+# Load cost per 1k tokens
 df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
 cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
@@ -61,19 +62,18 @@ def is_bad_combo(k, t, l):
 if not os.path.exists("./cascade_results"):
     os.mkdir("./cascade_results")
 
-all_seeds = [3,7,9,13,15]
-all_seeds = [3]
 for seed in all_seeds:
     random.seed(seed)
-    all_numbers = list(range(0,164))
     selected_numbers = random.sample(range(0, 164), 49)
     val_numbers = [num for num in selected_numbers]
     test_numbers = [num for num in all_numbers if num not in selected_numbers]
+    if not os.path.exists(f"./cascade_results/{seed}"):
+        os.mkdir(f"./cascade_results/{seed}")
     
     for threshold in all_thresholds:
         # selected_numbers = unselected_numbers
-        output_file_name_val = f"./cascade_results/{seed}_val_threshold{threshold}.csv"
-        output_file_name_test = f"./cascade_results/{seed}_test_threshold{threshold}.csv"
+        output_file_name_val = f"./cascade_results/{seed}/{seed}_val_threshold{threshold}.csv"
+        output_file_name_test = f"./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv"
 
         df_result = pd.DataFrame(columns=["k1", "k2", "k3", "t1", "t2", "t3", "loop", "cost", "accuracy"])
 
@@ -85,7 +85,7 @@ for seed in all_seeds:
             output_file_name = output_file_name_test
             selected_numbers = test_numbers
         else:
-            output_file_name = f"./full_threshold{threshold}.csv"
+            output_file_name = f"./{seed}/full_threshold{threshold}.csv"
             selected_numbers = all_numbers
         # print(selected_numbers)
         # print(len(selected_numbers))
@@ -134,7 +134,7 @@ for seed in all_seeds:
                                 t = selected_dict["max_test_num"]
                                 total_product = selected_dict["total_product"]
                                 confidence = a*t
-                                adopt = (confidence >= int(total_product*threshold))
+                                adopt = (confidence >= total_product*threshold)
                                 if k3<0:
                                     adopt = True
                                 if adopt:
@@ -177,4 +177,5 @@ for seed in all_seeds:
         avg_df['accuracy'] = avg_df['accuracy'] * 100
         # Divide cost by 1000, because cpt is in 1000 tokens; also divide by the number of questions
         avg_df['cost'] = avg_df['cost']*1000/(1000*len(selected_numbers))
+        
         avg_df.to_csv(output_file_name, index=False)

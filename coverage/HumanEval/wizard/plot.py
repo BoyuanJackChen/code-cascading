@@ -21,6 +21,9 @@ correct_34B = [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
 correct_7B = set(correct_7B)
 correct_13B = set(correct_13B)
 correct_34B = set(correct_34B)
+# Find numbers that are in 13B but not 7B and 34B
+print(correct_13B - correct_7B - correct_34B)
+input()
 
 # Calculate all subset sizes for the Venn diagram
 AB = len(correct_7B.intersection(correct_13B)) - len(correct_7B.intersection(correct_13B, correct_34B))

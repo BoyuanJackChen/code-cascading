@@ -6,7 +6,7 @@ import random
 import os
 from itertools import combinations, combinations_with_replacement, product, permutations
 
-model = "val"
+model = "test"
 data_folder = "./selected"
 model_1 = "1B"
 model_2 = "3B"
@@ -19,7 +19,7 @@ all_numbers = list(range(0,164))
 all_seeds = [3,7,9,13,15]
 
 # Load cost per 1k tokens
-df_all_costs = pd.read_csv("../../../throughput/mbpp_all_costs.csv")
+df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
 cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_3 = df_all_costs.loc[df_all_costs['Size']==model_3, 'Cost per 1k tokens ($)'].iloc[0]
