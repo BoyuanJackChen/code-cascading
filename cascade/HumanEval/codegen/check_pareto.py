@@ -1,6 +1,6 @@
 import pandas as pd
 
-all_seeds = [3,7,9,13,15]
+all_seeds = [7]
 for seed in all_seeds:
     for threshold in [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]:
         # Load the data
@@ -15,7 +15,7 @@ for seed in all_seeds:
 
         def is_singular(row):
             """Function to determine if a row is singular."""
-            non_negative_values = sum(k >= 0 for k in [row['k1'], row['k2'], row['k3']])
+            non_negative_values = sum(k >= 0 for k in [row['k1'], row['k2'], row['k3'], row['k4']])
             return non_negative_values == 1
 
         # Calculate if each row is Pareto optimal
@@ -43,8 +43,8 @@ for seed in all_seeds:
         # Drop the 'Pareto' column as it's no longer needed
         final_df = final_df.drop(columns=['Pareto'])
         
-        # # Uniquefy based on k1, k2, k3, t1, t2, t3
-        final_df = final_df.drop_duplicates(subset=['k1', 'k2', 'k3', 't1', 't2', 't3', 'Singular'], keep='first')
+        # # Uniquefy based on k1, k2, k3, k4, t1, t2, t3, t4
+        final_df = final_df.drop_duplicates(subset=['k1', 'k2', 'k3', 'k4', 't1', 't2', 't3', 't4', 'Singular'], keep='first')
 
         # Save the combined DataFrame to a new CSV file
         final_df.to_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.csv', index=False)
