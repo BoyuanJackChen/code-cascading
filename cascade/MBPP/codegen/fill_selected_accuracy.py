@@ -53,12 +53,13 @@ for pick_at in all_pick_at:
                 answer_dict = answer_data[i]
                 correct = False
                 number = answer_dict["number"]
+                
                 for question_dict in all_questions_dict:
                     question_number = int(question_dict["task_id"].split("/")[-1])
                     if question_number == number:
                         break
                 
-                if model_name=="350M" and pick_at==3 and testlines==2 and loop==0 and number==725:
+                if model_name=="350M" and pick_at==3 and testlines==4 and loop==0 and number==725:
                     correct = False
                     df.loc[len(df)] = [number, int(correct)]
                     print(f"Question {number} is correct: {correct}")

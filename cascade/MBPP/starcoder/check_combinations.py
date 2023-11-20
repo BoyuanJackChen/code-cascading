@@ -6,7 +6,7 @@ import random
 import os
 from itertools import combinations, combinations_with_replacement, product, permutations
 
-model = "val"
+model = "test"
 data_folder = "./selected"
 model_1 = "1B"
 model_2 = "3B"
@@ -14,7 +14,8 @@ model_3 = "15B"
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
 all_thresholds = [0.0, 0.1, 0.3, 0.5, 0.7, 1.0]
-all_seeds = [1,3,5,7,9,11,13]
+all_thresholds = [0.8, 0.9]
+all_seeds = [9]
 threshold = 1.0
 num_loops = 10
 
@@ -80,8 +81,8 @@ for seed in all_seeds:
     
     for threshold in all_thresholds:
         # selected_numbers = unselected_numbers
-        output_file_name_val = f"./cascade_results/{seed}_val_threshold{threshold}.csv"
-        output_file_name_test = f"./cascade_results/{seed}_test_threshold{threshold}.csv"
+        output_file_name_val = f"./cascade_results/{seed}/{seed}_val_threshold{threshold}.csv"
+        output_file_name_test = f"./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv"
 
         df_result = pd.DataFrame(columns=["k1", "k2", "k3", "t1", "t2", "t3", "loop", "cost", "accuracy"])
 

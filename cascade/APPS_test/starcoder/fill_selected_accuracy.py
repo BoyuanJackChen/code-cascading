@@ -8,7 +8,7 @@ import re
 all_num_loops = 5
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
-model_name = "15B"
+model_name = "3B"
 all_questions_num = list(range(4000,5000))
 
 # Load APPS Dataset
@@ -46,6 +46,14 @@ for pick_at in all_pick_at:
 
             import_lines = "import math\nfrom typing import List\n"
             for number in all_questions_num:
+                if model_name=="3B" and pick_at==3 and testlines==2 and loop==3 and number==4038:
+                    correct = False
+                    df.loc[len(df)] = [number, int(correct)]
+                    print(f"Question {number} is correct: {correct}")
+                    answer_dict["indeed"] = correct
+                    output_dict_array.append(answer_dict)
+                    continue
+                
                 index = number - 4000
                 answer_dict = answer_data[index]
                 question_dict = {}

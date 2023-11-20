@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 
-threshold = 0.9
-seed = 7
+threshold = 0.3
+seed = 9
 # Load the datasets
 df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv')
 df2 = pd.read_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.csv')
@@ -74,7 +74,7 @@ plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, 
 
 plt.xlabel('Cost per 1k questions ($)', fontsize=12.5)
 plt.ylabel('Accuracy (%)', fontsize=12.5)
-plt.title(f'WizardCoder-V1.0 on HumanEval, θ={threshold}', fontsize=14)
+plt.title(f'WizardCoder-V1.0 on MBPP, θ={threshold}', fontsize=14)
 
 # Shift the legend to lower right
 plt.legend(loc='lower right')
