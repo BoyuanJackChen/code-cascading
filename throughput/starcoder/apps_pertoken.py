@@ -6,24 +6,24 @@ import json
 import os
 import argparse
 import torch
-from datasets import load_dataset
 import random
 import numpy as np
+from datasets import load_dataset
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=3, help="Model name")
+parser.add_argument("--model", type=int, default=0, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
-parser.add_argument("--batch_size", type=int, default=24, help="Batch size for number of questions")
-parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
+parser.add_argument("--batch_size", type=int, default=180, help="Batch size for number of questions")
+parser.add_argument("--num_loops", type=int, default=11, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
-stop_words = ["\n#", "\n```\n", "\n```\r", "\nprint"]
-stop_words_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,2158]]
+stop_words = ["\n#", "\n```\n", "\n```\r", "\n```\n\n", ("\n```\n","\n")]
+stop_words_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
 assert_stop_words = ["assert"] + stop_words
 assert_stop_words_ids = [[9294]] + stop_words_ids
-eos_id = 2
-eos_token = "</s>"
+eos_token_id = 0
+eos_token = "<|endoftext|>"
 imports = "\nimport math\nfrom typing import List\n"
 
 def get_def_name(prompt):
@@ -77,19 +77,6 @@ def process_test(answer, def_name):
     answer = f"assert {def_name}" + answer
     return answer
 
-
-def alpaca_test(input, def_name):
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Write code to test the correctness of {def_name}:
-{input}\tpass
-
-### Response:
-assert {def_name}"""
-    return INSTRUCTION
-
 def alpaca_prompt(input):
     INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
 
@@ -100,6 +87,30 @@ Create a Python script for this problem:
 
 ### Response:"""
     return INSTRUCTION
+
+def custom_sample(range_size, batch_size):
+    if batch_size <= range_size:
+        # If batch_size is within the range, sample normally
+        return random.sample(range(range_size), batch_size)
+    else:
+        # First, take all numbers in the range
+        sample = list(range(range_size))
+        # Then, randomly sample the remaining numbers needed to reach batch_size
+        additional_samples = random.choices(range(range_size), k=batch_size - range_size)
+        sample.extend(additional_samples)
+        return sample
+
+def custom_sample(range_size, batch_size):
+    if batch_size <= range_size:
+        # If batch_size is within the range, sample normally
+        return random.sample(range(range_size), batch_size)
+    else:
+        # First, take all numbers in the range
+        sample = list(range(range_size))
+        # Then, randomly sample the remaining numbers needed to reach batch_size
+        additional_samples = random.choices(range(range_size), k=batch_size - range_size)
+        sample.extend(additional_samples)
+        return sample
 
 
 def main(args):
@@ -122,22 +133,11 @@ def main(args):
     # Prepare the model checkpoint
     if args.model == 0:
         model_size = "1B"
-        checkpoint = "WizardLM/WizardCoder-1B-V1.0"
     elif args.model == 1:
         model_size = "3B"
-        checkpoint = "WizardLM/WizardCoder-3B-V1.0"
     elif args.model == 2:
-        model_size = "7B"
-        checkpoint = f"WizardLM/WizardCoder-Python-7B-V1.0"
-    elif args.model == 3:
-        model_size = "13B"
-        checkpoint = f"WizardLM/WizardCoder-Python-13B-V1.0"
-    elif args.model == 4:
         model_size = "15B"
-        checkpoint = "WizardLM/WizardCoder-15B-V1.0"
-    elif args.model == 5:
-        model_size = "34B"
-        checkpoint = f"WizardLM/WizardCoder-Python-34B-V1.0"
+    checkpoint = f"WizardLM/WizardCoder-{model_size}-V1.0"
     print(f"Humaneval; {checkpoint}")
     print(f"Pass @ {args.pass_at}")
     print(f"Batch size: {batch_size}")
@@ -156,14 +156,13 @@ def main(args):
     
     # Stopping criteria for generation using the LogitsProcessor class
     class StopSequences(LogitsProcessor):
-        def __init__(self, stop_ids, batch_size, encounters=5, eos_token_id=2):
+        def __init__(self, stop_ids, batch_size, encounters=1, eos_token_id=eos_token_id):
             StoppingCriteria.__init__(self)
             self.stop_sequences = stop_ids
             self.batch_size = batch_size
             self.encounters = [encounters] * batch_size
             self.NUM_ENCOUNTERS = encounters
             self.eos_token_id = eos_token_id
-            self.original_encounter = encounters
 
         def __call__(self, input_ids, scores):
             forced_eos = torch.full((scores.size(1),), -float("inf"))
@@ -174,10 +173,7 @@ def main(args):
                     if self.encounters[i] <= 0:
                         continue
                     if input_ids[i][-len(stop):].tolist() == stop:
-                        if stop != self.stop_sequences[0] and self.original_encounter>1:
-                            self.encounters[i] = -1
-                        else:
-                            self.encounters[i] -= 1
+                        self.encounters[i] -= 1
                         if self.encounters[i] <= 0:
                             scores[i] = forced_eos
             return scores
@@ -185,7 +181,7 @@ def main(args):
     for loop in range(num_loops):
         all_answer_prompts = []
         selected_numbers = random.sample(all_numbers, batch_size)
-        print(selected_numbers)
+        # print(selected_numbers)
         for number in selected_numbers:
             question = all_questions_dict[number]
             prompt = question[prompt_key]
@@ -226,12 +222,13 @@ def main(args):
         end = time.time()
         time_spent = round(end-start, 2)
         all_time[loop] = time_spent
-        total_count = sum(tensor.ne(eos_id).sum().item() for tensor in answer_ids)
+        total_count = sum(tensor.ne(eos_token_id).sum().item() for tensor in answer_ids)
+        print(f"Loop {loop} time spent: {time_spent} seconds; num tokens: {total_count}")
         time_per_1k_tokens = round(time_spent / (total_count / 1000), 2)
         all_avg_cost[loop] = time_per_1k_tokens
-        print(f"Loop {loop} time spent: {time_spent} seconds; num tokens: {total_count}; Time per 1k tokens: {time_per_1k_tokens} seconds")
+        print(f"Time per 1k tokens: {time_per_1k_tokens} seconds")
 
-    print(f"Average time per 1k tokens: {np.mean(all_avg_cost)} seconds")
+    print(f"Average time per 1k tokens: {np.mean(all_avg_cost[1:])} seconds")
 
 if __name__== "__main__":
     main(FLAGS)

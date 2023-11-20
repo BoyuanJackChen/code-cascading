@@ -5,7 +5,6 @@ import time
 import json
 import os
 import argparse
-import multiprocessing
 import torch
 from datasets import load_dataset
 
