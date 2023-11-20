@@ -75,7 +75,7 @@ plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, 
 
 plt.xlabel('Cost per 1k questions ($)', fontsize=12.5)
 plt.ylabel('Accuracy (%)', fontsize=12.5)
-plt.title(f'WizardCoder-Python-V1.0 on HumanEval, θ={threshold}', fontsize=14)
+plt.title(f'Codegen-mono on HumanEval, θ={threshold}', fontsize=14)
 
 # Shift the legend to lower right
 plt.legend(loc='lower right')
