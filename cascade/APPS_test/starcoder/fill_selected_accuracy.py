@@ -5,7 +5,7 @@ import numpy as np
 import os
 import re
 
-all_num_loops = 10
+all_num_loops = 5
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
 model_name = "15B"

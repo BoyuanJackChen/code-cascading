@@ -6,7 +6,7 @@ import random
 import os
 from itertools import combinations, combinations_with_replacement, product, permutations
 
-model = "test"
+model = "full"
 data_folder = "./selected"
 model_1 = "7B"
 model_2 = "13B"
@@ -14,6 +14,7 @@ model_3 = "34B"
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
 all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]
+all_thresholds = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 num_loops = 10
 all_numbers = list(range(0,164))
 all_seeds = [7]
@@ -85,7 +86,7 @@ for seed in all_seeds:
             output_file_name = output_file_name_test
             selected_numbers = test_numbers
         else:
-            output_file_name = f"./{seed}/full_threshold{threshold}.csv"
+            output_file_name = f"./cascade_results/{seed}/full_threshold{threshold}.csv"
             selected_numbers = all_numbers
         # print(selected_numbers)
         # print(len(selected_numbers))

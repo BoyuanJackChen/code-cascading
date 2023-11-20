@@ -6,7 +6,7 @@ import random
 import os
 from itertools import combinations, combinations_with_replacement, product, permutations
 
-model = "test"
+model = "val"
 data_folder = "./selected"
 model_1 = "350M"
 model_2 = "2B"

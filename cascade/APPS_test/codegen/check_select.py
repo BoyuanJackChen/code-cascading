@@ -5,11 +5,11 @@ import multiprocessing
 import os
 
 # Create files in selected
-num_loops = 10
+num_loops = 5
 pick_at = 10
 all_limit_lines = [2,4]
 all_actual_pick_at = [0,1,3,5,10]
-model_name = "350M"
+model_name = "6B"
 all_accuracies = np.zeros(num_loops)
 import_lines = "import math\nfrom typing import List, Tuple\n"
 all_questions_num = list(range(4000,5000))
