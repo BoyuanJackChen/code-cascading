@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 
-threshold = 1.0
-seed = 7
+threshold = 0.9
+seed = 1
 # Load the datasets
 df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv')
 df2 = pd.read_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.csv')
@@ -36,15 +36,11 @@ annot = plt.annotate("", xy=(0,0), xytext=(20,20), textcoords="offset points",
                      arrowprops=dict(arrowstyle="->"))
 annot.set_visible(False)
 
-def update_annot(ind, scatter, df):
+def update_annot(ind, scatter):
     pos = scatter.get_offsets()[ind["ind"][0]]
     annot.xy = pos
-    data = df.iloc[ind['ind'][0]]
-    text = f"k1-k3: {data['k1']}, {data['k2']}, {data['k3']}\n" \
-           f"t1-t3: {data['t1']}, {data['t2']}, {data['t3']}\n" \
-           f"Cost: {data['cost']}, Accuracy: {data['accuracy']}"
+    text = f"{df1.iloc[ind['ind'][0]][['k1', 'k2', 'k3', 't1', 't2', 't3']].tolist()}"
     annot.set_text(text)
-    annot.get_bbox_patch().set_alpha(0.4)
 
 def hover(event):
     for scatter in scatter_plots:
@@ -78,7 +74,7 @@ plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, 
 
 plt.xlabel('Cost per 1k questions ($)', fontsize=12.5)
 plt.ylabel('Accuracy (%)', fontsize=12.5)
-plt.title(f'WizardCoder-Python-V1.0 on HumanEval, θ={threshold}', fontsize=14)
+plt.title(f'WizardCoder-Python-V1.0 on APPS, θ={threshold}', fontsize=14)
 
 # Shift the legend to lower right
 plt.legend(loc='lower right')
