@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 
-threshold = 0.5
+threshold = 0.9
 seed = 7
 # Load the datasets
 df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv')
@@ -10,6 +10,7 @@ df2 = pd.read_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.
 
 green_size = 45
 purple_size = 50
+lightblue_size = 40  # Size for light blue dots
 
 # Create a scatter plot for the first dataset
 plt.figure(figsize=(10, 6))
@@ -68,8 +69,9 @@ for _, row in df2.iterrows():
     scatter_plots.append(scatter)
 
 # Add legends for green dots and purple crosses
-plt.scatter([], [], color=lighter_green, label='Cascading Optimal Parameters from Val', s=green_size)
-plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, linewidths=2, label='Singular Optimal Parameters from Val')
+plt.scatter([], [], color='lightblue', label='All Parameter Combinations', s=lightblue_size)
+plt.scatter([], [], color=lighter_green, label='Cascading Optimal Parameter Combinations from Val', s=green_size)
+plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, linewidths=2, label='Singular Optimal Parameter Combinations from Val')
 
 plt.xlabel('Cost per 1k questions ($)', fontsize=12.5)
 plt.ylabel('Accuracy (%)', fontsize=12.5)
