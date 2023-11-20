@@ -74,7 +74,7 @@ if not os.path.exists("./cascade_results"):
 
 for seed in all_seeds:
     random.seed(seed)
-    selected_numbers = random.sample(range(0, 164), 49)
+    selected_numbers = random.sample(all_numbers, 128)
     val_numbers = [num for num in selected_numbers]
     test_numbers = [num for num in all_numbers if num not in selected_numbers]
     if not os.path.exists(f"./cascade_results/{seed}"):

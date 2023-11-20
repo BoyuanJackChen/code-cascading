@@ -6,7 +6,7 @@ import random
 import os
 from itertools import combinations, combinations_with_replacement, product, permutations
 
-model = "val"
+model = "test"
 data_folder = "./selected"
 model_1 = "7B"
 model_2 = "13B"
@@ -16,7 +16,7 @@ all_testlines = [0,2,4]
 all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]
 num_loops = 10
 all_numbers = list(range(4000, 5000))
-all_seeds = [7]
+all_seeds = [1,3,5,7,9]
 
 # Load cost per 1k tokens
 df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
@@ -64,7 +64,7 @@ if not os.path.exists("./cascade_results"):
 
 for seed in all_seeds:
     random.seed(seed)
-    selected_numbers = random.sample(range(0, 164), 49)
+    selected_numbers = random.sample(all_numbers, int(len(all_numbers)*0.3))
     val_numbers = [num for num in selected_numbers]
     test_numbers = [num for num in all_numbers if num not in selected_numbers]
     if not os.path.exists(f"./cascade_results/{seed}"):

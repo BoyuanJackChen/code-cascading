@@ -1,6 +1,6 @@
 import pandas as pd
 
-all_seeds = [3,7,9,13,15]
+all_seeds = [1,3,5,7,9]
 for seed in all_seeds:
     for threshold in [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]:
         # Load the data
