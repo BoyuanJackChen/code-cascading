@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 
-threshold = 0.9
+threshold = 0.8
 seed = 9
 # Load the datasets
 df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv')

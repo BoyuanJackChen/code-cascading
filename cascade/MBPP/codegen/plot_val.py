@@ -2,10 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 
-threshold = 1.0
+threshold = 0.7
 seed = 9
 # Load the datasets
-df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_test_threshold{threshold}.csv')
+df1 = pd.read_csv(f'./cascade_results/{seed}/{seed}_val_threshold{threshold}.csv')
 df2 = pd.read_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.csv')
 
 green_size = 45
@@ -80,6 +80,6 @@ plt.title(f'Codegen-mono on MBPP, θ={threshold}', fontsize=14)
 # Shift the legend to lower right
 plt.legend(loc='lower right')
 # Save the plot to pdf
-plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
+plt.savefig(f'./cascade_results/{seed}_val_threshold{threshold}.pdf', bbox_inches='tight')
 
 plt.show()
