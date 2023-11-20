@@ -13,16 +13,14 @@ from datasets import load_dataset
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=0, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
-parser.add_argument("--batch_size", type=int, default=180, help="Batch size for number of questions")
+parser.add_argument("--batch_size", type=int, default=40, help="Batch size for number of questions")
 parser.add_argument("--num_loops", type=int, default=11, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
-stop_words = ["\n#", "\n```\n", "\n```\r", "\n```\n\n", ("\n```\n","\n")]
-stop_words_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
+stop_words = ["\n\n", ("\n","\n")]
 assert_stop_words = ["assert"] + stop_words
-assert_stop_words_ids = [[9294]] + stop_words_ids
-eos_token_id = 0
+eos_id = 50256
 eos_token = "<|endoftext|>"
 imports = "\nimport math\nfrom typing import List\n"
 
@@ -77,17 +75,6 @@ def process_test(answer, def_name):
     answer = f"assert {def_name}" + answer
     return answer
 
-def alpaca_prompt(input):
-    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Create a Python script for this problem:
-{input}
-
-### Response:"""
-    return INSTRUCTION
-
 def custom_sample(range_size, batch_size):
     if batch_size <= range_size:
         # If batch_size is within the range, sample normally
@@ -107,6 +94,7 @@ def main(args):
     prompt_key = "prompt"
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     num_loops = args.num_loops
+    output_file = f"./humaneval_wizard{args.model}.txt"
     pass_at = args.pass_at
     batch_size = args.batch_size
     all_time = np.zeros(num_loops)
@@ -120,12 +108,14 @@ def main(args):
 
     # Prepare the model checkpoint
     if args.model == 0:
-        model_size = "1B"
+        model_size = "350M"
     elif args.model == 1:
-        model_size = "3B"
+        model_size = "2B"
     elif args.model == 2:
-        model_size = "15B"
-    checkpoint = f"WizardLM/WizardCoder-{model_size}-V1.0"
+        model_size = "6B"
+    elif args.model == 3:
+        model_size = "16B"
+    checkpoint = f"Salesforce/codegen-{model_size}-mono"
     print(f"Humaneval; {checkpoint}")
     print(f"Pass @ {args.pass_at}")
     print(f"Batch size: {batch_size}")
@@ -139,20 +129,25 @@ def main(args):
         device_map="auto")
     model.eval()
     tokenizer = AutoTokenizer.from_pretrained(checkpoint, padding_side='left')
+    tokenizer.pad_token = tokenizer.eos_token
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     
     # Stopping criteria for generation using the LogitsProcessor class
     class StopSequences(LogitsProcessor):
-        def __init__(self, stop_ids, batch_size, encounters=1, eos_token_id=eos_token_id):
+        def __init__(self, stop_sequences, batch_size, encounters=1, eos_token_id=50256):
             StoppingCriteria.__init__(self)
-            self.stop_sequences = stop_ids
+            self.stop_sequences = tokenizer.batch_encode_plus(stop_sequences)['input_ids']
             self.batch_size = batch_size
             self.encounters = [encounters] * batch_size
             self.NUM_ENCOUNTERS = encounters
             self.eos_token_id = eos_token_id
+            self.just_started = True
 
         def __call__(self, input_ids, scores):
+            if self.just_started:
+                self.just_started = False
+                return scores
             forced_eos = torch.full((scores.size(1),), -float("inf"))
             forced_eos[self.eos_token_id] = 0
             for stop in self.stop_sequences:
@@ -174,9 +169,9 @@ def main(args):
             question = all_questions_dict[number]
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
-            question_prompt = alpaca_prompt(prompt)
+            question_prompt = prompt + "\ndef solution(stdin: str) -> str:"
             all_answer_prompts += [question_prompt]*max(pass_at,1)
-        logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=batch_size*max(pass_at,1), encounters=1)])
+        logits_processor = LogitsProcessorList([StopSequences(stop_words, batch_size=batch_size*max(pass_at,1), encounters=1)])
         
         # Generate answers
         start = time.time()
@@ -195,7 +190,7 @@ def main(args):
                 use_cache = True,
                 pad_token_id = tokenizer.eos_token_id,
                 eos_token_id = tokenizer.eos_token_id,
-                max_new_tokens = max_new_tokens,
+                max_length = max_length,
                 do_sample = True,
                 top_k = 0,
                 top_p = 0.95,
@@ -205,12 +200,11 @@ def main(args):
             )
         answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
         answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-        # answer_trimmed = [process_answer(answer) for answer in answer_text]
         torch.cuda.empty_cache()
         end = time.time()
         time_spent = round(end-start, 2)
         all_time[loop] = time_spent
-        total_count = sum(tensor.ne(eos_token_id).sum().item() for tensor in answer_ids)
+        total_count = sum(tensor.ne(eos_id).sum().item() for tensor in answer_ids)
         print(f"Loop {loop} time spent: {time_spent} seconds; num tokens: {total_count}")
         time_per_1k_tokens = round(time_spent / (total_count / 1000), 2)
         all_avg_cost[loop] = time_per_1k_tokens
