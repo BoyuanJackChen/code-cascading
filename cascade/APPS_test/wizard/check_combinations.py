@@ -13,13 +13,13 @@ model_2 = "13B"
 model_3 = "34B"
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
-all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]
+all_thresholds = [0.9]
 num_loops = 10
 all_numbers = list(range(4000, 5000))
-all_seeds = [1,3,5,7,9]
+all_seeds = [1]
 
 # Load cost per 1k tokens
-df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
+df_all_costs = pd.read_csv("../../../throughput/apps_all_costs.csv")
 cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_3 = df_all_costs.loc[df_all_costs['Size']==model_3, 'Cost per 1k tokens ($)'].iloc[0]
