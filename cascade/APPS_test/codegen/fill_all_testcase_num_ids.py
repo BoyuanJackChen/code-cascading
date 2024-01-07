@@ -22,7 +22,7 @@ def trim_assert_lines(answer, testlines):
 all_num_loops = 10
 all_pick_at = [0,10]
 all_testlines = [2,4]
-all_model_names = ["350M", "2B", "6B", "16B"]
+all_model_names = ["6B", "16B"]
 folder = "testcase"
 
 # Load Tokenizer
