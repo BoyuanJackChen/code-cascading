@@ -9,7 +9,7 @@
 #SBATCH --gres=gpu:a100:1
 #SBATCH --time=47:59:59
 #SBATCH --mem=50GB
-#SBATCH --job-name=13B_wz_apps
+#SBATCH --job-name=7B_wz_apps
 
 module purge
 
