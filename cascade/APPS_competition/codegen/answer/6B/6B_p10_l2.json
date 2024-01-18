@@ -20038,5 +20038,125 @@
         "checkpoint": "6B",
         "pass": 9,
         "answer": "def solution(stdin: str) -> str:\n    roost_x, roost_y = [float(x) for x in stdin.split(\" \")]\n    print(roost_x, roost_y)\n    hiding_spots_count = int(stdin)\n    print(hiding_spots_count)\n    hiding_spots = [\n        [float(x) for x in stdin.split(\" \")]\n        for _ in range(hiding_spots_count)\n    ]\n    print(hiding_spots)\n    return '1.000000'"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    pass\n\nsolution(input()) # 2.0\nsolution(input()) # impossible\nsolution(input()) # 2.0\n\n-----Notes-----\nThe distance signs are numbered in the order they are placed in the input.\n\n\"\"\"\nfrom functools import lru_cache\n\nfrom sys import maxsize\nfrom statistics import mean\n\n@lru_cache(maxsize=None)\ndef"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n   ...\n\nimport sys\nassert solution(open(sys.argv[1]).read()) == '2.13333333333333'\n"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n = stdin.readline().strip()\n    if not n.isdigit() or int(n) > 500:\n        raise ValueError\n    n = int(n)\n\n    dists = [None]*n\n    for i in range(n-1):\n        dists[i] = stdin.readline().strip().split()\n\n    # get the distances in kilometres\n    dists = [list(map(int, d)) for d in dists]\n\n    # get the shortest distance from every port to every other port\n    dists_ = [dists[i][j] for i in range(n) for j in range(n-i)]\n\n    # get the average shortest distance\n    return \"impossible\" if dists_ == [] else str(sum(dists_) / len(dists_))\n\nassert(solution('''2\n4 4\n2\n''') == '2.13333333333333')\nassert(solution('''2\n4 4\n2\n4\n1\n3\n2\n''') == '2.13333333333333')\nassert(solution('''3\n4 4\n2\n4\n1\n3\n2\n''') == 'impossible')\nassert(solution('''1\n1\n1\n''') == 'impossible')\nassert(solution('''2\n1\n2\n1\n2\n1\n2\n2\n''') == 'impossible')\nassert(solution('''3\n3\n3\n4\n2\n3\n2\n3\n2\n''') == 'impossible')\nassert(solution('''3\n3\n3\n4\n2\n3\n2\n3\n2\n2\n''') == '3.6666666666666666')\nassert(solution('''3\n3\n3\n4\n2\n3\n2\n3\n2\n3\n''') == '3.6666666666666666')\nassert(solution('''3\n4\n3\n4\n2\n4\n3\n4\n2\n3\n4\n2\n4\n4\n4\n3\n4\n2\n4\n4\n4\n4\n4\n4\n2\n4\n4\n4\n4\n4\n4\n4\n3\n4\n4\n4\n4\n4\n3\n4\n4\n4\n4\n3\n4\n4\n4\n4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n3\n4\n4\n4\n4\n4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n3\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4\n4"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    distances = []\n    for _ in range(n - 1):\n        distances.append(list(map(int, stdin.split())))\n    average_distances = total_distances_from_every_port_town(n, distances)\n    return f\"{average_distances:.15f}\"\n\nassert (solution(stdin) == \"2.133333333333333\")\nprint(solution(stdin))\n\"\"\"\n"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n, *distances = list(map(int, stdin.split()))\n    if n == 1:\n        return \"impossible\"\n    n -= 1\n    distances = [distances[i:i + n] for i in range(0, len(distances), n)]\n    for row in distances:\n        row.extend(row)\n    distances = [row[:n] for row in distances]\n    for i in range(n):\n        distances[i] += distances[i][:n]\n    distances = [sum(row) for row in distances]\n    return \"impossible\" if distances.count(distances[0]) > 1 else str(float(distances[0]) / n)\n\nassert(solution(input_lines[0]) == \"impossible\")\nassert(solution(input_lines[1]) == \"3.0\")\nassert(solution(input_lines[2]) == \"2.13333333333333\")\nassert(solution(input_lines[3]) == \"2.13333333333333\")\n\n-----Solutions Overview-----\n"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    d = [list(map(int, stdin.readline().split())) for _ in range(n - 1)]\n    # The rows represent ports, the columns represent distances between ports.\n    # The total number of distances is n * (n - 1)\n    total = n * (n - 1)\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n * n - 1\n    total = n * n - 1\n    # We have n - 1 distances for every port.\n    # The total number of distances is n"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    return ''\n\nimport sys\n\ndef"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    stdin = stdin.splitlines()\n    n = int(stdin[0])\n    if n < 2 or n > 500:\n        return \"impossible\"\n    input = stdin[1:]\n    input = [list(map(int, row.split())) for row in input]\n    dp = [[0] * n for i in range(n)]\n    for k in range(1, n):\n        for i in range(0, n - k):\n            j = i + k\n            dp[i][j] = 987654321\n            for m in range(i, j):\n                dp[i][j] = min(dp[i][j], input[i][m] + input[m + 1][j] + dp[i][m] + dp[m + 1][j])\n    if dp[0][n - 1] == 987654321:\n        return \"impossible\"\n    return str(dp[0][n - 1])\n\n\"\"\""
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    if n < 2:\n        return \"impossible\"\n\n    distances = [\n        int(stdin.readline().strip()) for _ in range(n - 1)\n    ]\n    total_distances = sum(distances)\n    average_distances = total_distances / (n * (n - 1))\n    return average_distances"
+    },
+    {
+        "number": 3334,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    return stdout.rstrip()\n\nsolution('''\n3\n4 4\n2\n''')\n"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    count = 0\n    for a in range(1, n):\n        for b in range(a, n):\n            c = math.sqrt(a**2 + b**2)\n            if c % 1 == 0 and c > 0 and a <= b:\n                count += 1\n    return str(count)"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline())\n    c = 0\n    for a in range(2, n):\n        for b in range(1, a):\n            c = (b**2 + a**2) % n\n            if c == 0:\n                c = n\n            elif c > n / 2:\n                c -= n\n            c = c + 1\n            if c ** 2 == (a**2 + b**2):\n                c = c + 1\n            if c == n:\n                c = 0\n        c = 0\n    return str(c)\n\nassert(solution(\"7\\n\") == \"18\")\nassert(solution(\"5\\n\") == \"2\")\nassert(solution(\"10\\n\") == \"0\")\n\"\"\"\n\n\ndef"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    return str(pythagorean(n))\n\ndef"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    ans = 0\n    for a in range(3, n - 2):\n        for b in range(a - 2, 0, -2):\n            c = (a ** 2 + b ** 2) ** 0.5\n            if c % 1 == 0:\n                c = int(c)\n                if c ** 2 + b ** 2 == (a ** 2 + c ** 2) ** 0.5:\n                    ans += 1\n    return str(ans)"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin)\n    return str(n ** 3)\n\nimport unittest\n\nclass TestConvert(unittest.TestCase):\n    def test(self):\n        self.assertEqual(solution(7), '18')\n        self.assertEqual(solution(5), '1')\n        self.assertEqual(solution(2), '0')"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    return str(count_pythagorean_triples(n))\n\nassert(solution(\"5\") == \"3\")\nassert(solution(\"7\") == \"18\")\nassert(solution(\"100\") == \"84\")\nassert(solution(\"1000\") == \"1056\")\n\"\"\"\n\nfrom math import sqrt\n\ndef"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    return str(pythagorean_triples(n))\n    \n"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    return str(solution2(n))\ndef"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.read())\n    return str(pythagoreanTriples(n))\n\ndef"
+    },
+    {
+        "number": 3335,
+        "checkpoint": "6B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    return str(int(stdin) ** 3 % int(stdin))\n\"\"\"\n"
     }
 ]

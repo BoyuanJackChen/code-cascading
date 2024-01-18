@@ -225,7 +225,7 @@ def main(args):
                     with open(output_file_name, 'w') as f:
                         json.dump(output_data, f, indent=4)
                     answer_dict_list = []
-                
+    print(f"Finished")
 
 if __name__== "__main__":
     main(FLAGS)

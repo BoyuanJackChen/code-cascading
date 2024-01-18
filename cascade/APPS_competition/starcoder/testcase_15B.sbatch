@@ -8,7 +8,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --gres=gpu:a100:2
 #SBATCH --time=47:59:59
-#SBATCH --mem=50GB
+#SBATCH --mem=100GB
 #SBATCH --job-name=15B_sc_tapps
 
 module purge
