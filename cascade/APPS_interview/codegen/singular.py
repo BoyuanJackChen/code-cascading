@@ -63,7 +63,7 @@ def main(args):
     num_loops = args.num_loops if pass_at>1 else 1
     
     # Load APPS Dataset
-    all_questions_dict = load_dataset("codeparrot/apps", split="test")
+    all_questions_dict = load_dataset("codeparrot/apps", split="test", trust_remote_code=True)
     number_key = "problem_id"
     prompt_key = "question"
 
