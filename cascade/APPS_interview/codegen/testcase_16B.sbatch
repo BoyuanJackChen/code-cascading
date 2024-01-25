@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH -q ebrainccs
+##SBATCH -q ebrainccs
 #SBATCH -p nvidia
-#SBATCH -C 80g
+##SBATCH -C 80g
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=4
