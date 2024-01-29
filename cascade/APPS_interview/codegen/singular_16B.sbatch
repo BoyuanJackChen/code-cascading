@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#SBATCH -q ebrainccs
 #SBATCH -p nvidia
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1

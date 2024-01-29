@@ -1,0 +1,482 @@
+[
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.split('\\n')[0])\n    tokens = stdin.split('\\n')[1].split()\n\n    def evaluate(tokens):\n        stack = []\n        for token in tokens:\n            if token == '(':\n                stack.append('(')\n            elif token == ')':\n                sub_sequence = []\n                while stack[-1] != '(':\n                    sub_sequence.append(stack.pop())\n                stack.pop()  # Remove the opening parenthesis\n                sub_sequence.reverse()\n                stack.append(evaluate(sub_sequence))\n            else:\n                stack.append(int(token))\n        return stack[0]\n\n    return evaluate(tokens) % (10**9 + 7)"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.split(\"\\n\")[0])\n    tokens = stdin.split(\"\\n\")[1].split()\n    modulo = 10**9 + 7\n\n    def evaluate(tokens):\n        stack = []\n        for token in tokens:\n            if token == \"(\":\n                stack.append(\"(\")\n            elif token == \")\":\n                sub_sequence = []\n                while stack[-1] != \"(\":\n                    sub_sequence.append(stack.pop())\n                stack.pop()  # Remove the opening parenthesis\n                sub_sequence.reverse()\n                stack.append(evaluate(sub_sequence))\n            else:\n                stack.append(int(token))\n        return stack[0]\n\n    return str(evaluate(tokens) % modulo)"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.split(\"\\n\")[0])\n    tokens = stdin.split(\"\\n\")[1].split()\n    modulo = 10**9 + 7\n\n    def evaluate(tokens):\n        stack = []\n        for token in tokens:\n            if token == \"(\":\n                stack.append(\"(\")\n            elif token == \")\":\n                sub_tokens = []\n                while stack and stack[-1] != \"(\":\n                    sub_tokens.append(stack.pop())\n                stack.pop()  # Remove the opening parenthesis\n                sub_tokens.reverse()\n                stack.append(evaluate(sub_tokens))\n            else:\n                stack.append(int(token))\n        return stack[0]\n\n    return str(evaluate(tokens) % modulo)"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    input_str = stdin.split('\\n')\n    n = int(input_str[0])\n    tokens = input_str[1].split()\n    stack = []\n    num = 0\n    mod = 10**9 + 7\n\n    def calc_mult(stack):\n        res = stack.pop()\n        while stack[-1] != '(':\n            op = stack.pop()\n            if op == '*':\n                res *= stack.pop()\n            else:\n                stack.append(res)\n                return\n        stack.pop()\n        stack.append(res)\n\n    for token in tokens:\n        if token.isdigit():\n            num = (num * 10 + int(token)) % mod\n        else:\n            if num != 0:\n                stack.append(num)\n                num = 0\n            if token == '(':\n                stack.append(token)\n            elif token == ')':\n                while stack[-1] != '(':\n                    calc_mult(stack)\n                stack.pop()\n                if len(stack) > 0 and stack[-1] != '(':\n                    op = stack.pop()\n                    if op == '+':\n                        stack[-1] += stack.pop()\n                    elif op == '*':\n                        stack[-1] *= stack.pop()\n            elif token == '*':\n                while len(stack) > 0 and stack[-1] != '(':\n                    calc_mult(stack)\n                stack.append(token)\n            elif token == '+':\n                while len(stack) > 0 and stack[-1] != '(':\n                    calc_mult(stack)\n                stack.append(token)\n\n    while len(stack) > 0:\n        calc_mult(stack)\n\n    return str(stack[0])"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.readline().strip())\n    tokens = stdin.readline().strip().split()\n\n    def calculate(tokens):\n        stack = []\n        for token in tokens:\n            if token.isdigit():\n                stack.append(int(token))\n            elif token == '(':\n                stack.append(token)\n            else:\n                if token == ')':\n                    sub_tokens = []\n                    while stack and stack[-1] != '(':\n                        sub_tokens.append(stack.pop())\n                    stack.pop()  # pop the opening parenthesis\n                    sub_tokens.reverse()\n                    stack.append(calculate(sub_tokens))\n                while len(stack) >= 2 and isinstance(stack[-1], int) and isinstance(stack[-2], int):\n                    a, b = stack.pop(), stack.pop()\n                    stack.append(a * b)\n        return stack[0]\n\n    result = calculate(tokens)\n    return str(result % (10**9 + 7))\n"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    mod = 10**9 + 7\n    n = int(stdin.readline())\n    tokens = stdin.readline().strip().split()\n    stack = []\n    for token in tokens:\n        if token.isdigit():\n            stack.append(int(token))\n        elif token == '(':\n            pass\n        elif token == ')':\n            sub_stack = []\n            while stack and stack[-1] != '(':\n                sub_stack.append(stack.pop())\n            stack.pop()  # Remove the '('\n            sub_result = 1\n            while sub_stack:\n                if sub_stack[-1] == '*':\n                    sub_stack.pop()\n                    sub_result *= sub_stack.pop()\n                else:\n                    sub_result += sub_stack.pop()\n            stack.append(sub_result % mod)\n    result = 0\n    while stack:\n        if stack[-1] == '+':\n            stack.pop()\n            result += stack.pop()\n        elif stack[-1] == '*':\n            stack.pop()\n            result *= stack.pop()\n        else:\n            result += stack.pop()\n    return str(result % mod)"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    modulo = 10**9 + 7\n    tokens = stdin.split()\n    stack = []\n    current_number = 0\n\n    for token in tokens:\n        if token.isdigit():\n            current_number = (current_number * 10 + int(token)) % modulo\n        elif token == \"(\":\n            stack.append(current_number)\n            current_number = 0\n        elif token == \")\":\n            if stack:\n                last_number = stack.pop()\n                current_number = (current_number + last_number) % modulo\n            else:\n                return \"Invalid input\"\n\n    return str(current_number)"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    modulo = 10**9 + 7\n    tokens = stdin.split()\n    n = len(tokens)\n    stack = []\n    value = 0\n\n    for token in tokens:\n        if token.isdigit():\n            value = int(token)\n            stack.append(value)\n        elif token == \"(\":\n            stack.append(token)\n        else:\n            while stack and stack[-1] != \"(\":\n                value = stack.pop()\n            stack.pop()  # Remove the opening parenthesis\n\n            while stack and stack[-1] != \"(\":\n                op = stack.pop()\n                if op == \"*\":\n                    value = (value * stack.pop()) % modulo\n                else:\n                    value = (value + stack.pop()) % modulo\n\n            stack.append(value)\n\n    while stack:\n        op = stack.pop()\n        if op == \"*\":\n            value = (value * stack.pop()) % modulo\n        else:\n            value = (value + stack.pop()) % modulo\n\n    return str(value)"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    modulo = 10**9 + 7\n    tokens = stdin.split()\n    n = len(tokens)\n    stack = []\n    operators = {'+': 1, '*': 2}\n\n    for token in tokens:\n        if token.isnumeric():\n            stack.append(int(token))\n        elif token == '(':\n            continue\n        elif token == ')':\n            sub_stack = []\n            while stack and stack[-1] != '(':\n                sub_stack.append(stack.pop())\n            stack.pop()  # Remove the opening parenthesis\n\n            while len(sub_stack) > 1:\n                if sub_stack[-1] == '*':\n                    a = sub_stack.pop()\n                    b = sub_stack.pop()\n                    sub_stack.append((a * b) % modulo)\n                else:\n                    a = sub_stack.pop()\n                    b = sub_stack.pop()\n                    sub_stack.append((a + b) % modulo)\n\n            stack.append(sub_stack[0])\n\n    while len(stack) > 1:\n        a = stack.pop()\n        b = stack.pop()\n        op = stack.pop()\n        if op == '*':\n            stack.append((a * b) % modulo)\n        else:\n            stack.append((a + b) % modulo)\n\n    return str(stack[0])\n"
+    },
+    {
+        "number": 3000,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    n = int(stdin.split(\"\\n\")[0])\n    tokens = stdin.split(\"\\n\")[1].split()\n    modulo = 10**9 + 7\n\n    def evaluate(tokens):\n        stack = []\n        for token in tokens:\n            if token == \"(\":\n                stack.append(\"(\")\n            elif token == \")\":\n                sub_sequence = []\n                while stack and stack[-1] != \"(\":\n                    sub_sequence.append(stack.pop())\n                stack.pop()  # Remove the opening parenthesis\n                sub_sequence.reverse()\n                sub_result = evaluate(sub_sequence)\n                stack.append(sub_result)\n            else:\n                stack.append(int(token))\n        return stack[0]\n\n    def multiply(a, b):\n        return (a * b) % modulo\n\n    def add(a, b):\n        return (a + b) % modulo\n\n    def calculate(tokens):\n        stack = []\n        for token in tokens:\n            if isinstance(token, int):\n                if not stack:\n                    stack.append(token)\n                else:\n                    stack[-1] = add(stack[-1], token)\n            elif token == \"(\":\n                stack.append(token)\n            elif token == \")\":\n                sub_sequence = []\n                while stack and stack[-1] != \"(\":\n                    sub_sequence.append(stack.pop())\n                stack.pop()  # Remove the opening parenthesis\n                sub_sequence.reverse()\n                sub_result = calculate(sub_sequence)\n                if not stack:\n                    stack.append(sub_result)\n                else:\n                    stack[-1] = multiply(stack[-1], sub_result)\n        return stack[0]\n\n    result = calculate(tokens)\n    return str(result)"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(num: str) -> bool:\n        return num == num[::-1]\n\n    def spin_digit(wheel: int, digits: List[int]) -> int:\n        if wheel < len(digits) - 1 and digits[wheel] == 9:\n            digits[wheel] = 0\n            return 1 + spin_digit(wheel + 1, digits)\n        else:\n            digits[wheel] = (digits[wheel] + 1) % 10\n            return 1\n\n    num = list(map(int, stdin))\n    min_steps = len(num)\n\n    for i in range(len(num)):\n        digits = num.copy()\n        steps = spin_digit(i, digits)\n        while not is_palindrome(list(map(str, digits))):\n            steps += spin_digit(len(digits) - 1, digits)\n        min_steps = min(min_steps, steps)\n\n    return str(min_steps)"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    digits = [int(d) for d in stdin]\n    n = len(digits)\n    steps = 0\n\n    for i in range(n // 2):\n        steps += abs(digits[i] - digits[n - i - 1])\n\n    return str(steps)"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    # Convert the input string to a list of integers\n    wheels = [int(digit) for digit in stdin]\n\n    # Find the first digit that is different from its corresponding digit in the reversed list\n    for i in range(len(wheels) // 2):\n        if wheels[i] != wheels[-1 - i]:\n            break\n    else:\n        # If all digits are the same, we only need to advance the first wheel once\n        return '1'\n\n    # Check if the next palindrome can be obtained by incrementing the current digit\n    if wheels[i] < 9 or (i > 0 and wheels[i] == 9 and wheels[i - 1] % 2 == 0):\n        return '1'\n\n    # Otherwise, we need to advance the current wheel and all the wheels to the left until we find a palindrome\n    return str(2 * (len(wheels) - i))"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(number: str) -> bool:\n        return number == number[::-1]\n\n    def increment(wheels: List[int]) -> None:\n        wheels[-1] += 1\n        for i in range(len(wheels) - 1, -1, -1):\n            if wheels[i] == 10:\n                wheels[i] = 0\n                if i > 0:\n                    wheels[i - 1] += 1\n\n    wheels = [int(digit) for digit in stdin]\n    steps = 0\n\n    while not is_palindrome(stdin):\n        increment(wheels)\n        stdin = ''.join(str(digit) for digit in wheels)\n        steps += 1\n\n    return str(steps)"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(num: str) -> bool:\n        return num == num[::-1]\n\n    def get_next_palindrome(num: str) -> str:\n        for i in range(len(num) // 2):\n            if num[i] != num[len(num) - i - 1]:\n                if int(num[i]) < int(num[len(num) - i - 1]):\n                    return num[:i] + str(int(num[i]) + 1) + (num[i] + \"0\")[::-1] + num[len(num) - i:]\n                else:\n                    j = i + 1\n                    while j < len(num) - i - 1 and num[j] == \"9\":\n                        j += 1\n                    if j == len(num) - i - 1 and num[j] == \"9\":\n                        return num[:i] + str(int(num[i]) + 1) + (\"0\" * len(num))[::-1] + num[len(num) - i:]\n                    else:\n                        return num[:j] + str(int(num[j]) + 1) + \"0\" * (len(num) - j) + num[len(num) - j:]\n        return num\n\n    def get_steps(num: str) -> int:\n        steps = 0\n        while not is_palindrome(num):\n            num = get_next_palindrome(num)\n            steps += 1\n        return steps\n\n    return get_steps(stdin)"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(n: str) -> bool:\n        return n == n[::-1]\n\n    def next_palindrome(n: str) -> int:\n        n = int(n)\n        if n == 0:\n            return 1\n        n += 1\n        while not is_palindrome(str(n)):\n            n += 1\n        return n\n\n    def min_steps(n: str) -> int:\n        total_steps = 0\n        for i in range(len(n) // 2):\n            left, right = n[i], n[-(i + 1)]\n            if left == right:\n                continue\n            if left > right:\n                left = int(left)\n                right = int(right)\n                total_steps += left - right\n                n = n[:-(i + 1)] + str(right) + n[-i - 1:]\n            else:\n                left = int(left)\n                right = int(right)\n                total_steps += right - left\n                n = n[:-(i + 1)] + str(left) + n[-i - 1:]\n        return total_steps\n\n    return str(min_steps(stdin))"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(number: str) -> bool:\n        return number == number[::-1]\n\n    def increment(wheels: List[int]) -> None:\n        wheels[-1] += 1\n        for i in range(len(wheels) - 1, -1, -1):\n            if wheels[i] == 10:\n                wheels[i] = 0\n                if i != 0:\n                    wheels[i - 1] += 1\n\n    wheels = [int(digit) for digit in stdin]\n    steps = 0\n    while not is_palindrome(stdin):\n        increment(wheels)\n        stdin = ''.join(str(wheel) for wheel in wheels)\n        steps += 1\n\n    return str(steps)"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    num = [int(d) for d in stdin]  # Convert string to list of digits\n    steps = 0\n    while not is_palindrome(num):\n        steps += 1\n        num = increment(num)\n    return str(steps)\n\ndef"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(s: str) -> bool:\n        return s == s[::-1]\n\n    def min_steps_to_palindrome(counter: str) -> int:\n        n = len(counter)\n        steps = 0\n\n        for i in range(n // 2):\n            left_digit, right_digit = counter[i], counter[-i - 1]\n\n            if left_digit == right_digit:\n                continue\n\n            if left_digit < right_digit:\n                steps += right_digit - left_digit\n            else:\n                steps += 10 - left_digit + right_digit\n\n        return steps\n\n    return str(min_steps_to_palindrome(stdin))"
+    },
+    {
+        "number": 3001,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    def is_palindrome(num: str) -> bool:\n        return num == num[::-1]\n\n    def advance_wheel(wheel: str, position: int) -> str:\n        if wheel[position] == '9':\n            wheel = wheel[:position] + '0' + wheel[position + 1:]\n            if position > 0:\n                return advance_wheel(wheel, position - 1)\n        else:\n            wheel = wheel[:position] + str(int(wheel[position]) + 1) + wheel[position + 1:]\n        return wheel\n\n    num_str = stdin.lstrip('0')\n    num_len = len(num_str)\n    steps = 0\n\n    while not is_palindrome(num_str):\n        position = 0\n        while position < num_len and num_str[position] == '0':\n            position += 1\n        num_str = advance_wheel(num_str, position)\n        steps += 1\n\n    return str(steps)"
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    # Read input\n    e = int(stdin.split('\\n')[0])\n    service_history = [list(map(int, entry.split())) for entry in stdin.split('\\n')[1:e+1]]\n\n    def reset_odometer(distance: int) -> int:\n        return distance % 100000\n\n    def has_tampered_odometer() -> bool:\n        for i in range(1, e):\n            distance_traveled = service_history[i][2] - service_history[i-1][2]\n            if distance_traveled < 2000 or distance_traveled > 20000:\n                return True\n        return False\n\n    def has_sufficient_service() -> bool:\n        for i in range(1, e):\n            distance_traveled = service_history[i][2] - service_history[i-1][2]\n            distance_since_last_service = reset_odometer(distance_traveled)\n            if distance_since_last_service > 30000:\n                return False\n        return True\n\n    if has_tampered_odometer():\n        return 'tampered odometer'\n    elif has_sufficient_service():\n        return 'seems legit'\n    else:\n        return 'insufficient service'"
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    e = int(stdin.split('\\n')[0])\n    service_history = []\n    for i in range(1, e + 1):\n        y, m, o = list(map(int, stdin.split('\\n')[i].split()))\n        service_history.append((y, m, o))\n\n    # Check if odometer has been tampered with\n    for i in range(1, len(service_history)):\n        y1, m1, o1 = service_history[i - 1]\n        y2, m2, o2 = service_history[i]\n        if y2 == y1 and m2 == m1 and o2 < o1:\n            return \"tampered odometer\"\n\n    # Check if car has been serviced sufficiently\n    current_km = 0\n    service_months = 0\n    for i in range(len(service_history)):\n        y, m, o = service_history[i]\n        if i == 0:\n            current_km = o\n        else:\n            km_traveled = (o - current_km) % 100000\n            if km_traveled < 2000 or km_traveled > 20000:\n                return \"insufficient service\"\n            current_km = o\n\n        if i == 0 or service_history[i - 1][0] != y or service_history[i - 1][1] != m:\n            service_months += 1\n        if service_months * 30000 >= 12 * current_km or service_months * 12 >= 30000 // 2000:\n            return \"insufficient service\"\n\n    return \"seems legit\""
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    def is_tampered(odometer_readings):\n        for i in range(1, len(odometer_readings)):\n            if odometer_readings[i] < odometer_readings[i - 1]:\n                return True\n        return False\n\n    def get_distance_traveled(odometer_readings):\n        distance_traveled = 0\n        for i in range(1, len(odometer_readings)):\n            distance_traveled += odometer_readings[i] - odometer_readings[i - 1]\n        return distance_traveled\n\n    def has_been_serviced_often_enough(service_history, service_interval):\n        for i in range(1, len(service_history)):\n            days_since_last_service = (service_history[i][0] - service_history[i - 1][0]) * 365 + (service_history[i][1] - service_history[i - 1][1]) * 30\n            distance_traveled = service_history[i][2] - service_history[i - 1][2]\n            if days_since_last_service / 30 >= service_interval and distance_traveled >= 2000 and distance_traveled <= 20000:\n                return True\n        return False\n\n    lines = stdin.split(\"\\n\")\n    e = int(lines[0])\n    service_history = []\n\n    for i in range(1, e + 1):\n        year, month, odometer_reading = map(int, lines[i].split())\n        service_history.append((year, month, odometer_reading))\n\n    odometer_readings = [service_history[0][2]]\n    for i in range(1, len(service_history)):\n        odometer_readings.append(service_history[i][2])\n\n    if is_tampered(odometer_readings):\n        return \"tampered odometer\"\n\n    distance_traveled = get_distance_traveled(odometer_readings)\n    if distance_traveled >= 30000:\n        service_interval = 1\n    else:\n        service_interval = 12\n\n    if has_been_serviced_often_enough(service_history, service_interval):\n        return \"seems legit\"\n    else:\n        return \"insufficient service\""
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    def is_tampered_odometer(entries):\n        prev_odometer = 0\n        for _, _, odometer in entries:\n            if odometer < prev_odometer:\n                return True\n            prev_odometer = odometer\n        return False\n\n    def has_sufficient_service(entries):\n        service_distance = 0\n        service_date = None\n        for year, month, odometer in entries:\n            distance = odometer - service_distance\n            if distance >= 2000:\n                if service_date is not None and (year - service_date[0]) * 12 + (month - service_date[1]) > 12:\n                    return True\n                service_distance = odometer\n                service_date = (year, month)\n        return False\n\n    lines = stdin.split('\\n')\n    num_entries = int(lines[0])\n    entries = [tuple(map(int, line.split())) for line in lines[1:num_entries + 1]]\n\n    if is_tampered_odometer(entries):\n        return \"tampered odometer\"\n    elif has_sufficient_service(entries):\n        return \"seems legit\"\n    else:\n        return \"insufficient service\""
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    e = int(stdin.split('\\n')[0])\n    service_history = []\n    for i in range(e):\n        year, month, odometer = map(int, stdin.split('\\n')[i+1].split())\n        service_history.append((year, month, odometer))\n\n    def is_tampered_odometer(service_history) -> bool:\n        for i in range(1, len(service_history)):\n            year, month, odometer = service_history[i]\n            prev_year, prev_month, prev_odometer = service_history[i-1]\n            if year == prev_year and month == prev_month:\n                continue\n            if prev_odometer > odometer:\n                return True\n        return False\n\n    def sufficient_service(service_history) -> bool:\n        for i in range(len(service_history)):\n            year, month, odometer = service_history[i]\n            distance = 2000 if month < 7 else 20000\n            if i > 0:\n                prev_year, prev_month, prev_odometer = service_history[i-1]\n                if prev_odometer + distance > 30000 or (year - prev_year) * 12 + (month - prev_month) > 12:\n                    return False\n        return True\n\n    if is_tampered_odometer(service_history):\n        return \"tampered odometer\"\n    elif sufficient_service(service_history):\n        return \"seems legit\"\n    else:\n        return \"insufficient service\""
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    def is_tampered(entries):\n        for i in range(1, len(entries)):\n            y1, m1, o1 = entries[i - 1]\n            y2, m2, o2 = entries[i]\n            if o2 < o1 or (o2 - o1) % 100000 > 20000:\n                return True\n        return False\n\n    def is_serviced(entries):\n        last_service = 0\n        for y, m, o in entries:\n            if o - last_service >= 30000:\n                return True\n            last_service = o\n        return False\n\n    lines = stdin.split('\\n')\n    e = int(lines[0])\n    entries = [list(map(int, line.split())) for line in lines[1:]]\n\n    if is_tampered(entries):\n        return \"tampered odometer\"\n    elif is_serviced(entries):\n        return \"seems legit\"\n    else:\n        return \"insufficient service\""
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    def is_valid_odometer(o: int, y: int, m: int, e: int) -> bool:\n        if e == 1:\n            return True\n        if o > 100000:\n            return False\n        if y == 2050 and m == 12:\n            return False\n        return is_valid_odometer(o, y + (m // 12), m % 12 + 1, e - 1)\n\n    def service_required(o: int, y: int, m: int, e: int) -> bool:\n        if e == 1:\n            return False\n        if o >= 30000:\n            return True\n        if y == 2050 and m == 12:\n            return True\n        return service_required(o, y + (m // 12), m % 12 + 1, e - 1)\n\n    lines = stdin.split('\\n')\n    e = int(lines[0])\n\n    if not is_valid_odometer(0, 1950, 1, e):\n        return \"tampered odometer\"\n\n    service_history = [list(map(int, line.split())) for line in lines[1:]]\n    service_history.sort(key=lambda x: (x[0], x[1]))\n\n    if not service_required(service_history[0][2], service_history[0][0], service_history[0][1], e):\n        return \"insufficient service\"\n\n    for i in range(1, e):\n        km_traveled = service_history[i][2] - service_history[i - 1][2]\n        if km_traveled < 2000 or km_traveled > 20000:\n            return \"tampered odometer\"\n\n    return \"seems legit\""
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    def is_tampered(entries) -> bool:\n        for i in range(1, len(entries)):\n            y1, m1, o1 = entries[i - 1]\n            y2, m2, o2 = entries[i]\n            if o2 < o1:\n                return True\n            elif o2 > o1 + 30000:\n                return True\n        return False\n\n    def is_serviced(entries) -> bool:\n        for i in range(1, len(entries)):\n            y1, m1, o1 = entries[i - 1]\n            y2, m2, o2 = entries[i]\n            distance = o2 - o1\n            if distance > 20000:\n                return False\n        return True\n\n    def is_legit(entries) -> bool:\n        return not is_tampered(entries) and is_serviced(entries)\n\n    e = int(stdin.readline().strip())\n    entries = []\n    for _ in range(e):\n        y, m, o = map(int, stdin.readline().strip().split())\n        entries.append((y, m, o))\n\n    if is_legit(entries):\n        return \"seems legit\"\n    elif is_tampered(entries):\n        return \"tampered odometer\"\n    else:\n        return \"insufficient service\""
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    def parse_input(stdin):\n        lines = stdin.split('\\n')\n        e = int(lines[0])\n        entries = []\n        for line in lines[1:]:\n            y, m, o = map(int, line.split())\n            entries.append((y, m, o))\n        return e, entries\n\n    def is_tampered_odometer(entries):\n        for i in range(1, len(entries)):\n            y1, m1, o1 = entries[i - 1]\n            y2, m2, o2 = entries[i]\n            if o2 < o1 or (o2 == o1 and (y2, m2) <= (y1, m1)):\n                return True\n        return False\n\n    def has_been_serviced_often_enough(entries):\n        min_distance = 2000\n        max_distance = 20000\n        min_time = 30000\n        max_time = 12 * 30000\n\n        total_distance = 0\n        last_service_time = None\n        for y, m, o in entries:\n            distance_traveled = o - (100000 if last_service_time and (y, m) <= last_service_time else 0)\n            total_distance += distance_traveled\n            if distance_traveled < min_distance or distance_traveled > max_distance:\n                return False\n            last_service_time = (y, m)\n\n        if total_distance / len(entries) < min_time or total_distance / len(entries) > max_time:\n            return False\n\n        return True\n\n    e, entries = parse_input(stdin)\n\n    if is_tampered_odometer(entries):\n        return 'tampered odometer'\n    elif has_been_serviced_often_enough(entries):\n        return 'seems legit'\n    else:\n        return 'insufficient service'"
+    },
+    {
+        "number": 3002,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    def is_tampered(entries):\n        for i in range(len(entries) - 1):\n            prev_entry = entries[i]\n            next_entry = entries[i + 1]\n            if prev_entry[2] > next_entry[2]:\n                return True\n        return False\n\n    def is_serviced_often_enough(entries):\n        for i in range(len(entries) - 1):\n            prev_entry = entries[i]\n            next_entry = entries[i + 1]\n            if (next_entry[0] - prev_entry[0]) * 12 + (next_entry[1] - prev_entry[1]) > 12:\n                return False\n        return True\n\n    lines = stdin.split(\"\\n\")\n    e = int(lines[0])\n    entries = []\n    for i in range(1, e + 1):\n        year, month, odometer = map(int, lines[i].split())\n        entries.append((year, month, odometer))\n\n    if is_tampered(entries):\n        return \"tampered odometer\"\n    elif is_serviced_often_enough(entries):\n        return \"seems legit\"\n    else:\n        return \"insufficient service\""
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    lines = stdin.splitlines()\n    num_vertices = int(lines[0])\n\n    graph = [set() for _ in range(num_vertices)]\n    for i, line in enumerate(lines[1:]):\n        for j in map(int, line.split()):\n            graph[i].add(j)\n            graph[j].add(i)\n\n    def color_graph(graph, num_colors):\n        colors = [-1] * len(graph)\n        used_colors = [False] * num_colors\n\n        def dfs(vertex, color):\n            colors[vertex] = color\n            used_colors[color] = True\n\n            for neighbor in graph[vertex]:\n                if colors[neighbor] == -1:\n                    next_color = 0\n                    while used_colors[next_color]:\n                        next_color += 1\n                    dfs(neighbor, next_color)\n\n        dfs(0, 0)\n        return colors\n\n    for num_colors in range(1, num_vertices + 1):\n        colors = color_graph(graph, num_colors)\n        if len(set(colors)) == num_colors:\n            return str(num_colors)\n\n    return str(num_vertices)"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    def dfs(vertex, color, graph, used_colors):\n        for neighbor in graph[vertex]:\n            if neighbor not in used_colors:\n                used_colors[neighbor] = color\n                dfs(neighbor, color, graph, used_colors)\n\n    def min_coloring(graph):\n        n = len(graph)\n        colors = [None] * n\n        used_colors = {}\n\n        for i in range(n):\n            if i not in used_colors:\n                colors[i] = 0\n                used_colors[i] = 0\n                dfs(i, 0, graph, used_colors)\n\n        return len(set(used_colors.values()))\n\n    input_list = stdin.strip().split('\\n')\n    n = int(input_list[0])\n    graph = [[] for _ in range(n)]\n\n    for i in range(1, n + 1):\n        vertices = list(map(int, input_list[i].strip().split()))\n        for v in vertices:\n            graph[i - 1].append(v)\n            graph[v].append(i - 1)\n\n    return str(min_coloring(graph))"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    lines = stdin.split('\\n')\n    n = int(lines[0])\n    adjacency_list = [set() for _ in range(n)]\n    for i in range(n):\n        for j in map(int, lines[i+1].split()):\n            if j != i:\n                adjacency_list[i].add(j)\n    \n    colors = [None for _ in range(n)]\n    def dfs(u, color):\n        colors[u] = color\n        for v in adjacency_list[u]:\n            if colors[v] is None:\n                if not dfs(v, color ^ 1):\n                    return False\n            elif colors[u] == colors[v]:\n                return False\n        return True\n    \n    for i in range(n):\n        if colors[i] is None:\n            if not dfs(i, 0):\n                return -1\n    return max(colors) + 1"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    N, *graph = [line.strip().split() for line in stdin.split('\\n')]\n    N = int(N)\n    adj_list = [set() for _ in range(N)]\n\n    for i, vertices in enumerate(graph):\n        for vertex in vertices:\n            adj_list[i].add(int(vertex))\n\n    colors = [0] * N\n    max_color = 0\n\n    for i in range(N):\n        used_colors = set()\n        for neighbor in adj_list[i]:\n            if neighbor != i and colors[neighbor] in used_colors:\n                used_colors.add(colors[neighbor])\n\n        for color in range(1, max_color + 2):\n            if color not in used_colors:\n                colors[i] = color\n                break\n        else:\n            max_color += 1\n            colors[i] = max_color\n\n    return str(max_color)"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    lines = stdin.splitlines()\n    num_vertices = int(lines[0])\n    adjacency_list = [set() for _ in range(num_vertices)]\n\n    for i in range(1, num_vertices + 1):\n        adjacency_list[i - 1].update(map(int, lines[i].split()))\n\n    color_map = {}\n    for i in range(num_vertices):\n        if i not in color_map:\n            color_map[i] = 0\n            for neighbor in adjacency_list[i]:\n                if neighbor in color_map:\n                    if color_map[neighbor] == color_map[i]:\n                        color_map[i] += 1\n                else:\n                    color_map[neighbor] = 1 if color_map[i] == 0 else 0\n\n    return str(max(color_map.values()) + 1)"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    input_list = stdin.split('\\n')\n    n = int(input_list[0])\n    graph = [[] for _ in range(n)]\n\n    for i in range(1, n + 1):\n        graph[i - 1] = list(map(int, input_list[i].split()))\n\n    def dfs(u, color):\n        colors[u] = color\n        for v in graph[u]:\n            if colors[v] == -1:\n                dfs(v, 1 - color)\n            elif colors[v] == color:\n                return False\n        return True\n\n    def bipartite_dfs(u, color):\n        colors[u] = color\n        for v in graph[u]:\n            if colors[v] == -1:\n                if not bipartite_dfs(v, 1 - color):\n                    return False\n            elif colors[v] == color:\n                return False\n        return True\n\n    def try_color(k):\n        for color in range(k):\n            colors = [-1] * n\n            for u in range(n):\n                if colors[u] == -1:\n                    if not dfs(u, color):\n                        break\n            else:\n                return color\n        return -1\n\n    def is_bipartite():\n        colors = [-1] * n\n        for u in range(n):\n            if colors[u] == -1:\n                if not bipartite_dfs(u, 0):\n                    return False\n        return True\n\n    if n % 2 == 0 and is_bipartite():\n        return 2\n    else:\n        ans = try_color(n)\n        if ans == -1:\n            return \"Not possible\"\n        return ans + 1"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    lines = stdin.split(\"\\n\")\n    N = int(lines[0])\n    graph = [set() for _ in range(N)]\n\n    for i in range(N):\n        edges = list(map(int, lines[i + 1].split()))\n        for j in range(len(edges)):\n            graph[i].add(edges[j])\n\n    colors = 1\n    visited = [False] * N\n\n    def dfs(node, color):\n        nonlocal colors\n        visited[node] = True\n        for neighbor in graph[node]:\n            if not visited[neighbor]:\n                if color == colors:\n                    colors += 1\n                dfs(neighbor, colors - 1)\n\n    dfs(0, 0)\n    return str(colors)"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    def graph_coloring(n, edges):\n        colors = [0] * n\n        for i in range(n):\n            for j in range(i):\n                if edges[i][j]:\n                    colors[i] = colors[i] ^ colors[j]\n        return max(colors) + 1\n\n    data = stdin.split('\\n')\n    n = int(data[0])\n    edges = [[0] * n for _ in range(n)]\n\n    for i in range(n):\n        line = list(map(int, data[i + 1].split()))\n        for j in line:\n            edges[i][j] = 1\n\n    return str(graph_coloring(n, edges))"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    # Split the input by newline\n    input_data = stdin.split(\"\\n\")\n    \n    # Get the number of vertices\n    num_vertices = int(input_data[0])\n    \n    # Initialize an empty adjacency list\n    adj_list = [[] for _ in range(num_vertices)]\n    \n    # Populate the adjacency list\n    for i in range(1, num_vertices + 1):\n        adj_list[i - 1] = list(map(int, input_data[i].split()))\n    \n    # Initialize a set to store the colors of the vertices\n    colors = set()\n    \n    # Initialize a list to store the vertices that have been visited\n    visited = [False] * num_vertices\n    \n    # Define a recursive function to perform DFS and color the vertices\n    def dfs(v, color):\n        # Mark the vertex as visited\n        visited[v] = True\n        \n        # Add the color to the set of colors\n        colors.add(color)\n        \n        # Iterate through the adjacent vertices\n        for u in adj_list[v]:\n            # If the vertex has not been visited, perform DFS with the next color\n            if not visited[u]:\n                dfs(u, (color + 1) % num_vertices)\n    \n    # Perform DFS starting from vertex 0 with color 0\n    dfs(0, 0)\n    \n    # Return the minimum number of colors required\n    return str(len(colors))"
+    },
+    {
+        "number": 3003,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    lines = stdin.split('\\n')\n    num_vertices = int(lines[0])\n    edges = [[] for _ in range(num_vertices)]\n    for i in range(1, num_vertices + 1):\n        edge_list = list(map(int, lines[i].split()))\n        for j in edge_list:\n            edges[i-1].append(j)\n            edges[j].append(i-1)\n\n    # Implement greedy coloring algorithm\n    colors = [None] * num_vertices\n    for i in range(num_vertices):\n        neighbor_colors = set(colors[j] for j in edges[i] if colors[j] is not None)\n        colors[i] = min(color for color in range(num_vertices) if color not in neighbor_colors)\n\n    num_colors = len(set(colors))\n    return str(num_colors)"
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def merge(intervals):\n        if not intervals:\n            return []\n\n        intervals.sort(key=lambda x: x[0])\n        merged = [intervals[0]]\n\n        for interval in intervals[1:]:\n            if merged[-1][1] >= interval[0]:\n                merged[-1][1] = max(merged[-1][1], interval[1])\n            else:\n                merged.append(interval)\n\n        return merged\n\n    def color_fence(offers):\n        colors = set()\n        sections = [False] * 10001\n        for offer in offers:\n            color, start, end = offer\n            if color not in colors:\n                colors.add(color)\n            for i in range(start, end + 1):\n                if not sections[i]:\n                    sections[i] = color\n\n        return sum(1 for section in sections if section), colors\n\n    offers = []\n    n = int(stdin.readline().strip())\n    for _ in range(n):\n        color, start, end = stdin.readline().strip().split()\n        offers.append((color, int(start), int(end)))\n\n    sections_painted, colors = color_fence(offers)\n    if sections_painted == 10000 and len(colors) <= 3:\n        return len(offers)\n    else:\n        return \"IMPOSSIBLE\" "
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    offers = []\n    for line in stdin.split('\\n')[1:]:\n        color, start, end = line.split()\n        offers.append((color, int(start), int(end)))\n\n    def helper(offers, colors_used, last_end, offer_index):\n        if offer_index == len(offers):\n            return colors_used if last_end == 10000 else float('inf')\n\n        color, start, end = offers[offer_index]\n        if start > last_end + 1:\n            colors_used += 1\n            return min(helper(offers, colors_used, end, offer_index + 1),\n                       helper(offers, colors_used, end, offer_index + 1))\n        elif color in colors_used:\n            return helper(offers, colors_used, last_end, offer_index + 1)\n        else:\n            colors_used.add(color)\n            return min(helper(offers, colors_used, end, offer_index + 1),\n                       helper(offers, colors_used, last_end, offer_index + 1))\n\n    colors_used = set()\n    result = helper(offers, colors_used, 0, 0)\n    return str(result) if result != float('inf') else \"IMPOSSIBLE\""
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    def is_valid(colors):\n        if len(colors) > 3:\n            return False\n        for color in colors:\n            if colors.count(color) > 1:\n                return False\n        return True\n\n    def helper(offers, current_color, current_section, remaining_sections):\n        if remaining_sections == 0:\n            return 0\n        if current_section > 10000:\n            return float(\"inf\")\n        if (current_color, current_section, remaining_sections) in dp:\n            return dp[(current_color, current_section, remaining_sections)]\n\n        min_cost = float(\"inf\")\n        for i, offer in enumerate(offers):\n            if offer[2] < current_section or offer[1] > 10000 - remaining_sections:\n                continue\n            if offer[0] == current_color or current_color == \"\":\n                cost = 1 + helper(offers[:i] + offers[i+1:], offer[0], offer[2]+1, remaining_sections-offer[2]+1)\n                min_cost = min(min_cost, cost)\n        dp[(current_color, current_section, remaining_sections)] = min_cost\n        return min_cost\n\n    lines = stdin.split(\"\\n\")\n    N = int(lines[0])\n    offers = []\n    for i in range(1, N+1):\n        C, A, B = lines[i].split()\n        offers.append((C, int(A), int(B)))\n\n    dp = {}\n    min_cost = helper(offers, \"\", 1, 10000)\n    if min_cost == float(\"inf\"):\n        return \"IMPOSSIBLE\"\n    else:\n        return str(min_cost) "
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    def is_valid(colors):\n        if len(colors) <= 3:\n            return True\n        else:\n            return False\n\n    def can_paint(offers, painted):\n        if not offers:\n            return True\n\n        for i, offer in enumerate(offers):\n            if not painted[offer[1]:offer[2] + 1]:\n                for j in range(offer[1], offer[2] + 1):\n                    painted[j] = offer[0]\n                offers.pop(i)\n                if can_paint(offers, painted):\n                    return True\n                else:\n                    for j in range(offer[1], offer[2] + 1):\n                        painted[j] = None\n        return False\n\n    lines = stdin.split(\"\\n\")\n    num_offers = int(lines[0])\n    offers = []\n    for i in range(1, num_offers + 1):\n        offer = lines[i].split()\n        offers.append((offer[0], int(offer[1]), int(offer[2])))\n\n    offers.sort(key=lambda x: x[2] - x[1], reverse=True)\n    painted = [None] * 10001\n    offers_accepted = []\n\n    for offer in offers:\n        if not is_valid(offers_accepted):\n            return \"IMPOSSIBLE\"\n\n        if not painted[offer[1]:offer[2] + 1]:\n            for i in range(offer[1], offer[2] + 1):\n                painted[i] = offer[0]\n            offers_accepted.append(offer)\n\n            if can_paint(offers, painted):\n                return len(offers_accepted)\n            else:\n                for i in range(offer[1], offer[2] + 1):\n                    painted[i] = None\n                offers_accepted.pop()\n\n    return \"IMPOSSIBLE\""
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    def intersect(a, b):\n        s1, e1 = a\n        s2, e2 = b\n        return max(0, min(e1, e2) - max(s1, s2) + 1)\n\n    offers = []\n    for offer in stdin.split('\\n')[1:]:\n        color, a, b = offer.split()\n        a, b = int(a), int(b)\n        offers.append((color, a, b))\n\n    offers.sort(key=lambda x: x[1])\n\n    num_offers = 0\n    last_end = 0\n    colors = set()\n    for color, start, end in offers:\n        if start > last_end:\n            if len(colors) >= 3:\n                return \"IMPOSSIBLE\"\n            colors.add(color)\n            num_offers += 1\n            last_end = end\n        elif intersect((start, end), (last_end + 1, end)) > 0:\n            colors.add(color)\n            num_offers += 1\n            last_end = end\n\n    return num_offers if last_end == 10000 and len(colors) <= 3 else \"IMPOSSIBLE\" "
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    def paint_fence(offers, n):\n        offers.sort(key=lambda x: x[1])  # Sort by starting section\n        painted = [False] * (n + 1)  # Initialize painted sections\n        color_count = 0\n        accepted_offers = []\n\n        for offer in offers:\n            color, start, end = offer\n            if not any(painted[start:end + 1]):  # If section is not painted\n                accepted_offers.append(offer)\n                for i in range(start, end + 1):\n                    painted[i] = True\n                color_count += 1\n                if color_count >= 3:\n                    break\n\n        if all(painted):\n            return len(accepted_offers)\n        else:\n            return \"IMPOSSIBLE\"\n\n    lines = stdin.split(\"\\n\")\n    n = int(lines[0])\n    offers = [tuple(line.split()) for line in lines[1:n + 1]]\n\n    return str(paint_fence(offers, 10000))\n"
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    offers = []\n    for line in stdin.split('\\n')[1:]:\n        color, start, end = line.split()\n        offers.append((color, int(start), int(end)))\n\n    offers.sort(key=lambda x: (x[1], x[2]))\n\n    colors = set()\n    sections = [False] * 10001\n\n    def paint_sections(start, end, color):\n        for i in range(start, end + 1):\n            if sections[i]:\n                continue\n            sections[i] = True\n            colors.add(color)\n\n    def backtrack(index):\n        if index == len(offers):\n            if all(sections) and len(colors) <= 3:\n                return True\n            return False\n\n        paint_sections(offers[index][1], offers[index][2], offers[index][0])\n        if backtrack(index + 1):\n            return True\n        paint_sections(offers[index][1], offers[index][2], offers[index][0])\n\n        return backtrack(index + 1)\n\n    if backtrack(0):\n        return str(len(offers))\n    else:\n        return \"IMPOSSIBLE\""
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    def intersection(offer1, offer2):\n        return (offer1[0] <= offer2[1] and offer1[1] >= offer2[0])\n\n    def paint_fence(offers, num_colors):\n        offers.sort(key=lambda x: x[1])\n        accepted_offers = []\n        colors_used = set()\n\n        for offer in offers:\n            if len(colors_used) < num_colors:\n                if offer[2] not in colors_used:\n                    accepted_offers.append(offer)\n                    colors_used.add(offer[2])\n            else:\n                break\n\n        if len(colors_used) <= num_colors:\n            for i in range(len(accepted_offers)):\n                for j in range(i + 1, len(accepted_offers)):\n                    if intersection(accepted_offers[i], accepted_offers[j]):\n                        return \"IMPOSSIBLE\"\n            return len(accepted_offers)\n        else:\n            return \"IMPOSSIBLE\"\n\n    def process_input(stdin: str) -> List[List[Union[str, int]]]:\n        lines = stdin.split(\"\\n\")\n        offers = []\n\n        for line in lines[1:]:\n            color, start, end = line.split()\n            offers.append([color, int(start), int(end)])\n\n        return offers\n\n    offers = process_input(stdin)\n\n    if len(offers) <= 3:\n        return paint_fence(offers, len(offers))\n    else:\n        return paint_fence(offers, 3) "
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    def is_valid(painters: list) -> bool:\n        colors = set()\n        for painter in painters:\n            colors.add(painter[0])\n            if len(colors) > 3:\n                return False\n        return True\n\n    def paint_fence(painters: list) -> bool:\n        painted = [False] * 10001\n        for painter in painters:\n            for i in range(painter[1], painter[2] + 1):\n                painted[i] = True\n\n        if all(painted):\n            return True\n        return False\n\n    N = int(stdin.readline().strip())\n    painters = []\n    for _ in range(N):\n        color, start, end = stdin.readline().strip().split()\n        painters.append((color, int(start), int(end)))\n\n    painters.sort(key=lambda x: (x[1], x[2]))\n\n    if not is_valid(painters):\n        return \"IMPOSSIBLE\"\n\n    for i in range(N):\n        if not paint_fence(painters[:i + 1]):\n            return \"IMPOSSIBLE\"\n\n    return str(i + 1)"
+    },
+    {
+        "number": 3004,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    def intersect(a, b, c, d):\n        if a <= c <= b or a <= d <= b:\n            return True\n        if c <= a <= d or c <= b <= d:\n            return True\n        return False\n\n    def find_color(color, section, offers):\n        for i, offer in enumerate(offers):\n            if offer[0] == color and offer[1] <= section <= offer[2]:\n                return i\n        return -1\n\n    def paint_fence(offers):\n        offers = sorted(offers, key=lambda x: x[1])\n        colors = set()\n        for i in range(1, 10001):\n            offer_index = find_color(None, i, offers)\n            if offer_index == -1:\n                return \"IMPOSSIBLE\"\n            color = offers[offer_index][0]\n            if color in colors and len(colors) == 3:\n                return \"IMPOSSIBLE\"\n            colors.add(color)\n        return len(offers)\n\n    N = int(stdin.readline())\n    offers = []\n    for _ in range(N):\n        color, a, b = stdin.readline().strip().split()\n        a, b = int(a), int(b)\n        offers.append((color, a, b))\n\n    result = paint_fence(offers)\n    return str(result)"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def find_repetitions(s):\n        i = 1\n        while i <= len(s) // 2 and s[0:i] * (len(s) // i) == s:\n            i += 1\n        return s[0:i-1], len(s) // (i-1)\n\n    def factoring(s):\n        if len(s) == 1:\n            return s\n        rep, num = find_repetitions(s)\n        return f\"({factoring(rep)})^{num}\" if rep else s[0] + factoring(s[1:])\n\n    def weigh(s):\n        return len(s) - s.count(\"(\") - s.count(\")\") - s.count(\"^\")\n\n    def max_weight_factoring(s):\n        if len(s) == 1:\n            return 1\n        for i in range(1, len(s) // 2 + 1):\n            if s[i:] == s[0:i]:\n                return 2 + weigh(factoring(s[0:i]))\n        return 1 + weigh(factoring(s))\n\n    return str(max_weight_factoring(stdin))"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    def factor_string(s: str) -> int:\n        n = len(s)\n        max_weight = n\n        for i in range(1, n // 2 + 1):\n            if n % i != 0:\n                continue\n            if s[:i] * n // i == s:\n                max_weight = min(max_weight, i + factor_string(s[:i]))\n        return max_weight\n\n    return str(factor_string(stdin))"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    def factor(s):\n        n = len(s)\n        for l in range(1, n // 2 + 1):\n            if n % l == 0:\n                if s[:l] * n // l == s:\n                    return l\n        return n\n\n    n = len(stdin)\n    while n > 1:\n        l = factor(stdin)\n        stdin = stdin[:l] * (n // l)\n        n = len(stdin)\n    return len(stdin)"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    def factor(s):\n        n = len(s)\n        for l in range(1, n // 2 + 1):\n            if n % l == 0:\n                m = n // l\n                if s[:l] * m == s:\n                    return l, m\n        return None, None\n\n    def max_weight(s):\n        l, m = factor(s)\n        if l is None:\n            return len(s)\n        return max(l + max_weight(s[l:]), m * max_weight(s[:l]))\n\n    return str(max_weight(stdin))"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    def factor_string(s: str) -> Tuple[int, str]:\n        for i in range(1, len(s) // 2 + 1):\n            if s.startswith(s[:i]):\n                for j in range(i, len(s) // i * i + 1, i):\n                    if s[:j] * (len(s) // len(s[:j])) == s:\n                        return len(s[:j]), s[:j]\n        return len(s), s\n\n    def max_weight_factoring(s: str) -> int:\n        def helper(s: str, weight: int, max_weight: int) -> int:\n            if not s:\n                return max_weight\n            current_weight, current_substring = factor_string(s)\n            new_weight = weight + current_weight\n            if new_weight > max_weight:\n                max_weight = new_weight\n            return helper(s[current_weight:], new_weight, max_weight)\n\n        return helper(s, 0, 0)\n\n    return str(max_weight_factoring(stdin))"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    def max_weight(s):\n        def factor(s):\n            n = len(s)\n            for i in range(1, n // 2 + 1):\n                if n % i == 0:\n                    if s[:i] * n // i == s:\n                        return i\n            return n\n\n        def find_max_weight(s):\n            n = len(s)\n            max_w = n\n            for i in range(1, n // 2 + 1):\n                if n % i == 0 and s[:i] * n // i == s:\n                    if i < n // i and s[i] != s[i - n // i]:\n                        w = find_max_weight(s[:i]) + find_max_weight(s[i:n // i * i])\n                    else:\n                        w = i + find_max_weight(s[:n // i])\n                    max_w = min(max_w, w)\n            return max_w\n\n        f = factor(s)\n        if f == len(s):\n            return 1\n        else:\n            return find_max_weight(s)\n\n    return str(max_weight(stdin))"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    def factoring(s):\n        n = len(s)\n        for i in range(n // 2, 0, -1):\n            if n % i == 0 and s[:i] * (n // i) == s:\n                return i, n // i\n        return None, None\n\n    def weigh(s):\n        return len(s) - 2 - (1 if '(' in s else 0)\n\n    def search(s):\n        if len(s) == 1:\n            return 1\n        i, j = factoring(s)\n        if i is None:\n            return weigh(s)\n        if i != j:\n            return weigh('(' + s[:i] + ')' + s[i:])\n        else:\n            return search(s[:i])\n\n    return str(search(stdin))"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    def max_weight(s):\n        n = len(s)\n        dp = [[0] * n for _ in range(n)]\n\n        for i in range(n - 1, -1, -1):\n            dp[i][i] = 1\n            for j in range(i + 1, n):\n                if s[i] == s[j]:\n                    dp[i][j] = dp[i + 1][j - 1] + 2\n                else:\n                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n\n        return dp[0][n - 1]\n\n    def factoring(s, i, j, cur, res):\n        if i > j:\n            res.append(cur)\n            return\n\n        while i <= j and s[i] == s[i + 1]:\n            i += 1\n\n        if i > j:\n            res.append(cur)\n            return\n\n        if i + 1 == j and s[i] == s[j]:\n            res.append(cur + s[i])\n            return\n\n        if s[i] == s[j]:\n            factoring(s, i + 1, j - 1, cur + s[i], res)\n            factoring(s, i, j - 1, cur, res)\n            factoring(s, i + 1, j, cur, res)\n        else:\n            factoring(s, i, j - 1, cur, res)\n            factoring(s, i + 1, j, cur, res)\n\n    def max_factoring(s):\n        res = []\n        factoring(s, 0, len(s) - 1, \"\", res)\n        weights = [len(x) for x in res]\n        return min(weights)\n\n    return str(max_weight(stdin) - 1)"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    def is_prime(n):\n        if n <= 1:\n            return False\n        for i in range(2, n):\n            if n % i == 0:\n                return False\n        return True\n\n    def factor_string(s):\n        factorings = []\n        for i in range(1, len(s) // 2 + 1):\n            if len(s) % i == 0:\n                if s[:i] * (len(s) // i) == s:\n                    factorings.append((s[:i], len(s) // i))\n        return factorings\n\n    def find_min_weight(s, factorings):\n        min_weight = float('inf')\n        for factor in factorings:\n            weight = len(factor[0]) * factor[1]\n            if weight < min_weight:\n                min_weight = weight\n        return min_weight\n\n    def is_irreducible(factorings):\n        for factor in factorings:\n            if factor[1] > 1:\n                return False\n        return True\n\n    factorings = factor_string(stdin)\n    if not factorings:\n        return 1\n    min_weight = find_min_weight(stdin, factorings)\n    for factor in factorings:\n        if is_prime(factor[1]):\n            weight = len(factor[0]) * factor[1]\n            if weight < min_weight:\n                min_weight = weight\n    return min_weight\n"
+    },
+    {
+        "number": 3005,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    def factor_string(s):\n        n = len(s)\n        for l in range(1, n // 2 + 1):\n            if n % l == 0:\n                if s[:l] * n // l == s:\n                    return l\n        return 0\n\n    def factor_string_irreducible(s):\n        n = len(s)\n        for l in range(1, n // 2 + 1):\n            if n % l == 0:\n                if s[:l] * n // l == s:\n                    return (s[:l], n // l)\n        return None\n\n    def max_weight_factoring(s):\n        if len(s) == 1:\n            return 1\n        factor = factor_string_irreducible(s)\n        if factor is None:\n            return max_weight_factoring(s[:-1])\n        else:\n            return factor[1] * (1 + max_weight_factoring(factor[0]))\n\n    return str(max_weight_factoring(stdin))"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    def process_program(program):\n        result = []\n        for line in program.split('\\n'):\n            if line.startswith('D'):\n                result.append(('D', int(line.split()[-1])))\n            elif line.startswith('I'):\n                parts = line.split()\n                result.append(('I', int(parts[1]), parts[2]))\n        return result\n\n    def compare_programs(program1, program2):\n        if len(program1) != len(program2):\n            return False\n\n        for op1, op2 in zip(program1, program2):\n            if op1[0] != op2[0] or op1[1:] != op2[1:]:\n                return False\n\n        return True\n\n    program1, program2 = stdin.split('\\n\\n')\n    program1 = process_program(program1)\n    program2 = process_program(program2)\n\n    return str(int(not compare_programs(program1, program2)))"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    def apply_operation(program, op):\n        if op[0] == \"D\":\n            pos = int(op[1]) - 1\n            if 0 <= pos < len(program):\n                program.pop(pos)\n        elif op[0] == \"I\":\n            pos = int(op[1]) - 1\n            if 0 <= pos <= len(program):\n                program.insert(pos, op[2])\n\n    def is_identical(ops1, ops2):\n        program1 = []\n        program2 = []\n        for op in ops1:\n            apply_operation(program1, op)\n        for op in ops2:\n            apply_operation(program2, op)\n        return program1 == program2\n\n    operations1 = []\n    operations2 = []\n    for line in stdin.split(\"\\n\")[:-1]:\n        if line[0] == \"E\":\n            break\n        if line[0] == \"I\":\n            operations1.append(line.split())\n            operations2.append(line.split())\n        else:\n            operations1.append([line[0], line[2:]])\n            operations2.append([line[0], line[2:]])\n\n    return \"0\" if is_identical(operations1, operations2) else \"1\" "
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    def execute_program(program):\n        dna = []\n        for op in program:\n            if op[0] == 'D':\n                del dna[int(op[1]) - 1]\n            elif op[0] == 'I':\n                dna.insert(int(op[1]) - 1, op[2])\n        return dna\n\n    def compare_dna(dna1, dna2):\n        if len(dna1) != len(dna2):\n            return False\n        for i in range(len(dna1)):\n            if dna1[i] != dna2[i]:\n                return False\n        return True\n\n    programs = stdin.split('\\n')\n    program1 = []\n    program2 = []\n\n    for line in programs:\n        if line[0] == 'E':\n            break\n        if line[0] == 'D':\n            program1.append(line.split())\n        elif line[0] == 'I':\n            program1.append(line.split())\n\n    for line in programs:\n        if line[0] == 'E':\n            break\n        if line[0] == 'D':\n            program2.append(line.split())\n        elif line[0] == 'I':\n            program2.append(line.split())\n\n    dna1 = execute_program(program1)\n    dna2 = execute_program(program2)\n\n    if compare_dna(dna1, dna2):\n        return '0'\n    else:\n        return '1'"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    def execute_program(program: str):\n        result = []\n        for operation in program.split('\\n'):\n            if operation.startswith('I'):\n                pos, char = map(str.strip, operation.split(' ')[1:])\n                result.insert(int(pos) - 1, char)\n            elif operation.startswith('D'):\n                pos = int(operation.split(' ')[1])\n                result.pop(pos - 1)\n        return ''.join(result)\n\n    program1, program2 = stdin.split('\\n\\n')\n    result1 = execute_program(program1)\n    result2 = execute_program(program2)\n\n    if result1 == result2:\n        return '0'\n    else:\n        return '1'"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    def compare_programs(program1, program2):\n        for i in range(len(program1)):\n            if program1[i] != program2[i]:\n                return 1\n        return 0\n\n    def apply_operation(operation, dna_sequence):\n        if operation[0] == 'D':\n            return dna_sequence[:int(operation[1]) - 1] + dna_sequence[int(operation[1]):]\n        elif operation[0] == 'I':\n            return dna_sequence[:int(operation[1])] + operation[2] + dna_sequence[int(operation[1]):]\n        else:\n            return dna_sequence\n\n    def process_program(program):\n        dna_sequence = ''\n        for operation in program:\n            dna_sequence = apply_operation(operation, dna_sequence)\n        return dna_sequence\n\n    programs = stdin.strip().split('\\n')\n    end_index = programs.index('E')\n    program1 = programs[:end_index]\n    program2 = programs[end_index + 1:]\n\n    program1_end_index = program1.index('E')\n    program2_end_index = program2.index('E')\n\n    program1 = program1[:program1_end_index]\n    program2 = program2[:program2_end_index]\n\n    dna_sequence1 = process_program(program1)\n    dna_sequence2 = process_program(program2)\n\n    return str(compare_programs(dna_sequence1, dna_sequence2))"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    def apply_operation(operation: str, current_string: str) -> str:\n        if operation[0] == 'D':\n            pos = int(operation[2:]) - 1\n            return current_string[:pos] + current_string[pos+1:]\n        elif operation[0] == 'I':\n            pos = int(operation[2:operation.rfind(' ')]) - 1\n            char = operation[operation.rfind(' ')+1:]\n            return current_string[:pos] + char + current_string[pos:]\n        else:\n            return current_string\n\n    program1, program2 = stdin.split('\\n\\n')\n    program1 = program1.split('\\n')\n    program2 = program2.split('\\n')\n\n    final_string1 = ''\n    final_string2 = ''\n\n    for operation in program1:\n        final_string1 = apply_operation(operation, final_string1)\n\n    for operation in program2:\n        final_string2 = apply_operation(operation, final_string2)\n\n    return '0' if final_string1 == final_string2 else '1'"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    def apply_operation(operation: str, dna: str) -> str:\n        if operation[0] == 'D':\n            index = int(operation[2:]) - 1\n            return dna[:index] + dna[index+1:]\n        elif operation[0] == 'I':\n            index = int(operation[2:operation.rindex(' ')]) - 1\n            character = operation[operation.rindex(' ')+1:]\n            return dna[:index] + character + dna[index:]\n\n    def is_identical(program1: list, program2: list, dna: str) -> bool:\n        if not program1 and not program2:\n            return True\n        elif not program1 or not program2:\n            return False\n        elif program1[0] != program2[0]:\n            return False\n        else:\n            if program1[0] == 'E':\n                return True\n            else:\n                new_dna = apply_operation(program1[0], dna)\n                return is_identical(program1[1:], program2[1:], new_dna)\n\n    program1, program2 = stdin.split('\\n\\n')\n    program1 = [line.strip() for line in program1.splitlines()]\n    program2 = [line.strip() for line in program2.splitlines()]\n\n    dna = 'A' * 10**10\n    return '0' if is_identical(program1, program2, dna) else '1'"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    def process_operation(operation: str, program: str) -> str:\n        if operation[0] == \"D\":\n            position = int(operation.split()[1]) - 1\n            return program[:position] + program[position + 1:]\n        elif operation[0] == \"I\":\n            position, character = map(str.strip, operation[2:].split())\n            position = int(position) - 1\n            return program[:position] + character + program[position:]\n    \n    def compare_programs(program1: str, program2: str) -> bool:\n        for operation in program2.split(\"\\n\")[1:-1]:\n            if operation[0] == \"E\":\n                break\n            program1 = process_operation(operation, program1)\n        return program1 == program2.split(\"\\n\")[-2]\n\n    program1, program2 = stdin.split(\"\\n\\n\")\n    return str(int(not compare_programs(program1, program2)))"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    def process_operation(program, op):\n        if op[0] == 'D':\n            program.pop(int(op[2:]) - 1)\n        elif op[0] == 'I':\n            pos, char = int(op[2:].split()[0]) - 1, op[2:].split()[1]\n            program.insert(pos, char)\n\n    def compare_programs(program1, program2):\n        if len(program1) != len(program2):\n            return False\n        for i in range(len(program1)):\n            if program1[i] != program2[i]:\n                return False\n        return True\n\n    program1, program2 = [], []\n    for line in stdin.split('\\n'):\n        if line[0] == 'E':\n            break\n        process_operation(program1, line)\n    for line in stdin.split('\\n'):\n        if line[0] == 'E':\n            break\n        process_operation(program2, line)\n\n    return '0' if compare_programs(program1, program2) else '1'"
+    },
+    {
+        "number": 3006,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    def execute(program: str) -> str:\n        seq = \"\"\n        for op in program.split(\"\\n\")[:-1]:\n            if op[0] == \"I\":\n                i, c = map(str, op[2:].split())\n                seq = seq[:int(i)-1] + c + seq[int(i)-1:]\n            elif op[0] == \"D\":\n                i = int(op[2:])\n                seq = seq[:i-1] + seq[i:]\n        return seq\n    \n    program1, program2 = stdin.split(\"\\n\\n\")\n    seq1 = execute(program1)\n    seq2 = execute(program2)\n    \n    return \"0\" if seq1 == seq2 else \"1\" "
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 0,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n\n    # Maximum Bling that can be earned in the remaining days\n    max_bling = b + d * f * 100\n\n    # Harvest all the fruits available\n    max_bling += (t0 + t1 + t2) * 100\n\n    # Buy and plant exotic fruit tree\n    if d >= 3:\n        max_bling -= 400\n        max_bling += (d - 3) // 3 * 500\n\n    return str(max_bling)"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 1,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n\n    # Calculate the total number of fruits available to sell\n    total_fruits = f + t0 + t1 + t2\n\n    # Calculate the maximum amount of Bling that can be earned\n    # by selling all the fruits and exotic fruits\n    max_bling = total_fruits * 100\n\n    # Calculate the maximum amount of Bling that can be earned\n    # by planting all the fruits and exotic fruits\n    total_trees = t0 + t1 + t2\n    total_exotic_trees = total_trees // 3\n    total_trees -= total_exotic_trees\n    trees_to_fruits = min(total_trees, 100 - f)\n    exotic_trees_to_fruits = min(total_exotic_trees, 100 - f - trees_to_fruits)\n    max_bling += (trees_to_fruits + exotic_trees_to_fruits) * 500\n\n    # Return the maximum amount of Bling that can be earned\n    return str(max(b, max_bling))\n"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 2,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n    \n    # Calculate the maximum amount of Bling that can be earned from selling fruits and exotic fruits\n    total_fruits = f + t0 + t1 + t2\n    total_bling = total_fruits * 100 + t0 * 400\n    \n    # Calculate the maximum amount of Bling that can be earned from planting fruit trees\n    max_trees = min(d // 3, (500 - b) // 100)\n    max_bling = (total_fruits + max_trees) * 100 + t0 * 400\n    \n    return str(max_bling)"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 3,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n    max_bling = b + f * 100\n    exotic_fruit_price = 500\n    fruit_price = 100\n    \n    for i in range(d):\n        # Sell fruits\n        b += f * fruit_price\n        f = 0\n        \n        # Harvest from fruit trees\n        f += t0 // 3\n        t0 -= 3\n        f += t1 // 3\n        t1 -= 3\n        f += t2 // 3\n        t2 -= 3\n        \n        # Plant fruit trees\n        t0 += 1\n        t1 += 1\n        t2 += 1\n        \n        # Buy exotic fruit\n        b -= exotic_fruit_price\n        f += 1\n        \n        # Sell exotic fruit\n        b += exotic_fruit_price\n        f -= 1\n        \n        max_bling = max(max_bling, b)\n    \n    return str(max_bling)"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 4,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n\n    # Plant all available fruit trees\n    fruits = f + t0 + t1 + t2\n    trees = t0 + t1 + t2\n    fruits_per_tree = 3\n    trees_planted = min(fruits // fruits_per_tree, d // 3)\n    fruits -= trees_planted * fruits_per_tree\n    trees += trees_planted\n\n    # Harvest fruits from existing trees\n    harvested_fruits = trees * (d // 3) * fruits_per_tree\n    fruits += harvested_fruits\n\n    # Sell fruits\n    sold_fruits = min(fruits, b // 100)\n    bling = sold_fruits * 100\n\n    # Buy exotic fruit\n    if d % 3 == 0:\n        bling -= 400\n        fruits += 1\n\n    # Plant exotic fruit\n    exotic_trees = 0\n    if fruits > 0:\n        exotic_trees = 1\n        fruits -= 1\n\n    # Grow exotic fruit tree\n    exotic_fruits = 0\n    if exotic_trees > 0 and d % 3 == 2:\n        exotic_fruits = 3\n        exotic_trees -= 1\n\n    # Sell exotic fruit\n    sold_exotic_fruits = min(exotic_fruits, b // 500)\n    bling += sold_exotic_fruits * 500\n\n    return str(bling)"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 5,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n    max_bling = b + f * 100\n\n    for _ in range(d):\n        # Sell all fruits and buy an exotic fruit\n        max_bling = max(max_bling, b + f * 100 + 400)\n\n        # Plant all fruit trees\n        max_bling = max(max_bling, b + f * 100 + t0 * 100 + t1 * 100 + t2 * 100)\n\n        # Harvest fruits and exotic fruits\n        f += t0 + t1 + t2\n\n        # Add new fruit trees\n        t0 += t1 + t2\n        t1 = t2\n        t2 = 0\n\n    return str(max_bling)"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 6,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n    \n    def total_fruits(t0, t1, t2, days):\n        if days == 0:\n            return 0\n        crop = (t0 + t1 * 2 + t2 * 3) * 3\n        return crop + total_fruits(t0 - 1, t1, t2, days - 3)\n    \n    def max_bling(d, b, f, t0, t1, t2):\n        if d == 0:\n            return b\n        b += total_fruits(t0, t1, t2, 40)\n        f += total_fruits(t0, t1, t2, 40)\n        b -= min(f, b // 100) * 100\n        f -= min(f, b // 100)\n        t0 += min(f, 100 - t0) // 100\n        f -= (min(f, 100 - t0) // 100) * 100\n        return max_bling(d - 1, b, f, t0, t1, t2)\n    \n    return str(max_bling(d, b, f, t0, t1, t2))"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 7,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n    b += f * 100\n    t = [t0, t1, t2]\n\n    for i in range(d):\n        # Sell fruits\n        b += f * 100\n        f = 0\n\n        # Buy exotic fruit\n        if i % 3 == 2:\n            b -= 400\n            f += 1\n\n        # Plant fruit trees\n        for j in range(3):\n            if t[j] > 0:\n                t[j] -= 1\n            elif b >= 100:\n                b -= 100\n                t[j] = 2\n\n        # Harvest fruit from trees\n        for j in range(3):\n            if t[j] > 0:\n                f += 3\n\n    return str(b)"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 8,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n\n    # Simulate the game for d days\n    for day in range(d):\n        # Calculate the number of fruits harvested on each day\n        harvested_fruits = max(t0 // 3, t1 // 3, t2 // 3)\n        t0 -= 3\n        t1 -= 3\n        t2 -= 3\n\n        # Sell the fruits for Bling\n        b += harvested_fruits * 100\n\n        # Plant the trees if there are seeds left\n        if f > 0:\n            t0 += 1\n            f -= 1\n\n        # Buy an exotic fruit from the neighboring village\n        if day % 3 == 0:\n            b -= 400\n\n        # Grow the exotic fruit trees\n        if day % 3 == 1:\n            b -= 1000\n\n    return str(b)"
+    },
+    {
+        "number": 3007,
+        "checkpoint": "34B",
+        "pass": 9,
+        "answer": "def solution(stdin: str) -> str:\n    d, b, f, t0, t1, t2 = map(int, stdin.split())\n\n    # Buy exotic fruit and plant it\n    if b >= 400:\n        b -= 400\n        t2 += 3\n\n    # Harvest and sell fruits\n    if t0 > 0:\n        b += f * 100\n        f = 0\n\n    # Plant fruit trees\n    t0 += f\n    t1 += t0 // 3\n    t0 %= 3\n\n    # Calculate total fruits after 40 days\n    total_fruits = (t0 + t1 * 3 + t2 * 9) * 40\n\n    # Calculate total Bling\n    total_bling = b + total_fruits * 100\n\n    return str(total_bling)"
+    }
+]
