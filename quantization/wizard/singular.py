@@ -11,7 +11,7 @@ from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=2, help="Model name")
-parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
+parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=1, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
@@ -112,7 +112,6 @@ def main(args):
     model = AutoModelForCausalLM.from_pretrained(
         checkpoint,
         load_in_8bit=False,
-        # load_in_4bit=True,
         torch_dtype=torch.float16,
         device_map="auto")
     model.eval()

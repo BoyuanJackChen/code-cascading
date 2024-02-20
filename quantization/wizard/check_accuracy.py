@@ -6,15 +6,15 @@ import multiprocessing
 loop = 0
 pick_at = 1
 limit = 4
-model_name = "34B"
+model_name = "13B"
 
 answer_file = f"./selected/{model_name}/{model_name}_p{pick_at}_t{limit}_l{loop}.json"
-answer_file = f"./answer/{model_name}/{model_name}_p0_l0.json"
+answer_file = f"./answer/{model_name}_qt/{model_name}_p0_l0.json"
 bad_questions = []
 all_correct = []
 
 # Load HumanEval Dataset
-all_questions_dict = json.load(open("../../../evaluations/humaneval/data/HumanEval_py.json", "r"))
+all_questions_dict = json.load(open("../../evaluations/humaneval/data/HumanEval_py.json", "r"))
 
 # Load the answer file
 with open(answer_file, 'r') as f:
