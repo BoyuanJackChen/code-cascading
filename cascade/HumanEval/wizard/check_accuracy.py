@@ -6,7 +6,7 @@ import multiprocessing
 loop = 0
 pick_at = 1
 limit = 4
-model_name = "34B"
+model_name = "7B"
 
 answer_file = f"./selected/{model_name}/{model_name}_p{pick_at}_t{limit}_l{loop}.json"
 answer_file = f"./answer/{model_name}/{model_name}_p0_l0.json"

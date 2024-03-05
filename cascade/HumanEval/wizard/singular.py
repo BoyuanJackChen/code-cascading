@@ -145,7 +145,7 @@ def main(args):
 
     # Since it is sampling with temperature, do it for multiple loops to find average
     for loop in range(num_loops):
-        output_file_name = f'{model_size}/{model_size}_p{pass_at}_l{loop}.json'
+        output_file_name = f'answer/{model_size}/{model_size}_p{pass_at}_l{loop}.json'
         max_seen_number = -1
         if os.path.exists(output_file_name):
             if os.path.exists(f'answer/{model_size}/{model_size}_p{pass_at}_l{loop+1}.json'):

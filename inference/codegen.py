@@ -5,29 +5,10 @@ import time
 import argparse
 import torch
 import numpy as np
-import torch.profiler
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--pass_at", type=int, default=2)
 FLAGS = parser.parse_args()
-
-# WizardCoder all checkpoints (ranked by performance):
-# WizardLM/WizardCoder-Python-34B-V1.0
-# WizardLM/WizardCoder-Python-13B-V1.0
-# WizardLM/WizardCoder-15B-V1.0
-# WizardLM/WizardCoder-3B-V1.0
-# WizardLM/WizardCoder-1B-V1.0
-
-# Code LLAMA 2
-# codellama/CodeLlama-7b-hf
-# codellama/CodeLlama-13b-hf
-# codellama/CodeLlama-34b-hf
-
-# Salesforce Codegen
-# Salesforce/codegen-350M-mono
-# Salesforce/codegen-2B-mono
-# Salesforce/codegen-6B-mono
-# Salesforce/codegen-16B-mono
 
 stop_words = ["\n\n", ("\n","\n")]
 assert_stop_words = ["assert"] + stop_words
@@ -74,7 +55,13 @@ def main(args):
     
     # Initialize model
     checkpoint = "Salesforce/codegen-350M-mono"
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint, padding_side='left', device_map="auto")
+    tokenizer = AutoTokenizer.from_pretrained(
+        checkpoint,
+        padding_side='left',
+        load_in_8bit=False,
+        torch_dtype=torch.float16,
+        device_map="auto"
+    )
     tokenizer.pad_token = tokenizer.eos_token
     start_load_model = time.time()
     model = AutoModelForCausalLM.from_pretrained(checkpoint, device_map="auto")

@@ -10,7 +10,7 @@ import torch
 from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=0, help="Model name")
+parser.add_argument("--model", type=int, default=2, help="Model name")
 parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=0, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
@@ -123,6 +123,7 @@ def main(args):
         
         # Go through each question
         total_start = time.time()
+        total_num_tokens = 0
         for question_key in all_keys:
             question = all_questions_dict[question_key]
             number = int(question[number_key].split("/")[1])
@@ -164,6 +165,10 @@ def main(args):
                         logits_processor = logits_processor
                     )
             answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
+            num_tokens = 0
+            for answer_ids_sub in answer_ids:
+                num_tokens += len(answer_ids_sub)
+            total_num_tokens += num_tokens
             answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
             answer_trimmed = [process_answer(answer) for answer in answer_text]
             torch.cuda.empty_cache()
@@ -171,10 +176,11 @@ def main(args):
             for pass_idx, answer in enumerate(answer_trimmed):
                 answer_dict = {
                     "number": number,
-                    # "prompt": prompt,
+                    "prompt": prompt,
                     "checkpoint": model_size,
                     "pass": pass_idx,
-                    "answer": answer
+                    "answer": answer,
+                    "num_tokens": num_tokens
                 }
                 answer_dict_list.append(answer_dict)
                 counter += 1
@@ -192,7 +198,10 @@ def main(args):
                     with open(output_file_name, 'w') as f:
                         json.dump(output_data, f, indent=4)
                     answer_dict_list = []
-        print(f"Total time consumed: {time.time() - total_start}")
+        total_time = time.time() - total_start
+        print(f"Total time used: {total_time}")
+        print(f"Total num tokens: {total_num_tokens}")
+        print(f"Time per token: {total_time / total_num_tokens}")
                 
 
 if __name__== "__main__":
