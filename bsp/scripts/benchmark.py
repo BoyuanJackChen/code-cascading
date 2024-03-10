@@ -6,9 +6,13 @@ import torch
 from torch.utils.data import DataLoader
 from datasets import load_dataset
 from human_eval.data import read_problems
-
 from tqdm import tqdm
+import os, sys
 
+# Add the current directory to the beginning of sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+current_dir = current_dir[:current_dir.rfind('/')]
+sys.path.insert(0, current_dir)
 from bsp.generator import SpeculativeGenerationModel
 
 fixed_starter = "Here's the Python script for the given problem:\n\n```python\n"

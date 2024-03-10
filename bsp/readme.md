@@ -3,5 +3,4 @@
 Don't expect accuracy with fp16.
 
 ## TODO: 
-Edit generator.py to make it support multi-gpu
 Implement early stopping

@@ -24,7 +24,7 @@ class SpeculativeGenerationModel:
         self.specualtive_step = 1 if specualtive_step is None else specualtive_step
 
         # stats
-        self.pos_correct = torch.zeros([self.specualtive_step], device=device)
+        self.pos_correct = torch.zeros([self.specualtive_step], device=self.target_device)
         self.pos_cnt = 0
 
         self.time_speculate = 0
@@ -53,7 +53,7 @@ class SpeculativeGenerationModel:
         return logits[torch.arange(logits.shape[0]), last_pos]
     
     def _extend_mask(self, mask):
-        return torch.cat([mask, torch.ones([mask.shape[0], 1], device=self.device, dtype=torch.int32)], axis=1)
+        return torch.cat([mask, torch.ones([mask.shape[0], 1], device=mask.device, dtype=torch.int32)], axis=1)
 
     @torch.inference_mode()
     def generate(self, prompts:List[str], num_out:int, collect_stats=False, specualtive_step=None):
@@ -62,8 +62,8 @@ class SpeculativeGenerationModel:
         token_seqs = self.tokenizer(prompts, return_tensors="pt", padding=True, truncation=True)
         batch_size = len(prompts)
         assist_kv_cache = None
-        input_ids = token_seqs['input_ids'].to(self.device)
-        attention_mask = input_attention_mask = token_seqs['attention_mask'].to(self.device)
+        input_ids = token_seqs['input_ids'].to(self.target_device)
+        attention_mask = input_attention_mask = token_seqs['attention_mask'].to(self.target_device)
         prompt_len = attention_mask.sum(axis=1)
 
         # prefill input attentions with target model
@@ -75,14 +75,14 @@ class SpeculativeGenerationModel:
         input_ids = torch.cat([input_ids, first_token], axis=1)
         kv_cache = ret.past_key_values
         generated_tokens = input_ids
-        valid_lens = torch.ones(batch_size, device=self.device) 
+        valid_lens = torch.ones(batch_size, device=self.target_device) 
 
         # stats
         while True:
             (speculated_tokens, attention_mask, assist_kv_cache), t_spec = _run_and_timing(lambda: self._speculative(input_ids, attention_mask, assist_kv_cache, specualtive_step))
             self.time_speculate += t_spec
             # verify
-            speculated_tokens = torch.tensor(speculated_tokens, device=self.device, dtype=torch.int64)
+            speculated_tokens = torch.tensor(speculated_tokens, device=self.target_device, dtype=torch.int64)
             verify_inputs = torch.cat([first_token, speculated_tokens], axis=1)
             ret, t_verify = _run_and_timing(lambda: self.model(verify_inputs, attention_mask=attention_mask, use_cache=True, past_key_values=kv_cache))
             self.time_verify += t_verify
@@ -92,7 +92,7 @@ class SpeculativeGenerationModel:
             correct = logits[:, :-1].argmax(dim=2)
 
             # mask wrong predictions
-            check_mask = torch.cumsum(correct == speculated_tokens, 1) == torch.arange(1, specualtive_step + 1, device=self.device)
+            check_mask = torch.cumsum(correct == speculated_tokens, 1) == torch.arange(1, specualtive_step + 1, device=self.target_device)
 
             correct_len = torch.sum(check_mask, axis=1)
             first_token = torch.argmax(logits[torch.arange(logits.shape[0]), correct_len], axis=1).unsqueeze(1)
