@@ -59,8 +59,7 @@ def get_dataset(dataset_name, truncate = None):
         prompt_dataset = []
         for k in range(0,164):
             original_prompt = dataset[f"HumanEval/{k}"]['prompt']
-            prompt = alpaca_prompt(original_prompt) + fixed_starter + original_prompt
-            # prompt = alpaca_prompt(original_prompt)
+            prompt = alpaca_prompt(original_prompt)
             prompt_dataset.append(prompt)
         dataset = prompt_dataset
         if truncate is not None:
@@ -106,15 +105,21 @@ if __name__ == '__main__':
     print(f"Loading models...")
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer)
     tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(args.model)
-    # model = deepspeed.init_inference(model, replace_with_kernel_inject=True)
-    # model = BetterTransformer.transform(model)
-    assist_model = AutoModelForCausalLM.from_pretrained(args.assist_model)
-    if args.fp16:
-        model.half()
-        assist_model.half()
-    model.cuda()
-    assist_model.cuda()
+    model = AutoModelForCausalLM.from_pretrained(
+        args.model,
+        load_in_8bit=False,
+        torch_dtype=torch.float16,
+        device_map="auto")
+    assist_model = AutoModelForCausalLM.from_pretrained(
+        args.assist_model,
+        load_in_8bit=False,
+        torch_dtype=torch.float16,
+        device_map="auto")
+    # if args.fp16:
+    #     model.half()
+    #     assist_model.half()
+    # model.cuda()
+    # assist_model.cuda()
 
 
     print(f"All batch sizes: {args.batch_sizes}; all speculate steps: {args.speculate_steps}")

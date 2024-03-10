@@ -22,14 +22,14 @@ python scripts/benchmark.py \
        --dataset-truncate 8 
        # --collect-stats
 
-python scripts/benchmark.py \
+CUDA_VISIBLE_DEVICES=0 python scripts/benchmark.py \
        --model WizardLM/WizardCoder-3B-V1.0 \
        --assist-model WizardLM/WizardCoder-1B-V1.0\
        --tokenizer WizardLM/WizardCoder-1B-V1.0\
-       --len-out 512 \
+       --len-out 256 \
        --speculate-step 4\
        --batch-size 2\
        --fp16 \
        --dataset humaneval \
        --dataset-truncate 2
-       # --collect-stats
+       --collect-stats

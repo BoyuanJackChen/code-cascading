@@ -12,10 +12,14 @@ def _run_and_timing(fn):
 
 class SpeculativeGenerationModel:
     def __init__(self, model, assist_model, tokenizer, specualtive_step=1, device='cuda'):
-        self.model = model.to(device)
-        self.assist_model = assist_model.to(device)
+        # self.model = model.to(device)
+        # self.assist_model = assist_model.to(device)
+        # self.device=device
+        self.model = model
+        self.assist_model = assist_model
         self.tokenizer = tokenizer
-        self.device=device
+        self.target_device = model.device
+        self.assist_defice = assist_model.device
 
         self.specualtive_step = 1 if specualtive_step is None else specualtive_step
 
@@ -62,7 +66,7 @@ class SpeculativeGenerationModel:
         attention_mask = input_attention_mask = token_seqs['attention_mask'].to(self.device)
         prompt_len = attention_mask.sum(axis=1)
 
-        # prefill
+        # prefill input attentions with target model
         ret, t_prefill = _run_and_timing(lambda: self.model(input_ids, attention_mask=input_attention_mask, use_cache=True))
         self.time_verify += t_prefill
         self.verify_calls += 1
