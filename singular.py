@@ -9,7 +9,7 @@ import torch
 from datasets import load_dataset
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
+parser.add_argument("--model", type=int, default=0, help="Model name")
 parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
@@ -71,7 +71,7 @@ def main(args):
     num_loops = args.num_loops if pass_at>1 else 1
     
     # Load APPS Dataset
-    all_questions_dict = load_dataset("codeparrot/apps", split="test")
+    # all_questions_dict = load_dataset("codeparrot/apps", split="test")
     number_key = "problem_id"
     prompt_key = "question"
 
@@ -107,13 +107,19 @@ def main(args):
         os.mkdir(f"answer/{model_size}")
     
     # Load the model
-    model = AutoModelForCausalLM.from_pretrained(
-        checkpoint,
-        load_in_8bit=False,
-        torch_dtype=torch.float16,
-        device_map="auto")
-    model.eval()
+    # model = AutoModelForCausalLM.from_pretrained(
+    #     checkpoint,
+    #     load_in_8bit=False,
+    #     torch_dtype=torch.float16,
+    #     device_map="auto")
+    # model.eval()
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    mine =   [10921, 1182, 322, 4865, 3261, 436, 322, 3708, 44, 203, 203, 914, 2958, 203]
+    theirs = [10921, 1182, 322, 4865, 3261, 436, 322, 3708, 44, 553, 203, 914, 2958, 206, 203]
+    print(tokenizer.decode(mine))
+    print(tokenizer.decode(theirs))
+
+    input()
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     

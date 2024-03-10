@@ -5,7 +5,7 @@ import numpy as np
 import os
 import re
 
-all_num_loops = 5
+all_num_loops = 10
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
 model_name = "3B"
@@ -27,14 +27,14 @@ for pick_at in all_pick_at:
             # Load the answer file
             with open(answer_file, 'r') as f:
                 answer_data = json.load(f)
-            if "indeed" in answer_data[0].keys():
+            if "indeed" in answer_data[0].keys() and "indeed" in answer_data[-1].keys():
                 continue
             output_dict_array = []
             
             # Check if indeed is a key of answer_data[0]
             # if "indeed" in answer_data[0].keys():
             #     continue
-            print(f"Working on {model_name}, {pick_at}, {loop}")
+            print(f"Working on {model_name}, {pick_at}, {testlines}, {loop}")
 
             # Create a pandas dataframe with two columns: number and accuracy
             df = pd.DataFrame(columns=["number", "accuracy"])
@@ -46,7 +46,8 @@ for pick_at in all_pick_at:
 
             import_lines = "import math\nfrom typing import List\n"
             for number in all_questions_num:
-                if model_name=="3B" and pick_at==3 and testlines==2 and loop==3 and number==4038:
+                if (model_name == "3B" and pick_at == 3 and testlines == 2 and loop == 3 and number == 4038) \
+                    or (model_name == "3B" and pick_at == 3 and testlines == 4 and loop == 3 and number == 4038):
                     correct = False
                     df.loc[len(df)] = [number, int(correct)]
                     print(f"Question {number} is correct: {correct}")
@@ -79,7 +80,7 @@ for pick_at in all_pick_at:
                 result_queue = multiprocessing.Queue()
                 process = multiprocessing.Process(target=code_to_run, args=(result_queue,))
                 process.start()
-                process.join(1)
+                process.join(2)
                 if process.is_alive():
                     # print("Code took too long to run!")
                     process.terminate()
@@ -88,10 +89,7 @@ for pick_at in all_pick_at:
                 else:
                     correct = result_queue.get()
                 process.close()
-                
-                # print(full_code)
-                # print(correct)
-                # input()
+
                 
                 df.loc[len(df)] = [number, int(correct)]
                 print(f"Question {number} is correct: {correct}")

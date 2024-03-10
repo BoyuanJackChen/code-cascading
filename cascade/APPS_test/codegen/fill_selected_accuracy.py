@@ -5,10 +5,22 @@ import numpy as np
 import os
 import re
 
-all_num_loops = 5
+def contains_uncommented_input_or_stdin(code):
+    lines = code.split('\n')
+    for line in lines:
+        input_index = line.find('input()')
+        stdin_index = line.find('stdin')
+        comment_index = line.find('#')
+        if input_index != -1 and (comment_index == -1 or input_index < comment_index):
+            return True
+        if stdin_index != -1 and (comment_index == -1 or stdin_index < comment_index):
+            return True
+    return False
+
+all_num_loops = 10
 all_pick_at = [0,1,3,5,10]
 all_testlines = [0,2,4]
-model_name = "16B"
+model_name = "350M"
 all_questions_num = list(range(4000,5000))
 
 # Load APPS Dataset
@@ -27,7 +39,7 @@ for pick_at in all_pick_at:
             # Load the answer file
             with open(answer_file, 'r') as f:
                 answer_data = json.load(f)
-            if "indeed" in answer_data[0].keys():
+            if "indeed" in answer_data[0].keys() and "indeed" in answer_data[-1].keys():
                 continue
             output_dict_array = []
             
@@ -46,14 +58,6 @@ for pick_at in all_pick_at:
 
             import_lines = "import math\nfrom typing import List\n"
             for number in all_questions_num:
-                # if model_name=="3B" and pick_at==3 and testlines==2 and loop==3 and number==4038:
-                #     correct = False
-                #     df.loc[len(df)] = [number, int(correct)]
-                #     print(f"Question {number} is correct: {correct}")
-                #     answer_dict["indeed"] = correct
-                #     output_dict_array.append(answer_dict)
-                #     continue
-                
                 index = number - 4000
                 answer_dict = answer_data[index]
                 question_dict = {}
@@ -66,9 +70,9 @@ for pick_at in all_pick_at:
                 answer = answer_dict["answer"]
                 test = question_dict["test"]
                 test += f"\ncheck(solution)"
-                
+
                 full_code = import_lines + answer + "\n" + test
-                
+
                 def code_to_run(result_queue):
                     try:
                         exec(full_code, globals())
@@ -79,7 +83,7 @@ for pick_at in all_pick_at:
                 result_queue = multiprocessing.Queue()
                 process = multiprocessing.Process(target=code_to_run, args=(result_queue,))
                 process.start()
-                process.join(1)
+                process.join(2)
                 if process.is_alive():
                     # print("Code took too long to run!")
                     process.terminate()
@@ -89,9 +93,6 @@ for pick_at in all_pick_at:
                     correct = result_queue.get()
                 process.close()
                 
-                # print(full_code)
-                # print(correct)
-                # input()
                 
                 df.loc[len(df)] = [number, int(correct)]
                 print(f"Question {number} is correct: {correct}")

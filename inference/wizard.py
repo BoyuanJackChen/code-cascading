@@ -10,7 +10,7 @@ from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=2, help="Model name")
-parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
+parser.add_argument("--pass_at", type=int, default=2, help="pass @ how many")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
@@ -178,7 +178,8 @@ def main(args):
         answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
         answer_trimmed = [process_answer(answer) for answer in answer_text]
         torch.cuda.empty_cache()
-        print(answer_trimmed[0])
+        print(answer_text[0])
+        # print(answer_trimmed[0])
         print(f"Time to generate is {time.time() - start} seconds")
         print(f"Per-token time is {(time.time() - start)/num_tokens} seconds")
         

@@ -92,6 +92,7 @@ def main(args):
     all_questions_dict = read_problems()
     all_keys = ["HumanEval/3", "HumanEval/2", "HumanEval/0", "HumanEval/8", "HumanEval/145"]
 
+
     # Prepare the model checkpoint (just 1)
     answer_dict_list = []
     counter = 0
@@ -112,7 +113,6 @@ def main(args):
         torch_dtype=torch.float16,
         device_map="auto")
     model.eval()
-    tokenizer = AutoTokenizer.from_pretrained(checkpoint)
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     
