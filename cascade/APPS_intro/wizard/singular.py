@@ -64,8 +64,6 @@ def solution(stdin: str) -> str:"""
 
 def main(args):
     loading_start = time.time()
-    number_key = "task_id"
-    prompt_key = "prompt"
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
     pass_at = args.pass_at
     num_loops = args.num_loops if pass_at>1 else 1
