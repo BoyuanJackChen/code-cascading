@@ -56,8 +56,6 @@ def get_dataset(dataset_name, truncate = None):
     if dataset_name == 'alespalla/chatbot_instruction_prompts':
         dataset = load_dataset(dataset_name)
         dataset = [t['prompt'] for t in dataset['test']]
-        if truncate is not None:
-            return dataset[:truncate]
     elif dataset_name == 'human-eval' or dataset_name == 'HumanEval' or dataset_name == 'humaneval':
         dataset = read_problems()
         prompt_dataset = []
@@ -66,10 +64,21 @@ def get_dataset(dataset_name, truncate = None):
             prompt = alpaca_prompt(original_prompt)
             prompt_dataset.append(prompt)
         dataset = prompt_dataset
-        if truncate is not None:
-            return dataset[:truncate]
+    elif dataset_name == 'apps_intro':
+        all_questions_dict = load_dataset("codeparrot/apps", split="test")
+        number_key = "problem_id"
+        prompt_key = "question"
+        dataset = []
+        for qd in all_questions_dict:
+            number = qd[number_key]
+            if number < 4000:
+                continue
+            dataset.append(qd[prompt_key])
+        return dataset
     else:
         raise ValueError("Unsupported dataset")
+    if truncate is not None:
+        return dataset[:truncate]
     return dataset
 
 def benchmark(gen_fn, prompts, batch_size, warmup=3):
@@ -122,24 +131,27 @@ if __name__ == '__main__':
     # if args.fp16:
     #     model.half()
     #     assist_model.half()
-    # model.cuda()
-    # assist_model.cuda()
 
+    if "Wizard" in args.model and "Python" not in args.model:
+        stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
+    elif "Wizard" in args.model:
+        stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]
+    # elif "Codegen" in args.model:
+        
 
-    print(f"All batch sizes: {args.batch_sizes}; all speculate steps: {args.speculate_steps}")
+    print(f"All batch sizes: {args.batch_sizes}; all speculate steps: {args.speculate_steps}. Now generating...")
     for batch_size in args.batch_sizes:
         for speculate_step in args.speculate_steps:
             assist_model.max_assistant_tokens = speculate_step
             generator = SpeculativeGenerationModel(model, assist_model, tokenizer, speculate_step)
             if speculate_step == 0:
-                t, ret = benchmark(lambda p: generate_hf(p, model, tokenizer, args.len_out), prompts, batch_size)
+                t, ret = benchmark(lambda p: generate_hf(p, model, tokenizer, args.len_out), prompts, batch_size, warmup=0)
             else:
-                t, ret = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats), prompts, batch_size)
+                t, ret = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=0)
             num_tokens = len(ret) * args.len_out
             print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, Time per token: {t / num_tokens}")
             for answer in ret:
                 print(answer)
-                input()
             
             if args.collect_stats:
                 hit_rate, time_speculate, time_verify, verify_calls = generator.get_stats()

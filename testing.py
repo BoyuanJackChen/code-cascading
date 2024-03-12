@@ -1,33 +1,15 @@
-def median(l: list):
-    """Return median of elements in the list l.
-    >>> median([3, 1, 2, 4, 5])
-    3
-    >>> median([-10, 4, 6, 1000, 10, 20])
-    15.0
-    """
-    n = len(l)
-    if n % 2 == 0:
-        # If the list has an even number of elements, the median is the average of the two middle elements
-        return (l[n//2 - 1] + l[n//2]) / 2
-    else:
-        # If the list has an odd number of elements, the median is the middle element
-        return l[n//2]
+from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig
 
-print(median([-10, 4, 6, 1000, 10, 20]))
-print(median([3, 1, 2, 4, 5]))
+tokenizer = AutoTokenizer.from_pretrained("WizardLM/WizardCoder-1B-V1.0")
+print(tokenizer.decode(0))
+print(tokenizer.encode('</s>'))
 
-def median(l: list):
-    """Return median of elements in the list l.
-    >>> median([3, 1, 2, 4, 5])
-    3
-    >>> median([-10, 4, 6, 1000, 10, 20])
-    15.0
-    """
-    n = len(l)
-    if n % 2 == 0:
-        return (l[n//2 - 1] + l[n//2]) / 2
-    else:
-        return l[n//2]
+filtered_b = [1,2,3,4,5,6]
+stopping_ids = [[3,4,5], [2,4]]
 
-print(median([-10, 4, 6, 1000, 10, 20]))
-print(median([3, 1, 2, 4, 5]))
+def contains_subarray(filtered_b, subarray):
+    sub_len = len(subarray)
+    for i in range(len(filtered_b) - sub_len + 1):
+        if filtered_b[i:i+sub_len] == subarray:
+            return True
+    return False

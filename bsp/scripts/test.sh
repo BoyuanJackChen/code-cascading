@@ -28,8 +28,7 @@ CUDA_VISIBLE_DEVICES=0,1 python scripts/benchmark.py \
        --tokenizer WizardLM/WizardCoder-1B-V1.0\
        --len-out 256 \
        --speculate-step 4\
-       --batch-size 2\
-       --fp16 \
+       --batch-size 1\
        --dataset humaneval \
-       --dataset-truncate 2 \
+       --dataset-truncate 1 \
        --collect-stats
