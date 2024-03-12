@@ -10,7 +10,7 @@ import torch
 from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=0, help="Model name")
+parser.add_argument("--model", type=int, default=1, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
 FLAGS = parser.parse_args()
 
@@ -91,6 +91,7 @@ def main(args):
     # Load HumanEval Dataset
     all_questions_dict = read_problems()
     all_keys = ["HumanEval/3", "HumanEval/2", "HumanEval/0", "HumanEval/8", "HumanEval/145"]
+    all_keys = ["HumanEval/0", "HumanEval/1"]
 
 
     # Prepare the model checkpoint (just 1)
@@ -113,6 +114,8 @@ def main(args):
         torch_dtype=torch.float16,
         device_map="auto")
     model.eval()
+    tokenizer = AutoTokenizer.from_pretrained(checkpoint, padding=True, truncation=True)
+    tokenizer.padding_side='left'
     loading_end = time.time()
     print(f"Time to load model is {loading_end - loading_start}")
     
@@ -141,6 +144,7 @@ def main(args):
             return scores
 
 
+    all_prompts = []
     for question_key in all_keys:
         question = all_questions_dict[question_key]
         number = int(question[number_key].split("/")[1])
@@ -148,46 +152,50 @@ def main(args):
         prompt = question[prompt_key]
         prompt = prompt.replace('    ', '\t')
         prompt = alpaca_prompt(prompt)
-        prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
-        logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=max(pass_at,1), encounters=1)])
-        
-        # Generate answers
-        start = time.time()
-        max_new_tokens = 1024
-        with torch.no_grad():
-            if pass_at in [0,1]:
-                answer_ids = model.generate(
-                    **prompt_ids,
-                    use_cache = True,
-                    pad_token_id = tokenizer.pad_token_id,
-                    eos_token_id = tokenizer.eos_token_id,
-                    max_new_tokens = max_new_tokens,
-                    num_return_sequences=1,
-                    do_sample = False,
-                    logits_processor = logits_processor
-                )
-            else:
-                answer_ids = model.generate(
-                    **prompt_ids,
-                    use_cache = True,
-                    pad_token_id = tokenizer.eos_token_id,
-                    eos_token_id = tokenizer.eos_token_id,
-                    max_new_tokens = max_new_tokens,
-                    do_sample = True,
-                    top_k = 0,
-                    top_p = 0.95,
-                    temperature = 0.8,
-                    num_beams = 1,
-                    logits_processor = logits_processor
-                )
-        answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
-        num_tokens = answer_ids.size(1)
-        answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
-        answer_trimmed = [process_answer(answer) for answer in answer_text]
-        torch.cuda.empty_cache()
-        print(answer_trimmed[0])
-        print(f"Time to generate is {time.time() - start} seconds")
-        print(f"Per-token time is {(time.time() - start)/num_tokens} seconds")
+        all_prompts.append(prompt)
+
+    # prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=1024).to(torch.cuda.current_device())
+    prompt_ids = tokenizer.batch_encode_plus(all_prompts, return_tensors="pt", padding=True, truncation=True, max_length=2048).to(torch.cuda.current_device())
+    logits_processor = LogitsProcessorList([StopSequences(stop_words_ids, batch_size=max(pass_at,1), encounters=1)])
+    
+    # Generate answers
+    start = time.time()
+    max_new_tokens = 1024
+    with torch.no_grad():
+        if pass_at in [0,1]:
+            answer_ids = model.generate(
+                **prompt_ids,
+                use_cache = True,
+                pad_token_id = tokenizer.pad_token_id,
+                eos_token_id = tokenizer.eos_token_id,
+                max_new_tokens = max_new_tokens,
+                num_return_sequences=1,
+                do_sample = False,
+                logits_processor = logits_processor
+            )
+        else:
+            answer_ids = model.generate(
+                **prompt_ids,
+                use_cache = True,
+                pad_token_id = tokenizer.eos_token_id,
+                eos_token_id = tokenizer.eos_token_id,
+                max_new_tokens = max_new_tokens,
+                do_sample = True,
+                top_k = 0,
+                top_p = 0.95,
+                temperature = 0.8,
+                num_beams = 1,
+                logits_processor = logits_processor
+            )
+    answer_ids = answer_ids[:, len(prompt_ids['input_ids'][0]):]
+    num_tokens = answer_ids.size(1)
+    answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
+    answer_trimmed = [process_answer(answer) for answer in answer_text]
+    torch.cuda.empty_cache()
+    for i in range(len(answer_trimmed)):
+        print(f"{answer_trimmed[i]}")
+    print(f"Time to generate is {time.time() - start} seconds")
+    print(f"Per-token time is {(time.time() - start)/num_tokens} seconds")
         
                 
 

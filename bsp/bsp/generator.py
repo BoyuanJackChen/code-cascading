@@ -17,29 +17,28 @@ def contains_subarray(filtered_b, subarray):
             return True
     return False
 
+def count_until_eos(tokens, eos_id):
+    eos_indices = (tokens == eos_id).nonzero()
+    if eos_indices.nelement() == 0:
+        return len(tokens)
+    first_eos_index = eos_indices[0].item()
+    return first_eos_index + 1
+
 def early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, spec_step, eos_id):
     for b in range(input_ids.shape[0]):
         generated_tokens_b = generated_tokens[b]
         attention_mask_b = attention_mask[b]
         filtered_b = generated_tokens_b[attention_mask_b.bool()][-spec_step-1:].tolist()
-        # print(f"generated_tokens_b is {generated_tokens_b}")
-        # print(f"attention_mask_b is {attention_mask_b}")
-        # print(f"filtered_b is {filtered_b}")
-        # input()
         for sub in stopping_ids:
             if contains_subarray(filtered_b, sub):
                 input_ids[b][-1] = eos_id
                 attention_mask[b][-1] = 1
                 generated_tokens[b][-1] = eos_id
-                print("\n\n\nAha! Contains subarray!!\n\n\n")
     return generated_tokens, attention_mask, input_ids
         
 
 class SpeculativeGenerationModel:
     def __init__(self, model, assist_model, tokenizer, specualtive_step=1, device='cuda'):
-        # self.model = model.to(device)
-        # self.assist_model = assist_model.to(device)
-        # self.device=device
         self.model = model
         self.assist_model = assist_model
         self.tokenizer = tokenizer
@@ -82,15 +81,13 @@ class SpeculativeGenerationModel:
 
     @torch.inference_mode()
     def generate(self, prompts:List[str], num_out:int, collect_stats=False, speculative_step=None, stopping_ids=[]):
-        print(f"stopping_ids is {stopping_ids}")
-        print(f"eos id is {self.tokenizer.eos_token_id}")
-        # input()
         speculative_step = self.specualtive_step if speculative_step is None else speculative_step
         self.tokenizer.padding_side='right'
         token_seqs = self.tokenizer(prompts, return_tensors="pt", padding=True, truncation=True)
         batch_size = len(prompts)
         assist_kv_cache = None
         input_ids = token_seqs['input_ids'].to(self.target_device)
+        unified_len = input_ids.shape[1]
         attention_mask = input_attention_mask = token_seqs['attention_mask'].to(self.target_device)
         prompt_len = attention_mask.sum(axis=1)
 
@@ -108,11 +105,9 @@ class SpeculativeGenerationModel:
         # stats
         while True:
             # Generate predictions with draft(assist) model
-            print(f"input_ids: {input_ids}")
             (speculated_tokens, attention_mask, assist_kv_cache), t_spec = _run_and_timing(lambda: self._speculative(input_ids, attention_mask, assist_kv_cache, speculative_step))
             self.time_speculate += t_spec
             speculated_tokens = torch.tensor(speculated_tokens, device=self.target_device, dtype=torch.int64)   # [batch, gamma]
-            # print(f"speculated_tokens shape: {speculated_tokens.shape}")
             verify_inputs = torch.cat([first_token, speculated_tokens], axis=1)
             
             # Verify with target model, generating a "correct" tensor with the correct token values
@@ -125,18 +120,12 @@ class SpeculativeGenerationModel:
 
             # Mask wrong predictions and append full speculated tokens
             check_mask = torch.cumsum(correct == speculated_tokens, 1) == torch.arange(1, speculative_step + 1, device=self.target_device)
-            correct_len = torch.sum(check_mask, axis=1)
+            correct_len = torch.sum(check_mask, axis=1)   # Count how many 1's there are
             first_token = torch.argmax(logits[torch.arange(logits.shape[0]), correct_len], axis=1).unsqueeze(1)
             input_ids = torch.concat([speculated_tokens[:, -1:], first_token], axis=1)  # [batch, 2] (only need the last two tokens because the previous ones are saved in cache)
             attention_mask[:, -speculative_step:] = check_mask
             attention_mask = self._extend_mask(attention_mask)   # [batch, full_length]
             generated_tokens = torch.cat([generated_tokens, speculated_tokens, first_token], axis=1)  # [batch, full_length]
-            # print(f"input_ids shape: {input_ids.shape}")
-            # print(f"attention_mask shape: {attention_mask.shape}")
-            # print(f"generated_tokens shape: {generated_tokens.shape}")
-            print(attention_mask)
-            print(generated_tokens)
-            # input()
 
             if speculative_step>0 and len(stopping_ids)>0:
                 generated_tokens, attention_mask, input_ids = early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, speculative_step, self.tokenizer.eos_token_id)
@@ -147,19 +136,23 @@ class SpeculativeGenerationModel:
                 self.pos_correct += (check_mask * not_ended).sum(dim=0)
                 self.pos_cnt += not_ended.sum()
 
-            # Stop generating once max num token reached
+            # Stop generating when meeting stopping logits or max num tokens generated
             valid_lens += correct_len + 1
-            if (generated_tokens==self.tokenizer.eos_token_id).any(dim=1).all() or torch.all(valid_lens >= num_out):
+            if (generated_tokens[:,unified_len:]==self.tokenizer.eos_token_id).any(dim=1).all() or torch.all(valid_lens >= num_out):
                 break
             
         # Collect returned string
         ret = []
+        valid_token_count = 0
         for b in range(batch_size):
             valid_token = torch.nonzero(attention_mask[b], as_tuple=True)[0]
-            tokens = generated_tokens[b][valid_token][:prompt_len[b] + num_out]
+            tokens = generated_tokens[b][valid_token][prompt_len[b]:]
+            valid_token_num = count_until_eos(tokens, self.tokenizer.eos_token_id)
+            valid_token_count += valid_token_num
+            tokens = tokens[:valid_token_num]
             ret.append(self.tokenizer.decode(tokens, skip_special_tokens=True))
         
-        return ret
+        return ret, valid_token_count
 
     def get_stats(self):
         return self.pos_correct / self.pos_cnt, self.time_speculate, self.time_verify, self.verify_calls

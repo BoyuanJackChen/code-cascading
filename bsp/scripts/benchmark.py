@@ -32,9 +32,8 @@ Create a Python script for this problem:
 def generate_hf(prompts, model, tokenizer, step):
     tokenizer.padding_side='left'
     gen_conf = GenerationConfig(max_new_tokens=step, min_new_tokens=step, eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.eos_token_id)
-    token_seqs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True)
-    token_seqs = token_seqs.to('cuda')
-    model = model.to('cuda')
+    token_seqs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True).to(model.device)
+    # model = model.to('cuda')
     out = model.generate(**token_seqs, generation_config=gen_conf)
     return tokenizer.batch_decode(out, skip_special_tokens=True)
 
@@ -88,11 +87,14 @@ def benchmark(gen_fn, prompts, batch_size, warmup=3):
     generated_seqs = []
     torch.cuda.synchronize()
     start_t = time.time()
+    valid_token_count = 0
     for prompt in tqdm(data_loader):
-        generated_seqs.extend(gen_fn(prompt))
+        result, vtc = gen_fn(prompt)
+        generated_seqs.extend(result)
+        valid_token_count += vtc
     torch.cuda.synchronize()
     dur = time.time() - start_t
-    return dur, generated_seqs
+    return dur, generated_seqs, valid_token_count
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -128,9 +130,6 @@ if __name__ == '__main__':
         load_in_8bit=False,
         torch_dtype=torch.float16,
         device_map="auto")
-    # if args.fp16:
-    #     model.half()
-    #     assist_model.half()
 
     if "Wizard" in args.model and "Python" not in args.model:
         stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
@@ -147,14 +146,17 @@ if __name__ == '__main__':
             if speculate_step == 0:
                 t, ret = benchmark(lambda p: generate_hf(p, model, tokenizer, args.len_out), prompts, batch_size, warmup=0)
             else:
-                t, ret = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=0)
-            num_tokens = len(ret) * args.len_out
-            print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, Time per token: {t / num_tokens}")
+                t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=0)
+            # num_tokens = len(ret) * args.len_out
+            num_tokens = valid_token_count
+            print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
             for answer in ret:
                 print(answer)
+                print("\n-----------------------------\n")
             
             if args.collect_stats:
                 hit_rate, time_speculate, time_verify, verify_calls = generator.get_stats()
                 print("speculation hit rate:", ', '.join([str(h.cpu().numpy()) for h in hit_rate]))
                 print("expected correct speculated length:", hit_rate.sum())
                 print(f"time for speculation {time_speculate} s | verification {time_verify} s | #verifys: {verify_calls}")
+                print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
