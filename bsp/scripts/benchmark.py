@@ -8,6 +8,7 @@ from datasets import load_dataset
 from human_eval.data import read_problems
 from tqdm import tqdm
 import os, sys
+import json
 
 # Add the current directory to the beginning of sys.path
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -74,6 +75,14 @@ def get_dataset(dataset_name, truncate=None, alpaca=True):
             prompt = alpaca_prompt(original_prompt) if alpaca else prompt
             prompt_dataset.append(prompt)
         dataset = prompt_dataset
+    elif dataset_name == 'mbpp' or dataset_name == 'MBPP':
+        data_file = "../evaluations/mbpp/mbpp_sanitized_for_code_generation_codet.jsonl"
+        dataset = []
+        with open(data_file, 'r') as file:
+            for line in file:
+                json_line = json.loads(line)
+                prompt = alpaca_prompt(prompt, apps=False) if alpaca else json_line
+                dataset.append(json_line)
     elif dataset_name == 'apps-intro' or dataset_name == 'apps_intro':
         all_questions_dict = load_dataset("codeparrot/apps", split="test")
         number_key = "problem_id"

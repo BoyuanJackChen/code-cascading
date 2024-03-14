@@ -31,7 +31,9 @@ CUDA_VISIBLE_DEVICES=0,1 python scripts/benchmark.py \
        --batch-size 2\
        --dataset humaneval \
        --dataset-truncate 2 \
+       --warmup 0\
        --collect-stats
+       
 
 CUDA_VISIBLE_DEVICES=0,1 python scripts/benchmark.py \
        --model WizardLM/WizardCoder-3B-V1.0 \
@@ -77,4 +79,16 @@ python scripts/benchmark.py \
        --dataset apps-intro \
        --dataset-truncate 56 \
        --warmup 3\
+       --collect-stats
+
+python scripts/benchmark.py \
+       --model WizardLM/WizardCoder-Python-34B-V1.0 \
+       --assist-model WizardLM/WizardCoder-Python-7B-V1.0\
+       --tokenizer WizardLM/WizardCoder-Python-7B-V1.0\
+       --len-out 1024 \
+       --speculate-step 4\
+       --batch-size 4\
+       --dataset humaneval \
+       --dataset-truncate 4 \
+       --warmup 0\
        --collect-stats

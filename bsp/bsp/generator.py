@@ -87,7 +87,7 @@ class SpeculativeGenerationModel:
     @torch.inference_mode()
     def generate(self, prompts:List[str], num_out:int, collect_stats=False, speculative_step=None, stopping_ids=[]):
         speculative_step = self.specualtive_step if speculative_step is None else speculative_step
-        self.tokenizer.padding_side='left'
+        self.tokenizer.padding_side='right'
         token_seqs = self.tokenizer.batch_encode_plus(prompts, return_tensors="pt", padding=True, truncation=True, max_length=2048).to(self.target_device)
         batch_size = len(prompts)
         assist_kv_cache = None
@@ -107,7 +107,8 @@ class SpeculativeGenerationModel:
         input_ids = torch.cat([input_ids, first_token], axis=1)
         kv_cache = ret.past_key_values
         generated_tokens = input_ids
-        valid_lens = torch.ones(batch_size, device=self.target_device) 
+        valid_lens = torch.ones(batch_size, device=self.target_device)
+        step_count = 0
 
         # stats
         while True:
@@ -134,8 +135,9 @@ class SpeculativeGenerationModel:
             attention_mask = self._extend_mask(attention_mask)   # [batch, full_length]
             generated_tokens = torch.cat([generated_tokens, speculated_tokens, first_token], axis=1)  # [batch, full_length]
 
-            # Check for early stop. If there is, mark a 0.
-            if speculative_step>0 and len(stopping_ids)>0:
+            # Check for early stop. If there is, mark a eos_token_id.
+            step_count += 1
+            if speculative_step>0 and len(stopping_ids)>0 and step_count>=2:
                 generated_tokens, attention_mask, input_ids = early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, speculative_step, self.tokenizer.eos_token_id)
             
             # update stats
