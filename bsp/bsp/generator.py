@@ -28,7 +28,7 @@ def early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, spec_s
     for b in range(input_ids.shape[0]):
         generated_tokens_b = generated_tokens[b]
         attention_mask_b = attention_mask[b]
-        filtered_b = generated_tokens_b[attention_mask_b.bool()][-spec_step-4:].tolist()
+        filtered_b = generated_tokens_b[attention_mask_b.bool()][-spec_step-3:].tolist()
         for sub in stopping_ids:
             if contains_subarray(filtered_b, sub):
                 input_ids[b][-1] = eos_id
@@ -70,7 +70,6 @@ class SpeculativeGenerationModel:
 
             attention_mask = self._extend_mask(attention_mask) 
             kv_cache = ret.past_key_values
-            torch.cuda.empty_cache()
         return generated_tokens, attention_mask, kv_cache
     
     def _last_pos_logits(self, logits, mask):
@@ -81,7 +80,7 @@ class SpeculativeGenerationModel:
         return torch.cat([mask, torch.ones([mask.shape[0], 1], device=mask.device, dtype=torch.int32)], axis=1)
 
     @torch.inference_mode()
-    def generate(self, prompts:List[str], num_out:int, collect_stats=False, speculative_step=None, stopping_ids=[]):
+    def generate(self, prompts:List[str], num_out:int, collect_stats=False, speculative_step=None, stopping_ids=[], padding_side=None):
         speculative_step = self.specualtive_step if speculative_step is None else speculative_step
         # self.tokenizer.padding_side='right'
         token_seqs = self.tokenizer.batch_encode_plus(prompts, padding=True, return_tensors="pt").to(self.target_device)
@@ -102,7 +101,6 @@ class SpeculativeGenerationModel:
         generated_tokens = input_ids
         valid_lens = torch.ones(batch_size, device=self.target_device)
         step_count = 0
-        torch.cuda.empty_cache()
 
         # stats
         while True:
@@ -128,7 +126,6 @@ class SpeculativeGenerationModel:
             attention_mask[:, -speculative_step:] = check_mask
             attention_mask = self._extend_mask(attention_mask)   # [batch, full_length]
             generated_tokens = torch.cat([generated_tokens, speculated_tokens, first_token], axis=1)  # [batch, full_length]
-            torch.cuda.empty_cache()
             
             # # Check for early stop. If there is, mark a eos_token_id.
             step_count += 1
@@ -159,7 +156,6 @@ class SpeculativeGenerationModel:
             tokens = tokens[:valid_token_num]
             answer_text = self.tokenizer.decode(tokens, skip_special_tokens=True)
             ret.append(answer_text)
-        
         return ret, valid_token_count
 
     def get_stats(self):

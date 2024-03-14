@@ -106,7 +106,7 @@ def get_dataset(dataset_name, truncate=None, alpaca=True):
 def benchmark(gen_fn, prompts, batch_size, warmup=3):
     for w in range(warmup):
         print(f"Doing wampup {w+1}/{warmup}")
-        out = gen_fn(prompts[:batch_size])
+        _ = gen_fn(prompts[:batch_size])
     data_loader = DataLoader(prompts, batch_size=batch_size, shuffle=True)
     generated_seqs = []
     torch.cuda.synchronize()
@@ -165,16 +165,19 @@ if __name__ == '__main__':
     model.eval()
     print(f"Target model loaded")
 
+    padding_side = None
     if "Wizard" in args.model and "Python" not in args.model:
         if "apps" in args.dataset:
-            stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
+            stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553], [203, 325], [203, 589]]
         else:
             stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
+        padding_side = 'right'
     elif "Wizard" in args.model and "Python" in args.model:
         if "apps" in args.dataset:
             stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]  # \ndef
         else:
             stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361]]
+        padding_side = 'right'
     elif "codegen" in args.model:
         if "apps" in args.dataset:
             stopping_ids = [[198, 198], [628], [198, 4798, 3419], [198, 4299]]
@@ -189,8 +192,7 @@ if __name__ == '__main__':
             if speculate_step == 0:
                 t, ret = benchmark(lambda p: generate_hf(p, model, tokenizer, args.len_out), prompts, batch_size, warmup=args.warmup)
             else:
-                t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=args.warmup)
-            # num_tokens = len(ret) * args.len_out
+                t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids, padding_side=padding_side), prompts, batch_size, warmup=args.warmup)
             num_tokens = valid_token_count
             print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
             for answer in ret:
@@ -199,7 +201,7 @@ if __name__ == '__main__':
             
             if args.collect_stats:
                 hit_rate, time_speculate, time_verify, verify_calls = generator.get_stats()
-                print("speculation hit rate:", ', '.join([str(h.cpu().numpy()) for h in hit_rate]))
+                print(f"speculation hit rate: {', '.join([str(h.cpu().numpy()) for h in hit_rate])}; average is {hit_rate.mean().cpu().numpy()}")
                 print("expected correct speculated length:", hit_rate.sum())
                 print(f"time for speculation {time_speculate} s | verification {time_verify} s | #verifys: {verify_calls}")
                 print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
