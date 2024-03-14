@@ -9,7 +9,7 @@ import torch
 from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=2, help="Model name")
+parser.add_argument("--model", type=int, default=5, help="Model name")
 parser.add_argument("--pass_at", type=int, default=2, help="pass @ how many")
 FLAGS = parser.parse_args()
 
@@ -145,7 +145,7 @@ def main(args):
         
         # Generate answers
         start = time.time()
-        max_new_tokens = 256
+        max_new_tokens = 1024
         with torch.no_grad():
             if pass_at in [0,1]:
                 answer_ids = model.generate(
@@ -178,7 +178,8 @@ def main(args):
         answer_text = tokenizer.batch_decode(answer_ids, skip_special_tokens=True)
         answer_trimmed = [process_answer(answer) for answer in answer_text]
         torch.cuda.empty_cache()
-        print(answer_text[0])
+        for at in answer_text:
+            print(at)
         # print(answer_trimmed[0])
         print(f"Time to generate is {time.time() - start} seconds")
         print(f"Per-token time is {(time.time() - start)/num_tokens} seconds")

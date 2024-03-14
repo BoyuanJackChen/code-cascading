@@ -44,7 +44,7 @@ Create a Python script for this problem:
 def generate_hf(prompts, model, tokenizer, step):
     tokenizer.padding_side='left'
     gen_conf = GenerationConfig(max_new_tokens=step, min_new_tokens=step, eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.eos_token_id)
-    token_seqs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True).to(model.device)
+    token_seqs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=False).to(model.device)
     out = model.generate(**token_seqs, generation_config=gen_conf)
     return tokenizer.batch_decode(out, skip_special_tokens=True)
 
@@ -72,7 +72,7 @@ def get_dataset(dataset_name, truncate=None, alpaca=True):
         for k in range(0,164):
             original_prompt = dataset[f"HumanEval/{k}"]['prompt']
             original_prompt = original_prompt.replace('    ', '\t')
-            prompt = alpaca_prompt(original_prompt) if alpaca else prompt
+            prompt = alpaca_prompt(original_prompt) if alpaca else original_prompt
             prompt_dataset.append(prompt)
         dataset = prompt_dataset
     elif dataset_name == 'mbpp' or dataset_name == 'MBPP':
@@ -90,11 +90,11 @@ def get_dataset(dataset_name, truncate=None, alpaca=True):
         dataset = []
         for qd in all_questions_dict:
             number = qd[number_key]
-            if number < 4000:
+            if number < 4000 or number >= 4000+truncate:
                 continue
             prompt = qd[prompt_key]
             prompt = prompt.replace('    ', '\t')
-            prompt = alpaca_prompt(prompt, apps=True) if alpaca else prompt
+            prompt = alpaca_prompt(prompt, apps=True) if alpaca else prompt+"\ndef solution(stdin: str) -> str:"
             dataset.append(prompt)
     else:
         raise ValueError("Unsupported dataset")
@@ -113,14 +113,10 @@ def benchmark(gen_fn, prompts, batch_size, warmup=3):
     start_t = time.time()
     valid_token_count = 0
     for prompt in tqdm(data_loader):
-        batch_start = time.time()
         result, vtc = gen_fn(prompt)
         generated_seqs.extend(result)
         valid_token_count += vtc
-        batch_end = time.time()
-        # for r in result:
-        #     print(f"{r}")
-        # print(f"Batch time: {batch_end - batch_start}; valid token count: {vtc}; per token time: {(batch_end - batch_start) / vtc}s")
+        torch.cuda.empty_cache()
     torch.cuda.synchronize()
     dur = time.time() - start_t
     return dur, generated_seqs, valid_token_count
@@ -149,20 +145,25 @@ if __name__ == '__main__':
 
     # Initialized the two models
     print(f"Loading models...")
-    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer, use_fast=False)
-    tokenizer.pad_token = tokenizer.eos_token
-    model = AutoModelForCausalLM.from_pretrained(
-        args.model,
-        load_in_8bit=False,
-        torch_dtype=torch.float16,
-        device_map="auto")
-    model.eval()
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer)
+    if "codegen" in args.tokenizer:
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token_id = tokenizer.eos_token_id
     assist_model = AutoModelForCausalLM.from_pretrained(
         args.assist_model,
         load_in_8bit=False,
         torch_dtype=torch.float16,
         device_map="auto")
     assist_model.eval()
+    print(f"Assist model loaded")
+    model = AutoModelForCausalLM.from_pretrained(
+        args.model,
+        load_in_8bit=False,
+        torch_dtype=torch.float16,
+        device_map="auto")
+    model.eval()
+    print(f"Target model loaded")
 
     if "Wizard" in args.model and "Python" not in args.model:
         if "apps" in args.dataset:
@@ -174,8 +175,11 @@ if __name__ == '__main__':
             stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]  # \ndef
         else:
             stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361]]
-    # elif "Codegen" in args.model:
-        
+    elif "codegen" in args.model:
+        if "apps" in args.dataset:
+            stopping_ids = [[198, 198], [628], [198, 4798, 3419], [198, 4299]]
+        else:
+            stopping_ids = [[198, 198], [628], [198, 4798, 3419]]
 
     print(f"All batch sizes: {args.batch_sizes}; all speculate steps: {args.speculate_steps}. Now generating...")
     for batch_size in args.batch_sizes:

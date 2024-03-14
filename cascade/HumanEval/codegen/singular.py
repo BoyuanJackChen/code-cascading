@@ -11,8 +11,8 @@ from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", type=int, default=0, help="Model name")
-parser.add_argument("--pass_at", type=int, default=0, help="pass @ how many")
-parser.add_argument("--num_loops", type=int, default=0, help="Number of times that we do this experiment")
+parser.add_argument("--pass_at", type=int, default=6, help="pass @ how many")
+parser.add_argument("--num_loops", type=int, default=1, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
@@ -130,7 +130,10 @@ def main(args):
             print(f"On question {number}")
             prompt = question[prompt_key]
             prompt = prompt.replace('    ', '\t')
-            prompt_ids = tokenizer.batch_encode_plus([prompt]*max(pass_at,1), return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
+            batched_prompt = [prompt]*max(pass_at,1)
+            print(batched_prompt)
+            input()
+            prompt_ids = tokenizer.batch_encode_plus(batched_prompt, return_tensors="pt", truncation=True, max_length=2048).to(torch.cuda.current_device())
             logits_processor = LogitsProcessorList([StopSequences(stop_words, batch_size=max(pass_at,1), encounters=1)])
             
             # Generate answers
