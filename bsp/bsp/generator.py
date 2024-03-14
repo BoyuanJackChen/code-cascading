@@ -29,11 +29,16 @@ def early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, spec_s
         generated_tokens_b = generated_tokens[b]
         attention_mask_b = attention_mask[b]
         filtered_b = generated_tokens_b[attention_mask_b.bool()][-spec_step-1:].tolist()
+        # print(f"filtered_b {filtered_b}")
+        # print(f"attention_mask {attention_mask}")
+        # print(f"input_ids {input_ids}")
         for sub in stopping_ids:
             if contains_subarray(filtered_b, sub):
                 input_ids[b][-1] = eos_id
                 attention_mask[b][-1] = 1
                 generated_tokens[b][-1] = eos_id
+                # print(f"\nBatch {b} Early stop at {sub}")
+        # input()
     return generated_tokens, attention_mask, input_ids
         
 
@@ -82,14 +87,16 @@ class SpeculativeGenerationModel:
     @torch.inference_mode()
     def generate(self, prompts:List[str], num_out:int, collect_stats=False, speculative_step=None, stopping_ids=[]):
         speculative_step = self.specualtive_step if speculative_step is None else speculative_step
-        self.tokenizer.padding_side='right'
-        token_seqs = self.tokenizer(prompts, return_tensors="pt", padding=True, truncation=True)
+        self.tokenizer.padding_side='left'
+        token_seqs = self.tokenizer.batch_encode_plus(prompts, return_tensors="pt", padding=True, truncation=True, max_length=2048).to(self.target_device)
         batch_size = len(prompts)
         assist_kv_cache = None
         input_ids = token_seqs['input_ids'].to(self.target_device)
         unified_len = input_ids.shape[1]
         attention_mask = input_attention_mask = token_seqs['attention_mask'].to(self.target_device)
-        prompt_len = attention_mask.sum(axis=1)
+        # counting_mask = (input_ids != self.tokenizer.pad_token_id)
+        # prompt_len = counting_mask.sum(dim=1)
+        # torch.set_printoptions(threshold=10_000)
 
         # prefill initial input attentions with target model; generate the first next token
         ret, t_prefill = _run_and_timing(lambda: self.model(input_ids, attention_mask=input_attention_mask, use_cache=True))
@@ -127,9 +134,10 @@ class SpeculativeGenerationModel:
             attention_mask = self._extend_mask(attention_mask)   # [batch, full_length]
             generated_tokens = torch.cat([generated_tokens, speculated_tokens, first_token], axis=1)  # [batch, full_length]
 
+            # Check for early stop. If there is, mark a 0.
             if speculative_step>0 and len(stopping_ids)>0:
                 generated_tokens, attention_mask, input_ids = early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, speculative_step, self.tokenizer.eos_token_id)
-
+            
             # update stats
             if collect_stats:
                 not_ended = (valid_lens < num_out).unsqueeze(1)
@@ -144,9 +152,11 @@ class SpeculativeGenerationModel:
         # Collect returned string
         ret = []
         valid_token_count = 0
+        attention_mask = attention_mask[:, unified_len:]
+        generated_tokens = generated_tokens[:, unified_len:]
         for b in range(batch_size):
             valid_token = torch.nonzero(attention_mask[b], as_tuple=True)[0]
-            tokens = generated_tokens[b][valid_token][prompt_len[b]:]
+            tokens = generated_tokens[b][valid_token]
             valid_token_num = count_until_eos(tokens, self.tokenizer.eos_token_id)
             valid_token_count += valid_token_num
             tokens = tokens[:valid_token_num]

@@ -3,4 +3,6 @@
 Don't expect accuracy with fp16.
 
 ## TODO: 
-Implement early stopping
+Wizard APPS-intro
+Codegen HumanEval
+Codegen MBPP

@@ -17,19 +17,8 @@ from bsp.generator import SpeculativeGenerationModel
 
 fixed_starter = "Here's the Python script for the given problem:\n\n```python\n"
 fixed_starter_ids_sc = [10921, 1182, 322, 4865, 3261, 436, 322, 3708, 44, 553, 203, 914, 2958, 206, 203]
-def alpaca_prompt(input, apps=False):
-    if apps:
-        INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
-
-### Instruction:
-Create a Python script for this problem:
-{input}
-
-### Response:
-def solution(stdin: str) -> str:"""
-    else:
-        INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
+def alpaca_prompt(input):
+    INSTRUCTION = f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
 
 
 ### Instruction:
@@ -44,6 +33,7 @@ def generate_hf(prompts, model, tokenizer, step):
     tokenizer.padding_side='left'
     gen_conf = GenerationConfig(max_new_tokens=step, min_new_tokens=step, eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.eos_token_id)
     token_seqs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True).to(model.device)
+    # model = model.to('cuda')
     out = model.generate(**token_seqs, generation_config=gen_conf)
     return tokenizer.batch_decode(out, skip_special_tokens=True)
 
@@ -60,7 +50,7 @@ def generate_hf_assist(prompts, model, assist_model, tokenizer, step):
         ret.append(tokenizer.decode(out[0], skip_special_tokens=True))
     return ret
 
-def get_dataset(dataset_name, truncate=None, alpaca=True):
+def get_dataset(dataset_name, truncate = None):
     dataset = []
     if dataset_name == 'alespalla/chatbot_instruction_prompts':
         dataset = load_dataset(dataset_name)
@@ -70,11 +60,10 @@ def get_dataset(dataset_name, truncate=None, alpaca=True):
         prompt_dataset = []
         for k in range(0,164):
             original_prompt = dataset[f"HumanEval/{k}"]['prompt']
-            original_prompt = original_prompt.replace('    ', '\t')
-            prompt = alpaca_prompt(original_prompt) if alpaca else prompt
+            prompt = alpaca_prompt(original_prompt)
             prompt_dataset.append(prompt)
         dataset = prompt_dataset
-    elif dataset_name == 'apps-intro' or dataset_name == 'apps_intro':
+    elif dataset_name == 'apps_intro':
         all_questions_dict = load_dataset("codeparrot/apps", split="test")
         number_key = "problem_id"
         prompt_key = "question"
@@ -83,20 +72,16 @@ def get_dataset(dataset_name, truncate=None, alpaca=True):
             number = qd[number_key]
             if number < 4000:
                 continue
-            prompt = qd[prompt_key]
-            prompt = prompt.replace('    ', '\t')
-            prompt = alpaca_prompt(prompt, apps=True) if alpaca else prompt
-            dataset.append(prompt)
+            dataset.append(qd[prompt_key])
+        return dataset
     else:
         raise ValueError("Unsupported dataset")
     if truncate is not None:
-        dataset = dataset[:truncate]
-        return dataset
+        return dataset[:truncate]
     return dataset
 
 def benchmark(gen_fn, prompts, batch_size, warmup=3):
-    for w in range(warmup):
-        print(f"Doing wampup {w+1}/{warmup}")
+    for _ in range(warmup):
         out = gen_fn(prompts[:batch_size])
     data_loader = DataLoader(prompts, batch_size=batch_size, shuffle=True)
     generated_seqs = []
@@ -104,14 +89,9 @@ def benchmark(gen_fn, prompts, batch_size, warmup=3):
     start_t = time.time()
     valid_token_count = 0
     for prompt in tqdm(data_loader):
-        batch_start = time.time()
         result, vtc = gen_fn(prompt)
         generated_seqs.extend(result)
         valid_token_count += vtc
-        batch_end = time.time()
-        # for r in result:
-        #     print(f"{r}")
-        # print(f"Batch time: {batch_end - batch_start}; valid token count: {vtc}; per token time: {(batch_end - batch_start) / vtc}s")
     torch.cuda.synchronize()
     dur = time.time() - start_t
     return dur, generated_seqs, valid_token_count
@@ -130,13 +110,11 @@ if __name__ == '__main__':
     parser.add_argument('--check', action='store_true')
     parser.add_argument('--dataset', type=str)
     parser.add_argument('--dataset-truncate', type=int)
-    parser.add_argument('--warmup', type=int, default=3)
     args = parser.parse_args()
     print(args)
 
     # load dataset
-    alpaca = "Wizard" in args.model
-    prompts = get_dataset(args.dataset, args.dataset_truncate, alpaca)
+    prompts = get_dataset(args.dataset, args.dataset_truncate)
 
     # Initialized the two models
     print(f"Loading models...")
@@ -152,8 +130,6 @@ if __name__ == '__main__':
         load_in_8bit=False,
         torch_dtype=torch.float16,
         device_map="auto")
-    model.eval()
-    assist_model.eval()
 
     if "Wizard" in args.model and "Python" not in args.model:
         stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
@@ -168,9 +144,9 @@ if __name__ == '__main__':
             assist_model.max_assistant_tokens = speculate_step
             generator = SpeculativeGenerationModel(model, assist_model, tokenizer, speculate_step)
             if speculate_step == 0:
-                t, ret = benchmark(lambda p: generate_hf(p, model, tokenizer, args.len_out), prompts, batch_size, warmup=args.warmup)
+                t, ret = benchmark(lambda p: generate_hf(p, model, tokenizer, args.len_out), prompts, batch_size, warmup=0)
             else:
-                t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=args.warmup)
+                t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=0)
             # num_tokens = len(ret) * args.len_out
             num_tokens = valid_token_count
             print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
