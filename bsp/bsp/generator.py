@@ -28,7 +28,8 @@ def early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, spec_s
     for b in range(input_ids.shape[0]):
         generated_tokens_b = generated_tokens[b]
         attention_mask_b = attention_mask[b]
-        filtered_b = generated_tokens_b[attention_mask_b.bool()][-spec_step-1:].tolist()
+        filtered_b = generated_tokens_b[attention_mask_b.bool()][-spec_step-3:].tolist()
+        # print(f"batch {b} filtered_b: {filtered_b}")
         # print(f"filtered_b {filtered_b}")
         # print(f"attention_mask {attention_mask}")
         # print(f"input_ids {input_ids}")
@@ -37,8 +38,6 @@ def early_stop(generated_tokens, attention_mask, input_ids, stopping_ids, spec_s
                 input_ids[b][-1] = eos_id
                 attention_mask[b][-1] = 1
                 generated_tokens[b][-1] = eos_id
-                # print(f"\nBatch {b} Early stop at {sub}")
-        # input()
     return generated_tokens, attention_mask, input_ids
         
 
@@ -162,7 +161,11 @@ class SpeculativeGenerationModel:
             valid_token_num = count_until_eos(tokens, self.tokenizer.eos_token_id)
             valid_token_count += valid_token_num
             tokens = tokens[:valid_token_num]
-            ret.append(self.tokenizer.decode(tokens, skip_special_tokens=True))
+            answer_text = self.tokenizer.decode(tokens, skip_special_tokens=True)
+            # print(tokens)
+            # print(answer_text)
+            # input()
+            ret.append(answer_text)
         
         return ret, valid_token_count
 

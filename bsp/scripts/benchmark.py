@@ -149,25 +149,31 @@ if __name__ == '__main__':
 
     # Initialized the two models
     print(f"Loading models...")
-    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer)
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer, use_fast=False)
     tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(
         args.model,
         load_in_8bit=False,
         torch_dtype=torch.float16,
         device_map="auto")
+    model.eval()
     assist_model = AutoModelForCausalLM.from_pretrained(
         args.assist_model,
         load_in_8bit=False,
         torch_dtype=torch.float16,
         device_map="auto")
-    model.eval()
     assist_model.eval()
 
     if "Wizard" in args.model and "Python" not in args.model:
-        stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
-    elif "Wizard" in args.model:
-        stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]
+        if "apps" in args.dataset:
+            stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
+        else:
+            stopping_ids = [[203,21], [203,914,203], [203,914,206], [203,914,553]]
+    elif "Wizard" in args.model and "Python" in args.model:
+        if "apps" in args.dataset:
+            stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361], [13,1753]]  # \ndef
+        else:
+            stopping_ids = [[13,29937], [13,28956,13], [13,28956,30004], [13,361]]
     # elif "Codegen" in args.model:
         
 
