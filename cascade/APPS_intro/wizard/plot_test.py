@@ -104,7 +104,7 @@ plt.ylabel('Accuracy (%)', fontsize=label_size)
 plt.title(f'WizardCoder-Python-V1.0 on APPS-Intro, θ={threshold}', fontsize=title_size)
 
 # # Save the plot to pdf
-# plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
+plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.png', bbox_inches='tight', dpi=500)
 # plt.show()
 
 # Create a figure and a subplot
@@ -125,4 +125,4 @@ ax.axis('off')
 legend.set_frame_on(False)
 
 # Show only the legend
-plt.savefig(f'./cascade_results/legends.pdf', bbox_inches='tight')
+plt.savefig(f'./cascade_results/legends.png', bbox_inches='tight', dpi=500)
