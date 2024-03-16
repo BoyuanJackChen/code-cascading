@@ -103,7 +103,26 @@ plt.xlabel('Cost per 1k questions ($)', fontsize=label_size)
 plt.ylabel('Accuracy (%)', fontsize=label_size)
 plt.title(f'WizardCoder-Python-V1.0 on APPS-Intro, θ={threshold}', fontsize=title_size)
 
-# Save the plot to pdf
-plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
+# # Save the plot to pdf
+# plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
+# plt.show()
 
-plt.show()
+# Create a figure and a subplot
+fig, ax = plt.subplots()
+ax.plot([], [])  # Create an empty plot
+
+plt.scatter([], [], color='lightblue', label='All parameter combinations', s=lightblue_size)
+plt.scatter([], [], color=lighter_green, label='Cascading optimal parameter combinations from val subset', s=green_size)
+plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, linewidths=cross_line_width, label='Singular optimal parameter combinations from val subset')
+plt.scatter([], [], color=light_yellow, marker='o', s=darkblue_size, alpha=1.0, label='Speculative decoding')
+
+
+# Add the legend to the plot
+legend = ax.legend(loc='lower right', fontsize=legend_size)
+
+# Hide everything except the legend
+ax.axis('off')
+legend.set_frame_on(False)
+
+# Show only the legend
+plt.savefig(f'./cascade_results/legends.pdf', bbox_inches='tight')
