@@ -10,7 +10,7 @@ legend_size = 15
 green_size = 90
 purple_size = 95
 lightblue_size = 40
-darkblue_size = 200
+darkblue_size = 180
 cross_line_width = 3
 
 threshold = 0.9
@@ -25,6 +25,7 @@ plt.figure(figsize=(10, 6))
 lighter_purple = (0.7, 0.2, 0.7)
 lighter_green = (0.1, 0.6, 0.1)
 darker_blue = (0.2, 0.2, 0.5)
+light_yellow = (0.9, 0.9, 0.3)
 
 # Create a mapping of points to dataframe rows
 point_to_data = {}
@@ -81,7 +82,7 @@ def on_add(sel):
         )
 
 # Draw speculative decoding result in darker blue, using dark blue size
-plt.scatter(*spec_point, color=darker_blue, s=darkblue_size, label='Speculative Decoding Result')
+plt.scatter(*spec_point, color=light_yellow, marker='o', s=darkblue_size, alpha=1.0, linewidths=cross_line_width)
 
 # Draw the single-model results and green dots
 for _, row in df2.iterrows():
