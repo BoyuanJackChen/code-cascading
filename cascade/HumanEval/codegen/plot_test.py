@@ -99,6 +99,6 @@ plt.title(f'Codegen-mono on HumanEval, θ={threshold}', fontsize=title_size)
 # Shift the legend to lower right
 # plt.legend(loc='lower right', fontsize=legend_size)
 # Save the plot to pdf
-plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
+plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.png', bbox_inches='tight', dpi=600)
 
 plt.show()

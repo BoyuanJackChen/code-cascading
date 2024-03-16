@@ -102,6 +102,6 @@ plt.ylabel('Accuracy (%)', fontsize=label_size)
 plt.title(f'WizardCoder-Python-V1.0 on HumanEval, θ={threshold}', fontsize=title_size)
 
 # Save the plot to pdf
-plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
+plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.png', bbox_inches='tight', dpi=600)
 
 plt.show()
