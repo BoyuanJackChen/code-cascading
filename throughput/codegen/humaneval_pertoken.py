@@ -12,10 +12,10 @@ import random
 import numpy as np
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=0, help="Model name")
+parser.add_argument("--model", type=int, default=3, help="Model name")
 parser.add_argument("--pass_at", type=int, default=1, help="pass @ how many")
-parser.add_argument("--batch_size", type=int, default=40, help="Batch size for number of questions")
-parser.add_argument("--num_loops", type=int, default=10, help="Number of times that we do this experiment")
+parser.add_argument("--batch_size", type=int, default=4, help="Batch size for number of questions")
+parser.add_argument("--num_loops", type=int, default=1, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
 
 # We will hard-code the stop tokens for llama code family, as the tokenizer is automatically adding start tokens
@@ -153,6 +153,7 @@ def main(args):
         all_testcase_prompts = []
         all_def_name = []
         selected_numbers = random.sample(range(0, 164), batch_size)
+        # selected_numbers = [0,1,2,3]
         print(selected_numbers)
         for number in selected_numbers:
             question_key = f"HumanEval/{number}"
@@ -176,8 +177,10 @@ def main(args):
                         padding=True,
                         max_length=2048
                     ).to(torch.cuda.current_device())
-        max_new_tokens = 1024
-        max_length = 2048
+        torch.set_printoptions(threshold=10_000)
+        print(prompt_ids)
+        input()
+        max_new_tokens = 128
         with torch.no_grad():
             answer_ids = model.generate(
                 **prompt_ids,
@@ -185,10 +188,10 @@ def main(args):
                 pad_token_id = tokenizer.eos_token_id,
                 eos_token_id = tokenizer.eos_token_id,
                 max_new_tokens = max_new_tokens,
-                do_sample = True,
-                top_k = 0,
-                top_p = 0.95,
-                temperature = 0.8,
+                do_sample = False,
+                # top_k = 0,
+                # top_p = 0.95,
+                # temperature = 0.8,
                 num_beams = 1,
                 logits_processor = logits_processor
             )
@@ -207,6 +210,9 @@ def main(args):
         time_per_1k_tokens = round(time_spent / (total_count / 1000), 2)
         all_avg_cost[loop] = time_per_1k_tokens
         print(f"Time per 1k tokens: {time_per_1k_tokens} seconds")
+        for at in answer_text:
+            print(at)
+            input()
 
     print(f"Average time per 1k tokens: {np.mean(all_avg_cost)} seconds")
 

@@ -31,10 +31,10 @@ CUDA_VISIBLE_DEVICES=0,1 python scripts/benchmark.py \
        --tokenizer WizardLM/WizardCoder-1B-V1.0\
        --len-out 1024 \
        --speculate-step 4\
-       --batch-size 20\
-       --dataset humaneval \
-       --dataset-truncate 80 \
-       --warmup 3\
+       --batch-size 12\
+       --dataset apps-intro \
+       --dataset-truncate 48 \
+       --warmup 1\
        --collect-stats
 
 # This is correct
@@ -44,10 +44,10 @@ python scripts/benchmark.py \
        --tokenizer WizardLM/WizardCoder-Python-7B-V1.0\
        --len-out 1024 \
        --speculate-step 4\
-       --batch-size 4\
-       --dataset humaneval \
-       --dataset-truncate 4 \
-       --warmup 0\
+       --batch-size 8\
+       --dataset apps-intro \
+       --dataset-truncate 32 \
+       --warmup 2\
        --collect-stats
 
 # This is correct
@@ -71,20 +71,32 @@ python scripts/benchmark.py \
        --len-out 1024 \
        --speculate-step 4\
        --batch-size 4\
-       --dataset humaneval \
+       --dataset mbpp \
        --dataset-truncate 4 \
        --warmup 0\
        --collect-stats
 
 # This is correct
 CUDA_VISIBLE_DEVICES=0,1,2,3 python scripts/benchmark.py \
-       --model Salesforce/codegen-6B-mono \
+       --model Salesforce/codegen-16B-mono \
+       --assist-model Salesforce/codegen-350M-mono\
+       --tokenizer Salesforce/codegen-350M-mono\
+       --len-out 64 \
+       --speculate-step 4\
+       --batch-size 1\
+       --dataset mbpp \
+       --dataset-truncate 1 \
+       --warmup 0\
+       --collect-stats
+
+CUDA_VISIBLE_DEVICES=0,1,2,3 python scripts/benchmark.py \
+       --model Salesforce/codegen-16B-mono \
        --assist-model Salesforce/codegen-350M-mono\
        --tokenizer Salesforce/codegen-350M-mono\
        --len-out 128 \
        --speculate-step 4\
-       --batch-size 4\
-       --dataset humaneval \
-       --dataset-truncate 4 \
+       --batch-size 1\
+       --dataset mbpp \
+       --dataset-truncate 1 \
        --warmup 0\
        --collect-stats

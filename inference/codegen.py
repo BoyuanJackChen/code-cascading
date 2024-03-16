@@ -7,7 +7,7 @@ import torch
 import numpy as np
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--pass_at", type=int, default=2)
+parser.add_argument("--pass_at", type=int, default=1)
 FLAGS = parser.parse_args()
 
 stop_words = ["\n\n", ("\n","\n")]
@@ -54,17 +54,16 @@ def main(args):
     pass_at = args.pass_at
     
     # Initialize model
-    checkpoint = "Salesforce/codegen-350M-mono"
-    tokenizer = AutoTokenizer.from_pretrained(
-        checkpoint,
-        padding_side='left',
+    checkpoint = "Salesforce/codegen-16B-mono"
+    tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+    tokenizer.pad_token_id = tokenizer.eos_token_id
+    start_load_model = time.time()
+    model = AutoModelForCausalLM.from_pretrained(
+        checkpoint, 
         load_in_8bit=False,
         torch_dtype=torch.float16,
         device_map="auto"
     )
-    tokenizer.pad_token = tokenizer.eos_token
-    start_load_model = time.time()
-    model = AutoModelForCausalLM.from_pretrained(checkpoint, device_map="auto")
     model.eval()
     print(f"Time to load model is {time.time() - start_load_model}")
     
@@ -96,33 +95,27 @@ def main(args):
                             scores[i] = forced_eos
             return scores
     
-    time_stats = np.zeros(5)
+    time_stats = np.zeros(1)
     # Generate the selected prompts one at a time
     for i in range(len(time_stats)):
-        for prompt in [prompt_0, prompt_31, prompt_35, prompt_161]:
-            prompt_testcode = prompt + checking_end
-            final_array = [prompt]*pass_at+[prompt_testcode]
-            prompt_ids = tokenizer.batch_encode_plus(final_array, return_tensors="pt", padding=True).to(torch.cuda.current_device())
-            logits_processor = LogitsProcessorList([StopSequences(assert_stop_words, batch_size=args.pass_at+1, encounters=1)])
-            start_generating = time.time()
-            with torch.no_grad():
-                answer_ids = model.generate(
-                    **prompt_ids,
-                    use_cache = True,
-                    # padding=True,
-                    # truncation=True,
-                    # padding_side='left',
-                    pad_token_id = tokenizer.eos_token_id,
-                    max_new_tokens = 100,
-                    # do_sample = False,
-                    do_sample = True,
-                    top_k = 0,
-                    top_p = 0.95,
-                    temperature = 0.8,
-                    num_beams = 1,
-                    # num_return_sequences = pass_at,
-                    logits_processor = logits_processor
-                )
+        # for prompt in [prompt_0, prompt_31, prompt_35, prompt_161]:
+        prompts = [prompt_0, prompt_31, prompt_35, prompt_161]
+        final_array = [prompt.replace('    ', '\t') for prompt in prompts]
+        # prompt_testcode = prompt + checking_end
+        # final_array = [prompt]*pass_at+[prompt_testcode]
+        prompt_ids = tokenizer.batch_encode_plus(final_array, return_tensors="pt", padding=True, truncation=True, max_length=2048).to(torch.cuda.current_device())
+        logits_processor = LogitsProcessorList([StopSequences(assert_stop_words, batch_size=len(final_array), encounters=1)])
+        start_generating = time.time()
+        with torch.no_grad():
+            answer_ids = model.generate(
+                **prompt_ids,
+                use_cache = True,
+                pad_token_id = tokenizer.eos_token_id,
+                eos_token_id = tokenizer.eos_token_id,
+                max_new_tokens = 128,
+                do_sample = False,
+                logits_processor = logits_processor
+            )
         time_stats[i] = time.time() - start_generating
         print(f"pass {i} done")
         

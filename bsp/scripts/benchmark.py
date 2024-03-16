@@ -81,8 +81,15 @@ def get_dataset(dataset_name, truncate=None, alpaca=True):
         with open(data_file, 'r') as file:
             for line in file:
                 json_line = json.loads(line)
-                prompt = alpaca_prompt(prompt, apps=False) if alpaca else json_line
-                dataset.append(json_line)
+                # Trim till after '/'
+                number = int(json_line['task_id'].split('/')[-1])
+                if number >= 2+truncate:
+                    continue
+                prompt = json_line['prompt']
+                prompt = prompt.replace('    ', '\t')
+                prompt = alpaca_prompt(prompt, apps=False) if alpaca else prompt
+                print(prompt)
+                dataset.append(prompt)
     elif dataset_name == 'apps-intro' or dataset_name == 'apps_intro':
         all_questions_dict = load_dataset("codeparrot/apps", split="test")
         number_key = "problem_id"
@@ -107,6 +114,7 @@ def benchmark(gen_fn, prompts, batch_size, warmup=3):
     for w in range(warmup):
         print(f"Doing wampup {w+1}/{warmup}")
         _ = gen_fn(prompts[:batch_size])
+        torch.cuda.empty_cache()
     data_loader = DataLoader(prompts, batch_size=batch_size, shuffle=True)
     generated_seqs = []
     torch.cuda.synchronize()
@@ -146,7 +154,9 @@ if __name__ == '__main__':
     # Initialized the two models
     print(f"Loading models...")
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
-    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer)
+    tokenizer = AutoTokenizer.from_pretrained(
+        args.tokenizer
+    )
     if "codegen" in args.tokenizer:
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
@@ -154,14 +164,16 @@ if __name__ == '__main__':
         args.assist_model,
         load_in_8bit=False,
         torch_dtype=torch.float16,
-        device_map="auto")
+        device_map="auto"
+    )
     assist_model.eval()
     print(f"Assist model loaded")
     model = AutoModelForCausalLM.from_pretrained(
         args.model,
         load_in_8bit=False,
         torch_dtype=torch.float16,
-        device_map="auto")
+        device_map="auto"
+    )
     model.eval()
     print(f"Target model loaded")
 
@@ -192,7 +204,8 @@ if __name__ == '__main__':
             if speculate_step == 0:
                 t, ret = benchmark(lambda p: generate_hf(p, model, tokenizer, args.len_out), prompts, batch_size, warmup=args.warmup)
             else:
-                t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids, padding_side=padding_side), prompts, batch_size, warmup=args.warmup)
+                t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=args.warmup)
+            
             num_tokens = valid_token_count
             print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
             for answer in ret:
@@ -205,3 +218,4 @@ if __name__ == '__main__':
                 print("expected correct speculated length:", hit_rate.sum())
                 print(f"time for speculation {time_speculate} s | verification {time_verify} s | #verifys: {verify_calls}")
                 print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
+                

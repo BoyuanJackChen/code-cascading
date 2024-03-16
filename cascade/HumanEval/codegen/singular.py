@@ -10,7 +10,7 @@ import torch
 from human_eval.data import write_jsonl, read_problems, stream_jsonl
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=int, default=0, help="Model name")
+parser.add_argument("--model", type=int, default=3, help="Model name")
 parser.add_argument("--pass_at", type=int, default=6, help="pass @ how many")
 parser.add_argument("--num_loops", type=int, default=1, help="Number of times that we do this experiment")
 FLAGS = parser.parse_args()
