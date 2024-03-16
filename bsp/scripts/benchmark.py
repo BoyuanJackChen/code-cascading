@@ -120,14 +120,16 @@ def benchmark(gen_fn, prompts, batch_size, warmup=3):
     torch.cuda.synchronize()
     start_t = time.time()
     valid_token_count = 0
+    vtc = 0
     for prompt in tqdm(data_loader):
-        result, vtc = gen_fn(prompt)
+        result, (valid_token_num, vtn) = gen_fn(prompt)
         generated_seqs.extend(result)
-        valid_token_count += vtc
+        valid_token_count += valid_token_num
+        vtc += vtn
         torch.cuda.empty_cache()
     torch.cuda.synchronize()
     dur = time.time() - start_t
-    return dur, generated_seqs, valid_token_count
+    return dur, generated_seqs, (valid_token_count, vtc)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -207,7 +209,7 @@ if __name__ == '__main__':
                 t, ret, valid_token_count = benchmark(lambda p: generator.generate(p, args.len_out, collect_stats=args.collect_stats, stopping_ids=stopping_ids), prompts, batch_size, warmup=args.warmup)
             
             num_tokens = valid_token_count
-            print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
+            print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens[0]}; {t / num_tokens[1]}")
             for answer in ret:
                 print(answer)
                 print("\n-----------------------------\n")
@@ -217,5 +219,5 @@ if __name__ == '__main__':
                 print(f"speculation hit rate: {', '.join([str(h.cpu().numpy()) for h in hit_rate])}; average is {hit_rate.mean().cpu().numpy()}")
                 print("expected correct speculated length:", hit_rate.sum())
                 print(f"time for speculation {time_speculate} s | verification {time_verify} s | #verifys: {verify_calls}")
-                print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens}")
+                print(f"\nBatch size: {batch_size}, Spec step: {speculate_step}, total time: {t}s, valid token num: {valid_token_count}; Time per token: {t / num_tokens[0]}; {t / num_tokens[1]}")
                 

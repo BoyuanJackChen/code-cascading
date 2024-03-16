@@ -47,7 +47,10 @@ for pick_at in all_pick_at:
             import_lines = "import math\nfrom typing import List\n"
             for number in all_questions_num:
                 if (model_name == "3B" and pick_at == 3 and testlines == 2 and loop == 3 and number == 4038) \
-                    or (model_name == "3B" and pick_at == 3 and testlines == 4 and loop == 3 and number == 4038):
+                    or (model_name == "3B" and pick_at == 3 and testlines == 4 and loop == 3 and number == 4038) \
+                    or (model_name=="3B" and pick_at==5 and testlines==2 and loop==0 and number == 4415) \
+                    or (model_name=="3B" and pick_at==5 and testlines==2 and loop==2 and number == 4085) \
+                    or (model_name=="3B" and pick_at==5 and testlines==2 and loop==3 and number == 4420):
                     correct = False
                     df.loc[len(df)] = [number, int(correct)]
                     print(f"Question {number} is correct: {correct}")

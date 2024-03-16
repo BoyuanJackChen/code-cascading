@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 import mplcursors
 
-label_size = 17
-title_size = 20
+label_size = 18
+title_size = 23
 legend_size = 15
 
-green_size = 60
-purple_size = 65
+green_size = 90
+purple_size = 95
 lightblue_size = 40
+darkblue_size = 90
 cross_line_width = 3
 
 threshold = 1.0
@@ -93,7 +94,7 @@ plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, 
 
 plt.xlabel('Cost per 1k questions ($)', fontsize=label_size)
 plt.ylabel('Accuracy (%)', fontsize=label_size)
-plt.title(f'WizardCoder-Python-V1.0 on HumanEval, θ={threshold}', fontsize=title_size)
+plt.title(f'Codegen-mono on HumanEval, θ={threshold}', fontsize=title_size)
 
 # Shift the legend to lower right
 # plt.legend(loc='lower right', fontsize=legend_size)

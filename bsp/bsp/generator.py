@@ -146,6 +146,7 @@ class SpeculativeGenerationModel:
         # Collect returned string
         ret = []
         valid_token_count = 0
+        vtc = 0
         attention_mask = attention_mask[:, unified_len:]
         generated_tokens = generated_tokens[:, unified_len:]
         for b in range(batch_size):
@@ -154,11 +155,12 @@ class SpeculativeGenerationModel:
             valid_token_num = count_until_eos(tokens, self.tokenizer.eos_token_id)
             vtn = len(tokens)
             valid_token_count += valid_token_num
+            vtc += vtn
             tokens = tokens[:valid_token_num]
             answer_text = self.tokenizer.decode(tokens, skip_special_tokens=True)
             ret.append(answer_text)
         
-        return ret, valid_token_count
+        return ret, (valid_token_count, vtc)
 
     def get_stats(self):
         return self.pos_correct / self.pos_cnt, self.time_speculate, self.time_verify, self.verify_calls

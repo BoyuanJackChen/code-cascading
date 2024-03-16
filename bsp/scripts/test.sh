@@ -25,15 +25,15 @@ CUDA_VISIBLE_DEVICES=0 python scripts/benchmark.py \
        --collect-stats
 
 # This is correct
-CUDA_VISIBLE_DEVICES=0,1 python scripts/benchmark.py \
+CUDA_VISIBLE_DEVICES=0,1, python scripts/benchmark.py \
        --model WizardLM/WizardCoder-15B-V1.0 \
        --assist-model WizardLM/WizardCoder-1B-V1.0\
        --tokenizer WizardLM/WizardCoder-1B-V1.0\
        --len-out 1024 \
        --speculate-step 4\
-       --batch-size 12\
+       --batch-size 8\
        --dataset apps-intro \
-       --dataset-truncate 48 \
+       --dataset-truncate 16 \
        --warmup 1\
        --collect-stats
 

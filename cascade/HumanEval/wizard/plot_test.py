@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 import mplcursors
 
-label_size = 17
-title_size = 20
+label_size = 18
+title_size = 23
 legend_size = 15
 
-green_size = 60
-purple_size = 65
+green_size = 90
+purple_size = 95
 lightblue_size = 40
+darkblue_size = 90
 cross_line_width = 3
 
 threshold = 1.0
@@ -22,6 +23,7 @@ df2 = pd.read_csv(f'./cascade_results/{seed}/{seed}_pareto_threshold{threshold}.
 plt.figure(figsize=(10, 6))
 lighter_purple = (0.7, 0.2, 0.7)
 lighter_green = (0.1, 0.6, 0.1)
+darker_blue = (0.0, 0.0, 0.6)
 
 # Create a mapping of points to dataframe rows
 point_to_data = {}
@@ -77,7 +79,7 @@ def on_add(sel):
             f"t1: {int(data['t1'])}, t2: {int(data['t2'])}, t3: {int(data['t3'])}"
         )
 
-# Overlay the second dataset
+# Draw the single-model results and green dots
 for _, row in df2.iterrows():
     color = lighter_green if row['Singular'] == 0 else lighter_purple
     marker = 'o' if row['Singular'] == 0 else 'x'
@@ -86,17 +88,19 @@ for _, row in df2.iterrows():
     scatter = plt.scatter(row1['cost'], row1['accuracy'], color=color, marker=marker, s=size, alpha=1.0, linewidths=cross_line_width)
     scatter_plots.append(scatter)
 
-# Add legends for green dots, purple crosses, and light blue dots
-plt.scatter([], [], color='lightblue', label='All Parameter Combinations', s=lightblue_size)
-plt.scatter([], [], color=lighter_green, label='Cascading Optimal Parameter Combinations from Val', s=green_size)
-plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, linewidths=cross_line_width, label='Singular Optimal Parameter Combinations from Val')
+# Draw speculative decoding result in darker blue
+
+
+# # Add legends for green dots, purple crosses, and light blue dots
+# plt.scatter([], [], color='lightblue', label='All Parameter Combinations', s=lightblue_size)
+# plt.scatter([], [], color=lighter_green, label='Cascading Optimal Parameter Combinations from Val', s=green_size)
+# plt.scatter([], [], color=lighter_purple, marker='x', s=purple_size, alpha=0.9, linewidths=cross_line_width, label='Singular Optimal Parameter Combinations from Val')
+# plt.legend(loc='lower right', fontsize=legend_size)
 
 plt.xlabel('Cost per 1k questions ($)', fontsize=label_size)
 plt.ylabel('Accuracy (%)', fontsize=label_size)
 plt.title(f'WizardCoder-Python-V1.0 on HumanEval, θ={threshold}', fontsize=title_size)
 
-# Shift the legend to lower right
-# plt.legend(loc='lower right', fontsize=legend_size)
 # Save the plot to pdf
 plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.pdf', bbox_inches='tight')
 

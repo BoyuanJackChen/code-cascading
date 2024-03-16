@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Cursor
 import mplcursors
 
-label_size = 19
-title_size = 22
+label_size = 18
+title_size = 23
 legend_size = 15
 
-green_size = 60
-purple_size = 65
+green_size = 90
+purple_size = 95
 lightblue_size = 40
+darkblue_size = 90
 cross_line_width = 3
 
 threshold = 0.9
