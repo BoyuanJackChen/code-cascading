@@ -106,7 +106,7 @@ plt.title(f'WizardCoder-Python-V1.0 on APPS-Intro, θ={threshold}', fontsize=tit
 
 # # Save the plot to pdf
 plt.savefig(f'./cascade_results/{seed}_test_threshold{threshold}.png', bbox_inches='tight', dpi=500)
-# plt.show()
+plt.show()
 
 # Create a figure and a subplot
 fig, ax = plt.subplots()
