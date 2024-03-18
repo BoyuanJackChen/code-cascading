@@ -87,7 +87,8 @@ plt.scatter(*spec_point, color=light_yellow, marker='o', s=darkblue_size, alpha=
 # Draw the single-model results and green dots
 for _, row in df2.iterrows():
     color = lighter_green if row['Singular'] == 0 else lighter_purple
-    marker = 'o' if row['Singular'] == 0 else 'x'
+    # marker = 'o' if row['Singular'] == 0 else 'x'
+    marker = 'o'
     size = purple_size if color == lighter_purple else green_size
     row1 = df1.loc[(df1['k1'] == row['k1']) & (df1['k2'] == row['k2']) & (df1['k3'] == row['k3']) & (df1['t1'] == row['t1']) & (df1['t2'] == row['t2']) & (df1['t3'] == row['t3'])]
     scatter = plt.scatter(row1['cost'], row1['accuracy'], color=color, marker=marker, s=size, alpha=1.0, linewidths=cross_line_width)
