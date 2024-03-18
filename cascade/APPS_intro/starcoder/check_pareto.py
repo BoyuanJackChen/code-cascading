@@ -7,7 +7,7 @@ if not os.path.exists('./cascade_results'):
 
 all_seeds = [1]
 for seed in all_seeds:
-    for threshold in [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]:
+    for threshold in [0.1, 0.3, 0.5, 0.7, 0.9, 1.0]:
         # Load the data
         df = pd.read_csv(f'./cascade_results/{seed}/{seed}_val_threshold{threshold}.csv')
 

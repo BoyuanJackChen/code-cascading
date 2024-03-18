@@ -13,13 +13,13 @@ model_2 = "3B"
 model_3 = "15B"
 all_pick_at = [-1,0,1,3,5,10]
 all_testlines = [0,2,4]
-all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.8, 0.9, 1.0]
+all_thresholds = [0.1, 0.3, 0.5, 0.7, 0.9, 1.0]
 num_loops = 10
-all_numbers = list(range(4000,5000))
+all_numbers = list(range(4000, 5000))
 all_seeds = [1]
 
 # Load cost per 1k tokens
-df_all_costs = pd.read_csv("../../../throughput/humaneval_all_costs.csv")
+df_all_costs = pd.read_csv("../../../throughput/apps_all_costs.csv")
 cpt_1 = df_all_costs.loc[df_all_costs['Size']==model_1, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_2 = df_all_costs.loc[df_all_costs['Size']==model_2, 'Cost per 1k tokens ($)'].iloc[0]
 cpt_3 = df_all_costs.loc[df_all_costs['Size']==model_3, 'Cost per 1k tokens ($)'].iloc[0]
@@ -64,7 +64,7 @@ if not os.path.exists("./cascade_results"):
 
 for seed in all_seeds:
     random.seed(seed)
-    selected_numbers = random.sample(range(0, 164), 49)
+    selected_numbers = random.sample(all_numbers, int(len(all_numbers)*0.3))
     val_numbers = [num for num in selected_numbers]
     test_numbers = [num for num in all_numbers if num not in selected_numbers]
     if not os.path.exists(f"./cascade_results/{seed}"):
@@ -85,7 +85,7 @@ for seed in all_seeds:
             output_file_name = output_file_name_test
             selected_numbers = test_numbers
         else:
-            output_file_name = f"./{seed}/full_threshold{threshold}.csv"
+            output_file_name = f"./cascade_results/{seed}/full_threshold{threshold}.csv"
             selected_numbers = all_numbers
         # print(selected_numbers)
         # print(len(selected_numbers))
